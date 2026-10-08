@@ -181,12 +181,12 @@ Dane każdego ćwiczenia: poziom (★/★★/★★★), szacowany czas, kolejno
 ## Architektura techniczna
 
 - **Statyczna strona na GitHub Pages.** Żadnego serwera. Krok budowania jest dozwolony, ale wynik ma być zbiorem statycznych plików.
-- **Wszystkie biblioteki w repozytorium (`vendor/`), zero CDN w trakcie działania.** Firmowe sieci uczestników mogą blokować CDN-y. Dotyczy także czcionek.
+- **Zero CDN w trakcie działania.** Firmowe sieci uczestników mogą blokować CDN-y. Biblioteki (Monaco, Ajv, ajv-formats) pochodzą z npm z wersjami przypiętymi w `package-lock.json`, a Vite buduje wszystko do `dist/` (workery Monaco z tej samej domeny). Katalog `vendor/` nie istnieje. Czcionki systemowe. Test: żaden plik w `dist/` nie odwołuje się poza własną domenę.
 - **Edytor: Monaco.** Kolorowanie, podpowiedzi i opisy po najechaniu z JSON language service.
   - Do podpowiedzi rejestrujemy **własny, uproszczony „schemat podpowiedzi”** dla 2020-12 z **polskimi opisami** (`description`/`markdownDescription`), np. „required — lista pól, które muszą wystąpić”. Oficjalny metaschemat 2020-12 jest podzielony na słowniki i używa `$dynamicRef`, z czym language service może sobie nie radzić — sprawdź, ale domyślnie zakładaj własny, spłaszczony schemat.
   - Własną diagnostykę Monaco (angielskie komunikaty) wyłączamy albo filtrujemy. Źródłem prawdy są nasze polskie komunikaty. Zweryfikuj, czy wyłączenie walidacji nie wyłącza podpowiedzi.
   - Sprawdź aktualny sposób osadzania Monaco bez CDN (AMD `min/vs` kontra ESM i bundler) i to, czy web workery ładują się z tej samej domeny. Wybierz najprostszy działający wariant.
-- **Walidator: Ajv w trybie 2020-12** (`allErrors: true`, `strict: false`). Formaty przez `ajv-formats` z **przełącznikiem w UI „sprawdzaj formaty: tak/nie”** (moduł 5). Jeśli `ajv-formats` nie ma gotowej paczki dla przeglądarki, zbuduj jednorazowo plik w `vendor/` (np. esbuild).
+- **Walidator: Ajv w trybie 2020-12** (`allErrors: true`, `strict: false`). Formaty przez `ajv-formats` z **przełącznikiem w UI „sprawdzaj formaty: tak/nie”** (moduł 5). Dwie instancje Ajv (bez formatów i z `ajv-formats` w trybie `full`); opcje w `trener/rdzen/walidator.js`. Znane odstępstwa Ajv od oficjalnego zestawu testów są w `tests/znane-odstepstwa.json` (głównie `$dynamicRef`, `unevaluated*`, `$ref` z względnymi `$id`, pusty `enum`); test `tests/ajv-spec.test.mjs` pilnuje, żeby nie przybyło nowych.
 - **Własny parser JSON z polskimi komunikatami** (zbędny przecinek, apostrofy, cudzysłów drukarski z Worda, przecinek dziesiętny, `True`/`None`, niepodwojony `\`, komentarze, twarda spacja, duplikaty pól) z pozycją błędu → zaznaczenie linii w edytorze.
 - **Tłumaczenie błędów Ajv na polski**, z miejscem w dokumencie („Pole „x” w elemencie nr 2: …”) i, przy wielu plikach, informacją, z którego pliku pochodzi reguła.
 - **Ostrzeżenia o schemacie**: nieznane słowo kluczowe (z podpowiedzią najbliższego, np. `requried` → `required`; przy obiekcie — „przenieś do properties”), pole w `required`, którego nie ma w `properties`, duplikaty kluczy, `format` jako adnotacja.
@@ -211,10 +211,10 @@ Dane każdego ćwiczenia: poziom (★/★★/★★★), szacowany czas, kolejno
 tresc/                 lekcje, ćwiczenia, przykłady, rozwiązania, źródła (jedyne źródło treści)
 trener/                kod interaktywnej strony
 materialy/             szablon statycznych materiałów
-vendor/                Monaco, Ajv, ajv-formats, czcionki (lokalne kopie)
+public/                pliki kopiowane do dist/ bez zmian (public/tresc/ generowane, ignorowane w git)
 spec/                  specyfikacja 2020-12, metaschematy, oficjalny zestaw testów (tylko do odczytu)
 docs/                  profile-uczestnikow.md, slowniczek.md, raporty-uczestnikow/
-scripts/               build, materiały, vendor/, sprawdz-rozwiazanie
+scripts/               zbuduj-tresc, zbuduj-materialy, sprawdz-rozwiazanie, testuj-ajv-spec, sprawdz-strone, sprawdz-interakcje (Playwright)
 tests/                 testy ćwiczeń, wykładu, parsera i komunikatów
 .claude/agents/        weryfikator-specyfikacji.md, uczestnik.md
 .claude/settings.json  hooki uruchamiające testy
@@ -229,9 +229,15 @@ tests/                 testy ćwiczeń, wykładu, parsera i komunikatów
 - Pokrycie obowiązkowego zakresu: każde hasło z tabeli występuje w nagłówkach materiałów.
 - Każde twierdzenie w wykładzie oznaczone jako wymagające źródła ma podane źródło.
 
-## Prototyp
+## Stan implementacji
 
-Istnieje jednoplikowy prototyp (`prototyp/trener.html`, edytor CodeMirror 5 + Ajv z CDN) z działającym i przetestowanym parserem JSON z polskimi komunikatami, tłumaczeniem błędów Ajv i ostrzeżeniami o nieznanych słowach kluczowych. Logikę parsera i komunikatów przenieś i rozwiń. Edytor zastępujemy Monaco, a treść ćwiczeń z prototypu nie jest wiążąca.
+Prototyp trenera z całą infrastrukturą techniczną jest zbudowany (2026-10-08) i opublikowany: https://mgrzemow.github.io/kurs_json_schema/. Projekt: `docs/superpowers/specs/2026-10-08-prototyp-trenera-design.md`, plan: `docs/superpowers/plans/2026-10-08-prototyp-trenera.md`. Treść modułu 3 w `tresc/` jest **próbna** (pole `"probna": true` w `modul.json`) i zostanie zastąpiona przy pisaniu prawdziwego modułu 3.
+
+Polecenia: `npm run dev` (podgląd lokalny), `npm test` (wszystkie testy, ok. 6 s), `npm run build` (treść + trener do `dist/`), `npm run materialy` (HTML + PDF do `materialy/wynik/`), `node scripts/sprawdz-interakcje.mjs` (klikanie po zbudowanej stronie w Chromium; wymaga `npm run preview` w tle), `node scripts/sprawdz-rozwiazanie.mjs <id> < plik` (werdykty jak w trenerze).
+
+Format treści: katalog na moduł (`tresc/moduly/NN-nazwa/` z `modul.json`, `wyklad.md`, `cwiczenia/<id>/cwiczenie.json` + pliki), opisany w specu. Bloki kodu w wykładzie: ```` ```json schemat=nazwa ````, ```` ```json dokument=nazwa schemat=nazwa oczekiwane=przechodzi|odrzucony ````, ```` ```json pytanie=nazwa schemat=… oczekiwane=… ````. Twierdzenia: `<!-- twierdzenie -->` w akapicie plus `<!-- zrodlo: validation §6.3.3 -->`. Ramka draft-07: cytat zaczynający się od `**W draft-07:**`.
+
+Stary jednoplikowy prototyp (`prototyp/trener.html`, CodeMirror + Ajv z CDN) jest już tylko historyczny; jego logika została przeniesiona do `trener/rdzen/`.
 
 ## Styl tekstów w interfejsie
 
@@ -242,13 +248,13 @@ Istnieje jednoplikowy prototyp (`prototyp/trener.html`, edytor CodeMirror 5 + Aj
 
 ## Otwarte kwestie (do ustalenia z prowadzącym)
 
-- Ogólna struktura strony (jak zrealizować podział na części).
+- Ogólna struktura strony: zrealizowana w prototypie (SPA z trasami po `#`, start → moduł z zakładkami Wykład/Ćwiczenia → ćwiczenie w trzech kolumnach, osobna piaskownica i generator); do oceny przez prowadzącego na działającej stronie.
 - Treść wszystkich ćwiczeń (domena ustalona: `docs/domena.md`).
 - Konspekty wykładu dla każdego modułu.
 - Czy potrzebne są notatki dla prowadzącego (niewidoczne dla uczestników).
 - Czy w każdym module ma być ramka „minimum dla analityka”.
 - Dane wejściowe do generatora w ćwiczeniu końcowym.
-- Czy ćwiczenia są widoczne od razu, czy moduły odblokowuje prowadzący.
+- Czy ćwiczenia są widoczne od razu, czy moduły odblokowuje prowadzący. W prototypie wszystko jest widoczne; odblokowywanie na statycznej stronie jest możliwe tylko przez plik konfiguracyjny w repozytorium z opóźnieniem publikacji.
 - Czy w trenerze ma być minutnik do pracy na czas.
-- Czy robimy zakładkę „Generator”.
-- Konwencja nazewnictwa w kodzie (polskie czy angielskie identyfikatory). Nazwy pól w danych kursu są już ustalone: polskie bez znaków diakrytycznych.
+- Zakładka „Generator”: zrobiona w prototypie (`#/generator`), do oceny.
+- (ustalone w prototypie) Konwencja nazewnictwa w kodzie: polskie identyfikatory, nazwy plików i komentarze bez znaków diakrytycznych, nazwy z bibliotek bez zmian. Nazwy pól w danych kursu: polskie bez znaków diakrytycznych.

@@ -112,7 +112,7 @@ export function zbudujMaterialyHtml({ kurs, moduly }) {
   const modulyHtml = moduly.map(m => {
     const nr = m.meta.nr;
     const wyklad = wykladStatyczny(m.wyklad.html).replace(/<h2 id="([^"]+)"/g, `<h2 id="m-${nr}-$1"`);
-    return `<section class="modul" id="m-${nr}"><h1>Moduł ${nr}: ${esc(m.meta.tytul)}</h1>${m.meta.probna ? '<p class="meta">Treść próbna prototypu.</p>' : ''}
+    return `<section class="modul" id="m-${nr}"><h1>Moduł ${nr}: ${esc(m.meta.tytul)}</h1>
       <article class="wyklad">${wyklad}</article>
       <h2 id="m-${nr}-cwiczenia">Ćwiczenia do modułu ${nr}</h2>
       ${m.cwiczenia.map((cw, i) => sekcjaCwiczenia(cw, nr, i)).join('')}</section>`;
@@ -120,7 +120,8 @@ export function zbudujMaterialyHtml({ kurs, moduly }) {
   const rozwiazania = `<section id="rozwiazania"><h1>Dodatek: rozwiązania ćwiczeń</h1>${moduly.flatMap(m => m.cwiczenia.map((cw, i) => sekcjaRozwiazania(cw, m.meta.nr, i))).join('')}</section>`;
   const tresc = `<header class="okladka"><h1>${esc(kurs.tytul)}</h1><p>Materiały po kursie: wykład, ćwiczenia, ściągawka i rozwiązania. Wygenerowane ${new Date().toISOString().slice(0, 10)}.</p></header>
     <nav class="spis"><h2>Spis treści</h2><ol>${spis}</ol></nav>${modulyHtml}${sciagawka()}${rozwiazania}`;
-  return szablon.replace('{{tytul}}', esc(kurs.tytul)).replace('{{styl}}', styl).replace('{{tresc}}', tresc);
+  // Funkcje zamiast stringów w replace: treść zawiera `$`, który replace traktowałby jako wzorzec zamiany.
+  return szablon.replace('{{tytul}}', () => esc(kurs.tytul)).replace('{{styl}}', () => styl).replace('{{tresc}}', () => tresc);
 }
 
 async function zbudujPdf(htmlSciezka, pdfSciezka) {

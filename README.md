@@ -1,20 +1,39 @@
 # Trener JSON Schema
 
-Materiały do jednodniowego kursu JSON Schema: interaktywny trener (GitHub Pages) i statyczne materiały po kursie, generowane z jednego źródła treści.
+Materiały do jednodniowego kursu JSON Schema 2020-12: interaktywny trener (GitHub Pages) i statyczne materiały po kursie, generowane z jednego źródła treści.
 
-Wszystkie ustalenia projektu są w [CLAUDE.md](CLAUDE.md).
+- Trener: https://mgrzemow.github.io/kurs_json_schema/
+- Wszystkie ustalenia projektu: [CLAUDE.md](CLAUDE.md)
+- Projekt prototypu: `docs/superpowers/specs/2026-10-08-prototyp-trenera-design.md`
 
-## Co już jest
+## Jak to działa
 
-- `CLAUDE.md` — instrukcje i decyzje dla Claude Code.
-- `.claude/agents/weryfikator-specyfikacji.md` — agent sprawdzający twierdzenia o JSON Schema wyłącznie na podstawie specyfikacji w `spec/`.
-- `.claude/agents/uczestnik.md` — agent symulujący uczestnika o wskazanym profilu.
-- `prototyp/trener.html` — jednoplikowy prototyp trenera (CodeMirror 5 + Ajv), źródło parsera JSON z polskimi komunikatami.
+- `tresc/` — jedyne źródło treści: wykłady w Markdownie, ćwiczenia jako katalogi z `cwiczenie.json` i plikami JSON.
+- `scripts/zbuduj-tresc.mjs` kompiluje treść do `public/tresc/*.json`, licząc werdykty przykładów prawdziwym walidatorem (Ajv 2020-12).
+- `trener/` — aplikacja (Vite, Monaco, Ajv), `trener/rdzen/` to logika bez zależności od przeglądarki, współdzielona z testami i skryptami.
+- `materialy/` — szablon materiałów po kursie; `scripts/zbuduj-materialy.mjs` daje HTML i PDF.
+- `spec/` — specyfikacja 2020-12, metaschematy i oficjalny zestaw testów (tylko do odczytu).
 
-## Pierwsze uruchomienie Claude Code
+## Polecenia
 
-1. Sprawdź wersję: `claude --version`. Agent `uczestnik` korzysta z pola `omitClaudeMd`, które wymaga Claude Code v2.1.271 lub nowszego (`claude update`).
-2. W tym folderze uruchom `claude`.
-3. Pierwsze polecenie (do skopiowania):
+```
+npm ci                 # instalacja (raz)
+npm run dev            # podgląd lokalny z odświeżaniem
+npm test               # wszystkie testy treści, parsera, komunikatów, walidatora, materiałów
+npm run build          # treść + trener do dist/
+npm run preview        # serwuje dist/ pod http://localhost:4173/kurs_json_schema/
+npm run materialy      # materialy/wynik/kurs.html i kurs.pdf (wymaga: npx playwright install chromium)
+node scripts/sprawdz-rozwiazanie.mjs 3-1-kod-pocztowy < schemat.json   # werdykty jak w trenerze
+node scripts/sprawdz-interakcje.mjs   # klika po zbudowanej stronie (preview musi działać)
+node scripts/testuj-ajv-spec.mjs      # Ajv kontra oficjalny zestaw testów
+```
 
-> Przeczytaj CLAUDE.md. Zanim zaczniesz cokolwiek pisać: zainicjuj repozytorium git (z .gitignore), pobierz do spec/ specyfikację JSON Schema 2020-12 (Core i Validation), oficjalne metaschematy 2020-12 i katalog tests/draft2020-12 z JSON-Schema-Test-Suite. Potem zacznij od kroków z sekcji „Na początku pracy”: zadaj mi pytania o profile uczestników.
+## Publikacja
+
+- Push na `main` uruchamia workflow „Publikuj trener”: testy, build, GitHub Pages.
+- Workflow „Materiały” (uruchamiany ręcznie w zakładce Actions) buduje HTML i PDF i zostawia je jako artefakt do pobrania.
+- Po kursie: wyłączyć Pages w ustawieniach repozytorium, uruchomić „Materiały”, rozesłać PDF/HTML.
+
+## Praca z Claude Code
+
+W tym folderze uruchom `claude`. Agenci: `.claude/agents/weryfikator-specyfikacji.md` (sprawdza twierdzenia o JSON Schema wyłącznie na podstawie `spec/`) i `.claude/agents/uczestnik.md` (symuluje uczestnika o wskazanym profilu). Hooki w `.claude/settings.json` uruchamiają testy po zmianach w `tresc/` i przed zakończeniem pracy.
