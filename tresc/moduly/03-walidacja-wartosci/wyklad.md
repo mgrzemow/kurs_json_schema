@@ -158,10 +158,18 @@ Specyfikacja zaleca autorom schematów ograniczyć się do małego podzbioru sk�
 | kod katalogowy | `^[A-Z]{3}\.[0-9]{2}$` (w JSON-ie `\\.`) |
 | waluta | `^(PLN\|EUR\|CZK)$` |
 
-**Przejdzie czy nie?** Schemat `kod-bez-kotwic` i dokument poniżej.
+**Przejdzie czy nie?** Wracamy do wzorca kodu pocztowego bez kotwic z początku sekcji. Klient wpisał kod o jedną cyfrę za długi: `"00-9500"`{d}. Czy ten schemat go odrzuci?
+
+```json schemat=kod-bez-kotwic
+{ "type": "string", "pattern": "[0-9]{2}-[0-9]{3}" }
+```
 
 ```json pytanie=kod-za-dlugi schemat=kod-bez-kotwic oczekiwane=przechodzi
 "00-9500"
+```
+
+```odpowiedz
+Nie odrzuci, dokument przechodzi. Wzorzec bez kotwic szuka pasującego fragmentu, a `00-950` jest fragmentem tekstu `00-9500`. Dopiero `^` i `$` wymuszają, żeby cały tekst był kodem pocztowym, i wtedy `"00-9500"`{d} zostaje odrzucony.
 ```
 
 ## Walidacja instancji numerycznych
