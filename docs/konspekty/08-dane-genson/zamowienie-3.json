@@ -1,0 +1,50 @@
+{
+  "typDokumentu": "zamowienie",
+  "numer": "ZAM-2026-000125",
+  "status": "wyslane",
+  "waluta": "EUR",
+  "faktura": true,
+  "klient": {
+    "numerKlienta": "00011111",
+    "nazwa": "Radsport Müller GmbH",
+    "nip": "DE123456789",
+    "email": "info@example.de",
+    "telefon": "+49 30 1234567"
+  },
+  "adresDostawy": {
+    "ulica": "Hauptstraße 1",
+    "miasto": "Berlin",
+    "kodPocztowy": "10115",
+    "kraj": "DE",
+    "eori": "DE123456789012345"
+  },
+  "pozycje": [
+    {
+      "ean": "5901234123488",
+      "nazwa": "Opona 29x2.25",
+      "ilosc": 4,
+      "cena": 89
+    },
+    {
+      "ean": "5901234123495",
+      "nazwa": "Hamulec tarczowy",
+      "ilosc": 2,
+      "cena": 320
+    },
+    {
+      "ean": "5901234123501",
+      "nazwa": "Montaż",
+      "ilosc": 1,
+      "cena": 50,
+      "typ": "usluga"
+    }
+  ],
+  "uwagi": "Dostawa do magazynu, rampa B",
+  "dataZamowienia": "2026-10-07",
+  "utworzono": "2026-10-07T16:45:10Z",
+  "wymiaryPaczki": [
+    60,
+    40,
+    30
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "typDokumentu": "zamowienie",
+  "numer": "ZAM-2026-000123",
+  "status": "oplacone",
+  "waluta": "PLN",
+  "faktura": true,
+  "klient": {
+    "numerKlienta": "00012345",
+    "nazwa": "Serwis Rowerowy Pedał",
+    "nip": "5213017228",
+    "email": "serwis@example.com",
+    "telefon": "+48 600 100 200"
+  },
+  "adresDostawy": {
+    "ulica": "Długa 5",
+    "miasto": "Gdańsk",
+    "kodPocztowy": "80-827",
+    "kraj": "PL"
+  },
+  "pozycje": [
+    {
+      "ean": "5901234123457",
+      "nazwa": "Szprycha 2.0x262",
+      "ilosc": 36,
+      "cena": 1.2
+    },
+    {
+      "ean": "5901234123464",
+      "nazwa": "Dętka 28\"",
+      "ilosc": 2,
+      "cena": 12.5
+    }
+  ],
+  "uwagi": "Proszę dzwonić domofonem",
+  "dataZamowienia": "2026-10-08",
+  "utworzono": "2026-10-08T10:15:00Z"
+}
