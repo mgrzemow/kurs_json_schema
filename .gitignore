@@ -8,3 +8,7 @@ Thumbs.db
 __pycache__/
 .venv/
 .claude/settings.local.json
+.superpowers/
+public/tresc/
+materialy/wynik/
+test-results/

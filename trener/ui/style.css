@@ -1,0 +1,28 @@
+:root {
+  --tlo: #fbfbf8;
+  --tekst: #1e1e1e;
+  --akcent: #2457a6;
+  --ok: #1d7a3e;
+  --blad: #b3261e;
+  --ostrz: #9a6700;
+  --ramka: #d9d7cf;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--tlo); color: var(--tekst); }
+
+.pasek {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--ramka);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.pasek h1 { font-size: 1.1rem; margin: 0; }
+.pasek small { font-weight: normal; color: #666; }
+
+.szkielet { padding: 1rem; max-width: 72rem; margin: 0 auto; }
+.edytor { height: 24rem; border: 1px solid var(--ramka); }
