@@ -118,6 +118,34 @@ function projekt(cw, wejscie, formaty) {
   return { diagnoza, przyklady, odwolania: fn.odwolania, idPlikow: fn.idPlikow, zaliczone: przyklady.every(p => p.zgodny) };
 }
 
+// Piaskownica: dowolny schemat i dowolny dokument. werdykt: true/false albo null, gdy czegoś nie da się sprawdzić.
+export function sprawdzPiaskownice(tekstSchematu, tekstDokumentu, { formaty = false } = {}) {
+  const s = wczytajSchemat(tekstSchematu ?? '');
+  let diagnozaSchematu = s.diagnoza;
+  let fn = null;
+  if (s.wartosc !== undefined) {
+    try {
+      fn = walidator(formaty).kompiluj(s.wartosc, s.klucze);
+    } catch (e) {
+      if (!(e instanceof BladSchematu)) throw e;
+      diagnozaSchematu = [diagnozaSchematu(e), ...s.diagnoza];
+    }
+  }
+  let dokumentWartosc;
+  let diagnozaDokumentu = [];
+  try {
+    const p = parsujJSON(tekstDokumentu ?? '', 'Dokument jest pusty.');
+    dokumentWartosc = p.wartosc;
+    diagnozaDokumentu = uwagiDuplikatow(p.duplikaty);
+  } catch (e) {
+    if (!(e instanceof BladSkladni)) throw e;
+    diagnozaDokumentu = [diagnozaSkladni(e)];
+  }
+  if (!fn || dokumentWartosc === undefined) return { diagnozaSchematu, diagnozaDokumentu, werdykt: null, komunikaty: [] };
+  const w = fn.sprawdz(dokumentWartosc);
+  return { diagnozaSchematu, diagnozaDokumentu, werdykt: w.ok, komunikaty: w.ok ? [] : komunikaty(w.bledy, dokumentWartosc) };
+}
+
 export function sprawdzCwiczenie(cw, wejscie, { formaty = false } = {}) {
   switch (cw.rodzaj) {
     case 1:

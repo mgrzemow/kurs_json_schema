@@ -8,6 +8,9 @@ import 'monaco-editor/editor/contrib/bracketMatching/browser/bracketMatching';
 import 'monaco-editor/editor/contrib/folding/browser/folding';
 import 'monaco-editor/editor/contrib/find/browser/findController';
 import 'monaco-editor/editor/contrib/links/browser/links';
+// Usługi, których wymagają kontrybucje dociągane leniwie przez tryb JSON (inaczej „UNKNOWN service”).
+import 'monaco-editor/editor/contrib/codelens/browser/codeLensCache';
+import 'monaco-editor/editor/common/services/treeViewsDndService';
 import EditorWorker from 'monaco-editor/editor/editor.worker?worker';
 import JsonWorker from 'monaco-editor/languages/features/json/json.worker?worker';
 import schematPodpowiedzi from './schemat-podpowiedzi.json';
@@ -19,6 +22,8 @@ self.MonacoEnvironment = {
 };
 
 export { monaco };
+// Do narzędzi deweloperskich i skryptów sprawdzających (scripts/sprawdz-interakcje.mjs).
+globalThis.__monaco = monaco;
 
 const WLASCICIEL = 'trener';
 let rozmiarCzcionki = 14;
