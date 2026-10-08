@@ -1,6 +1,6 @@
 ## Reguły między polami
 
-Dotąd każda reguła patrzyła na jedno pole. Biznes mówi inaczej: „jeśli faktura, to NIP”, „płatność kartą wymaga tokenu”, „e-mail albo telefon, co najmniej jeden”, „kraj inny niż Polska wymaga numeru EORI”. Do tego służą słowa, które łączą całe schematy: logiczne (`allOf`, `anyOf`, `oneOf`, `not`), warunkowe (`if`/`then`/`else`) i zależności między polami (`dependentRequired`). Słowa logiczne i warunkowe biorą całe podschematy i składają z ich werdyktów jeden werdykt; `dependentRequired` jest prostsze: to zwykła asercja z listą nazw pól. <!-- twierdzenie --> <!-- zrodlo: core §10.2; validation §6.5.4 -->
+Dotąd każda reguła patrzyła na jedno pole. Biznes mówi inaczej: „jeśli faktura, to NIP”, „płatność kartą wymaga tokenu”, „e-mail albo telefon, co najmniej jeden”, „kraj inny niż Polska wymaga numeru celnego EORI”. Do tego służą słowa, które łączą całe schematy: logiczne (`allOf`, `anyOf`, `oneOf`, `not`), warunkowe (`if`/`then`/`else`) i zależności między polami (`dependentRequired`). Słowa logiczne i warunkowe biorą mniejsze schematy zapisane w środku większego (podschematy) i składają z ich werdyktów jeden werdykt; `dependentRequired` jest prostsze: to zwykła asercja z listą nazw pól. <!-- twierdzenie --> <!-- zrodlo: core §10.2; validation §6.5.4 -->
 
 Przy braku czasu z tego modułu zostaje sekcja o `if`/`then`/`else`; reszta jest w materiałach.
 
@@ -8,7 +8,7 @@ Przy braku czasu z tego modułu zostaje sekcja o `if`/`then`/`else`; reszta jest
 
 ### `allOf`: wszystkie naraz
 
-Wartość musi spełniać **wszystkie** podschematy. Adres dostawy to zwykły adres plus pole `instrukcjeDlaKuriera`: <!-- twierdzenie --> <!-- zrodlo: core §10.2.1.1 -->
+Wartość musi spełniać **wszystkie** podschematy z listy. Każdy element tej listy nazywa się gałęzią. Adres dostawy to zwykły adres plus pole `instrukcjeDlaKuriera`: <!-- twierdzenie --> <!-- zrodlo: core §10.2.1.1 -->
 
 ```json schemat=adres-dostawy
 {
@@ -120,7 +120,7 @@ Lekarstwo: **pole rozróżniające** (dyskryminator). Każda gałąź ma `typ` z
 { "typ": "karta", "numerKonta": "PL61109010140000071219812874" }
 ```
 
-Przy `anyOf` i `oneOf` komunikaty walidatora są mało pomocne („nie pasuje do żadnej opcji”), bo walidator nie wie, którą gałąź miałeś na myśli. Pole rozróżniające pomaga ludziom i narzędziom.
+Przy `anyOf` i `oneOf` komunikaty walidatora są mało pomocne („nie pasuje do żadnej opcji”), bo walidator nie wie, do której gałęzi dokument miał pasować. Pole rozróżniające pomaga ludziom i narzędziom.
 
 ### `not`: nie może
 
@@ -252,7 +252,7 @@ Uwaga na komunikat: przy pierwszym dokumencie walidator mówi „brakuje wymagan
 
 ## `dependentRequired`
 
-Prostszy zapis zależności „jeśli jest pole A, muszą być pola B i C”, bez `if`: `dependentRequired` mapuje nazwę pola na listę pól wymaganych w jego obecności. Kod rabatowy wymaga źródła rabatu; NIP wymaga nazwy firmy. Obok jest `dependentSchemas`: zamiast listy pól cały schemat stosowany, gdy pole występuje. <!-- twierdzenie --> <!-- zrodlo: validation §6.5.4; core §10.2.2.4 -->
+Prostszy zapis zależności „jeśli jest pole A, muszą być pola B i C”, bez `if`: `dependentRequired` przypisuje nazwie pola listę pól, które muszą wystąpić razem z nim. Kod rabatowy wymaga źródła rabatu; NIP wymaga nazwy firmy. Obok jest `dependentSchemas`: zamiast listy pól cały schemat stosowany, gdy pole występuje. <!-- twierdzenie --> <!-- zrodlo: validation §6.5.4; core §10.2.2.4 -->
 
 ```json schemat=zaleznosci
 {

@@ -5,7 +5,7 @@
   "poziom": 2,
   "czasMin": 8,
   "kolejnosc": 2,
-  "kontekst": "Schemat zamówienia został podzielony na trzy pliki: zamówienie, adres i klient, każdy ze swoim `$id` w przestrzeni `https://kurs.example/schematy/`. Plik główny odwołuje się do dwóch pozostałych względnie. Po ostatniej zmianie walidator nie chce go skompilować.",
+  "kontekst": "Schemat zamówienia został podzielony na trzy pliki: zamówienie, adres i klient, każdy ze swoim `$id` zaczynającym się od `https://kurs.example/schematy/`. Plik główny odwołuje się do dwóch pozostałych względnie. Po ostatniej zmianie walidator nie chce go skompilować, czyli przygotować do sprawdzania dokumentów.",
   "polecenie": "Znajdź i popraw zepsute odwołanie w pliku głównym, tak żeby wszystkie przykłady dawały oczekiwany werdykt. Diagram po prawej pokazuje, które odwołanie nie prowadzi do żadnego pliku, a panel „jak to widzi walidator” pokazuje identyfikatory plików.",
   "slowa": [
     "$id",
@@ -19,7 +19,7 @@
       "dane": {
         "numer": "ZAM-2026-000123",
         "klient": {
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "email": "serwis@example.com"
         },
         "adresDostawy": {

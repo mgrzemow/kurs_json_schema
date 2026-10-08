@@ -6,7 +6,7 @@
   "czasMin": 4,
   "kolejnosc": 2,
   "formaty": true,
-  "kontekst": "Zamówienie ma datę zamówienia (sam dzień), znacznik utworzenia (dzień i czas ze strefą) i e-mail klienta. Systemy po obu stronach mają włączone sprawdzanie formatów, więc to ćwiczenie też ma je włączone.",
+  "kontekst": "Zamówienie ma datę zamówienia (sam dzień), znacznik utworzenia (dzień i czas ze strefą czasową) i e-mail klienta. Systemy po obu stronach mają włączone sprawdzanie formatów, więc to ćwiczenie też ma je włączone.",
   "polecenie": "Dopisz formaty do trzech pól: `dataZamowienia` to data, `utworzono` to data z czasem, `email` to adres e-mail.",
   "slowa": [
     "format"

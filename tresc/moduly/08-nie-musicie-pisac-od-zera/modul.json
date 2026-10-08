@@ -1,6 +1,6 @@
 {
   "nr": 8,
-  "tytul": "Nie musicie pisać od zera",
+  "tytul": "Nie musisz pisać od zera",
   "opis": "Generatory schematów z przykładów, z kodu i z XSD, ich typowe błędy i lista kontrolna poprawek wygenerowanego schematu.",
   "minuty": 35,
   "zakres": []

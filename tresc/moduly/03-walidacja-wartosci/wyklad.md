@@ -1,4 +1,4 @@
-Magazyn odrzuca zamówienia, w których „ilość” raz jest liczbą, a raz tekstem, a status to dowolny napis. W tym module opisujemy pojedyncze wartości: jakiego mają być typu, z jakiej listy, jakiej długości, do jakiego wzorca pasować i w jakim zakresie się mieścić. Obiekty i listy przyjdą w module 4. W wykładzie każdy przykład to jedna wartość; niektóre ćwiczenia opakowują ją w prosty obiekt z jednym albo dwoma polami (`properties` i `required` z modułu 0 wystarczą, żeby je przeczytać).
+Magazyn odrzuca zamówienia, w których „ilość” raz jest liczbą, a raz tekstem, a status to dowolny napis. W tym module opisujemy pojedyncze wartości: jakiego mają być typu, z jakiej listy, jakiej długości, do jakiego wzorca pasować i w jakim zakresie się mieścić. Obiekty i listy przyjdą w module 4. W wykładzie każdy przykład to jedna wartość; niektóre ćwiczenia opakowują ją w prosty obiekt z jednym albo dwoma polami (do ich przeczytania wystarczy wiedzieć, że `properties` opisuje pola obiektu, a `required` z modułu 0 wymienia pola obowiązkowe; więcej o obu w module 4).
 
 ## Walidacja instancji dowolnego typu
 
@@ -63,7 +63,7 @@ Magazyn odbiera tym samym kanałem zamówienia, zwroty i reklamacje, więc każd
 
 ## Walidacja instancji tekstowych
 
-Nazwa klienta nie może być pusta ani nieskończenie długa. `minLength` i `maxLength` liczą **znaki** tekstu, nie bajty: `Pedał` to pięć znaków, choć w UTF-8 zajmuje sześć bajtów. Pusty tekst `""`{d} jest tekstem, więc samo `"type": "string"`{s} go przepuści; dopiero `"minLength": 1`{s} go odrzuci. <!-- twierdzenie --> <!-- zrodlo: validation §6.3.1, §6.3.2 -->
+Nazwa klienta nie może być pusta ani nieskończenie długa. `minLength` i `maxLength` liczą **znaki** tekstu, nie bajty: `Dętka` to pięć znaków, choć w UTF-8 zajmuje sześć bajtów. Pusty tekst `""`{d} jest tekstem, więc samo `"type": "string"`{s} go przepuści; dopiero `"minLength": 1`{s} go odrzuci. <!-- twierdzenie --> <!-- zrodlo: validation §6.3.1, §6.3.2 -->
 
 ```json schemat=nazwa
 { "type": "string", "minLength": 1, "maxLength": 80 }
@@ -74,7 +74,7 @@ Nazwa klienta nie może być pusta ani nieskończenie długa. `minLength` i `max
 ```
 
 ```json dokument=nazwa-ok schemat=nazwa oczekiwane=przechodzi
-"Serwis Rowerowy Pedał"
+"Serwis Rowerowy Dętka"
 ```
 
 Zapowiedź na moduł 4: pusty tekst, `null` i brak pola to trzy różne sytuacje, które wymagają trzech różnych reguł. Tu widzimy tylko pierwszą.
@@ -143,7 +143,7 @@ Każdy klocek z przykładem z zamówienia:
 
 ### Przenośność
 
-Specyfikacja zaleca autorom schematów ograniczyć się do małego podzbioru składni: pojedyncze znaki, klasy `[abc]` i `[a-z]` z dopełnieniem `[^...]`, powtórzenia `+ * ? {x} {x,y} {x,}`, kotwice `^ $`, grupy `( )` i alternatywa `|`. Powód: walidatory w różnych językach różnie wspierają resztę. Na przykład `\d` w Pythonie pasuje także do cyfr spoza alfabetu łacińskiego (arabsko-indyjskich, dewanagari), a w JavaScripcie tylko do `0-9`; `[0-9]` działa wszędzie tak samo. W tym kursie trzymamy się tego podzbioru, plus ucieczki znaków specjalnych, takiej jak `\.` dla dosłownej kropki. <!-- twierdzenie --> <!-- zrodlo: core §6.4; spec/tests/draft2020-12/optional/ecmascript-regex.json -->
+Specyfikacja zaleca autorom schematów ograniczyć się do małego podzbioru składni: pojedyncze znaki, klasy `[abc]` i `[a-z]` z zaprzeczeniem (dopełnieniem) `[^...]`, powtórzenia `+ * ? {x} {x,y} {x,}`, kotwice `^ $`, grupy `( )` i alternatywa `|`. Powód: walidatory w różnych językach różnie wspierają resztę. Na przykład `\d` w Pythonie pasuje także do cyfr spoza alfabetu łacińskiego (arabsko-indyjskich, dewanagari), a w JavaScripcie tylko do `0-9`; `[0-9]` działa wszędzie tak samo. W tym kursie trzymamy się tego podzbioru, plus ucieczki znaków specjalnych, takiej jak `\.` dla dosłownej kropki. <!-- twierdzenie --> <!-- zrodlo: core §6.4; spec/tests/draft2020-12/optional/ecmascript-regex.json -->
 
 (Zachowanie `\d` w Pythonie: dokumentacja modułu `re`, poza repozytorium.)
 
@@ -200,7 +200,7 @@ Szprychy sprzedajemy w opakowaniach po 36 sztuk. `multipleOf` przyjmuje liczbę 
 
 ### Pułapka: `multipleOf` z ułamkiem dziesiętnym
 
-Kusi, żeby cenę z dwoma miejscami po przecinku opisać przez `multipleOf: 0.01`{s}. W arytmetyce zmiennoprzecinkowej, której używa większość walidatorów, `19.99 / 0.01` nie daje dokładnie `1999`, tylko liczbę „prawie całkowitą”, i walidator odrzuca cenę 19,99 zł. Specyfikacja nie ogranicza precyzji liczb i oficjalny zestaw testów oczekuje poprawnej obsługi ułamkowego `multipleOf`, ale walidator liczący w arytmetyce zmiennoprzecinkowej może dać wynik niezgodny z oczekiwaniem; w praktyce `multipleOf` z ułamkiem jest loterią zależną od biblioteki. Dla pieniędzy bezpieczniej trzymać grosze jako liczbę całkowitą (`1999`{d}) albo zapisać wymaganie w dokumentacji i sprawdzać je w kodzie. <!-- twierdzenie --> <!-- zrodlo: validation §4.2, §6.2.1; spec/tests/draft2020-12/multipleOf.json -->
+Kusi, żeby cenę z dwoma miejscami po przecinku opisać przez `multipleOf: 0.01`{s}. Komputer zapisuje większość ułamków dziesiętnych w przybliżeniu, tak jak kalkulator pokazuje 1/3 jako 0,3333333. Ten sposób liczenia to arytmetyka zmiennoprzecinkowa; używa jej większość walidatorów i w niej `19.99 / 0.01` nie daje dokładnie `1999`, tylko liczbę „prawie całkowitą”, i walidator odrzuca cenę 19,99 zł. Specyfikacja nie ogranicza precyzji liczb i oficjalny zestaw testów oczekuje poprawnej obsługi ułamkowego `multipleOf`, ale walidator liczący w arytmetyce zmiennoprzecinkowej może dać wynik niezgodny z oczekiwaniem; w praktyce `multipleOf` z ułamkiem jest loterią zależną od biblioteki. Dla pieniędzy bezpieczniej trzymać grosze jako liczbę całkowitą (`1999`{d}) albo zapisać wymaganie w dokumentacji i sprawdzać je w kodzie. <!-- twierdzenie --> <!-- zrodlo: validation §4.2, §6.2.1; spec/tests/draft2020-12/multipleOf.json -->
 
 ```json schemat=cena-grosze
 { "type": "number", "exclusiveMinimum": 0, "multipleOf": 0.01 }

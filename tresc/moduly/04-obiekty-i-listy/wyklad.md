@@ -34,7 +34,7 @@ Każdy poziom zagnieżdżenia w dokumencie ma swój poziom w schemacie, z własn
 {
   "numer": "ZAM-2026-000123",
   "klient": {
-    "nazwa": "Serwis Rowerowy Pedał",
+    "nazwa": "Serwis Rowerowy Dętka",
     "adres": {
       "miasto": "Gdańsk",
       "kodPocztowy": "80-827"
@@ -274,7 +274,7 @@ Oba odrzucone, bo `adres` jest wymagany. Różnica wychodzi, gdy literówka doty
 
 Zamknięcie działa tylko na swoim poziomie: zamknięte zamówienie nie zamyka adresu w środku. Każdy obiekt zamyka się osobno.
 
-Kiedy zamykać: komunikat do systemu, który odrzuca nieznane pola (etykieta kurierska), albo gdy literówki są kosztowne. Kiedy nie: dane, które mają rosnąć bez zmiany schematu, i wszystko, co przechodzi przez kilka wersji systemów. Odwołanie do przodu: `additionalProperties: false`{s} w połączeniu z `allOf` potrafi odrzucić wszystko; wrócimy do tego w module 6.
+Kiedy zamykać: komunikat do systemu, który odrzuca nieznane pola (etykieta kurierska), albo gdy literówki są kosztowne. Kiedy nie: dane, które mają rosnąć bez zmiany schematu, i wszystko, co przechodzi przez kilka wersji systemów. Zapowiedź: `additionalProperties: false`{s} w połączeniu z `allOf` potrafi odrzucić wszystko; wrócimy do tego w module 6.
 
 ## Obiekt jako słownik
 

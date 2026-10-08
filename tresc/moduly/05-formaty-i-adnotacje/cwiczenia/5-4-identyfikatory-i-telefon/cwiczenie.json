@@ -15,7 +15,7 @@
   "podpowiedz": "Nieznany format jest ignorowany (edytor ostrzega). Dla telefonu nie ma formatu: użyj `pattern`, np. `^(\\\\+48 [0-9]{3} [0-9]{3} [0-9]{3}|[0-9]{9})$` (plus wymaga ucieczki, w JSON-ie podwójnej). Formaty: `uuid`, `uri`.",
   "przyklady": [
     {
-      "opis": "Wszystko poprawne, telefon z prefiksem",
+      "opis": "Wszystko poprawne, telefon z numerem kierunkowym",
       "dane": {
         "identyfikator": "123e4567-e89b-12d3-a456-426614174000",
         "linkFaktury": "https://example.com/faktury/123.pdf",
@@ -24,7 +24,7 @@
       "ok": true
     },
     {
-      "opis": "Telefon bez prefiksu",
+      "opis": "Telefon bez numeru kierunkowego",
       "dane": {
         "identyfikator": "123e4567-e89b-12d3-a456-426614174000",
         "linkFaktury": "https://example.com/faktury/123.pdf",
@@ -62,14 +62,14 @@
       "wskazowka": "Format `uuid` wymaga myślników w stałych miejscach."
     },
     {
-      "opis": "Link bez schematu https",
+      "opis": "Link bez początku https://",
       "dane": {
         "identyfikator": "123e4567-e89b-12d3-a456-426614174000",
         "linkFaktury": "www.example.com/faktury/123.pdf",
         "telefon": "600100200"
       },
       "ok": false,
-      "wskazowka": "`uri` wymaga pełnego adresu ze schematem (`https://`). Adres bez schematu to co najwyżej `uri-reference`."
+      "wskazowka": "`uri` wymaga pełnego adresu z początkiem w rodzaju `https://`. Norma URI nazywa tę część schematem, ale nie ma to nic wspólnego z JSON Schema. Adres bez niej to co najwyżej `uri-reference`."
     }
   ],
   "bledne": [

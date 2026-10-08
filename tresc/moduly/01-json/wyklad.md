@@ -15,7 +15,7 @@ Przykład z modułu 0, dla przypomnienia, jak wygląda zamówienie w JSON-ie:
 ```json dokument=zamowienie-1-ok schemat=zamowienie-1 oczekiwane=przechodzi
 {
   "numer": "ZAM-2026-000123",
-  "klient": "Serwis Rowerowy Pedał",
+  "klient": "Serwis Rowerowy Dętka",
   "faktura": true,
   "uwagi": null,
   "pozycje": [
@@ -31,7 +31,7 @@ To samo zamówienie w XML-u:
 ```xml
 <zamowienie faktura="true">
   <numer>ZAM-2026-000123</numer>
-  <klient>Serwis Rowerowy Pedał</klient>
+  <klient>Serwis Rowerowy Dętka</klient>
   <uwagi/>
   <pozycje>
     <pozycja ean="5901234123457" ilosc="2" cena="12.5"/>
@@ -54,7 +54,7 @@ Dla osób, które znają XSD: JSON Schema jest dla JSON-a tym, czym XSD dla XML-
 | `xs:restriction` z `xs:pattern` | `pattern` |
 | `xs:complexType` | `"type": "object"`{s} |
 
-Jeśli XSD nic Wam nie mówi, ta tabela nie jest potrzebna.
+Jeśli XSD nic ci nie mówi, ta tabela nie jest potrzebna.
 
 ## Podstawowe struktury danych (object, array, value, string, number, whitespace)
 
@@ -84,10 +84,10 @@ Cała gramatyka JSON-a to sześć pojęć. Diagramy składni niżej czyta się o
   </g>
 </svg>
 
-Obiekt to nawiasy klamrowe, a w nich pary `"nazwa": wartość` rozdzielone przecinkami. Nazwa jest zawsze tekstem w podwójnym cudzysłowie. Kolejność par nie ma znaczenia. Nazwy **powinny** być unikalne, ale specyfikacja tylko to zaleca, więc wiele parserów przepuszcza duplikat po cichu i bierze ostatnią wartość. Edytor na tej stronie ostrzega o duplikacie, system magazynu może nie ostrzec. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §4 -->
+Obiekt to nawiasy klamrowe, a w nich pary `"nazwa": wartość` rozdzielone przecinkami. Nazwa jest zawsze tekstem w podwójnym cudzysłowie. Kolejność par nie ma znaczenia. Nazwy **powinny** być unikalne, ale specyfikacja tylko to zaleca, więc wiele programów czytających JSON (parserów) przepuszcza duplikat po cichu i bierze ostatnią wartość. Edytor na tej stronie ostrzega o duplikacie, system magazynu może nie ostrzec. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §4 -->
 
 ```json dokument=obiekt-klient schemat=zamowienie-1 oczekiwane=odrzucony
-{ "nazwa": "Serwis Rowerowy Pedał", "email": "serwis@example.com" }
+{ "nazwa": "Serwis Rowerowy Dętka", "email": "serwis@example.com" }
 ```
 
 (Ten dokument jest poprawnym obiektem, czyli poprawnym JSON-em, ale schemat zamówienia go odrzuca, bo to klient, nie zamówienie. Składnia i zgodność ze schematem to dwie różne rzeczy; czerwony werdykt nie znaczy tu „zły JSON”.)
@@ -161,10 +161,10 @@ Wartość to jedna z siedmiu rzeczy: obiekt, lista, tekst, liczba, `true`, `fals
   </g>
 </svg>
 
-Tekst stoi w podwójnych cudzysłowach. Apostrofy `'tak'` nie są cudzysłowem. Kilka znaków wymaga ucieczki odwrotnym ukośnikiem: cudzysłów `\"`, sam ukośnik `\\`, nowa linia `\n`, tabulator `\t`, dowolny znak przez kod `\u0141`. Polskie litery wpisujemy wprost, bo JSON jest w UTF-8; `"Pedał"`{d} jest poprawne i nie trzeba pisać `"Peda\u0142"`{d}. Ucieczka `\\` wróci w module 3 przy wyrażeniach regularnych, gdzie jest najczęstszym źródłem błędów. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §7, §8.1 -->
+Tekst stoi w podwójnych cudzysłowach. Apostrofy `'tak'` nie są cudzysłowem. Kilka znaków trzeba poprzedzić odwrotnym ukośnikiem; taki zapis to ucieczka (escape): cudzysłów `\"`, sam ukośnik `\\`, nowa linia `\n`, tabulator `\t`, dowolny znak przez kod `\u0141`. Polskie litery wpisujemy wprost, bo JSON jest zapisany w UTF-8, kodowaniu obejmującym znaki wszystkich alfabetów; `"Dętka"`{d} jest poprawne i nie trzeba pisać `"D\u0119tka"`{d}. Ucieczka `\\` wróci w module 3 przy wyrażeniach regularnych, gdzie jest najczęstszym źródłem błędów. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §7, §8.1 -->
 
 ```json dokument=tekst-z-cudzyslowem schemat=zamowienie-1 oczekiwane=odrzucony
-{ "nazwa": "Serwis \"Pedał\"", "sciezka": "C:\\faktury\\2026" }
+{ "nazwa": "Serwis \"Dętka\"", "sciezka": "C:\\faktury\\2026" }
 ```
 
 ### number
@@ -191,7 +191,7 @@ Tekst stoi w podwójnych cudzysłowach. Apostrofy `'tak'` nie są cudzysłowem. 
   </g>
 </svg>
 
-Liczba to opcjonalny minus, cyfry, opcjonalna część ułamkowa po kropce i opcjonalny wykładnik: `2`{d}, `-3`{d}, `12.5`{d}, `1.2e3`{d}. Trzy pułapki: zer wiodących nie ma (`007`{d} to błąd, a kod pocztowy `00950`{d} zapisujemy jako tekst), separator dziesiętny to zawsze kropka (Excel po polsku daje przecinek), a `NaN` i `Infinity` nie istnieją. Na poziomie składni nie ma różnicy między liczbą całkowitą a ułamkiem: `12.50`{d} i `12.5`{d} to ta sama liczba, a `36.0`{d} to po prostu trzydzieści sześć. JSON Schema dokłada do tego rozróżnienie `integer`/`number`, o którym w module 3. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §6; core §4.2.1, §4.2.2 -->
+Liczba to opcjonalny minus, cyfry, opcjonalna część ułamkowa po kropce i opcjonalny wykładnik: `2`{d}, `-3`{d}, `12.5`{d}, `1.2e3`{d} (zapis naukowy znany z Excela: 1,2 · 10³, czyli 1200). Trzy pułapki: zer wiodących nie ma (`007`{d} to błąd, a kod pocztowy `00950`{d} zapisujemy jako tekst), separator dziesiętny to zawsze kropka (Excel po polsku daje przecinek), a `NaN` i `Infinity` nie istnieją. Na poziomie składni nie ma różnicy między liczbą całkowitą a ułamkiem: `12.50`{d} i `12.5`{d} to ta sama liczba, a `36.0`{d} to po prostu trzydzieści sześć. JSON Schema dokłada do tego rozróżnienie `integer`/`number`, o którym w module 3. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §6; core §4.2.1, §4.2.2 -->
 
 ### whitespace
 
@@ -209,9 +209,9 @@ Liczba to opcjonalny minus, cyfry, opcjonalna część ułamkowa po kropce i opc
   </g>
 </svg>
 
-Białe znaki wolno wstawiać między elementami w dowolnej ilości, ale tylko cztery: spację, tabulator, nową linię i powrót karetki. Twarda spacja z Worda wygląda jak spacja, a nie jest białym znakiem. Komentarzy w JSON-ie nie ma w ogóle. W schemacie JSON Schema na komentarz dla autorów jest osobne słowo `$comment`: zwykłe pole z tekstem, które walidator pomija. W dokumentach z danymi takiego słowa nie ma; uwagę wpisuje się w zwykłym polu, np. `uwagi`. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §2; core §8.3 -->
+Białe znaki wolno wstawiać między elementami w dowolnej ilości, ale tylko cztery: spację, tabulator, nową linię i powrót karetki (niewidoczny znak, który Windows wstawia przed nową linią). Twarda spacja z Worda wygląda jak spacja, a nie jest białym znakiem. Komentarzy w JSON-ie nie ma w ogóle. W schemacie JSON Schema na komentarz dla autorów jest osobne słowo `$comment`: zwykłe pole z tekstem, które walidator pomija. W dokumentach z danymi takiego słowa nie ma; uwagę wpisuje się w zwykłym polu, np. `uwagi`. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §2; core §8.3 -->
 
-**Przejdzie czy nie?** Trzy dokumenty do oceny jako JSON (poprawny czy nie): `{"ilosc": 02}`{d}, `{'ilosc': 2}`{d}, `{"uwagi": null}`{d}. Odpowiedzcie na czacie, potem otwórzcie piaskownicę i wklejcie każdy z nich: parser powie, co jest nie tak.
+**Przejdzie czy nie?** Trzy dokumenty do oceny jako JSON (poprawny czy nie): `{"ilosc": 02}`{d}, `{'ilosc': 2}`{d}, `{"uwagi": null}`{d}. Odpowiedz na czacie, potem otwórz piaskownicę i wklej każdy z nich: parser powie, co jest nie tak.
 
 ```odpowiedz
 Poprawny jest tylko trzeci. W pierwszym liczba ma zero wiodące, w drugim zamiast cudzysłowów są apostrofy.

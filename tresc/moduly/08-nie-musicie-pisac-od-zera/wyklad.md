@@ -10,11 +10,11 @@ Generator (genson w Pythonie, quicktype, dziesiątki stron online) dostaje kilka
 
 ### Z kodu
 
-Pydantic w Pythonie, Zod i typy w TypeScripcie, adnotacje w Javie i .NET generują schemat z definicji typów. Dają strukturę i tyle reguł, ile programista zapisał w kodzie (często tylko typy). Wersja schematu zależy od biblioteki i bywa to draft-07; nagłówek `$schema` mówi, co dostaliśmy (moduł 2).
+Programista i tak opisuje w kodzie, jak wygląda zamówienie: jakie ma pola i jakiego typu. Z takiej definicji typów schemat generują biblioteki, czyli gotowe moduły dołączane do programu: Pydantic w Pythonie, Zod i typy w TypeScripcie, adnotacje w Javie i .NET (znaczniki w kodzie, niezwiązane z adnotacjami JSON Schema). Dają strukturę i tyle reguł, ile programista zapisał w kodzie (często tylko typy). Wersja schematu zależy od biblioteki i bywa to draft-07; nagłówek `$schema` mówi, co dostaliśmy (moduł 2).
 
 ### Z XSD
 
-Konwertery przenoszą strukturę i typy, ale z XML-owymi nawykami: atrybuty stają się polami, wszystko jest tekstem, a `minOccurs` czasem gubi się po drodze. Do przejrzenia pole po polu.
+Konwertery przenoszą strukturę i typy, ale z XML-owymi nawykami: atrybuty stają się polami, wszystko jest tekstem, a `minOccurs` (w XSD to on mówi, czy element jest obowiązkowy) czasem gubi się po drodze. Do przejrzenia pole po polu.
 
 ### Z modelu AI
 
@@ -83,7 +83,7 @@ genson -i 2 zamowienie-1.json zamowienie-2.json zamowienie-3.json
 | Generator napisał | Powinno być | Moduł |
 |---|---|---|
 | `"$schema": "http://json-schema.org/schema#"`{s} (bez wersji) | nagłówek 2020-12 | 2 |
-| `uwagi` w `required`, bo było w każdym z trzech plików | magazyn przyjmuje zamówienia z kilku kanałów (sklep, telefon, EDI), a nie każdy wysyła uwagi: `uwagi` opcjonalne; `required` z wymagań, nie z obecności | 4 |
+| `uwagi` w `required`, bo było w każdym z trzech plików | magazyn przyjmuje zamówienia z kilku kanałów (sklep, telefon, EDI, czyli automatyczna wymiana dokumentów z systemami partnerów), a nie każdy wysyła uwagi: `uwagi` opcjonalne; `required` z wymagań, nie z obecności | 4 |
 | `nip`, `kodRabatowy`, `eori` opcjonalne, bo w którymś pliku ich brakło | NIP wymagany przy fakturze, EORI poza Polską | 6 |
 | `status`, `waluta`, `typ` jako zwykły `string` | `enum`, `const` | 3 |
 | brak wzorców numeru, kodu pocztowego, NIP-u, EAN-u | `pattern` | 3 |
@@ -188,4 +188,4 @@ Dziesięć punktów do odhaczenia przy każdym wygenerowanym schemacie, niezale�
 9. `additionalProperties`: decyzja per obiekt, nie automat.
 10. `title` i `description` na schemacie i polach; `$defs` dla powtórzeń.
 
-Ćwiczenie końcowe to przejście tej listy na prawdziwym wyniku genson. Zajmie więcej niż typowe ćwiczenie, bo zbiera wszystko z modułów 3–7; kto zrobi pierwsze pięć punktów, zrobił najważniejsze.
+Ćwiczenie końcowe to przejście tej listy na prawdziwym wyniku genson. Zajmie więcej niż typowe ćwiczenie, bo zbiera wszystko z modułów 3–7; najważniejsze jest pierwsze pięć punktów.

@@ -20,12 +20,12 @@
     },
     {
       "opis": "Typowa nazwa z polskimi literami",
-      "dane": "Serwis Rowerowy Pedał",
+      "dane": "Serwis Rowerowy Dętka",
       "ok": true
     },
     {
       "opis": "Dokładnie 80 znaków",
-      "dane": "Serwis Rowerowy Pedał i Spółka Serwis Rowerowy Pedał i Spółka Serwis Rowerowy Pe",
+      "dane": "Serwis Rowerowy Dętka i Spółka Serwis Rowerowy Dętka i Spółka Serwis Rowerowy Dę",
       "ok": true
     },
     {
@@ -36,7 +36,7 @@
     },
     {
       "opis": "81 znaków",
-      "dane": "Serwis Rowerowy Pedał i Spółka Serwis Rowerowy Pedał i Spółka Serwis Rowerowy Ped",
+      "dane": "Serwis Rowerowy Dętka i Spółka Serwis Rowerowy Dętka i Spółka Serwis Rowerowy Dęt",
       "ok": false,
       "wskazowka": "Brakuje górnej granicy długości."
     },

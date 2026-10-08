@@ -1,6 +1,6 @@
 ## Trzy pojęcia na jednym zamówieniu
 
-Specyfikacja używa trzech słów, które warto odróżniać, bo potem pojawiają się w komunikatach walidatorów i w dokumentacji bibliotek.
+Specyfikacja używa trzech słów, które warto odróżniać, bo potem pojawiają się w komunikatach walidatorów i w dokumentacji bibliotek (gotowych modułów kodu, z których korzystają programiści).
 
 ### Dokument JSON
 
@@ -116,13 +116,13 @@ JSON Schema rozwijało się jako seria wersji roboczych (draft):
 | draft-07 | 2018 | `if`/`then`/`else`; najczęściej spotykana w praktyce |
 | 2019-09 | 2019 | przejściowa: `$defs`, `dependentRequired`, `unevaluated*` |
 | 2020-12 | 2020 | aktualna, tej uczymy: `prefixItems`, słowa obok `$ref` działają |
-| wersja stabilna | w przygotowaniu | bez zmian łamiących zgodność; według planów IETF nie wcześniej niż 2027 |
+| wersja stabilna | w przygotowaniu | bez zmian łamiących zgodność; według planów IETF (organizacji ustalającej standardy internetu) nie wcześniej niż 2027 |
 
 (Źródła poza repozytorium: json-schema.org/specification-links, datatracker.ietf.org/wg/jsonschema.)
 
 ### Dlaczego uczymy nowszej wersji, skoro w praktyce częściej spotyka się draft-07?
 
-Draft-07 jest wszędzie, bo przez kilka lat nie było niczego nowszego, a edytory, generatory i OpenAPI 3.0 na nim stanęły. 2020-12 stopniowo go wypiera: OpenAPI 3.1 i nowe biblioteki walidacji wspierają ją w pełni, a następna wersja specyfikacji ma być stabilna, czyli bez zmian łamiących zgodność. Kto uczy się 2020-12, uczy się wersji, która zostanie standardem na długo. Kto zna 2020-12, przeczyta draft-07 bez trudu, bo różnice to kilka słów kluczowych; dlatego przy każdym takim słowie będzie w tym kursie ramka „W draft-07”. W drugą stronę jest trudniej: kto zna tylko draft-07, nie wie, czego mu brakuje.
+Draft-07 jest wszędzie, bo przez kilka lat nie było niczego nowszego, a edytory, generatory i OpenAPI 3.0 na nim stanęły. 2020-12 stopniowo go wypiera: OpenAPI 3.1 i nowe biblioteki walidacji wspierają ją w pełni, a następna wersja specyfikacji ma być stabilna, czyli bez zmian łamiących zgodność: poprawny schemat ma pozostać poprawny w kolejnych wydaniach. Kto uczy się 2020-12, uczy się wersji, która zostanie standardem na długo. Kto zna 2020-12, przeczyta draft-07 bez trudu, bo różnice to kilka słów kluczowych; dlatego przy każdym takim słowie będzie w tym kursie ramka „W draft-07”. W drugą stronę jest trudniej: kto zna tylko draft-07, nie wie, czego mu brakuje.
 
 ### Jak rozpoznać stary schemat
 
@@ -131,7 +131,7 @@ Cztery sygnały, każdy wystarczy:
 1. `definitions` zamiast `$defs`.
 2. `"exclusiveMinimum": true`{s} obok `minimum` (draft-04); w nowszych to liczba.
 3. `id` bez dolara (draft-04) zamiast `$id`.
-4. Tablica w `items` (krotka) zamiast `prefixItems`.
+4. Tablica w `items` (krotka, czyli osobny schemat dla każdej kolejnej pozycji listy) zamiast `prefixItems`.
 
 Plus nagłówek: `"$schema": "http://json-schema.org/draft-07/schema#"`{s} albo `draft-04`.
 

@@ -33,7 +33,7 @@ const DOMYSLNY_SCHEMAT = {
 const DOMYSLNY_DOKUMENT = {
   numer: 'ZAM-2026-000123',
   status: 'oplacone',
-  klient: 'Serwis Rowerowy Pedał',
+  klient: 'Serwis Rowerowy Dętka',
   pozycje: [{ ean: '5901234123457', ilosc: 2, cena: 12.5 }, { ean: '5901234123464', ilosc: 36, cena: 1.2 }],
 };
 

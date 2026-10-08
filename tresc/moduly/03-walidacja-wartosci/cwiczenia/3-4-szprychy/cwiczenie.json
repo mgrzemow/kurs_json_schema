@@ -6,7 +6,7 @@
   "czasMin": 5,
   "kolejnosc": 4,
   "kontekst": "Szprychy sprzedajemy wyłącznie w opakowaniach po 36 sztuk, od jednego do dziesięciu opakowań na pozycję. Programista zapisał to schematem obok.",
-  "polecenie": "Dla każdej ilości obstaw, czy schemat ją przepuści. Potem sprawdź i przeczytaj wyjaśnienia tam, gdzie się pomyliłeś.",
+  "polecenie": "Dla każdej ilości obstaw, czy schemat ją przepuści. Potem sprawdź i przeczytaj wyjaśnienia przy nietrafionych odpowiedziach.",
   "slowa": [
     "multipleOf",
     "minimum",

@@ -14,7 +14,7 @@ Spór był nierozstrzygalny, bo umowa między zespołami istniała tylko w głow
 ```json dokument=zamowienie-0-ok schemat=zamowienie-0 oczekiwane=przechodzi
 {
   "numer": "ZAM-2026-000123",
-  "klient": "Serwis Rowerowy Pedał",
+  "klient": "Serwis Rowerowy Dętka",
   "pozycje": [{ "ean": "5901234123457", "ilosc": 2 }]
 }
 ```
@@ -26,7 +26,7 @@ Spór był nierozstrzygalny, bo umowa między zespołami istniała tylko w głow
 }
 ```
 
-Schemat mówi: zamówienie to obiekt, w którym muszą być trzy pola. Dokument bez klienta zostaje odrzucony, a walidator mówi dlaczego: „brakuje wymaganego pola „klient””. Nikt nie musi czytać Confluence. <!-- twierdzenie --> <!-- zrodlo: validation §6.5.3 -->
+Schemat mówi: zamówienie to obiekt (`type`), w którym muszą być trzy pola (`required`). Dokument bez klienta zostaje odrzucony, a program sprawdzający, czyli walidator, mówi dlaczego: „brakuje wymaganego pola „klient””. Nikt nie musi czytać Confluence. <!-- twierdzenie --> <!-- zrodlo: validation §6.5.3 -->
 
 ## Po co JSON Schema
 
@@ -44,7 +44,7 @@ Trzy zastosowania, wszystkie na tym samym pliku.
 
 JSON Schema nie zmienia danych, nie wpisuje wartości domyślnych, nie zamienia tekstu `"2"`{d} na liczbę. Tylko sprawdza i opisuje. Do wartości domyślnych wrócimy w module 5, gdzie ta cecha zaskakuje najbardziej.
 
-**Pytanie na czat:** kto dziś u was pilnuje, że dane między systemami mają właściwy kształt? Człowiek, kod, nikt?
+**Pytanie na czat:** a u ciebie kto odpowiada za kontrolę spójności danych pomiędzy systemami? Człowiek, kod, nikt?
 
 ## Jak korzystać z tej strony
 
@@ -55,6 +55,6 @@ Ta strona jest zarówno wykładem, jak i miejscem na ćwiczenia, które każdy r
 - **Przykłady w wykładzie.** Przy każdym schemacie i dokumencie jest przycisk „Otwórz w edytorze”. Otwiera piaskownicę ze schematem i dokumentem; „Przywróć przykład” cofa własne zmiany, a „Wróć do wykładu” wraca w to samo miejsce.
 - **Ćwiczenie.** Po lewej zadanie, w środku edytor, po prawej przykłady. Przykłady dzielą się na te, które muszą przejść, i te, które muszą zostać odrzucone. Werdykty liczą się przy każdej zmianie w edytorze, nie ma przycisku „sprawdź”.
 - **Pomoc stopniowana.** Czerwona karta mówi, co jest nie tak. Jeśli to nie wystarczy, jest *Podpowiedź*. Na końcu *Rozwiązanie* z przyciskiem „Wstaw do edytora”; Ctrl+Z przywraca własną wersję. *Zacznij od nowa* wraca do stanu początkowego.
-- **Ćwiczeń jest więcej, niż zmieści się w czasie.** Są ułożone od najważniejszych. Kto zrobi dwa pierwsze, zrobił to, co trzeba. Reszta zostaje w materiałach.
+- **Ćwiczeń jest więcej, niż zmieści się w czasie.** Są ułożone od najważniejszych: dwa pierwsze to minimum, reszta zostaje w materiałach.
 - **Pasek u góry.** *Duży tekst* do udostępniania ekranu, motyw jasny lub ciemny i przełącznik „walidacja `format`”, który na razie zostaje wyłączony; wrócimy do niego w module 5.
 - **Postęp** zapisuje się w tej przeglądarce. Strona działa tylko w czasie zajęć; potem zostają materiały PDF i HTML ze wszystkimi ćwiczeniami i rozwiązaniami.

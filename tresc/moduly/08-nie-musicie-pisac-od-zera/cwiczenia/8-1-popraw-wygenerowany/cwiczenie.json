@@ -7,7 +7,7 @@
   "kolejnosc": 1,
   "formaty": true,
   "kontekst": "Schemat startowy to dosłowny wynik genson z trzech prawdziwych zamówień (firmowe krajowe z fakturą, prywatne z kodem rabatowym, zagraniczne z EORI i usługą montażu). Te trzy zamówienia muszą przechodzić. Reszta przykładów to zamówienia, które magazyn ma odrzucić, a schemat z generatora przepuszcza. Magazyn przyjmuje zamówienia z kilku kanałów (sklep internetowy, telefon, EDI); nie wszystkie wysyłają `uwagi`, `telefon` czy `kodRabatowy`.",
-  "polecenie": "Popraw schemat według wymagań: uwagi mogą nie wystąpić; status to jeden z pięciu (`nowe`, `oplacone`, `wyslane`, `dostarczone`, `anulowane`); waluta to PLN, EUR albo CZK; numer zamówienia `ZAM-RRRR-NNNNNN`; numer klienta to 8 cyfr; dla kraju PL kod pocztowy `00-000`{d}; NIP to 10 cyfr albo numer VAT UE: dwie wielkie litery kraju i 8–12 cyfr lub wielkich liter; EAN to 13 cyfr; typ pozycji to `produkt` albo `usluga`; ilość całkowita, większa od zera, najwyżej 1000; cena większa od zera; co najmniej jedna pozycja; wymiary paczki to dokładnie trzy dodatnie liczby; daty w formacie ISO (`date`, `date-time`); e-mail poprawny; kod rabatowy, jeśli jest, niepusty; faktura wymaga NIP-u klienta; adres poza PL wymaga EORI; typ dokumentu to `zamowienie`; nagłówek 2020-12. Odhaczaj punkty listy kontrolnej po prawej. Ćwiczenie jest długie: kto zrobi pierwsze pięć punktów listy, zrobił najważniejsze.",
+  "polecenie": "Popraw schemat według wymagań: uwagi mogą nie wystąpić; status to jeden z pięciu (`nowe`, `oplacone`, `wyslane`, `dostarczone`, `anulowane`); waluta to PLN, EUR albo CZK; numer zamówienia `ZAM-RRRR-NNNNNN`; numer klienta to 8 cyfr; dla kraju PL kod pocztowy `00-000`{d}; NIP to 10 cyfr albo numer VAT UE: dwie wielkie litery kraju i 8–12 cyfr lub wielkich liter; EAN to 13 cyfr; typ pozycji to `produkt` albo `usluga`; ilość całkowita, większa od zera, najwyżej 1000; cena większa od zera; co najmniej jedna pozycja; wymiary paczki to dokładnie trzy dodatnie liczby; daty w formacie ISO (`date`, `date-time`); e-mail poprawny; kod rabatowy, jeśli jest, niepusty; faktura wymaga NIP-u klienta; adres poza PL wymaga EORI; typ dokumentu to `zamowienie`; nagłówek 2020-12. Odhaczaj punkty listy kontrolnej po prawej. Ćwiczenie jest długie: najważniejsze jest pierwsze pięć punktów listy.",
   "slowa": [
     "$schema",
     "enum",
@@ -44,7 +44,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "5213017228",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
@@ -207,7 +207,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "5213017228",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
@@ -249,7 +249,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "5213017228",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
@@ -290,7 +290,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "5213017228",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
@@ -332,7 +332,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "5213017228",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
@@ -374,7 +374,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "5213017228",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
@@ -415,7 +415,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "5213017228",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
@@ -456,7 +456,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "5213017228",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
@@ -539,7 +539,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
         },
@@ -634,7 +634,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "5213017228",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
@@ -710,7 +710,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "5213017228",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
@@ -751,7 +751,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "12345",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
@@ -793,7 +793,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "1234",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "5213017228",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"
@@ -868,7 +868,7 @@
         "faktura": true,
         "klient": {
           "numerKlienta": "00012345",
-          "nazwa": "Serwis Rowerowy Pedał",
+          "nazwa": "Serwis Rowerowy Dętka",
           "nip": "5213017228",
           "email": "serwis@example.com",
           "telefon": "+48 600 100 200"

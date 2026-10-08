@@ -5,8 +5,8 @@
   "poziom": 3,
   "czasMin": 6,
   "kolejnosc": 6,
-  "kontekst": "Plik `adres` skopiowano z innego projektu razem z jego `$id` wskazującym na `example.com`. Zamówienie odwołuje się do `adres` w swojej przestrzeni. Walidator nie znajduje celu, a nikt niczego z `example.com` nie pobierze, bo walidatory nie chodzą do sieci.",
-  "polecenie": "Napraw odwołanie między plikami. Dwa poprawne sposoby: ujednolicić `$id` adresu z przestrzenią projektu albo wpisać w `$ref` pełny identyfikator z `example.com`.",
+  "kontekst": "Plik `adres` skopiowano z innego projektu razem z jego `$id` wskazującym na `example.com`. Zamówienie odwołuje się do `adres` w swojej przestrzeni nazw, czyli wśród identyfikatorów zaczynających się od `https://kurs.example/schematy/`. Walidator nie znajduje celu, a nikt niczego z `example.com` nie pobierze, bo walidatory nie chodzą do sieci.",
+  "polecenie": "Napraw odwołanie między plikami. Dwa poprawne sposoby: przenieść `$id` adresu do przestrzeni nazw projektu albo wpisać w `$ref` pełny identyfikator z `example.com`.",
   "slowa": [
     "$id",
     "$ref"

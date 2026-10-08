@@ -6,7 +6,7 @@ import { ladnie } from '../../rdzen/pomocnicze.js';
 import { renderujDiagnoze, markeryZDiagnozy } from './diagnoza.js';
 
 const PRZYKLAD = [
-  { numer: 'ZAM-2026-000123', status: 'oplacone', klient: 'Serwis Rowerowy Pedał', uwagi: null, pozycje: [{ ean: '5901234123457', ilosc: 2, cena: 12.5 }] },
+  { numer: 'ZAM-2026-000123', status: 'oplacone', klient: 'Serwis Rowerowy Dętka', uwagi: null, pozycje: [{ ean: '5901234123457', ilosc: 2, cena: 12.5 }] },
   { numer: 'ZAM-2026-000124', status: 'nowe', klient: 'Jan Nowak', uwagi: 'Proszę dzwonić domofonem', kodRabatowy: 'WIOSNA10', pozycje: [{ ean: '5901234123464', ilosc: 36, cena: 1 }, { ean: '5901234123471', ilosc: 1, cena: 249 }] },
 ];
 

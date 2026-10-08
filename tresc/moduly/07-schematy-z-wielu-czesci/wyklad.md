@@ -37,7 +37,7 @@ Część odwołania po `#` to **identyfikator fragmentu**. Są dwa rodzaje. <!--
 
 ### JSON Pointer
 
-JSON Pointer to ścieżka po kluczach od korzenia pliku, rozdzielona `/`: `#/$defs/adres`, `#/properties/klient/properties/adres`, `#/prefixItems/0` (elementy list po numerze od zera). Jeśli nazwa klucza zawiera `~` albo `/`, zapisuje się je jako `~0` i `~1`. Wskaźnik prowadzi do dowolnego miejsca w pliku, nie tylko do `$defs`, ale odwołania w głąb `properties` są kruche: zmiana struktury je psuje. <!-- twierdzenie --> <!-- zrodlo: core §8.2.2, §9.2.1; RFC 6901 §3, §4 -->
+JSON Pointer to ścieżka po kluczach od najwyższego poziomu pliku (korzenia), rozdzielona `/`: `#/$defs/adres`, `#/properties/klient/properties/adres`, `#/prefixItems/0` (elementy list po numerze od zera). Jeśli nazwa klucza zawiera `~` albo `/`, zapisuje się je jako `~0` i `~1`. Wskaźnik prowadzi do dowolnego miejsca w pliku, nie tylko do `$defs`, ale odwołania w głąb `properties` są kruche: zmiana struktury je psuje. <!-- twierdzenie --> <!-- zrodlo: core §8.2.2, §9.2.1; RFC 6901 §3, §4 -->
 
 ```json schemat=wskaznik-w-glab
 {
@@ -103,9 +103,9 @@ W 2020-12 słowa obok `$ref` działają. `{"$ref": "#/$defs/adres", "description
 
 ### Identyfikator każdego pliku
 
-Produkt jest wspólny dla zamówienia i katalogu, więc dostaje osobny plik. Każdy plik ma `$id`, czyli identyfikator w postaci URI: `https://kurs.example/schematy/produkt`. <!-- twierdzenie --> <!-- zrodlo: core §8.2.1 -->
+Produkt jest wspólny dla zamówienia i katalogu, więc dostaje osobny plik. Każdy plik ma `$id`, czyli identyfikator w postaci URI: `https://kurs.example/schematy/produkt`. URI to ogólna nazwa zapisu, który znasz z paska przeglądarki; tutaj służy jako niepowtarzalna nazwa pliku. <!-- twierdzenie --> <!-- zrodlo: core §8.2.1 -->
 
-`$ref` między plikami wskazuje `$id` celu: w całości albo względnie. W pliku o `$id` `https://kurs.example/schematy/zamowienie` odwołanie `"$ref": "produkt"`{s} rozwiązuje się względem adresu bazowego do `https://kurs.example/schematy/produkt`, dokładnie tak, jak link względny na stronie WWW. <!-- twierdzenie --> <!-- zrodlo: core §8.2.1, §9.2 -->
+`$ref` między plikami wskazuje `$id` celu: w całości albo względnie. Odwołanie względne działa jak link względny na stronie WWW: walidator uzupełnia je do pełnego identyfikatora, a punktem odniesienia jest adres bazowy, czyli tu `$id` pliku, w którym odwołanie stoi. W pliku o `$id` `https://kurs.example/schematy/zamowienie` odwołanie `"$ref": "produkt"`{s} rozwiązuje się więc do `https://kurs.example/schematy/produkt`. <!-- twierdzenie --> <!-- zrodlo: core §8.2.1, §9.2 -->
 
 ```json
 {
@@ -120,7 +120,7 @@ Produkt jest wspólny dla zamówienia i katalogu, więc dostaje osobny plik. Ka�
 
 ### `$id` to nie adres do pobrania
 
-To jedna z najczęstszych pułapek. `$id` to identyfikator, a nie adres do pobrania: walidator niczego nie ściąga z sieci; schematy trzeba mu podać (zarejestrować) przed użyciem. Adres `https://kurs.example/...` nie istnieje w sieci i nie musi; gdyby istniał, walidator i tak by tam nie poszedł. W ćwiczeniach z wieloma plikami panel „jak to widzi walidator” pokazuje mapę nazwa pliku → `$id`, a diagram zależności pokazuje odwołania, w tym zepsute. <!-- twierdzenie --> <!-- zrodlo: core §9.1.2 -->
+To jedna z najczęstszych pułapek. `$id` to identyfikator, a nie adres do pobrania: walidator niczego nie ściąga z sieci; schematy trzeba mu podać przed użyciem, a on zapamiętuje każdy pod jego `$id` (rejestruje go). Adres `https://kurs.example/...` nie istnieje w sieci i nie musi; gdyby istniał, walidator i tak by tam nie poszedł. W ćwiczeniach z wieloma plikami panel „jak to widzi walidator” pokazuje mapę nazwa pliku → `$id`, a diagram zależności pokazuje odwołania, w tym zepsute. <!-- twierdzenie --> <!-- zrodlo: core §9.1.2 -->
 
 Uwaga dla autorów: `$id` wewnątrz podschematu zmienia adres bazowy dla wszystkiego poniżej. To zaawansowane i częste źródło błędów, więc w tym kursie `$id` stoi wyłącznie na poziomie pliku.
 
@@ -134,7 +134,7 @@ Co walidator robi po kolei: <!-- twierdzenie --> <!-- zrodlo: core §9.1, §9.2 
 
 1. Wczytuje pliki, które mu podano.
 2. Rejestruje każdy pod jego `$id`.
-3. Bierze schemat główny i w czasie kompilacji rozwiązuje każde `$ref`: adres bazowy plus odwołanie dają identyfikator, a identyfikator prowadzi do zarejestrowanego schematu albo do fragmentu w nim.
+3. Bierze schemat główny i kompiluje go, czyli przygotowuje do użycia, zanim zobaczy pierwszy dokument. W tym czasie rozwiązuje każde `$ref`: adres bazowy plus odwołanie dają identyfikator, a identyfikator prowadzi do zarejestrowanego schematu albo do fragmentu w nim.
 4. Dopiero potem sprawdza dokumenty.
 
 Zepsute odwołanie to błąd w kroku 3, czyli w Ajv (także na tej stronie) błąd kompilacji całego schematu, a nie werdykt dla dokumentu (specyfikacja dopuszcza też walidatory, które rozwiązują odwołania leniwie). Dlatego w ćwiczeniach przy zepsutym odwołaniu przykłady nie dostają werdyktów („czeka”), tylko diagnoza mówi, w którym pliku jest zepsute odwołanie.
@@ -151,10 +151,10 @@ Pakowanie (bundling) jednym zdaniem: wiele plików da się scalić w jeden, wsta
 
 ## Jak to wygląda w prawdziwych repozytoriach
 
-Trzy sytuacje, które spotkacie w firmowych repozytoriach schematów. Nie ćwiczymy ich, ale warto je rozpoznać.
+Trzy sytuacje, które spotkasz w firmowych repozytoriach schematów, czyli we wspólnych katalogach, w których zespół trzyma pliki razem z historią ich zmian. Nie ćwiczymy ich, ale warto je rozpoznać.
 
 **Odwołanie do kawałka innego pliku.** Częsty układ to jeden plik „wspólny” z wieloma definicjami (kod pocztowy, NIP, EAN, kwota) i pliki, które biorą z niego pojedyncze elementy. Odwołanie łączy wtedy dwie rzeczy z tego modułu: najpierw identyfikator pliku, potem po `#` ścieżkę do definicji w środku, np. `wspolne#/$defs/kodPocztowy`. Walidator najpierw znajduje plik, a potem idzie w nim po ścieżce, dokładnie tak, jak przy odwołaniu w obrębie jednego pliku. <!-- twierdzenie --> <!-- zrodlo: core §8.2.3.1, §9.2 -->
 
 **Pliki bez `$id`, z odwołaniami po ścieżkach.** W wielu repozytoriach schematy nie mają `$id` i odwołują się do siebie jak do plików na dysku, np. `./adres.json`. To nie błąd: adresem bazowym schematu bez `$id` jest miejsce, z którego go wczytano, więc odwołanie względne rozwiązuje się względem katalogu pliku. Działa to, dopóki narzędzie wczytuje pliki z dysku z zachowaniem ich położenia; po skopiowaniu schematu gdzie indziej odwołania mogą przestać pasować. W tym kursie używamy `$id`, bo nie zależy od tego, skąd plik wczytano. <!-- twierdzenie --> <!-- zrodlo: core §9.1.1, §8.2.1 -->
 
-**Jak podać walidatorowi wiele plików.** Walidator nic nie pobiera sam, więc wszystkie pliki trzeba mu dać przed sprawdzeniem dokumentu. W narzędziach uruchamianych z linii poleceń (także w pipeline'ach CI) zwykle podaje się plik główny i osobno listę plików, do których się odwołuje. W kodzie każdy plik rejestruje się w walidatorze, zanim skompiluje się schemat główny. Jeśli walidator zgłasza „nie można rozwiązać odwołania”, najczęściej brakuje któregoś pliku na tej liście albo jego `$id` nie zgadza się z odwołaniem. Szczegóły są w dokumentacji konkretnego narzędzia. <!-- twierdzenie --> <!-- zrodlo: core §9.1.2 -->
+**Jak podać walidatorowi wiele plików.** Walidator nic nie pobiera sam, więc wszystkie pliki trzeba mu dać przed sprawdzeniem dokumentu. Część narzędzi uruchamia się z linii poleceń, czyli tekstowym poleceniem w terminalu zamiast przycisków w oknie; tak samo działają automatyczne sprawdzenia uruchamiane po każdej zmianie w repozytorium (pipeline CI). W takich narzędziach zwykle podaje się plik główny i osobno listę plików, do których się odwołuje. W kodzie każdy plik rejestruje się w walidatorze, zanim skompiluje się schemat główny. Jeśli walidator zgłasza „nie można rozwiązać odwołania”, najczęściej brakuje któregoś pliku na tej liście albo jego `$id` nie zgadza się z odwołaniem. Szczegóły są w dokumentacji konkretnego narzędzia. <!-- twierdzenie --> <!-- zrodlo: core §9.1.2 -->

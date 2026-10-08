@@ -5,7 +5,7 @@
   "poziom": 3,
   "czasMin": 6,
   "kolejnosc": 8,
-  "kontekst": "Zamówienie z krajem dostawy innym niż `PL` wymaga numeru `eori`. Dla `PL` pole `eori` jest zabronione. Brak pola `kraj` oznacza Polskę. Schemat ma `if`/`then`, ale nie zabrania EORI w kraju.",
+  "kontekst": "Zamówienie z krajem dostawy innym niż `PL` wymaga numeru celnego `eori`. Dla `PL` pole `eori` jest zabronione. Brak pola `kraj` oznacza Polskę. Schemat ma `if`/`then`, ale nie zabrania EORI w kraju.",
   "polecenie": "Uzupełnij schemat o gałąź `else`, tak żeby dla Polski (także gdy `kraj` nie podano) EORI było odrzucane.",
   "slowa": [
     "if",

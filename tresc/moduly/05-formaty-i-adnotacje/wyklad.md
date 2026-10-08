@@ -7,18 +7,18 @@ Zamówienie ma datę, adres e-mail klienta i link do faktury. Wzorcem da się op
 | Format | Przykład z zamówienia | Co znaczy |
 |---|---|---|
 | `date` | `dataZamowienia: "2026-10-08"` | data według RFC 3339: rok-miesiąc-dzień |
-| `date-time` | `utworzono: "2026-10-08T10:15:00Z"` | data i czas ze strefą |
+| `date-time` | `utworzono: "2026-10-08T10:15:00Z"` | data i czas ze strefą czasową |
 | `time` | `"10:15:00Z"`{d} | sam czas ze strefą |
 | `duration` | `"P3D"`{d} | czas trwania według ISO 8601 |
 | `email` | `email: "serwis@example.com"` | adres e-mail |
-| `hostname` | `"magazyn.example"`{d} | nazwa hosta |
-| `ipv4`, `ipv6` | `zrodloZamowienia: "10.0.0.7"` | adres IP (tu: antyfraud, tylko hasłowo) |
-| `uri`, `uri-reference` | `linkFaktury: "https://example.com/f/123.pdf"` | adres URI (pełny) albo też względny |
+| `hostname` | `"magazyn.example"`{d} | nazwa komputera w sieci (hosta) |
+| `ipv4`, `ipv6` | `zrodloZamowienia: "10.0.0.7"` | adres IP (tu: do wykrywania oszustw, tylko hasłowo) |
+| `uri`, `uri-reference` | `linkFaktury: "https://example.com/f/123.pdf"` | link, czyli adres URI: pełny (z początkiem w rodzaju `https://`) albo, dla `uri-reference`, też względny, np. `"/f/123.pdf"`{d} |
 | `uuid` | `identyfikator: "123e4567-e89b-12d3-a456-426614174000"` | identyfikator UUID |
 | `regex` | `"^[0-9]{2}-[0-9]{3}$"`{s} | poprawne wyrażenie regularne |
 | `json-pointer` | `"/klient/adres"`{d} | wskaźnik JSON (wróci w module 7) |
 
-Daty i czasy są według RFC 3339: `2026-10-08`{d} jest datą, `08.10.2026`{d} nie, a `2026-10-08 10:15`{d} nie jest `date-time`, bo brakuje litery `T` i strefy.
+Daty i czasy są według RFC 3339: `2026-10-08`{d} jest datą, `08.10.2026`{d} nie, a `2026-10-08 10:15`{d} nie jest `date-time`, bo brakuje litery `T` i strefy czasowej.
 
 ### Adnotacja kontra asercja
 
@@ -34,7 +34,7 @@ Tu jest pułapka numer jeden tego modułu. **Domyślnie `format` jest adnotacją
 
 Powyższy werdykt policzył walidator tej strony w trybie domyślnym, czyli z wyłączoną walidacją `format`. Teraz włącz przełącznik „walidacja `format`” w pasku i otwórz ten przykład w edytorze: ten sam dokument zostanie odrzucony. Przy wyłączonym przełączniku edytor pokazuje pod edytorem informację, że `format` jest tylko opisem.
 
-Od czego to zależy w praktyce: od walidatora i jego konfiguracji, nie od schematu. Hasłowo, do sprawdzenia w dokumentacji własnej biblioteki:
+Od czego to zależy w praktyce: od walidatora i jego konfiguracji, nie od schematu. W systemie walidator jest zwykle biblioteką, czyli gotowym modułem, który programiści dołączają do własnego kodu. Hasłowo, do sprawdzenia w dokumentacji biblioteki używanej w danym systemie:
 
 | Biblioteka | Co z `format` |
 |---|---|
@@ -121,4 +121,4 @@ Adnotacje niczego nie sprawdzają. Służą ludziom i narzędziom: dokumentacji,
 Przechodzi: `deprecated` to adnotacja, a `numer` jest. Gdyby `numer` był inny niż w przykładzie `examples`, też by przeszło.
 ```
 
-> **W draft-07:** `deprecated` nie istniało (doszło w 2019-09). `readOnly` i `writeOnly` doszły w draft-07, zapożyczone z OpenAPI, gdzie mają praktyczne znaczenie przy opisie żądań i odpowiedzi (moduł 9).
+> **W draft-07:** `deprecated` nie istniało (doszło w 2019-09). `readOnly` i `writeOnly` doszły w draft-07, zapożyczone z OpenAPI, gdzie mają praktyczne znaczenie przy opisie żądań (co wysyła klient) i odpowiedzi (co oddaje system); więcej w module 9.

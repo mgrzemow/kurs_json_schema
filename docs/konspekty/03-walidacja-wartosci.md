@@ -14,7 +14,7 @@ Obiekt wiodący na tym etapie: pojedyncze pola zamówienia (status, numer, kod p
 
 ## Sekcja 3.2: Walidacja instancji tekstowych (3 min)
 
-- **`minLength`**, **`maxLength`**: liczą znaki (punkty kodowe), nie bajty, więc `Pedał` to 5 znaków. Pusty tekst `""` jest tekstem: `type: string` go przepuszcza, dopiero `minLength: 1` odrzuca. Zapowiedź: pusty tekst, `null` i brak pola to trzy różne rzeczy (moduł 4). <!-- validation §6.3.1, §6.3.2 -->
+- **`minLength`**, **`maxLength`**: liczą znaki (punkty kodowe), nie bajty, więc `Dętka` to 5 znaków. Pusty tekst `""` jest tekstem: `type: string` go przepuszcza, dopiero `minLength: 1` odrzuca. Zapowiedź: pusty tekst, `null` i brak pola to trzy różne rzeczy (moduł 4). <!-- validation §6.3.1, §6.3.2 -->
 - Przykład: nazwa klienta od 1 do 80 znaków.
 
 ## Sekcja 3.3: Wyrażenia regularne (6 min, mini-lekcja)
