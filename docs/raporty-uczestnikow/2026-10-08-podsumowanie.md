@@ -40,7 +40,7 @@ Dwa przebiegi agenta `uczestnik` (profil A: analityk, profil B: inżynier) przez
 - **Pkt 1: nie.** Kurs zostaje wyważony między profilami; poziom szczegółowości i tempo bez zmian. Dla analityka ostrzej pod koniec, dla technicznego nudniej na początku: to zamierzone.
 - **Pkt 2: tak.** Odpowiedzi w blokach ```` ```odpowiedz ```` (zwijane w trenerze, rozwinięte w materiałach); zrobione.
 - **Pkt 3 i 4 (ćwiczenie migracji): nie.**
-- Pkt 5 (moduł 7): w trakcie wyjaśniania.
+- **Pkt 5 (moduł 7): tak, tylko jako opis** bez przykładów: sekcja „Jak to wygląda w prawdziwych repozytoriach” (odwołanie do kawałka innego pliku, pliki bez `$id` z odwołaniami po ścieżkach, podawanie wielu plików walidatorowi); zrobione.
 
 ## Propozycje (stan przed decyzjami)
 
