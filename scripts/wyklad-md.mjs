@@ -126,6 +126,11 @@ export function parsujWyklad(md, { walidator = walidatorDomyslny } = {}) {
         const strona = info.strona === 'schemat' ? 'schemat' : 'dokument';
         return `<figure class="lustro-czesc ${strona}" data-lustro="${esc(info.lustro)}" data-strona="${strona}"><figcaption>${strona === 'schemat' ? 'Schemat' : 'Dokument'}</figcaption><pre><code class="jezyk-json">${kolorujPoziomy(text)}</code></pre></figure>\n`;
       }
+      // Fragment bez werdyktu, ale z rolą („rola=dokument” albo „rola=schemat”): tylko kolor konwencji.
+      if (info.jezyk === 'json' && (info.rola === 'dokument' || info.rola === 'schemat') && !(info.schemat || info.dokument || info.pytanie)) {
+        try { parsujJSON(text); } catch (e) { throw new Error(`Blok „${lang}”: niepoprawny JSON: ${e.message}`); }
+        return `<pre class="${info.rola}"><code class="jezyk-json">${esc(info.format === 'bez' ? text : formatujJSON(text, { szerokosc: SZEROKOSC_PRZYKLADU }))}</code></pre>\n`;
+      }
       if (info.jezyk !== 'json' || !(info.schemat || info.dokument || info.pytanie)) {
         return `<pre><code class="jezyk-${esc(info.jezyk || 'tekst')}">${esc(text)}</code></pre>\n`;
       }

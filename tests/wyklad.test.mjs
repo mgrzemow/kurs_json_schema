@@ -120,3 +120,8 @@ test('parsujWyklad: dwa schematy, a po nich ich dokumenty, układają się w dwi
   assert.equal((w.html.match(/<div class="para">/g) || []).length, 2);
   assert.ok(w.html.indexOf('data-nazwa="da"') < w.html.indexOf('data-nazwa="b"'));
 });
+
+test('parsujWyklad: blok z rolą dostaje kolor konwencji bez werdyktu i jest sprawdzany jako JSON', () => {
+  assert.match(parsujWyklad('```json rola=dokument\n{"a": 1}\n```\n').html, /<pre class="dokument"><code class="jezyk-json">\{ "a": 1 \}|<pre class="dokument"><code class="jezyk-json">\{ &quot;a&quot;: 1 \}/);
+  assert.throws(() => parsujWyklad('```json rola=dokument\n{"a": }\n```\n'), /niepoprawny JSON/);
+});

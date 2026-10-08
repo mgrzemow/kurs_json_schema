@@ -4,7 +4,7 @@ JSON to **tekst** zapisany według kilku prostych reguł. Nie „obiekt”, nie 
 
 Skrót rozwija się do *JavaScript Object Notation*, bo składnię zapożyczono z JavaScriptu, ale JSON od dawna nie ma z nim nic wspólnego poza nazwą. Douglas Crockford, który spisał specyfikację, twierdzi, że JSON-a nie wynalazł, tylko „odkrył” w 2001 roku, bo taki zapis już istniał w języku. Pierwsza strona json.org powstała z przyczyn czysto praktycznych: klienci nie chcieli przyjąć formatu bez specyfikacji, więc Crockford napisał ją w jedno popołudnie i zmieścił na jednej stronie. Ta jedna strona wystarcza do dziś. (Źródło: D. Crockford, wykład „The JSON Saga”, 2009, poza repozytorium.)
 
-Gdzie JSON spotyka się w pracy: odpowiedzi API (interfejsów, przez które systemy wymieniają dane), pliki konfiguracyjne narzędzi, eksporty z systemów, komunikaty między sklepem a magazynem, logi. Dla osób pracujących z YAML-em: YAML to nadzbiór JSON-a, więc każdy poprawny JSON jest poprawnym YAML-em, ale nie odwrotnie. W YAML-u są komentarze, w JSON-ie nie.
+Gdzie JSON spotyka się w pracy: odpowiedzi API (interfejsów, przez które systemy wymieniają dane), pliki konfiguracyjne narzędzi, eksporty z systemów, komunikaty między sklepem a magazynem, logi. Dla osób pracujących z YAML-em: YAML ma inną składnię, ale każdy dokument JSON da się przekonwertować do YAML-a. W drugą stronę nie zawsze.
 
 Przykład z modułu 0, dla przypomnienia, jak wygląda zamówienie w JSON-ie:
 
@@ -62,6 +62,8 @@ Cała gramatyka JSON-a to sześć pojęć. Diagramy składni niżej czyta się o
 
 ### object
 
+Obiekt przypomina formularz: ma pola, a każde pole ma etykietę i wpisaną wartość. Klient ma pole „nazwa”, w którym jest „Serwis Rowerowy Dętka”, i pole „email” z adresem. Wartości nie szuka się po numerze, tylko po nazwie pola, tak jak w słowniku szuka się hasła, a nie numeru strony. Dlatego w językach programowania taka struktura nazywa się słownikiem albo mapą (nazwa → wartość), a w JSON-ie obiektem.
+
 <svg class="diagram-skladni" viewBox="0 0 560 120" role="img" aria-label="Diagram składni obiektu: nawias klamrowy, pary nazwa dwukropek wartość rozdzielone przecinkami, nawias klamrowy zamykający">
   <defs><marker id="grot" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
   <g class="linie" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -92,6 +94,15 @@ Obiekt to nawiasy klamrowe, a w nich pary `"nazwa": wartość` rozdzielone przec
 
 (Ten dokument jest poprawnym obiektem, czyli poprawnym JSON-em, ale schemat zamówienia go odrzuca, bo to klient, nie zamówienie. Składnia i zgodność ze schematem to dwie różne rzeczy; czerwony werdykt nie znaczy tu „zły JSON”.)
 
+Wartością pola może być wszystko, co JSON zna, także kolejny obiekt albo lista. Dzięki temu obiekty się zagnieżdżają, czyli jeden siedzi w drugim: klient ma pole `adres`, a jego wartością jest osobny obiekt z ulicą i miastem.
+
+```json rola=dokument
+{
+  "nazwa": "Serwis Rowerowy Dętka",
+  "adres": { "ulica": "Długa 5", "miasto": "Gdańsk" }
+}
+```
+
 ### array
 
 <svg class="diagram-skladni" viewBox="0 0 400 120" role="img" aria-label="Diagram składni listy: nawias kwadratowy, wartości rozdzielone przecinkami, nawias kwadratowy zamykający">
@@ -111,7 +122,22 @@ Obiekt to nawiasy klamrowe, a w nich pary `"nazwa": wartość` rozdzielone przec
   </g>
 </svg>
 
-Lista to nawiasy kwadratowe i wartości po przecinku. Tu kolejność **ma** znaczenie: pierwsza pozycja zamówienia jest pierwsza. Elementy mogą być różnych typów, ale lista `[1, "dwa", null]`{d} to zwykle błąd projektu, nie zaleta. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §5 -->
+Lista to kilka wartości tego samego rodzaju jedna po drugiej, np. adresy e-mail klienta. Zapisuje się ją w nawiasach kwadratowych, z wartościami po przecinku:
+
+```json rola=dokument
+["biuro@serwis-detka.example", "faktury@serwis-detka.example"]
+```
+
+Tu kolejność **ma** znaczenie: pierwsza pozycja zamówienia jest pierwsza. Elementem listy może być dowolna wartość, także obiekt albo kolejna lista, więc listy też się zagnieżdżają. Pozycje zamówienia to lista obiektów, z których każdy ma EAN, ilość i cenę:
+
+```json rola=dokument
+[
+  { "ean": "5901234123457", "ilosc": 2, "cena": 12.5 },
+  { "ean": "5901234123464", "ilosc": 36, "cena": 1.2 }
+]
+```
+
+Elementy mogą być różnych typów, ale lista `[1, "dwa", null]`{d} to zwykle błąd projektu, nie zaleta. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §5 -->
 
 ### value
 
@@ -215,6 +241,22 @@ Białe znaki wolno wstawiać między elementami w dowolnej ilości, ale tylko cz
 
 ```odpowiedz
 Poprawny jest tylko trzeci. W pierwszym liczba ma zero wiodące, w drugim zamiast cudzysłowów są apostrofy.
+```
+
+### Rekord: obiekt czy lista?
+
+**Pytanie na czat:** ten sam klient zapisany na dwa sposoby. Który zapis jest lepszy i dlaczego?
+
+```json rola=dokument
+["Serwis Rowerowy Dętka", "serwis@example.com", "Gdańsk"]
+```
+
+```json rola=dokument
+{ "nazwa": "Serwis Rowerowy Dętka", "email": "serwis@example.com", "miasto": "Gdańsk" }
+```
+
+```odpowiedz
+Do zapisu jednego rekordu prawie zawsze lepszy jest obiekt. Każda wartość ma nazwę, więc dokument da się przeczytać bez instrukcji, kolejność pól nie ma znaczenia, a brakujące pole po prostu nie występuje. W liście o znaczeniu wartości decyduje tylko jej pozycja: wystarczy, że ktoś zamieni dwie wartości albo jedną pominie, a e-mail trafi tam, gdzie miało być miasto. Lista jest dobra dla wielu rzeczy tego samego rodzaju, jak adresy e-mail czy pozycje zamówienia. Rekord jako lista zdarza się w eksportach przypominających CSV, bo jest krótszy; JSON Schema umie go opisać (wrócimy do tego w module 4 przy `prefixItems`), ale to rozwiązanie z konieczności, nie z wyboru.
 ```
 
 ## Typowe błędy
