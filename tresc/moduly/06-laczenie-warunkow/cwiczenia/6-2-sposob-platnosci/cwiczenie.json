@@ -1,0 +1,90 @@
+{
+  "id": "6-2-sposob-platnosci",
+  "rodzaj": 1,
+  "tytul": "Sposób płatności",
+  "poziom": 3,
+  "czasMin": 7,
+  "kolejnosc": 2,
+  "kontekst": "Płatność ma dokładnie jeden z trzech kształtów: przelew (`numerKonta`), karta (`token`) albo za pobraniem (`kwotaPobrania`). Schemat używa `anyOf` bez pola rozróżniającego i przepuszcza płatność, która ma jednocześnie numer konta i token. Każda płatność ma pole `typ`.",
+  "polecenie": "Przerób schemat tak, żeby płatność pasowała do dokładnie jednej gałęzi, a gałąź była wybierana przez `typ` (`przelew`, `karta`, `pobranie`).",
+  "slowa": [
+    "oneOf",
+    "const"
+  ],
+  "podpowiedz": "`oneOf` zamiast `anyOf`, a w każdej gałęzi `typ` z `const` i `required` na jej własne pole. Wymuś obecność `typ` na górze.",
+  "przyklady": [
+    {
+      "opis": "Przelew",
+      "dane": {
+        "typ": "przelew",
+        "numerKonta": "PL61109010140000071219812874"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Karta",
+      "dane": {
+        "typ": "karta",
+        "token": "tok_abc"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Za pobraniem",
+      "dane": {
+        "typ": "pobranie",
+        "kwotaPobrania": 249.0
+      },
+      "ok": true
+    },
+    {
+      "opis": "Numer konta i token naraz",
+      "dane": {
+        "typ": "karta",
+        "numerKonta": "PL61109010140000071219812874",
+        "token": "tok_abc"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Karta z numerem konta zamiast tokenu",
+      "dane": {
+        "typ": "karta",
+        "numerKonta": "PL61109010140000071219812874"
+      },
+      "ok": false,
+      "wskazowka": "Gałąź karty musi wymagać tokenu, a gałęzie muszą być rozróżniane przez `typ`, nie przez obecność pól."
+    },
+    {
+      "opis": "Bez typu",
+      "dane": {
+        "numerKonta": "PL61109010140000071219812874"
+      },
+      "ok": false
+    },
+    {
+      "opis": "Nieznany typ",
+      "dane": {
+        "typ": "gotowka",
+        "kwotaPobrania": 10
+      },
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "anyof-bez-typu",
+      "dlaczego": "`anyOf` bez pola rozróżniającego: karta z numerem konta zamiast tokenu pasuje do gałęzi przelewu, więc przechodzi."
+    },
+    {
+      "plik": "oneof-bez-typu",
+      "dlaczego": "`oneOf` bez `typ`: płatność kartą z dodatkowym numerem konta pasuje do dwóch gałęzi i zostaje odrzucona, choć gałąź karty ją dopuszcza."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "oneOf wymaga dokładnie jednej pasującej gałęzi; anyOf co najmniej jednej.",
+      "zrodlo": "core §10.2.1.2, §10.2.1.3"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "id": "6-5-kontakt",
+  "rodzaj": 1,
+  "tytul": "Kontakt do klienta",
+  "poziom": 1,
+  "czasMin": 4,
+  "kolejnosc": 5,
+  "kontekst": "Kurier potrzebuje e-maila albo telefonu, co najmniej jednego. Schemat wymaga obu, więc odrzuca klientów bez e-maila.",
+  "polecenie": "Zmień schemat tak, żeby wystarczał jeden z dwóch kontaktów, a oba też były w porządku.",
+  "slowa": [
+    "anyOf"
+  ],
+  "podpowiedz": "`anyOf` z dwiema gałęziami, każda z własnym `required`. Nie `oneOf`: oba kontakty naraz są dozwolone.",
+  "przyklady": [
+    {
+      "opis": "Tylko e-mail",
+      "dane": {
+        "nazwa": "Jan Nowak",
+        "email": "jan@example.com"
+      },
+      "ok": true,
+      "wskazowka": "Oba pola są w `required`, więc brak jednego odrzuca."
+    },
+    {
+      "opis": "Tylko telefon",
+      "dane": {
+        "nazwa": "Jan Nowak",
+        "telefon": "600100200"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Oba",
+      "dane": {
+        "nazwa": "Jan Nowak",
+        "email": "jan@example.com",
+        "telefon": "600100200"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Żaden",
+      "dane": {
+        "nazwa": "Jan Nowak"
+      },
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "oneof",
+      "dlaczego": "`oneOf` odrzuca klienta z oboma kontaktami, a oba naraz są dozwolone."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "anyOf przepuszcza, gdy pasuje co najmniej jedna gałąź.",
+      "zrodlo": "core §10.2.1.2"
+    }
+  ]
+}

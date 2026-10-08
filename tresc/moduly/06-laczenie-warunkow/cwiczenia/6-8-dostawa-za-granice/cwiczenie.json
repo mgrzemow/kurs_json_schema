@@ -1,0 +1,78 @@
+{
+  "id": "6-8-dostawa-za-granice",
+  "rodzaj": 1,
+  "tytul": "Dostawa za granicę",
+  "poziom": 3,
+  "czasMin": 6,
+  "kolejnosc": 8,
+  "kontekst": "Zamówienie z krajem dostawy innym niż `PL` wymaga numeru `eori`. Dla `PL` pole `eori` jest zabronione. Brak pola `kraj` oznacza Polskę. Schemat ma `if`/`then`, ale nie zabrania EORI w kraju.",
+  "polecenie": "Uzupełnij schemat o gałąź `else`, tak żeby dla Polski (także gdy `kraj` nie podano) EORI było odrzucane.",
+  "slowa": [
+    "if",
+    "then",
+    "else",
+    "not"
+  ],
+  "podpowiedz": "Warunek „kraj inny niż PL” to `if` z `required: [\"kraj\"]` i `not` na `const: \"PL\"`. `then` wymaga `eori`, a `else` zabrania go przez `not: { required: [\"eori\"] }`.",
+  "przyklady": [
+    {
+      "opis": "Niemcy z EORI",
+      "dane": {
+        "kraj": "DE",
+        "eori": "DE123456789012345"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Niemcy bez EORI",
+      "dane": {
+        "kraj": "DE"
+      },
+      "ok": false
+    },
+    {
+      "opis": "Polska bez EORI",
+      "dane": {
+        "kraj": "PL"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Polska z EORI",
+      "dane": {
+        "kraj": "PL",
+        "eori": "PL123456789012345"
+      },
+      "ok": false,
+      "wskazowka": "Brakuje gałęzi `else`, która zabroni EORI."
+    },
+    {
+      "opis": "Bez kraju, bez EORI",
+      "dane": {
+        "numer": "ZAM-2026-000123"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Bez kraju, z EORI",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "eori": "PL123456789012345"
+      },
+      "ok": false,
+      "wskazowka": "Brak kraju to Polska, więc EORI jest zabronione. Czy `if` jest spełnione, gdy pola `kraj` nie ma?"
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "else-z-required",
+      "dlaczego": "`else` z `required: [\"eori\"]` zamiast zakazu wymaga EORI w Polsce, czyli dokładnie odwrotnie."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "else stosuje się, gdy if nie jest spełnione; not z required zabrania pola.",
+      "zrodlo": "core §10.2.2.3, §10.2.1.4"
+    }
+  ]
+}

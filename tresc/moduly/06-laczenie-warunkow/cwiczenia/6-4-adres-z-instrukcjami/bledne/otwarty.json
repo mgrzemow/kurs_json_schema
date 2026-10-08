@@ -1,0 +1,31 @@
+{
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "ulica": {
+          "type": "string"
+        },
+        "miasto": {
+          "type": "string"
+        },
+        "kodPocztowy": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ulica",
+        "miasto",
+        "kodPocztowy"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "instrukcjeDlaKuriera": {
+          "type": "string"
+        }
+      }
+    }
+  ]
+}

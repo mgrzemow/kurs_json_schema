@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "nazwa": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "telefon": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nazwa"
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "email"
+      ]
+    },
+    {
+      "required": [
+        "telefon"
+      ]
+    }
+  ]
+}

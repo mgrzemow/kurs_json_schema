@@ -1,0 +1,79 @@
+{
+  "id": "6-4-adres-z-instrukcjami",
+  "rodzaj": 1,
+  "tytul": "Adres dostawy z instrukcjami dla kuriera",
+  "poziom": 3,
+  "czasMin": 6,
+  "kolejnosc": 4,
+  "kontekst": "Adres dostawy to zwykły adres plus opcjonalne `instrukcjeDlaKuriera`, i nic poza tym. Ktoś złożył go z dwóch gałęzi `allOf` i zamknął gałąź z instrukcjami. Odtąd każdy adres jest odrzucany.",
+  "polecenie": "Napraw schemat tak, żeby adres z instrukcjami i bez nich przechodził, a literówki i obce pola były odrzucane.",
+  "slowa": [
+    "allOf",
+    "unevaluatedProperties"
+  ],
+  "podpowiedz": "Każda gałąź `allOf` widzi tylko swoje `properties`, więc `additionalProperties: false` w gałęzi odrzuca pola z drugiej gałęzi. Zamiast tego `unevaluatedProperties: false` na poziomie `allOf`. Scalenie obu gałęzi w jeden obiekt też działa.",
+  "przyklady": [
+    {
+      "opis": "Adres z instrukcjami",
+      "dane": {
+        "ulica": "Długa 5",
+        "miasto": "Gdańsk",
+        "kodPocztowy": "80-827",
+        "instrukcjeDlaKuriera": "domofon 3"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Adres bez instrukcji",
+      "dane": {
+        "ulica": "Długa 5",
+        "miasto": "Gdańsk",
+        "kodPocztowy": "80-827"
+      },
+      "ok": true,
+      "wskazowka": "Zamknięta gałąź z instrukcjami traktuje `miasto` jako pole dodatkowe."
+    },
+    {
+      "opis": "Literówka w instrukcjach",
+      "dane": {
+        "ulica": "Długa 5",
+        "miasto": "Gdańsk",
+        "kodPocztowy": "80-827",
+        "instrukcje": "domofon 3"
+      },
+      "ok": false
+    },
+    {
+      "opis": "Obce pole",
+      "dane": {
+        "ulica": "Długa 5",
+        "miasto": "Gdańsk",
+        "kodPocztowy": "80-827",
+        "kraj": "PL"
+      },
+      "ok": false,
+      "wskazowka": "Po usunięciu `additionalProperties` obce pola przechodzą. Potrzebne słowo, które widzi obie gałęzie."
+    },
+    {
+      "opis": "Bez miasta",
+      "dane": {
+        "ulica": "Długa 5",
+        "kodPocztowy": "80-827",
+        "instrukcjeDlaKuriera": "x"
+      },
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "otwarty",
+      "dlaczego": "Usunięcie `additionalProperties` naprawia odrzucanie adresów, ale literówka `instrukcje` i pole `kraj` przechodzą."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "additionalProperties widzi tylko properties w tym samym schemacie; unevaluatedProperties widzi też pola ocenione w gałęziach allOf.",
+      "zrodlo": "core §10.3.2.3, §11.3"
+    }
+  ]
+}

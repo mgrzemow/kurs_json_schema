@@ -1,0 +1,56 @@
+{
+  "id": "6-3-anyof-kontra-oneof",
+  "rodzaj": 3,
+  "tytul": "`anyOf` kontra `oneOf`",
+  "poziom": 2,
+  "czasMin": 5,
+  "kolejnosc": 3,
+  "kontekst": "Kontakt do klienta: schemat obok wymaga e-maila albo telefonu przez `oneOf`. Autor chciał „co najmniej jeden”.",
+  "polecenie": "Obstaw werdykty, potem sprawdź. Które słowo powinno tu być?",
+  "slowa": [
+    "oneOf",
+    "anyOf"
+  ],
+  "podpowiedz": "`oneOf` to „dokładnie jeden”. Dokument z oboma polami pasuje do obu gałęzi.",
+  "odpowiedzi": [
+    {
+      "opis": "Tylko e-mail",
+      "dane": {
+        "email": "jan@example.com"
+      },
+      "ok": true,
+      "wyjasnienie": "Pasuje dokładnie jedna gałąź."
+    },
+    {
+      "opis": "Tylko telefon",
+      "dane": {
+        "telefon": "600100200"
+      },
+      "ok": true,
+      "wyjasnienie": "Pasuje dokładnie jedna gałąź."
+    },
+    {
+      "opis": "E-mail i telefon",
+      "dane": {
+        "email": "jan@example.com",
+        "telefon": "600100200"
+      },
+      "ok": false,
+      "wyjasnienie": "Pasują obie gałęzie, a `oneOf` wymaga dokładnie jednej. Dla „co najmniej jeden” jest `anyOf`."
+    },
+    {
+      "opis": "Żaden",
+      "dane": {
+        "nazwa": "Jan Nowak"
+      },
+      "ok": false,
+      "wyjasnienie": "Żadna gałąź nie pasuje; `anyOf` też by odrzuciło."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "oneOf: dokładnie jedna gałąź; anyOf: co najmniej jedna.",
+      "zrodlo": "core §10.2.1.2, §10.2.1.3"
+    }
+  ]
+}

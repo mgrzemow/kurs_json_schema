@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "properties": {
+    "kraj": {
+      "type": "string"
+    },
+    "eori": {
+      "type": "string"
+    }
+  },
+  "if": {
+    "required": [
+      "kraj"
+    ],
+    "properties": {
+      "kraj": {
+        "not": {
+          "const": "PL"
+        }
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "eori"
+    ]
+  }
+}

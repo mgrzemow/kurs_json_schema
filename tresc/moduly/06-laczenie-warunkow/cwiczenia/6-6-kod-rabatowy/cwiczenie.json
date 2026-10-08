@@ -1,0 +1,61 @@
+{
+  "id": "6-6-kod-rabatowy",
+  "rodzaj": 1,
+  "tytul": "Kod rabatowy wymaga źródła",
+  "poziom": 1,
+  "czasMin": 3,
+  "kolejnosc": 6,
+  "kontekst": "Jeśli zamówienie ma `kodRabatowy`, musi mieć też `zrodloRabatu` (skąd klient wziął kod). Bez kodu źródło nie jest potrzebne, choć może być.",
+  "polecenie": "Dopisz zależność między polami, bez `if`.",
+  "slowa": [
+    "dependentRequired"
+  ],
+  "podpowiedz": "`dependentRequired` mapuje nazwę pola na listę pól wymaganych w jego obecności: `{ \"kodRabatowy\": [\"zrodloRabatu\"] }`.",
+  "przyklady": [
+    {
+      "opis": "Kod ze źródłem",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "kodRabatowy": "WIOSNA10",
+        "zrodloRabatu": "newsletter"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Kod bez źródła",
+      "dane": {
+        "numer": "ZAM-2026-000124",
+        "kodRabatowy": "WIOSNA10"
+      },
+      "ok": false,
+      "wskazowka": "Nic nie wiąże obecności kodu z obecnością źródła."
+    },
+    {
+      "opis": "Bez kodu",
+      "dane": {
+        "numer": "ZAM-2026-000125"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Samo źródło",
+      "dane": {
+        "numer": "ZAM-2026-000126",
+        "zrodloRabatu": "newsletter"
+      },
+      "ok": true
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "oba-wymagane",
+      "dlaczego": "Oba pola w `required` odrzucają zamówienia bez kodu, a kod jest opcjonalny."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "dependentRequired: obecność pola wymusza obecność wymienionych pól.",
+      "zrodlo": "validation §6.5.4"
+    }
+  ]
+}

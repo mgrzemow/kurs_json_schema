@@ -1,0 +1,44 @@
+{
+  "id": "6-7-status-bez-anulowane",
+  "rodzaj": 1,
+  "tytul": "Status bez „anulowane”",
+  "poziom": 2,
+  "czasMin": 4,
+  "kolejnosc": 7,
+  "kontekst": "Do magazynu nie wolno wysłać zamówienia anulowanego. Lista statusów rośnie co kwartał, więc zespół nie chce wypisywać dozwolonych; chce wykluczyć jeden.",
+  "polecenie": "Wyklucz status `anulowane`, nie wypisując dozwolonych. (Rozwiązanie z `enum` też przejdzie przykłady; w omówieniu rozwiązania jest, czym się różnią.)",
+  "slowa": [
+    "not"
+  ],
+  "podpowiedz": "`not` z `const` albo `enum` w środku: wartość nie może być równa `anulowane`.",
+  "przyklady": [
+    {
+      "opis": "Nowe",
+      "dane": "nowe",
+      "ok": true
+    },
+    {
+      "opis": "Nowy status z przyszłego kwartału",
+      "dane": "w_kompletacji",
+      "ok": true
+    },
+    {
+      "opis": "Anulowane",
+      "dane": "anulowane",
+      "ok": false,
+      "wskazowka": "Sam `type: string` niczego nie wyklucza."
+    },
+    {
+      "opis": "Liczba zamiast statusu",
+      "dane": 3,
+      "ok": false
+    }
+  ],
+  "bledne": [],
+  "zrodla": [
+    {
+      "twierdzenie": "not odrzuca instancję, która spełnia podschemat.",
+      "zrodlo": "core §10.2.1.4"
+    }
+  ]
+}

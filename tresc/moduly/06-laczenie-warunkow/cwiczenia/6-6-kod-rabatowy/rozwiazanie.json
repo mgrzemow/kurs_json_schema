@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "numer": {
+      "type": "string"
+    },
+    "kodRabatowy": {
+      "type": "string"
+    },
+    "zrodloRabatu": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "numer"
+  ],
+  "dependentRequired": {
+    "kodRabatowy": [
+      "zrodloRabatu"
+    ]
+  }
+}

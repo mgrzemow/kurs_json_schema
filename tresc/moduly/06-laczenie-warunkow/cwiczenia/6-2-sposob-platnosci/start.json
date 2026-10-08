@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "anyOf": [
+    {
+      "required": [
+        "numerKonta"
+      ]
+    },
+    {
+      "required": [
+        "token"
+      ]
+    },
+    {
+      "required": [
+        "kwotaPobrania"
+      ]
+    }
+  ]
+}

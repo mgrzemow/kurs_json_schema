@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "required": [
+    "typ"
+  ],
+  "oneOf": [
+    {
+      "properties": {
+        "typ": {
+          "const": "przelew"
+        }
+      },
+      "required": [
+        "numerKonta"
+      ]
+    },
+    {
+      "properties": {
+        "typ": {
+          "const": "karta"
+        }
+      },
+      "required": [
+        "token"
+      ]
+    },
+    {
+      "properties": {
+        "typ": {
+          "const": "pobranie"
+        }
+      },
+      "required": [
+        "kwotaPobrania"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "properties": {
+    "numer": {
+      "type": "string"
+    },
+    "faktura": {
+      "type": "boolean"
+    },
+    "nip": {
+      "type": "string",
+      "pattern": "^[0-9]{10}$"
+    }
+  },
+  "required": [
+    "numer"
+  ],
+  "if": {
+    "properties": {
+      "faktura": {
+        "const": true
+      }
+    },
+    "required": [
+      "faktura"
+    ]
+  },
+  "then": {
+    "required": [
+      "nip"
+    ]
+  }
+}
