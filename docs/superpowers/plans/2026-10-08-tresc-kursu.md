@@ -4,11 +4,11 @@
 
 ## A. Rozszerzenia trenera (najpierw test, potem kod)
 
-- [ ] A1. `formaty: true|false` w `cwiczenie.json` wymusza tryb walidacji `format` dla ćwiczenia (schemat ćwiczenia, `sprawdzCwiczenie` bierze `cw.formaty ?? stan.formaty`, UI pokazuje informację „to ćwiczenie ma włączoną walidację `format`”, skrypt `sprawdz-rozwiazanie` respektuje).
-- [ ] A2. Rodzaj 3: opcjonalne `wyjasnienieZFormatami` (gdy tryb formatów włączony, zastępuje `wyjasnienie`).
-- [ ] A3. Ostrzeżenie o nieznanym `format` w `analizujSchemat` (lista znanych formatów z `schemat-podpowiedzi.json`; poziom `ostrz`).
-- [ ] A4. Rodzaj 5: `listaKontrolna: [string]` w `cwiczenie.json`, prawa kolumna z checkboxami zapamiętywanymi w `stan.odpowiedzi[cw.id].lista`.
-- [ ] A5. Renderer wykładu: blok „lustro” (dwa bloki json obok siebie z tłem w kolorze poziomu zagnieżdżenia): fence ```` ```json lustro=nazwa strona=dokument|schemat ````; para renderowana jako `<div class="lustro">` gdy sąsiadują.
+- [x] A1. `formaty: true|false` w `cwiczenie.json` wymusza tryb walidacji `format` dla ćwiczenia (schemat ćwiczenia, `sprawdzCwiczenie` bierze `cw.formaty ?? stan.formaty`, UI pokazuje informację „to ćwiczenie ma włączoną walidację `format`”, skrypt `sprawdz-rozwiazanie` respektuje).
+- [x] A2. Rodzaj 3: opcjonalne `wyjasnienieZFormatami` (gdy tryb formatów włączony, zastępuje `wyjasnienie`).
+- [x] A3. Ostrzeżenie o nieznanym `format` w `analizujSchemat` (lista znanych formatów z `schemat-podpowiedzi.json`; poziom `ostrz`).
+- [x] A4. Rodzaj 5: `listaKontrolna: [string]` w `cwiczenie.json`, prawa kolumna z checkboxami zapamiętywanymi w `stan.odpowiedzi[cw.id].lista`.
+- [x] A5. Renderer wykładu: blok „lustro” (dwa bloki json obok siebie z tłem w kolorze poziomu zagnieżdżenia): fence ```` ```json lustro=nazwa strona=dokument|schemat ````; para renderowana jako `<div class="lustro">` gdy sąsiadują.
 - [ ] A6. Kolejność ćwiczeń po `kolejnosc`, a numer wyświetlany = pozycja; identyfikatory wg konspektów (np. 4-10).
 - [ ] A7. Ćwiczenie końcowe: `start.json` = wynik genson; test porównuje z `python -m genson` (pomijany, gdy genson niedostępny); workflowy instalują genson.
 - [ ] A8. Słowniczek `docs/slowniczek.md` (założenie, uzupełniany przy pisaniu) i tabela `docs/tematy-x-moduly.md`.

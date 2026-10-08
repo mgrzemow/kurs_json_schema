@@ -253,3 +253,8 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .lista-kontrolna ol { margin: 0; padding-left: 1.2rem; }
 .lista-kontrolna label { cursor: pointer; }
 .tryb-formatow { padding: 0.3rem 0.6rem; background: var(--ostrz-tlo); border-radius: 4px; }
+
+/* Diagramy składni JSON (moduł 1) */
+.diagram-skladni { width: 100%; max-width: 36rem; height: auto; display: block; margin: 0.6rem 0 0.4rem; color: var(--tekst); overflow: visible; }
+.diagram-skladni .terminal rect { fill: var(--tlo-karta); stroke: var(--akcent); stroke-width: 1.5; }
+.diagram-skladni .terminal text { fill: var(--tekst); }

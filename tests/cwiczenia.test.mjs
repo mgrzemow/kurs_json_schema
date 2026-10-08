@@ -7,6 +7,7 @@ import Ajv2020 from 'ajv/dist/2020.js';
 import { wczytajKurs } from '../scripts/zbuduj-tresc.mjs';
 import { utworzWalidator } from '../trener/rdzen/walidator.js';
 import { parsujJSON, BladSkladni } from '../trener/rdzen/parser-json.js';
+import { sprawdzCwiczenie } from '../trener/rdzen/sprawdz-cwiczenie.js';
 
 const schematCwiczenia = JSON.parse(readFileSync(new URL('../tresc/schemat-cwiczenia.json', import.meta.url), 'utf8'));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
@@ -71,7 +72,14 @@ for (const [nr, cw] of cwiczenia) {
         linie[e.linia - 1] = linieRozw[e.linia - 1];
         tekst = linie.join('\n');
       }
-      assert.deepEqual(parsujJSON(tekst).wartosc, cw.rozwiazanie, 'po naprawie wszystkich błędów tekst równa się rozwiązaniu');
+      const naprawiony = parsujJSON(tekst);
+      if (cw.poSkladni === 'odrzucony') {
+        // Po naprawie składni dokument ma być nadal odrzucony (np. duplikat pola albo wartość niezgodna ze schematem).
+        assert.equal(sprawdzCwiczenie(cw, { dokument: tekst }).zaliczone, false, 'po naprawie składni dokument ma być jeszcze niezaliczony');
+      } else {
+        assert.deepEqual(naprawiony.wartosc, cw.rozwiazanie, 'po naprawie wszystkich błędów tekst równa się rozwiązaniu');
+      }
+      assert.equal(sprawdzCwiczenie(cw, { dokument: cw.rozwiazanieTekst }).zaliczone, true, 'rozwiązanie jest zaliczone');
     });
     if (cw.schemat) {
       test(`${cw.id}: naprawiony dokument spełnia schemat`, () => {

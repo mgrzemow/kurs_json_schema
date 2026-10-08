@@ -1,0 +1,10 @@
+{
+  “numer”: "ZAM-2026-000130",
+  "klient": "Rowerownia Kowalski",
+  "faktura": false,
+  "uwagi": "Dostawa po 14:00", // pilne
+  "pozycje": [
+    { "ean": '5901234123488', "ilosc": 4, "cena": 89 },
+    { "ean": "5901234123495", "ilosc": 1, "cena": 320 }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "nr": 1,
+  "tytul": "JSON",
+  "minuty": 25,
+  "zakres": [
+    "Czym jest JSON?",
+    "JSON a XML",
+    "Podstawowe struktury danych (object, array, value, string, number, whitespace)"
+  ]
+}

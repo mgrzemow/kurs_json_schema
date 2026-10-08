@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "numer": { "type": "string", "pattern": "^ZAM-[0-9]{4}-[0-9]{6}$" },
+    "klient": { "type": "string", "minLength": 1 },
+    "faktura": { "type": "boolean" },
+    "pozycje": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "ean": { "type": "string", "pattern": "^[0-9]{13}$" },
+          "ilosc": { "type": "integer", "minimum": 1 },
+          "cena": { "type": "number", "exclusiveMinimum": 0 }
+        },
+        "required": ["ean", "ilosc", "cena"]
+      }
+    }
+  },
+  "required": ["numer", "klient", "faktura", "pozycje"]
+}

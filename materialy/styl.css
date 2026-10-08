@@ -48,3 +48,6 @@ section.cwiczenie { margin: 1rem 0 1.5rem; padding-bottom: 0.5rem; border-bottom
 .lustro figure { margin: 0; }
 .lustro .poziom-1 { background: #e6eefb; } .lustro .poziom-2 { background: #e3f3e8; } .lustro .poziom-3 { background: #fff3d6; } .lustro .poziom-4 { background: #fbe7e5; }
 .lustro span { display: inline-block; width: 100%; }
+.diagram-skladni { width: 100%; max-width: 32rem; height: auto; display: block; margin: 0.5rem 0; color: var(--tekst); overflow: visible; }
+.diagram-skladni .terminal rect { fill: #fff; stroke: var(--akcent); stroke-width: 1.5; }
+.diagram-skladni .terminal text { fill: var(--tekst); }

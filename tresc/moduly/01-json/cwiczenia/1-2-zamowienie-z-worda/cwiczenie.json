@@ -1,0 +1,16 @@
+{
+  "id": "1-2-zamowienie-z-worda",
+  "rodzaj": 2,
+  "tytul": "Zamówienie przepisane z Worda",
+  "poziom": 2,
+  "czasMin": 5,
+  "kolejnosc": 2,
+  "kontekst": "Handlowiec przygotował zamówienie w Wordzie i wkleił do systemu. Word po drodze „poprawił” cudzysłowy i spacje, a handlowiec dopisał uwagę w stylu programisty.",
+  "polecenie": "Popraw dokument tak, żeby był poprawnym JSON-em zgodnym ze schematem zamówienia. Każdy z błędów wygląda jak poprawny znak; patrz na komunikat trenera i numer linii.",
+  "slowa": [],
+  "podpowiedz": "JSON zna tylko zwykły cudzysłów `\"` z klawiatury i zwykłą spację. Komentarzy nie ma: uwagę dla magazynu wpisz w polu `uwagi` jako tekst. Apostrofy też nie są cudzysłowem.",
+  "bledy": ["cudzysłów drukarski", "twarda spacja", "komentarze", "apostrofach"],
+  "zrodla": [
+    { "twierdzenie": "Teksty i nazwy pól stoją w podwójnych cudzysłowach; białe znaki to tylko spacja, tabulator, LF i CR; komentarzy nie ma.", "zrodlo": "RFC 8259 §2, §4, §7" }
+  ]
+}

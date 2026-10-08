@@ -4,22 +4,66 @@
   "title": "Metadane ćwiczenia (cwiczenie.json)",
   "type": "object",
   "properties": {
-    "id": { "type": "string", "pattern": "^[0-9]+-[0-9]+(-[a-z0-9-]+)?$" },
-    "rodzaj": { "type": "integer", "minimum": 1, "maximum": 5 },
-    "tytul": { "type": "string", "minLength": 3 },
-    "poziom": { "type": "integer", "minimum": 1, "maximum": 3 },
-    "czasMin": { "type": "integer", "minimum": 1 },
-    "kolejnosc": { "type": "integer", "minimum": 1 },
-    "kontekst": { "type": "string", "minLength": 10 },
-    "polecenie": { "type": "string", "minLength": 10 },
-    "slowa": { "type": "array", "items": { "type": "string" } },
-    "podpowiedz": { "type": "string", "minLength": 10 },
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9]+-[0-9]+(-[a-z0-9-]+)?$"
+    },
+    "rodzaj": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "tytul": {
+      "type": "string",
+      "minLength": 3
+    },
+    "poziom": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    },
+    "czasMin": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "kolejnosc": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "kontekst": {
+      "type": "string",
+      "minLength": 10
+    },
+    "polecenie": {
+      "type": "string",
+      "minLength": 10
+    },
+    "slowa": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "podpowiedz": {
+      "type": "string",
+      "minLength": 10
+    },
     "zrodla": {
       "type": "array",
       "items": {
         "type": "object",
-        "properties": { "twierdzenie": { "type": "string" }, "zrodlo": { "type": "string" } },
-        "required": ["twierdzenie", "zrodlo"],
+        "properties": {
+          "twierdzenie": {
+            "type": "string"
+          },
+          "zrodlo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "twierdzenie",
+          "zrodlo"
+        ],
         "additionalProperties": false
       }
     },
@@ -28,12 +72,22 @@
       "items": {
         "type": "object",
         "properties": {
-          "opis": { "type": "string" },
+          "opis": {
+            "type": "string"
+          },
           "dane": {},
-          "ok": { "type": "boolean" },
-          "wskazowka": { "type": "string" }
+          "ok": {
+            "type": "boolean"
+          },
+          "wskazowka": {
+            "type": "string"
+          }
         },
-        "required": ["opis", "dane", "ok"],
+        "required": [
+          "opis",
+          "dane",
+          "ok"
+        ],
         "additionalProperties": false
       }
     },
@@ -41,37 +95,151 @@
       "type": "array",
       "items": {
         "type": "object",
-        "properties": { "plik": { "type": "string" }, "dlaczego": { "type": "string" } },
-        "required": ["plik", "dlaczego"],
+        "properties": {
+          "plik": {
+            "type": "string"
+          },
+          "dlaczego": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "plik",
+          "dlaczego"
+        ],
         "additionalProperties": false
       }
     },
-    "bledy": { "type": "array", "items": { "type": "string" } },
+    "bledy": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "odpowiedzi": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "opis": { "type": "string" },
+          "opis": {
+            "type": "string"
+          },
           "dane": {},
-          "ok": { "type": "boolean" },
-          "wyjasnienie": { "type": "string" },
-          "wyjasnienieZFormatami": { "type": "string" }
+          "ok": {
+            "type": "boolean"
+          },
+          "wyjasnienie": {
+            "type": "string"
+          },
+          "wyjasnienieZFormatami": {
+            "type": "string"
+          }
         },
-        "required": ["opis", "dane", "ok", "wyjasnienie"],
+        "required": [
+          "opis",
+          "dane",
+          "ok",
+          "wyjasnienie"
+        ],
         "additionalProperties": false
       }
     },
-    "glowny": { "type": "string" },
-    "formaty": { "type": "boolean", "description": "Wymusza tryb walidacji format dla tego ćwiczenia niezależnie od przełącznika." },
-    "listaKontrolna": { "type": "array", "items": { "type": "string" }, "description": "Rodzaj 5: punkty do odhaczenia w prawej kolumnie." }
+    "glowny": {
+      "type": "string"
+    },
+    "formaty": {
+      "type": "boolean",
+      "description": "Wymusza tryb walidacji format dla tego ćwiczenia niezależnie od przełącznika."
+    },
+    "listaKontrolna": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Rodzaj 5: punkty do odhaczenia w prawej kolumnie."
+    },
+    "poSkladni": {
+      "type": "string",
+      "enum": [
+        "odrzucony"
+      ],
+      "description": "Rodzaj 2: po naprawie samej składni dokument ma być nadal niezaliczony (np. duplikat pola)."
+    }
   },
-  "required": ["id", "rodzaj", "tytul", "poziom", "czasMin", "kolejnosc", "kontekst", "polecenie", "slowa", "podpowiedz", "zrodla"],
+  "required": [
+    "id",
+    "rodzaj",
+    "tytul",
+    "poziom",
+    "czasMin",
+    "kolejnosc",
+    "kontekst",
+    "polecenie",
+    "slowa",
+    "podpowiedz",
+    "zrodla"
+  ],
   "additionalProperties": false,
   "allOf": [
-    { "if": { "properties": { "rodzaj": { "enum": [1, 4, 5] } } }, "then": { "required": ["przyklady"] } },
-    { "if": { "properties": { "rodzaj": { "const": 2 } } }, "then": { "required": ["bledy"] } },
-    { "if": { "properties": { "rodzaj": { "const": 3 } } }, "then": { "required": ["odpowiedzi"] } },
-    { "if": { "properties": { "rodzaj": { "const": 4 } } }, "then": { "required": ["glowny"] } }
+    {
+      "if": {
+        "properties": {
+          "rodzaj": {
+            "enum": [
+              1,
+              4,
+              5
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "przyklady"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "rodzaj": {
+            "const": 2
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "bledy"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "rodzaj": {
+            "const": 3
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "odpowiedzi"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "rodzaj": {
+            "const": 4
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "glowny"
+        ]
+      }
+    }
   ]
 }

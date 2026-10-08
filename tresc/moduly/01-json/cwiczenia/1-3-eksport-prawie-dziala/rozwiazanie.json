@@ -1,0 +1,9 @@
+{
+  "numer": "ZAM-2026-000131",
+  "klient": "Jan Nowak",
+  "adresDostawy": { "ulica": "Długa 5", "miasto": "Warszawa", "kodPocztowy": "00-950" },
+  "sciezkaFaktury": "C:\\faktury\\ZAM-2026-000131.pdf",
+  "pozycje": [
+    { "ean": "5901234123501", "ilosc": 36, "cena": 1.2 }
+  ]
+}

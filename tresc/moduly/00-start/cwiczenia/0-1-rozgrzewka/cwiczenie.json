@@ -1,0 +1,21 @@
+{
+  "id": "0-1-rozgrzewka",
+  "rodzaj": 1,
+  "tytul": "Rozgrzewka: pozycje są obowiązkowe",
+  "poziom": 1,
+  "czasMin": 2,
+  "kolejnosc": 1,
+  "kontekst": "Schemat minimalnego zamówienia wymaga numeru i klienta, ale nie wymaga pozycji. Magazyn nie przyjmie zamówienia bez pozycji.",
+  "polecenie": "Dopisz `pozycje` do listy pól wymaganych w `required`. To ćwiczenie służy do oswojenia się z trenerem: zmień schemat w edytorze i obserwuj, jak zmieniają się werdykty po prawej.",
+  "slowa": ["required"],
+  "podpowiedz": "Lista wymaganych pól to `required`. Dopisz nazwę pola w cudzysłowie, po przecinku: `[\"numer\", \"klient\", \"pozycje\"]`.",
+  "przyklady": [
+    { "opis": "Kompletne zamówienie", "dane": { "numer": "ZAM-2026-000123", "klient": "Serwis Rowerowy Pedał", "pozycje": [{ "ean": "5901234123457", "ilosc": 2 }] }, "ok": true },
+    { "opis": "Bez pozycji", "dane": { "numer": "ZAM-2026-000124", "klient": "Jan Nowak" }, "ok": false, "wskazowka": "Pole, którego nie ma w `required`, może nie wystąpić. Dopisz `pozycje`." },
+    { "opis": "Bez klienta", "dane": { "numer": "ZAM-2026-000125", "pozycje": [] }, "ok": false }
+  ],
+  "bledne": [],
+  "zrodla": [
+    { "twierdzenie": "required wymaga obecności wymienionych pól w obiekcie.", "zrodlo": "validation §6.5.3" }
+  ]
+}
