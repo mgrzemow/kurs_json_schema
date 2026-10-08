@@ -8,6 +8,7 @@ Pobrano 2026-10-08.
 |---|---|
 | `tekst/json-schema-core.txt` | https://www.ietf.org/archive/id/draft-bhutton-json-schema-01.txt (JSON Schema Core 2020-12, czerwiec 2022) |
 | `tekst/json-schema-validation.txt` | https://www.ietf.org/archive/id/draft-bhutton-json-schema-validation-01.txt (JSON Schema Validation 2020-12) |
+| `tekst/rfc8259.txt` | https://www.rfc-editor.org/rfc/rfc8259.txt (RFC 8259, składnia JSON; źródło twierdzeń modułu 1) |
 | `tekst/relative-json-pointer.txt` | https://www.ietf.org/archive/id/draft-bhutton-relative-json-pointer-00.txt |
 | `metaschematy/schema.json` | https://json-schema.org/draft/2020-12/schema |
 | `metaschematy/meta/*.json` | https://json-schema.org/draft/2020-12/meta/{core,applicator,validation,meta-data,format-annotation,format-assertion,content,unevaluated} |

@@ -1,6 +1,6 @@
 # Moduł 0: Start (10 min) — opis sekcji
 
-Status: propozycja do akceptacji. Cel modułu: uczestnik wie, po co istnieje JSON Schema, i umie obsłużyć trenera. Wyłącznie wykład plus jedno dwuminutowe ćwiczenie-rozgrzewka.
+Status: **zaakceptowany 2026-10-08** (z ćwiczeniem-rozgrzewką). Cel modułu: uczestnik wie, po co istnieje JSON Schema, i umie obsłużyć trenera. Wyłącznie wykład plus jedno dwuminutowe ćwiczenie-rozgrzewka.
 
 ## Sekcja 0.1: Zamówienie, które magazyn odrzucił (3 min)
 

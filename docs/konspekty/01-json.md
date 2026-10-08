@@ -1,6 +1,6 @@
 # Moduł 1: JSON (25 min) — opis sekcji
 
-Status: propozycja do akceptacji. Budżet: ok. 12 min wykładu, 10 min ćwiczeń, 3 min omówienia. Nagłówki z obowiązkowego zakresu: „Czym jest JSON?”, „JSON a XML”, „Podstawowe struktury danych (object, array, value, string, number, whitespace)”.
+Status: **zaakceptowany 2026-10-08** (RFC 8259 w spec/; ćwiczenie 1-4 tylko jako pytanie do sali). Budżet: ok. 12 min wykładu, 10 min ćwiczeń, 3 min omówienia. Nagłówki z obowiązkowego zakresu: „Czym jest JSON?”, „JSON a XML”, „Podstawowe struktury danych (object, array, value, string, number, whitespace)”.
 
 Źródła dla twierdzeń o samym JSON-ie: RFC 8259 (The JavaScript Object Notation Data Interchange Format). **Proponuję pobrać RFC 8259 do `spec/tekst/rfc8259.txt`**, żeby weryfikator mógł sprawdzać twierdzenia modułu 1 u źródła; CLAUDE.md mówi o `spec/` jako o specyfikacji JSON Schema, więc to drobne rozszerzenie do zapisania.
 
@@ -54,10 +54,9 @@ Kolejność według ważności. Każde ćwiczenie ma `schemat.json`, który napr
 1. **1-1 ★ (4 min) Zamówienie wklejone z maila.** Trzy błędy: `True`, `12,50`, zbędny przecinek. To obecne ćwiczenie próbne 3-2, przeniesione tu. Źródło: RFC 8259 §3, §6.
 2. **1-2 ★★ (5 min) Zamówienie przepisane z Worda.** Cztery błędy: cudzysłowy drukarskie w nazwie pola, twarda spacja, komentarz `// pilne` po polu, apostrofy w jednej wartości. Podpowiedź: „Każdy z tych błędów wygląda jak poprawny znak. Patrz na komunikat i numer linii”.
 3. **1-3 ★★★ (6 min) Eksport z systemu, który „prawie” działa.** Pułapki: `"kodPocztowy": 00950` (liczba z zerem wiodącym: naprawa to nie usunięcie zera, tylko cudzysłów, bo kod pocztowy to tekst), `"sciezkaFaktury": "C:\faktury\ZAM-123.pdf"` (podwoić `\`), zduplikowane pole `ilosc` (parser przepuszcza z ostrzeżeniem, a schemat ma `ilosc` z `maximum`, więc liczy się ostatnie wystąpienie i werdykt zaskakuje). Błędne rozwiązanie: usunięcie zera z kodu pocztowego (schemat wymaga tekstu, więc oblewa).
-4. **1-4 ★ (3 min, rodzaj 3 w wariancie „poprawny JSON czy nie?”) Sześć krótkich dokumentów**, uczestnik obstawia, trener sprawdza parserem: `{"a": 1,}`, `{"a": "1"}`, `[1, "2", null]`, `{"a": 'x'}`, `{"a": 1 // uwaga}`, `{"ą": "ę"}`. **Wymaga drobnego rozszerzenia trenera**: wariant rodzaju 3 z surowym tekstem i werdyktem parsera zamiast schematu (ok. godzina pracy). Jeśli nie chcesz rozszerzenia, ćwiczenie zostaje jako pytanie do sali w wykładzie.
+4. ~~1-4~~ Decyzja: „poprawny JSON czy nie?” zostaje wyłącznie jako pytanie do sali w sekcji 1.3 (sześć dokumentów: `{"a": 1,}`, `{"a": "1"}`, `[1, "2", null]`, `{"a": 'x'}`, `{"a": 1 // uwaga}`, `{"ą": "ę"}`), bez rozszerzania trenera.
 
-## Uwagi do decyzji
+## Uwagi
 
-- Czy pobieramy RFC 8259 do `spec/`? Bez tego twierdzenia modułu 1 mają źródło „poza repozytorium” i weryfikator ich nie sprawdzi.
-- Czy robimy wariant „poprawny JSON czy nie?” (ćwiczenie 1-4)?
+- RFC 8259 jest w `spec/tekst/rfc8259.txt`; twierdzenia o składni JSON cytują jego sekcje.
 - Dla profilu B sekcje 1.1–1.3 są powtórką; planuję je zwięźle, a ćwiczenie 1-3 jest dla niego pułapką (zero wiodące i duplikat zaskakują też programistów).
