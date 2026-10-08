@@ -31,3 +31,18 @@ test('piaskownica: przełącznik formatów', () => {
   assert.equal(sprawdzPiaskownice('{ "format": "email" }', '"jan@"', { formaty: false }).werdykt, true);
   assert.equal(sprawdzPiaskownice('{ "format": "email" }', '"jan@"', { formaty: true }).werdykt, false);
 });
+
+test('piaskownica: błędny schemat (zły regex) → werdykt null i diagnoza schematu, bez wyjątku (C1)', () => {
+  const w = sprawdzPiaskownice('{ "pattern": "[" }', '"a"');
+  assert.equal(w.werdykt, null);
+  assert.equal(w.diagnozaSchematu[0].poziom, 'blad');
+  assert.match(w.diagnozaSchematu[0].tekst, /wyrażeniem regularnym/);
+});
+
+test('piaskownica: nieoczekiwany wyjątek Ajv zamieniony na diagnozę (I1)', () => {
+  for (const s of ['{ "$schema": "https://json-schema.org/draft/2020-12/schema-x" }', '{ "$schema": 5 }', '{ "$dynamicRef": "#x" }', '{ "enum": [] }']) {
+    const w = sprawdzPiaskownice(s, '1');
+    assert.ok(w.werdykt === null || w.werdykt === true || w.werdykt === false, s);
+    if (w.werdykt === null) assert.equal(w.diagnozaSchematu[0].poziom, 'blad', s);
+  }
+});

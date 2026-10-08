@@ -1,7 +1,7 @@
 // Rodzaj 4: projekt z wieloma plikami. Zakładki plików nad jednym edytorem (model na plik),
 // diagnoza z nazwą pliku, przykłady, diagram zależności i podgląd „jak to widzi walidator”.
 import { esc } from '../html.js';
-import { monaco, utworzEdytor, utworzModel, zamienTresc, ustawMarkery } from '../edytor.js';
+import { monaco, utworzEdytor, utworzModel, zamienTresc, zamienTrescModelu, ustawMarkery } from '../edytor.js';
 import { sprawdzCwiczenie } from '../../rdzen/sprawdz-cwiczenie.js';
 import { ladnie } from '../../rdzen/pomocnicze.js';
 import { renderujDiagnoze, markeryZDiagnozy } from './diagnoza.js';
@@ -110,11 +110,11 @@ export function cwiczenieProjekt({ srodek, prawa, cw, stan, ustaw, wynik$ }) {
   return {
     zniszcz() { clearTimeout(timer); removeEventListener('trener:otworz-ref', naRef); suby.forEach(s => s.dispose()); edytor.dispose(); Object.values(modele).forEach(m => m.dispose()); },
     wstawRozwiazanie() {
-      for (const [n, s] of Object.entries(cw.rozwiazanie)) if (modele[n]) { const ed = n === aktywny ? edytor : null; if (ed) zamienTresc(ed, ladnie(s)); else modele[n].setValue(ladnie(s)); }
+      for (const [n, s] of Object.entries(cw.rozwiazanie)) if (modele[n]) { if (n === aktywny) zamienTresc(edytor, ladnie(s)); else zamienTrescModelu(modele[n], ladnie(s)); }
       edytor.focus();
     },
     odNowa() {
-      for (const n of nazwy) { if (n === aktywny) zamienTresc(edytor, cw.pliki[n]); else modele[n].setValue(cw.pliki[n]); }
+      for (const n of nazwy) { if (n === aktywny) zamienTresc(edytor, cw.pliki[n]); else zamienTrescModelu(modele[n], cw.pliki[n]); }
       edytor.focus();
     },
     odswiez: sprawdz,

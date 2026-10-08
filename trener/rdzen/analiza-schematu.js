@@ -43,7 +43,7 @@ export function najblizszeSlowo(k) {
   return bd <= (k.length <= 5 ? 1 : 2) ? best : null;
 }
 
-export function analizujSchemat(s, klucze = new Map()) {
+export function analizujSchemat(s, klucze = new Map(), { formaty = false } = {}) {
   const out = [];
   let formatPokazany = false;
   (function idz(s, p) {
@@ -61,11 +61,13 @@ export function analizujSchemat(s, klucze = new Map()) {
       }
       if (k === 'format' && !formatPokazany) {
         formatPokazany = true;
-        out.push({ poziom: 'info', tekst: '„format” to tu tylko opis. Domyślnie walidator go nie sprawdza, więc np. "abc" przejdzie jako e-mail.', pos: klucze.get(kp) });
+        out.push({ poziom: 'info', tekst: formaty
+          ? '„format” jest teraz sprawdzany jak reguła, bo w pasku włączono „sprawdzaj format”. Bez tego przełącznika byłby samą adnotacją.'
+          : '„format” to tu tylko opis. Domyślnie walidator go nie sprawdza, więc np. "abc" przejdzie jako e-mail. Włącz „sprawdzaj format” w pasku, żeby to zmienić.', pos: klucze.get(kp) });
       }
       if (k === 'required' && Array.isArray(v) && s.properties && typeof s.properties === 'object') {
         for (const r of v) {
-          if (typeof r === 'string' && !(r in s.properties)) {
+          if (typeof r === 'string' && !Object.prototype.hasOwnProperty.call(s.properties, r)) {
             out.push({ poziom: 'ostrz', tekst: 'Pole „' + r + '” jest w „required”, ale nie ma go w „properties”. To może być literówka.', pos: klucze.get(kp) });
           }
         }

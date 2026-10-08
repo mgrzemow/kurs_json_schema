@@ -12,8 +12,11 @@ const TRESC = join(KORZEN, 'tresc');
 const WYJSCIE = join(KORZEN, 'public', 'tresc');
 
 const czytaj = p => readFileSync(p, 'utf8');
-const czytajJSON = p => {
-  try { return parsujJSON(czytaj(p)).wartosc; } catch (e) { throw new Error(`${p}: ${e.message}`); }
+export const czytajJSON = p => {
+  let w;
+  try { w = parsujJSON(czytaj(p)); } catch (e) { throw new Error(`${p}: ${e.message}`); }
+  if (w.duplikaty.length) throw new Error(`${p}: pole „${w.duplikaty[0].klucz}” występuje dwa razy w tym samym obiekcie. W treści kursu duplikaty są niedozwolone (liczyłoby się tylko ostatnie).`);
+  return w.wartosc;
 };
 
 const schematCwiczenia = czytajJSON(join(TRESC, 'schemat-cwiczenia.json'));
@@ -31,7 +34,7 @@ function wczytajCwiczenie(katalog) {
 
   if (cw.rodzaj === 1 || cw.rodzaj === 5) {
     wynik.start = czytaj(join(katalog, 'start.json'));
-    parsujJSON(wynik.start);
+    czytajJSON(join(katalog, 'start.json'));
     wynik.rozwiazanie = czytajJSON(join(katalog, 'rozwiazanie.json'));
     wynik.bledne = (cw.bledne || []).map(b => ({ nazwa: b.plik, dlaczego: b.dlaczego, schemat: czytajJSON(join(katalog, 'bledne', b.plik + '.json')) }));
   }
@@ -47,6 +50,7 @@ function wczytajCwiczenie(katalog) {
   if (cw.rodzaj === 4) {
     wynik.pliki = {};
     for (const f of readdirSync(join(katalog, 'pliki')).filter(f => f.endsWith('.json')).sort()) {
+      czytajJSON(join(katalog, 'pliki', f));
       wynik.pliki[f.replace(/\.json$/, '')] = czytaj(join(katalog, 'pliki', f));
     }
     if (!wynik.pliki[cw.glowny]) throw new Error(`${plikMeta}: plik główny „${cw.glowny}” nie istnieje w pliki/`);

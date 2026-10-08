@@ -24,13 +24,18 @@ function nowyAjv(formaty) {
 }
 
 // Usuwa obcy nagłówek $schema (Ajv 2020 nie zna draft-07) i zwraca informację dla uczestnika.
+const SCHEMA_2020 = 'https://json-schema.org/draft/2020-12/schema';
+
 export function przygotujSchemat(wartosc, klucze = new Map()) {
   const uwagi = [];
   let schemat = wartosc;
-  if (wartosc && typeof wartosc === 'object' && typeof wartosc.$schema === 'string' && !/2020-12/.test(wartosc.$schema)) {
+  if (wartosc && typeof wartosc === 'object' && !Array.isArray(wartosc) && '$schema' in wartosc && wartosc.$schema !== SCHEMA_2020) {
     schemat = { ...wartosc };
     delete schemat.$schema;
-    uwagi.push({ poziom: 'info', tekst: 'Trener sprawdza według wersji 2020-12. Podstawowe słowa kluczowe działają w niej tak samo jak w starszych wersjach.', pos: klucze.get('/$schema') });
+    const tekst = typeof wartosc.$schema === 'string' && /draft-0[3-7]|2019-09/.test(wartosc.$schema)
+      ? 'Trener sprawdza według wersji 2020-12. Podstawowe słowa kluczowe działają w niej tak samo jak w starszych wersjach.'
+      : 'Nieznana wartość „$schema”. Trener sprawdza według wersji 2020-12 (' + SCHEMA_2020 + ').';
+    uwagi.push({ poziom: 'info', tekst, pos: klucze.get('/$schema') });
   }
   return { schemat, uwagi };
 }
@@ -56,9 +61,29 @@ function bladMeta(bledy, schemat, klucze) {
 }
 
 // Tłumaczy wyjątek rzucony przez Ajv przy kompilacji.
+// Najczęstsze komunikaty silnika regex V8 po polsku.
+const REGEX_PO_POLSKU = [
+  [/Unterminated character class/i, 'niedomknięta klasa znaków „[”'],
+  [/Unterminated group/i, 'niedomknięty nawias „(”'],
+  [/Unmatched '\)'/i, 'nawias „)” bez otwierającego „(”'],
+  [/Nothing to repeat/i, 'powtórzenie („*”, „+”, „?”, „{n}”) bez niczego przed nim'],
+  [/Lone quantifier brackets/i, 'samotny nawias „{” lub „}” (w trybie Unicode nawias klamrowy trzeba poprzedzić „\\”)'],
+  [/Invalid escape/i, 'niepoprawna ucieczka po „\\” (w trybie Unicode wolno uciekać tylko znaki specjalne)'],
+  [/Invalid property name/i, 'niepoprawna nazwa właściwości Unicode po „\\p”'],
+  [/Range out of order/i, 'zakres w klasie znaków ma początek większy niż koniec'],
+];
+
 function wyjatek(e, { plik, pliki } = {}) {
   const m = String((e && e.message) || e);
-  if (/regular expression|RegExp/i.test(m)) return new BladSchematu('Wzorzec w „pattern” nie jest poprawnym wyrażeniem regularnym (' + m.replace(/^Invalid regular expression:\s*/, '') + ').', { plik });
+  if (/regular expression|RegExp/i.test(m)) {
+    const wzorzec = (/\/(.*)\/[a-z]*:/.exec(m) || [])[1];
+    const traf = REGEX_PO_POLSKU.find(([re]) => re.test(m));
+    const powod = traf ? traf[1] : m.replace(/^Invalid regular expression:\s*/, '');
+    return new BladSchematu('Wzorzec ' + (wzorzec !== undefined ? '„' + wzorzec + '” ' : '') + 'nie jest poprawnym wyrażeniem regularnym: ' + powod + '.', { plik });
+  }
+  if (/enum must have non-empty array/.test(m)) return new BladSchematu('„enum” musi mieć co najmniej jedną wartość. Pusta lista nie przepuściłaby niczego.', { plik });
+  if (/\$dynamicRef|Maximum call stack/.test(m)) return new BladSchematu('Walidator nie radzi sobie z tym schematem (' + (/\$dynamicRef/.test(m) ? '„$dynamicRef” poza zakresem kursu' : 'zbyt głębokie odwołania') + ').', { plik });
+  if (/no schema with key or ref/.test(m)) return new BladSchematu('Walidator nie zna schematu, do którego odwołuje się ten plik: ' + m.replace(/^.*key or ref\s*/, '') + '.', { plik });
   const r = /can't resolve reference (\S+) from id (\S+)/.exec(m);
   if (r) {
     if (pliki) {
@@ -90,27 +115,34 @@ function zbierzRefy(s, out = []) {
 export function utworzWalidator({ formaty = false } = {}) {
   let ajv = nowyAjv(formaty);
 
+  // sprawdz(dane) → { ok: true|false|null, bledy, blad? }; ok === null, gdy walidator wywrócił się
+  // w czasie sprawdzania (np. nieskończona rekurencja przez „$dynamicRef”).
   function opakuj(fn, projekt) {
     const sprawdz = dane => {
-      const ok = fn(dane);
+      let ok;
+      try {
+        ok = fn(dane);
+      } catch (e) {
+        return { ok: null, bledy: [], blad: 'Walidator nie radzi sobie z tym schematem przy tym dokumencie (' + (/Maximum call stack/.test(String(e.message)) ? 'nieskończone odwołania' : String(e.message)) + ').' };
+      }
       return { ok, bledy: ok ? [] : (fn.errors || []).slice() };
     };
     return projekt ? { sprawdz, ...projekt } : { sprawdz };
   }
 
   function kompiluj(wartosc, klucze = new Map()) {
-    const { schemat } = przygotujSchemat(wartosc, klucze);
+    const { schemat, uwagi } = przygotujSchemat(wartosc, klucze);
     if (typeof schemat !== 'boolean' && (schemat === null || typeof schemat !== 'object' || Array.isArray(schemat))) {
       throw new BladSchematu('Schemat musi być obiektem w nawiasach klamrowych { }.', { pos: 0 });
     }
-    if (!ajv.validateSchema(schemat)) throw bladMeta(ajv.errors, schemat, klucze);
     try {
+      if (!ajv.validateSchema(schemat)) throw bladMeta(ajv.errors, schemat, klucze);
       const fn = ajv.compile(schemat);
       try { ajv.removeSchema(schemat); } catch (_) { /* schemat bez $id nie jest zarejestrowany */ }
-      return opakuj(fn);
+      return opakuj(fn, { uwagi });
     } catch (e) {
       ajv = nowyAjv(formaty);
-      throw wyjatek(e);
+      throw e instanceof BladSchematu ? e : wyjatek(e);
     }
   }
 
@@ -136,12 +168,17 @@ export function utworzWalidator({ formaty = false } = {}) {
   function kompilujProjekt(pliki, glowny) {
     const inst = nowyAjv(formaty);
     const idPlikow = {};
+    const uwagi = [];
     for (const [nazwa, p] of Object.entries(pliki)) {
-      const { schemat } = przygotujSchemat(p.wartosc, p.klucze);
+      const przygotowany = przygotujSchemat(p.wartosc, p.klucze);
+      const schemat = przygotowany.schemat;
+      for (const u of przygotowany.uwagi) uwagi.push({ ...u, plik: nazwa });
       if (!schemat || typeof schemat !== 'object' || typeof schemat.$id !== 'string') {
         throw new BladSchematu('Plik „' + nazwa + '” nie ma „$id”. W projekcie z wieloma plikami każdy schemat musi mieć „$id”, żeby inne mogły się do niego odwołać.', { plik: nazwa });
       }
-      if (!inst.validateSchema(schemat)) {
+      let poprawny;
+      try { poprawny = inst.validateSchema(schemat); } catch (e) { throw wyjatek(e, { plik: nazwa, pliki }); }
+      if (!poprawny) {
         const b = bladMeta(inst.errors, schemat, p.klucze || new Map());
         b.plik = nazwa;
         throw b;
@@ -170,7 +207,7 @@ export function utworzWalidator({ formaty = false } = {}) {
       const traf = prefiksy.find(([pref]) => sp === pref || sp.startsWith(pref + '/') || sp.startsWith(pref + '#'));
       return traf ? traf[1] : glowny;
     };
-    return opakuj(fn, { idPlikow, odwolania, plikBledu });
+    return opakuj(fn, { idPlikow, odwolania, plikBledu, uwagi });
   }
 
   return { kompiluj, kompilujProjekt, znajdzOdwolania, opcje: { formaty } };

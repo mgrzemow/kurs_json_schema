@@ -102,3 +102,42 @@ test('rodzaj 4: błąd składni w jednym pliku wskazuje ten plik', () => {
   assert.equal(s.diagnoza[0].plik, 'adres');
   assert.equal(s.diagnoza[0].poziom, 'blad');
 });
+
+test('I1: nieoczekiwany wyjątek Ajv w ćwiczeniu daje diagnozę, nie wyjątek', () => {
+  const c = cw('3-1-kod-pocztowy');
+  for (const s of ['{ "$schema": "https://json-schema.org/draft/2020-12/schema-x" }', '{ "$schema": 5 }', '{ "$dynamicRef": "#x" }']) {
+    const r = sprawdzCwiczenie(c, { schemat: s });
+    assert.equal(r.zaliczone, false, s);
+    assert.ok(r.przyklady.every(p => p.przeszedl === null) || r.diagnoza.length > 0, s);
+  }
+  assert.equal(sprawdzCwiczenie(c, { schemat: '{ "$dynamicRef": "#x" }' }).diagnoza[0].poziom, 'blad');
+});
+
+test('I2: w projekcie każdy komunikat wskazuje plik swojej reguły', () => {
+  const c = cw('3-4-projekt-zamowienia');
+  const naprawione = { ...c.pliki, zamowienie: JSON.stringify(c.rozwiazanie.zamowienie) };
+  const c2 = { ...c, przyklady: [{ opis: 'bez miasta i bez e-maila', dane: { numer: 'ZAM-2026-000124', klient: { nazwa: 'Jan' }, adresDostawy: { ulica: 'Długa 5', kodPocztowy: '80-827' } }, ok: false }] };
+  const r = sprawdzCwiczenie(c2, { pliki: naprawione });
+  const powody = r.przyklady[0].powod;
+  assert.ok(powody.some(p => /„miasto”.*pliku „adres”/.test(p)), powody.join(' | '));
+  assert.ok(powody.some(p => /„email”.*pliku „klient”/.test(p)), powody.join(' | '));
+});
+
+test('I3: przy włączonych formatach informacja o format nie zaprzecza werdyktowi', () => {
+  const c = { ...cw('3-1-kod-pocztowy'), przyklady: [{ opis: 'e', dane: 'jan@', ok: false }] };
+  const schemat = '{ "type": "string", "format": "email" }';
+  const bez = sprawdzCwiczenie(c, { schemat }, { formaty: false });
+  const z = sprawdzCwiczenie(c, { schemat }, { formaty: true });
+  assert.ok(bez.diagnoza.some(d => /tylko opis/.test(d.tekst)));
+  assert.ok(!z.diagnoza.some(d => /tylko opis/.test(d.tekst)));
+  assert.ok(z.diagnoza.some(d => d.poziom === 'info' && /sprawdzany/.test(d.tekst)));
+});
+
+test('I5: obcy $schema w ćwiczeniu daje informację i nadal działa', () => {
+  const c = cw('3-1-kod-pocztowy');
+  const r = sprawdzCwiczenie(c, { schemat: JSON.stringify({ $schema: 'http://json-schema.org/draft-07/schema#', ...c.rozwiazanie }) });
+  assert.equal(r.zaliczone, true);
+  assert.ok(r.diagnoza.some(d => d.poziom === 'info' && /2020-12/.test(d.tekst)));
+  const p = sprawdzCwiczenie(cw('3-4-projekt-zamowienia'), { pliki: { ...cw('3-4-projekt-zamowienia').pliki, adres: JSON.stringify({ $schema: 'http://json-schema.org/draft-07/schema#', ...JSON.parse(cw('3-4-projekt-zamowienia').pliki.adres) }) } });
+  assert.ok(p.diagnoza.some(d => d.poziom === 'info' && /2020-12/.test(d.tekst) && d.plik === 'adres'));
+});

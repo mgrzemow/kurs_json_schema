@@ -135,6 +135,33 @@ sprawdz('3-4: diagram bez zepsutych krawędzi', (await strona.locator('#diagram 
 await ustawEdytor('#ed-projekt', '{ "a": ');
 await strona.waitForTimeout(500);
 sprawdz('3-4: błąd składni w pliku oznacza zakładkę', (await strona.locator('#zakladki button.z-bledem').count()) === 1);
+// M1: „Zacznij od nowa” w nieaktywnym pliku da się cofnąć Ctrl+Z.
+await strona.click('#zakladki button[data-plik="adres"]');
+await strona.click('#ed-projekt .view-lines');
+await strona.keyboard.press('Control+End');
+await strona.keyboard.type('   ');
+await strona.waitForTimeout(300);
+await strona.click('#zakladki button[data-plik="zamowienie"]');
+await strona.click('#b-nowa');
+await strona.waitForTimeout(300);
+await strona.click('#zakladki button[data-plik="adres"]');
+const przedCofnieciem = await strona.evaluate(() => window.__monaco.editor.getEditors()[0].getModel().getValue());
+await strona.click('#ed-projekt .view-lines');
+await strona.keyboard.press('Control+Z');
+await strona.waitForTimeout(300);
+const poCofnieciu = await strona.evaluate(() => window.__monaco.editor.getEditors()[0].getModel().getValue());
+sprawdz('3-4: Ctrl+Z cofa „Zacznij od nowa” także w nieaktywnym pliku', !/   $/.test(przedCofnieciem) && /   $/.test(poCofnieciu));
+// Piaskownica: błędny schemat nie wywala widoku i nie blokuje po odświeżeniu (C1).
+await strona.goto(baza + '#/piaskownica', { waitUntil: 'networkidle' });
+await strona.waitForSelector('#ed-schemat .view-lines');
+await ustawEdytor('#ed-schemat', '{ "pattern": "[" }');
+await strona.waitForTimeout(500);
+sprawdz('piaskownica: zły regex daje polską diagnozę', /wyrażeniem regularnym/.test(await strona.locator('#diag-schemat').textContent()) && (await strona.locator('.werdykt-glowny.c').count()) === 1);
+await strona.waitForTimeout(400);
+await strona.reload({ waitUntil: 'networkidle' });
+await strona.waitForSelector('#ed-schemat .view-lines');
+sprawdz('piaskownica: po odświeżeniu z błędnym schematem nadal działa', (await strona.locator('.awaria').count()) === 0 && /wyrażeniem regularnym/.test(await strona.locator('#diag-schemat').textContent()));
+await strona.click('#b-reset');
 
 // 6. Przełącznik formatów w piaskownicy.
 await strona.goto(baza + '#/piaskownica', { waitUntil: 'networkidle' });

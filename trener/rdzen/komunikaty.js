@@ -94,7 +94,9 @@ export function komunikat(e, dane, { plik } = {}) {
   return zdanie;
 }
 
+// opcje: obiekt { plik } albo funkcja (blad) => { plik }, gdy każdy błąd może pochodzić z innego pliku.
 export function komunikaty(bledy, dane, limit, opcje) {
-  const wszystkie = [...new Set(bledy.map(e => komunikat(e, dane, opcje)))];
+  const dla = typeof opcje === 'function' ? opcje : () => opcje;
+  const wszystkie = [...new Set(bledy.map(e => komunikat(e, dane, dla(e))))];
   return limit ? wszystkie.slice(0, limit) : wszystkie;
 }

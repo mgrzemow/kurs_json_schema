@@ -9,7 +9,12 @@
 //   #/generator             generator schematu
 
 export function parsujTrase(hash) {
-  const czesci = (hash || '').replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
+  let czesci;
+  try {
+    czesci = (hash || '').replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
+  } catch (_) {
+    return { widok: 'start' }; // zepsuty adres (np. ucięty znak %) prowadzi na start zamiast rzucać
+  }
   if (!czesci.length) return { widok: 'start' };
   if (czesci[0] === 'm' && /^\d+$/.test(czesci[1] || '')) {
     const nr = +czesci[1];

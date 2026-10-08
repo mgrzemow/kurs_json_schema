@@ -74,6 +74,14 @@ export function zamienTresc(edytor, tekst) {
   edytor.pushUndoStop();
 }
 
+// To samo dla modelu bez edytora (nieaktywna zakładka pliku): historia cofania zostaje zachowana.
+export function zamienTrescModelu(model, tekst) {
+  if (model.getValue() === tekst) return;
+  model.pushStackElement();
+  model.pushEditOperations([], [{ range: model.getFullModelRange(), text: tekst }], () => null);
+  model.pushStackElement();
+}
+
 // lista: [{ pos, dlugosc?, komunikat, poziom: 'blad'|'ostrz'|'info' }], pos = offset w tekście.
 export function ustawMarkery(model, lista) {
   const POZIOM = { blad: monaco.MarkerSeverity.Error, ostrz: monaco.MarkerSeverity.Warning, info: monaco.MarkerSeverity.Info };
