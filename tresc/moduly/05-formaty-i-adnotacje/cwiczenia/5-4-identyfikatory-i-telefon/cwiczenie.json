@@ -6,13 +6,13 @@
   "czasMin": 6,
   "kolejnosc": 4,
   "formaty": true,
-  "kontekst": "Zamówienie ma techniczny identyfikator (UUID), link do faktury (pełny adres URI) i telefon klienta w jednej z dwóch postaci: `+48 600 100 200` albo `600100200`. Ktoś wpisał `\"format\": \"telefon\"` i dziwi się, że zły telefon przechodzi.",
+  "kontekst": "Zamówienie ma techniczny identyfikator (UUID), link do faktury (pełny adres URI) i telefon klienta w jednej z dwóch postaci: `+48 600 100 200` albo `600100200`{d}. Ktoś wpisał `\"format\": \"telefon\"`{s} i dziwi się, że zły telefon przechodzi.",
   "polecenie": "Dopisz właściwe formaty dla identyfikatora i linku, a telefon opisz tak, żeby przechodziły tylko dwie dozwolone postacie.",
   "slowa": [
     "format",
     "pattern"
   ],
-  "podpowiedz": "Nieznany format jest ignorowany (trener ostrzega). Dla telefonu nie ma formatu: użyj `pattern`, np. `^(\\\\+48 [0-9]{3} [0-9]{3} [0-9]{3}|[0-9]{9})$` (plus wymaga ucieczki, w JSON-ie podwójnej). Formaty: `uuid`, `uri`.",
+  "podpowiedz": "Nieznany format jest ignorowany (edytor ostrzega). Dla telefonu nie ma formatu: użyj `pattern`, np. `^(\\\\+48 [0-9]{3} [0-9]{3} [0-9]{3}|[0-9]{9})$` (plus wymaga ucieczki, w JSON-ie podwójnej). Formaty: `uuid`, `uri`.",
   "przyklady": [
     {
       "opis": "Wszystko poprawne, telefon z prefiksem",
@@ -40,7 +40,7 @@
         "telefon": "zadzwonić po 16"
       },
       "ok": false,
-      "wskazowka": "`format: telefon` nie istnieje, więc jest ignorowany. Potrzebny `pattern`."
+      "wskazowka": "`format: telefon`{s} nie istnieje, więc jest ignorowany. Potrzebny `pattern`."
     },
     {
       "opis": "Telefon z myślnikami",
@@ -75,7 +75,7 @@
   "bledne": [
     {
       "plik": "format-phone",
-      "dlaczego": "`format: \"phone\"` też nie jest zdefiniowany, więc telefon słownie przechodzi."
+      "dlaczego": "`format: \"phone\"`{s} też nie jest zdefiniowany, więc telefon słownie przechodzi."
     }
   ],
   "zrodla": [

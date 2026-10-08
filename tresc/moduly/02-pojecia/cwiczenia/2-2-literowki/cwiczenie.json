@@ -6,9 +6,9 @@
   "czasMin": 3,
   "kolejnosc": 2,
   "kontekst": "Schemat zamówienia przepuszcza wszystko, choć wygląda poprawnie. Autor pisał go z pamięci i pomylił trzy słowa kluczowe. Walidator w magazynie nie zgłosił żadnego błędu, bo nieznane słowa są ignorowane.",
-  "polecenie": "Popraw nazwy słów kluczowych, nic więcej. Trener pokazuje ostrzeżenia z podpowiedzią, o które słowo chodziło. Po poprawce zamówienie bez numeru i zamówienie z numerem jako liczbą mają zostać odrzucone.",
+  "polecenie": "Popraw nazwy słów kluczowych, nic więcej. Edytor pokazuje ostrzeżenia z podpowiedzią, o które słowo chodziło. Po poprawce zamówienie bez numeru i zamówienie z numerem jako liczbą mają zostać odrzucone.",
   "slowa": [],
-  "podpowiedz": "Zobacz ostrzeżenia pod edytorem: trener podpowiada najbliższe znane słowo. Poprawne nazwy to `type`, `properties` i `required`.",
+  "podpowiedz": "Zobacz ostrzeżenia pod edytorem: edytor podpowiada najbliższe znane słowo. Poprawne nazwy to `type`, `properties` i `required`.",
   "przyklady": [
     { "opis": "Poprawne zamówienie", "dane": { "numer": "ZAM-2026-000123", "klient": "Jan Nowak" }, "ok": true },
     { "opis": "Bez numeru", "dane": { "klient": "Jan Nowak" }, "ok": false, "wskazowka": "Słowo, które ma wymagać numeru, jest napisane z błędem, więc walidator je pomija." },

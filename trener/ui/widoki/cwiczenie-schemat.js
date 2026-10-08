@@ -6,7 +6,7 @@ import { renderujDiagnoze, markeryZDiagnozy } from './diagnoza.js';
 import { renderujPrzyklady } from './przyklady.js';
 
 export function cwiczenieSchemat({ srodek, prawa, cw, stan, ustaw, wynik$ }) {
-  srodek.innerHTML = '<div class="pasek-edytora"><span class="tytul">Twój schemat</span><span class="meta">werdykty liczą się przy każdej zmianie</span></div><div class="edytor" id="ed-schemat"></div><div class="diagnoza" id="diagnoza"></div>';
+  srodek.innerHTML = '<div class="pasek-edytora"><span class="tytul schemat">Twój schemat</span><span class="meta">werdykty liczą się przy każdej zmianie</span></div><div class="edytor schemat" id="ed-schemat"></div><div class="diagnoza" id="diagnoza"></div>';
   const edytor = utworzEdytor(srodek.querySelector('#ed-schemat'), { wartosc: stan.edytory[cw.id] ?? cw.start });
   const model = edytor.getModel();
   const diagnoza = srodek.querySelector('#diagnoza');

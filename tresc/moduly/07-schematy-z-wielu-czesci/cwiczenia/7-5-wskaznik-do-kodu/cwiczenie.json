@@ -11,7 +11,7 @@
     "$ref",
     "$anchor"
   ],
-  "podpowiedz": "JSON Pointer idzie po kluczach: `$defs` → `adres` → `properties` → `kodPocztowy`. W odwołaniu brakuje jednego z tych kluczy. Alternatywa: `\"$anchor\": \"kod\"` w schemacie kodu i `\"$ref\": \"#kod\"`.",
+  "podpowiedz": "JSON Pointer idzie po kluczach: `$defs` → `adres` → `properties` → `kodPocztowy`. W odwołaniu brakuje jednego z tych kluczy. Alternatywa: `\"$anchor\": \"kod\"`{s} w schemacie kodu i `\"$ref\": \"#kod\"`{s}.",
   "przyklady": [
     {
       "opis": "Poprawny kod paczkomatu",

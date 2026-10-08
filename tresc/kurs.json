@@ -41,15 +41,5 @@
       "nr": 9,
       "katalog": "09-praktyczne-zastosowania"
     }
-  ],
-  "przerwy": [
-    {
-      "po": 3,
-      "minuty": 10
-    },
-    {
-      "po": 5,
-      "minuty": 10
-    }
   ]
 }

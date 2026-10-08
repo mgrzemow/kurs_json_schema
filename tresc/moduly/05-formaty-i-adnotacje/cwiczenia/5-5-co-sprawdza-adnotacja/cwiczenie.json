@@ -45,7 +45,7 @@
         "numer": 123
       },
       "ok": false,
-      "wyjasnienie": "Odrzuca `type: string`; opis pola nie ma z tym nic wspólnego."
+      "wyjasnienie": "Odrzuca `type: string`{s}; opis pola nie ma z tym nic wspólnego."
     }
   ],
   "zrodla": [

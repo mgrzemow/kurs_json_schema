@@ -1,6 +1,7 @@
 {
   "nr": 1,
   "tytul": "JSON",
+  "opis": "Składnia JSON według json.org, porównanie z XML i typowe błędy, przez które dokument w ogóle nie jest JSON-em.",
   "minuty": 25,
   "zakres": [
     "Czym jest JSON?",

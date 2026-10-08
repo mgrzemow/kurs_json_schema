@@ -6,7 +6,7 @@ import { sprawdzCwiczenie } from '../../rdzen/sprawdz-cwiczenie.js';
 import { ladnie } from '../../rdzen/pomocnicze.js';
 
 export function cwiczenieZgadnij({ srodek, prawa, cw, stan, ustaw, wynik$ }) {
-  srodek.innerHTML = '<div class="pasek-edytora"><span class="tytul">Schemat (tylko do odczytu)</span></div><div class="edytor" id="ed-schemat"></div>';
+  srodek.innerHTML = '<div class="pasek-edytora"><span class="tytul schemat">Schemat (tylko do odczytu)</span></div><div class="edytor schemat" id="ed-schemat"></div>';
   const edytor = utworzEdytor(srodek.querySelector('#ed-schemat'), { wartosc: ladnie(cw.schemat), tylkoDoOdczytu: true });
   const zapis = () => stan.odpowiedzi[cw.id] || {};
   let sprawdzone = !!zapis().sprawdzone;
@@ -20,7 +20,7 @@ export function cwiczenieZgadnij({ srodek, prawa, cw, stan, ustaw, wynik$ }) {
       const wynik = sprawdzone
         ? `<p class="powod">Werdykt: <strong>${p.przeszedl ? 'przechodzi' : 'odrzucony'}</strong>${p.zgodny ? ' · trafione' : ' · nietrafione'}</p><p class="wyjasnienie">${md(p.wyjasnienie)}</p>`
         : '';
-      return `<article class="karta ${klasa}"><header><span class="opis">${esc(p.opis)}</span>
+      return `<article class="karta ${klasa}"><header><span class="opis">${md(p.opis)}</span>
         <span class="odpowiedzi"><label><input type="radio" name="o-${i}" value="t" ${wybor === true ? 'checked' : ''} ${sprawdzone ? 'disabled' : ''}>przejdzie</label>
         <label><input type="radio" name="o-${i}" value="n" ${wybor === false ? 'checked' : ''} ${sprawdzone ? 'disabled' : ''}>nie przejdzie</label></span></header>
         <pre>${koloruj(ladnie(p.dane))}</pre>${wynik}</article>`;

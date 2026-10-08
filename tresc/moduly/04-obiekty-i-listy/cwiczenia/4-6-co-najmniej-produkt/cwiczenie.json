@@ -69,7 +69,7 @@
   "bledne": [
     {
       "plik": "const-w-items",
-      "dlaczego": "`const: \"produkt\"` w `items` wymaga, żeby każda pozycja była produktem, więc odrzuca dozwolone usługi obok produktów."
+      "dlaczego": "`const: \"produkt\"`{s} w `items` wymaga, żeby każda pozycja była produktem, więc odrzuca dozwolone usługi obok produktów."
     }
   ],
   "zrodla": [

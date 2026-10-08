@@ -5,7 +5,7 @@
   "poziom": 2,
   "czasMin": 5,
   "kolejnosc": 8,
-  "kontekst": "Schemat zamówienia obok ma `uniqueItems: true` na pozycjach i na liście kodów rabatowych. Programista uznał, że to załatwia sprawę duplikatów.",
+  "kontekst": "Schemat zamówienia obok ma `uniqueItems: true`{s} na pozycjach i na liście kodów rabatowych. Programista uznał, że to załatwia sprawę duplikatów.",
   "polecenie": "Dla każdego zamówienia obstaw, czy schemat je przepuści. Potem sprawdź i przeczytaj, jak walidator rozumie „takie same”.",
   "slowa": [
     "uniqueItems"

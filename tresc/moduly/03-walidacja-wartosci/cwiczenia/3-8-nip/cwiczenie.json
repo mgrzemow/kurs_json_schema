@@ -5,12 +5,12 @@
   "poziom": 3,
   "czasMin": 6,
   "kolejnosc": 8,
-  "kontekst": "Klienci wpisują NIP na dwa sposoby: `1234567890` albo `123-456-78-90`. Oba są poprawne, nic innego nie. Ktoś zapisał to wzorcem „dziesięć do trzynastu cyfr lub myślników”, który przepuszcza same myślniki.",
+  "kontekst": "Klienci wpisują NIP na dwa sposoby: `1234567890`{d} albo `123-456-78-90`{d}. Oba są poprawne, nic innego nie. Ktoś zapisał to wzorcem „dziesięć do trzynastu cyfr lub myślników”, który przepuszcza same myślniki.",
   "polecenie": "Napisz wzorzec, który przyjmuje dokładnie te dwa zapisy NIP-u.",
   "slowa": [
     "pattern"
   ],
-  "podpowiedz": "Dwa dozwolone zapisy to dwa osobne wzorce: same cyfry albo cyfry z myślnikami w układzie 3-3-2-2. Połącz je alternatywą w nawiasach z kotwicami na zewnątrz. Uwaga: `-?` w każdym miejscu z osobna przepuszcza formy mieszane, np. `123-4567890`.",
+  "podpowiedz": "Dwa dozwolone zapisy to dwa osobne wzorce: same cyfry albo cyfry z myślnikami w układzie 3-3-2-2. Połącz je alternatywą w nawiasach z kotwicami na zewnątrz. Uwaga: `-?` w każdym miejscu z osobna przepuszcza formy mieszane, np. `123-4567890`{d}.",
   "przyklady": [
     {
       "opis": "Bez myślników",
@@ -59,11 +59,11 @@
   "bledne": [
     {
       "plik": "klasa-z-myslnikiem",
-      "dlaczego": "`^[0-9-]{10,13}$` pozwala na dowolną mieszankę cyfr i myślników, więc `----------` i `123-45-67-890` przechodzą."
+      "dlaczego": "`^[0-9-]{10,13}$` pozwala na dowolną mieszankę cyfr i myślników, więc `----------` i `123-45-67-890`{d} przechodzą."
     },
     {
       "plik": "niezalezne-myslniki",
-      "dlaczego": "Wzorzec z `-?` w każdym miejscu przepuszcza formy mieszane, np. `123-4567890`, a dozwolone są tylko dwa pełne zapisy."
+      "dlaczego": "Wzorzec z `-?` w każdym miejscu przepuszcza formy mieszane, np. `123-4567890`{d}, a dozwolone są tylko dwa pełne zapisy."
     }
   ],
   "zrodla": [

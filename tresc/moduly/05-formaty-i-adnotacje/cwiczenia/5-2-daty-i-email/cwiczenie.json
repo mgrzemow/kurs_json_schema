@@ -11,7 +11,7 @@
   "slowa": [
     "format"
   ],
-  "podpowiedz": "Nazwy formatów: `date`, `date-time`, `email`. Data to `2026-10-08`, data z czasem to `2026-10-08T10:15:00Z` (litera T i strefa).",
+  "podpowiedz": "Nazwy formatów: `date`, `date-time`, `email`. Data to `2026-10-08`{d}, data z czasem to `2026-10-08T10:15:00Z`{d} (litera T i strefa).",
   "przyklady": [
     {
       "opis": "Wszystko poprawne",

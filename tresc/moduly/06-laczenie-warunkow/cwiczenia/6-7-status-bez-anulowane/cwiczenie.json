@@ -26,7 +26,7 @@
       "opis": "Anulowane",
       "dane": "anulowane",
       "ok": false,
-      "wskazowka": "Sam `type: string` niczego nie wyklucza."
+      "wskazowka": "Sam `type: string`{s} niczego nie wyklucza."
     },
     {
       "opis": "Liczba zamiast statusu",

@@ -11,7 +11,7 @@
     "minLength",
     "maxLength"
   ],
-  "podpowiedz": "`minLength: 1` odrzuca pusty tekst, `maxLength: 80` ogranicza długość. Oba liczą znaki, nie bajty.",
+  "podpowiedz": "`minLength: 1`{s} odrzuca pusty tekst, `maxLength: 80`{s} ogranicza długość. Oba liczą znaki, nie bajty.",
   "przyklady": [
     {
       "opis": "Jedna litera",

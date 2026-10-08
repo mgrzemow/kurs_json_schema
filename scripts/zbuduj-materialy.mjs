@@ -7,12 +7,11 @@ import { fileURLToPath } from 'node:url';
 import { wczytajKurs } from './zbuduj-tresc.mjs';
 import { sprawdzCwiczenie } from '../trener/rdzen/sprawdz-cwiczenie.js';
 import { ladnie } from '../trener/rdzen/pomocnicze.js';
+import { esc, md } from '../trener/ui/html.js';
 
 const KORZEN = join(dirname(fileURLToPath(import.meta.url)), '..');
 const WYNIK = join(KORZEN, 'materialy', 'wynik');
 
-const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const md = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 const gwiazdki = p => '★'.repeat(p) + '☆'.repeat(3 - p);
 const RODZAJE = { 1: 'napisz lub popraw schemat', 2: 'napraw dokument JSON', 3: 'zgadnij, potem sprawdź', 4: 'projekt z wieloma plikami', 5: 'popraw wygenerowany schemat' };
 
@@ -45,32 +44,32 @@ const DRAFT07 = {
 function wykladStatyczny(html) {
   return html
     .replace(/<button[^>]*>[^<]*<\/button>/g, '')
-    .replace(/<details class="pytanie"/g, '<details class="pytanie" open');
+    .replace(/<details class="(pytanie[^"]*)"/g, '<details class="$1" open');
 }
 
 function tabelaPrzykladow(przyklady, { kolumnaOdpowiedz = false } = {}) {
   return `<table class="przyklady"><thead><tr><th>Opis</th><th>Dokument</th><th>${kolumnaOdpowiedz ? 'Twoja odpowiedź' : 'Oczekiwany werdykt'}</th></tr></thead><tbody>` +
     // W ćwiczeniu „zgadnij” wiersz nie dostaje data-werdykt: kolor kolumny zdradzałby odpowiedź.
-    przyklady.map(p => `<tr${kolumnaOdpowiedz ? '' : ` data-werdykt="${p.ok ? 'przechodzi' : 'odrzucony'}"`}><td>${esc(p.opis)}</td><td><pre>${esc(ladnie(p.dane))}</pre></td><td>${kolumnaOdpowiedz ? '☐ przejdzie ☐ nie przejdzie' : p.ok ? 'musi przejść' : 'musi zostać odrzucony'}</td></tr>`).join('') +
+    przyklady.map(p => `<tr${kolumnaOdpowiedz ? '' : ` data-werdykt="${p.ok ? 'przechodzi' : 'odrzucony'}"`}><td>${md(p.opis)}</td><td><pre class="dokument">${esc(ladnie(p.dane))}</pre></td><td>${kolumnaOdpowiedz ? '☐ przejdzie ☐ nie przejdzie' : p.ok ? 'musi przejść' : 'musi zostać odrzucony'}</td></tr>`).join('') +
     '</tbody></table>';
 }
 
 function sekcjaCwiczenia(cw, nr, i) {
   let tresc = '';
   if (cw.rodzaj === 1 || cw.rodzaj === 5) {
-    tresc = `<p class="etykieta">Schemat startowy</p><pre>${esc(cw.start)}</pre>${tabelaPrzykladow(cw.przyklady)}`;
+    tresc = `<p class="etykieta">Schemat startowy</p><pre class="schemat">${esc(cw.start)}</pre>${tabelaPrzykladow(cw.przyklady)}`;
   } else if (cw.rodzaj === 2) {
-    tresc = `<p class="etykieta">Dokument do naprawy</p><pre>${esc(cw.start)}</pre>` + (cw.schemat ? `<p class="etykieta">Schemat, który naprawiony dokument ma spełniać</p><pre>${esc(ladnie(cw.schemat))}</pre>` : '');
+    tresc = `<p class="etykieta">Dokument do naprawy</p><pre class="dokument">${esc(cw.start)}</pre>` + (cw.schemat ? `<p class="etykieta">Schemat, który naprawiony dokument ma spełniać</p><pre class="schemat">${esc(ladnie(cw.schemat))}</pre>` : '');
   } else if (cw.rodzaj === 3) {
-    tresc = `<p class="etykieta">Schemat</p><pre>${esc(ladnie(cw.schemat))}</pre>${tabelaPrzykladow(cw.odpowiedzi, { kolumnaOdpowiedz: true })}`;
+    tresc = `<p class="etykieta">Schemat</p><pre class="schemat">${esc(ladnie(cw.schemat))}</pre>${tabelaPrzykladow(cw.odpowiedzi, { kolumnaOdpowiedz: true })}`;
   } else if (cw.rodzaj === 4) {
-    tresc = Object.entries(cw.pliki).map(([n, t]) => `<p class="etykieta">Plik <code>${esc(n)}</code>${n === cw.glowny ? ' (główny)' : ''}</p><pre>${esc(t)}</pre>`).join('') + tabelaPrzykladow(cw.przyklady);
+    tresc = Object.entries(cw.pliki).map(([n, t]) => `<p class="etykieta">Plik <code>${esc(n)}</code>${n === cw.glowny ? ' (główny)' : ''}</p><pre class="schemat">${esc(t)}</pre>`).join('') + tabelaPrzykladow(cw.przyklady);
   }
   return `<section class="cwiczenie" id="cw-${esc(cw.id)}">
-    <h3>Ćwiczenie ${nr}.${i + 1}: ${esc(cw.tytul)} <span class="meta">${gwiazdki(cw.poziom)} · ok. ${cw.czasMin} min · ${RODZAJE[cw.rodzaj]}</span></h3>
+    <h3>Ćwiczenie ${nr}.${i + 1}: ${esc(cw.tytul)} <span class="meta">${gwiazdki(cw.poziom)} · ${RODZAJE[cw.rodzaj]}</span></h3>
     <p class="kontekst">${md(cw.kontekst)}</p>
     <p class="polecenie"><strong>Zadanie:</strong> ${md(cw.polecenie)}</p>
-    ${cw.slowa.length ? `<p class="meta">Słowa kluczowe: ${cw.slowa.map(s => `<code>${esc(s)}</code>`).join(', ')}</p>` : ''}
+    ${cw.slowa.length ? `<p class="meta">Słowa kluczowe: ${cw.slowa.map(s => `<code class="kod-schemat">${esc(s)}</code>`).join(', ')}</p>` : ''}
     ${tresc}
     <p class="meta">Podpowiedź: ${md(cw.podpowiedz)} Rozwiązanie: <a href="#roz-${esc(cw.id)}">dodatek</a>.</p>
   </section>`;
@@ -80,17 +79,17 @@ function sekcjaRozwiazania(cw, nr, i) {
   let tresc = '';
   if (cw.rodzaj === 1 || cw.rodzaj === 5) {
     const w = sprawdzCwiczenie(cw, { schemat: JSON.stringify(cw.rozwiazanie) });
-    tresc = `<pre>${esc(ladnie(cw.rozwiazanie))}</pre><table class="przyklady"><thead><tr><th>Opis</th><th>Werdykt rozwiązania</th><th>Powód</th></tr></thead><tbody>` +
-      w.przyklady.map(p => `<tr data-werdykt="${p.przeszedl ? 'przechodzi' : 'odrzucony'}"><td>${esc(p.opis)}</td><td>${p.przeszedl ? 'przechodzi' : 'odrzucony'}</td><td>${esc(p.powod[0] || '')}</td></tr>`).join('') + '</tbody></table>' +
+    tresc = `<pre class="schemat">${esc(ladnie(cw.rozwiazanie))}</pre><table class="przyklady"><thead><tr><th>Opis</th><th>Werdykt rozwiązania</th><th>Powód</th></tr></thead><tbody>` +
+      w.przyklady.map(p => `<tr data-werdykt="${p.przeszedl ? 'przechodzi' : 'odrzucony'}"><td>${md(p.opis)}</td><td>${p.przeszedl ? 'przechodzi' : 'odrzucony'}</td><td>${esc(p.powod[0] || '')}</td></tr>`).join('') + '</tbody></table>' +
       (cw.bledne.length ? '<p class="etykieta">Typowe błędne rozwiązania</p><ul>' + cw.bledne.map(b => `<li>${md(b.dlaczego)}</li>`).join('') + '</ul>' : '');
   } else if (cw.rodzaj === 2) {
-    tresc = `<pre>${esc(cw.rozwiazanieTekst)}</pre><p>Błędy po kolei: ${cw.bledy.map(b => `<em>${esc(b)}</em>`).join(', ')}.</p>`;
+    tresc = `<pre class="dokument">${esc(cw.rozwiazanieTekst)}</pre><p>Błędy po kolei: ${cw.bledy.map(b => `<em>${esc(b)}</em>`).join(', ')}.</p>`;
   } else if (cw.rodzaj === 3) {
     const w = sprawdzCwiczenie(cw, { odpowiedzi: cw.odpowiedzi.map(o => o.ok) });
     tresc = '<table class="przyklady"><thead><tr><th>Opis</th><th>Werdykt</th><th>Dlaczego</th></tr></thead><tbody>' +
-      w.przyklady.map(p => `<tr data-werdykt="${p.przeszedl ? 'przechodzi' : 'odrzucony'}"><td>${esc(p.opis)}</td><td>${p.przeszedl ? 'przechodzi' : 'odrzucony'}</td><td>${md(p.wyjasnienie)}</td></tr>`).join('') + '</tbody></table>';
+      w.przyklady.map(p => `<tr data-werdykt="${p.przeszedl ? 'przechodzi' : 'odrzucony'}"><td>${md(p.opis)}</td><td>${p.przeszedl ? 'przechodzi' : 'odrzucony'}</td><td>${md(p.wyjasnienie)}</td></tr>`).join('') + '</tbody></table>';
   } else if (cw.rodzaj === 4) {
-    tresc = Object.entries(cw.rozwiazanie).map(([n, s]) => `<p class="etykieta">Plik <code>${esc(n)}</code></p><pre>${esc(ladnie(s))}</pre>`).join('');
+    tresc = Object.entries(cw.rozwiazanie).map(([n, s]) => `<p class="etykieta">Plik <code>${esc(n)}</code></p><pre class="schemat">${esc(ladnie(s))}</pre>`).join('');
   }
   return `<section class="rozwiazanie" id="roz-${esc(cw.id)}"><h3>Rozwiązanie ćwiczenia ${nr}.${i + 1}: ${esc(cw.tytul)}</h3>${tresc}</section>`;
 }
@@ -112,7 +111,8 @@ export function zbudujMaterialyHtml({ kurs, moduly }) {
     '<li><a href="#sciagawka">Ściągawka słów kluczowych</a></li><li><a href="#rozwiazania">Dodatek: rozwiązania ćwiczeń</a></li>';
   const modulyHtml = moduly.map(m => {
     const nr = m.meta.nr;
-    const wyklad = wykladStatyczny(m.wyklad.html).replace(/<h2 id="([^"]+)"/g, `<h2 id="m-${nr}-$1"`);
+    // Kotwice nagłówków i linki spisów dostają przedrostek modułu, bo w jednym pliku są wszystkie moduły.
+    const wyklad = wykladStatyczny(m.wyklad.html).replace(/<h([23]) id="([^"]+)"/g, `<h$1 id="m-${nr}-$2"`).replace(/href="#(?!\/)([^"]+)"/g, `href="#m-${nr}-$1"`);
     return `<section class="modul" id="m-${nr}"><h1>Moduł ${nr}: ${esc(m.meta.tytul)}</h1>
       <article class="wyklad">${wyklad}</article>
       <h2 id="m-${nr}-cwiczenia">Ćwiczenia do modułu ${nr}</h2>

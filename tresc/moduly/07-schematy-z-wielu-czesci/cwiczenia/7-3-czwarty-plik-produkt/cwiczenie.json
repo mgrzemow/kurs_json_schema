@@ -6,12 +6,12 @@
   "czasMin": 8,
   "kolejnosc": 3,
   "kontekst": "Produkt jest wspólny dla zamówienia i katalogu, więc dostał osobny plik. W katalogu produkt może nie mieć EAN-u (towar w przygotowaniu), ale w zamówieniu EAN jest obowiązkowy. Plik główny już odwołuje się do produktu i dokłada regułę obok `$ref`, lecz walidator nie znajduje pliku `produkt`.",
-  "polecenie": "Spraw, żeby plik `produkt` był widoczny dla walidatora pod identyfikatorem, do którego odwołuje się zamówienie. Nie przenoś `required: [\"ean\"]` do pliku produktu: katalog ma prawo nie mieć EAN-u.",
+  "polecenie": "Spraw, żeby plik `produkt` był widoczny dla walidatora pod identyfikatorem, do którego odwołuje się zamówienie. Nie przenoś `required: [\"ean\"]`{s} do pliku produktu: katalog ma prawo nie mieć EAN-u.",
   "slowa": [
     "$id",
     "$ref"
   ],
-  "podpowiedz": "W trenerze plik bez `$id` nie jest zarejestrowany pod żadną nazwą, więc odwołanie `produkt` nie ma celu. (Specyfikacja pozwala walidatorom rejestrować schematy pod dowolnym adresem, ale `$id` to jedyny sposób niezależny od narzędzia.) Nadaj plikowi `$id` w tej samej przestrzeni, co pozostałe pliki: `https://kurs.example/schematy/produkt`.",
+  "podpowiedz": "W tym ćwiczeniu plik bez `$id` nie jest zarejestrowany pod żadną nazwą, więc odwołanie `produkt` nie ma celu. (Specyfikacja pozwala walidatorom rejestrować schematy pod dowolnym adresem, ale `$id` to jedyny sposób niezależny od narzędzia.) Nadaj plikowi `$id` w tej samej przestrzeni, co pozostałe pliki: `https://kurs.example/schematy/produkt`.",
   "glowny": "zamowienie",
   "przyklady": [
     {

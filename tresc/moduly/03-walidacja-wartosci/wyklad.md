@@ -4,7 +4,7 @@ Magazyn odrzuca zamówienia, w których „ilość” raz jest liczbą, a raz te
 
 ### `type`
 
-Najprostsza reguła mówi, jakiego typu ma być wartość. `type` przyjmuje jedną z siedmiu nazw: `"string"`, `"number"`, `"integer"`, `"boolean"`, `"object"`, `"array"`, `"null"`. Sześć z nich odpowiada wprost rodzajom wartości JSON z modułu 1. Siódma, `"integer"`, to liczba bez części ułamkowej. I tu pierwsza niespodzianka: `36.0` jest liczbą całkowitą, bo jej część ułamkowa wynosi zero, więc `{"type": "integer"}` ją przepuszcza. <!-- twierdzenie --> <!-- zrodlo: validation §6.1.1; spec/tests/draft2020-12/type.json -->
+Najprostsza reguła mówi, jakiego typu ma być wartość. `type` przyjmuje jedną z siedmiu nazw: `"string"`{s}, `"number"`{s}, `"integer"`{s}, `"boolean"`{s}, `"object"`{s}, `"array"`{s}, `"null"`{s}. Sześć z nich odpowiada wprost rodzajom wartości JSON z modułu 1. Siódma, `"integer"`{s}, to liczba bez części ułamkowej. I tu pierwsza niespodzianka: `36.0`{d} jest liczbą całkowitą, bo jej część ułamkowa wynosi zero, więc `{"type": "integer"}`{s} ją przepuszcza. <!-- twierdzenie --> <!-- zrodlo: validation §6.1.1; spec/tests/draft2020-12/type.json -->
 
 ```json schemat=typ-integer
 { "type": "integer" }
@@ -22,9 +22,9 @@ Najprostsza reguła mówi, jakiego typu ma być wartość. `type` przyjmuje jedn
 36.5
 ```
 
-`type` może też być listą nazw, np. `["string", "null"]`: wartość ma być tekstem albo `null`. Przyda się w module 4 przy polach, które mogą nie mieć wartości.
+`type` może też być listą nazw, np. `["string", "null"]`{s}: wartość ma być tekstem albo `null`. Przyda się w module 4 przy polach, które mogą nie mieć wartości.
 
-**Przejdzie czy nie?** Schemat `typ-integer` i dokument `36.0`.
+**Przejdzie czy nie?** Schemat `typ-integer` i dokument `36.0`{d}.
 
 ```json pytanie=integer-zero-ulamek schemat=typ-integer oczekiwane=przechodzi
 36.0
@@ -32,7 +32,7 @@ Najprostsza reguła mówi, jakiego typu ma być wartość. `type` przyjmuje jedn
 
 ### `enum`
 
-Status zamówienia to nie dowolny tekst. `enum` wylicza dozwolone wartości; instancja przechodzi, gdy jest **równa** którejś z nich. Porównanie jest dokładne: wielkość liter i każdy znak mają znaczenie, więc `Wyslane` to co innego niż `wyslane`. Wartości na liście mogą być różnych typów (`[1, "jeden", null]`), ale taka mieszanka to zły projekt, nie zaleta. <!-- twierdzenie --> <!-- zrodlo: validation §6.1.2 -->
+Status zamówienia to nie dowolny tekst. `enum` wylicza dozwolone wartości; instancja przechodzi, gdy jest **równa** którejś z nich. Porównanie jest dokładne: wielkość liter i każdy znak mają znaczenie, więc `Wyslane` to co innego niż `wyslane`. Wartości na liście mogą być różnych typów (`[1, "jeden", null]`{d}), ale taka mieszanka to zły projekt, nie zaleta. <!-- twierdzenie --> <!-- zrodlo: validation §6.1.2 -->
 
 ```json schemat=status
 {
@@ -63,7 +63,7 @@ Magazyn odbiera tym samym kanałem zamówienia, zwroty i reklamacje, więc każd
 
 ## Walidacja instancji tekstowych
 
-Nazwa klienta nie może być pusta ani nieskończenie długa. `minLength` i `maxLength` liczą **znaki** tekstu, nie bajty: `Pedał` to pięć znaków, choć w UTF-8 zajmuje sześć bajtów. Pusty tekst `""` jest tekstem, więc samo `"type": "string"` go przepuści; dopiero `"minLength": 1` go odrzuci. <!-- twierdzenie --> <!-- zrodlo: validation §6.3.1, §6.3.2 -->
+Nazwa klienta nie może być pusta ani nieskończenie długa. `minLength` i `maxLength` liczą **znaki** tekstu, nie bajty: `Pedał` to pięć znaków, choć w UTF-8 zajmuje sześć bajtów. Pusty tekst `""`{d} jest tekstem, więc samo `"type": "string"`{s} go przepuści; dopiero `"minLength": 1`{s} go odrzuci. <!-- twierdzenie --> <!-- zrodlo: validation §6.3.1, §6.3.2 -->
 
 ```json schemat=nazwa
 { "type": "string", "minLength": 1, "maxLength": 80 }
@@ -127,7 +127,7 @@ Każdy klocek z przykładem z zamówienia:
 ```
 
 - **Kropka i inne znaki specjalne.** `.` to „dowolny znak”. Dosłowna kropka wymaga ucieczki `\.`. Kod katalogowy `SZP.36`: `^[A-Z]{3}\.[0-9]{2}$`. Tak samo każdy znak, który we wzorcu coś znaczy: `+`, `*`, `?`, `(`, `)`, `[`, `{`, `|`, `^`, `$`. Telefon z plusem na początku to `^\+48`.
-- **Ucieczka w JSON-ie.** Wzorzec stoi w tekście JSON, a w tekście JSON `\` jest znakiem ucieczki (moduł 1). Dlatego `\.` zapisujemy w pliku jako `"\\."`, a `\d` jako `"\\d"`: parser JSON zamienia `\\` na jeden `\`, zanim wzorzec trafi do walidatora. Niepodwojony ukośnik to błąd składni JSON, który trener pokaże od razu. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §7 -->
+- **Ucieczka w JSON-ie.** Wzorzec stoi w tekście JSON, a w tekście JSON `\` jest znakiem ucieczki (moduł 1). Dlatego `\.` zapisujemy w pliku jako `"\\."`{s}, a `\d` jako `"\\d"`{s}: parser JSON zamienia `\\` na jeden `\`, zanim wzorzec trafi do walidatora. Niepodwojony ukośnik to błąd składni JSON, który edytor pokaże od razu. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §7 -->
 
 ```json schemat=kod-katalogowy
 { "type": "string", "pattern": "^[A-Z]{3}\\.[0-9]{2}$" }
@@ -168,7 +168,7 @@ Specyfikacja zaleca autorom schematów ograniczyć się do małego podzbioru sk�
 
 ### Zakresy
 
-`minimum` i `maximum` ustalają zakres **z granicami włącznie**; `exclusiveMinimum` i `exclusiveMaximum` wykluczają granicę. Ilość w pozycji: większa od zera i najwyżej tysiąc, czyli `exclusiveMinimum: 0` i `maximum: 1000`. Rabat procentowy od zera do stu włącznie: `minimum: 0`, `maximum: 100`. <!-- twierdzenie --> <!-- zrodlo: validation §6.2.2, §6.2.3, §6.2.4, §6.2.5 -->
+`minimum` i `maximum` ustalają zakres **z granicami włącznie**; `exclusiveMinimum` i `exclusiveMaximum` wykluczają granicę. Ilość w pozycji: większa od zera i najwyżej tysiąc, czyli `exclusiveMinimum: 0`{s} i `maximum: 1000`{s}. Rabat procentowy od zera do stu włącznie: `minimum: 0`{s}, `maximum: 100`{s}. <!-- twierdzenie --> <!-- zrodlo: validation §6.2.2, §6.2.3, §6.2.4, §6.2.5 -->
 
 ```json schemat=ilosc
 { "type": "integer", "exclusiveMinimum": 0, "maximum": 1000 }
@@ -200,7 +200,7 @@ Szprychy sprzedajemy w opakowaniach po 36 sztuk. `multipleOf` przyjmuje liczbę 
 
 ### Pułapka: `multipleOf` z ułamkiem dziesiętnym
 
-Kusi, żeby cenę z dwoma miejscami po przecinku opisać przez `multipleOf: 0.01`. W arytmetyce zmiennoprzecinkowej, której używa większość walidatorów, `19.99 / 0.01` nie daje dokładnie `1999`, tylko liczbę „prawie całkowitą”, i walidator odrzuca cenę 19,99 zł. Specyfikacja nie ogranicza precyzji liczb i oficjalny zestaw testów oczekuje poprawnej obsługi ułamkowego `multipleOf`, ale walidator liczący w arytmetyce zmiennoprzecinkowej może dać wynik niezgodny z oczekiwaniem; w praktyce `multipleOf` z ułamkiem jest loterią zależną od biblioteki. Dla pieniędzy bezpieczniej trzymać grosze jako liczbę całkowitą (`1999`) albo zapisać wymaganie w dokumentacji i sprawdzać je w kodzie. <!-- twierdzenie --> <!-- zrodlo: validation §4.2, §6.2.1; spec/tests/draft2020-12/multipleOf.json -->
+Kusi, żeby cenę z dwoma miejscami po przecinku opisać przez `multipleOf: 0.01`{s}. W arytmetyce zmiennoprzecinkowej, której używa większość walidatorów, `19.99 / 0.01` nie daje dokładnie `1999`, tylko liczbę „prawie całkowitą”, i walidator odrzuca cenę 19,99 zł. Specyfikacja nie ogranicza precyzji liczb i oficjalny zestaw testów oczekuje poprawnej obsługi ułamkowego `multipleOf`, ale walidator liczący w arytmetyce zmiennoprzecinkowej może dać wynik niezgodny z oczekiwaniem; w praktyce `multipleOf` z ułamkiem jest loterią zależną od biblioteki. Dla pieniędzy bezpieczniej trzymać grosze jako liczbę całkowitą (`1999`{d}) albo zapisać wymaganie w dokumentacji i sprawdzać je w kodzie. <!-- twierdzenie --> <!-- zrodlo: validation §4.2, §6.2.1; spec/tests/draft2020-12/multipleOf.json -->
 
 ```json schemat=cena-grosze
 { "type": "number", "exclusiveMinimum": 0, "multipleOf": 0.01 }
@@ -214,11 +214,11 @@ Kusi, żeby cenę z dwoma miejscami po przecinku opisać przez `multipleOf: 0.01
 19.99
 ```
 
-(Werdykt dla `19.99` policzył walidator Ajv użyty w trenerze. Inny walidator może dać inny wynik, i to jest cała pułapka.)
+(Werdykt dla `19.99`{d} policzył walidator Ajv, którego używa ta strona. Inny walidator może dać inny wynik, i to jest cała pułapka.)
 
 ### Reguły dla liczb nie dotyczą tekstów
 
-Słowa `minimum`, `maximum`, `multipleOf` sprawdzają wyłącznie liczby. Tekst `"36"` nie jest liczbą, więc te słowa go nie dotyczą i przechodzi bez `type`. Dlatego przy regułach liczbowych `type` jest zawsze potrzebny. <!-- twierdzenie --> <!-- zrodlo: validation §6.2; spec/tests/draft2020-12/multipleOf.json -->
+Słowa `minimum`, `maximum`, `multipleOf` sprawdzają wyłącznie liczby. Tekst `"36"`{d} nie jest liczbą, więc te słowa go nie dotyczą i przechodzi bez `type`. Dlatego przy regułach liczbowych `type` jest zawsze potrzebny. <!-- twierdzenie --> <!-- zrodlo: validation §6.2; spec/tests/draft2020-12/multipleOf.json -->
 
 ```json schemat=szprychy-bez-type
 { "minimum": 36, "multipleOf": 36 }
@@ -228,4 +228,4 @@ Słowa `minimum`, `maximum`, `multipleOf` sprawdzają wyłącznie liczby. Tekst 
 "36"
 ```
 
-> **W draft-07:** `exclusiveMinimum` i `exclusiveMaximum` są osobnymi liczbami, tak jak w 2020-12 (zmiana weszła w draft-06). Starszy zapis, w którym były wartościami logicznymi obok `minimum` i `maximum` (`"minimum": 0, "exclusiveMinimum": true`), pochodzi z draft-04 i wciąż krąży w starych schematach i generatorach. W 2020-12 `"exclusiveMinimum": true` nie jest poprawnym schematem, bo specyfikacja wymaga liczby. Część walidatorów odrzuci taki schemat (trener tak robi), inne po cichu zignorują słowo, a wtedy granica przestanie być wyłączona. <!-- twierdzenie --> <!-- zrodlo: validation §6.2.5; spec/metaschematy/meta/validation.json -->
+> **W draft-07:** `exclusiveMinimum` i `exclusiveMaximum` są osobnymi liczbami, tak jak w 2020-12 (zmiana weszła w draft-06). Starszy zapis, w którym były wartościami logicznymi obok `minimum` i `maximum` (`"minimum": 0, "exclusiveMinimum": true`{s}), pochodzi z draft-04 i wciąż krąży w starych schematach i generatorach. W 2020-12 `"exclusiveMinimum": true`{s} nie jest poprawnym schematem, bo specyfikacja wymaga liczby. Część walidatorów odrzuci taki schemat (Ajv na tej stronie tak robi), inne po cichu zignorują słowo, a wtedy granica przestanie być wyłączona. <!-- twierdzenie --> <!-- zrodlo: validation §6.2.5; spec/metaschematy/meta/validation.json -->

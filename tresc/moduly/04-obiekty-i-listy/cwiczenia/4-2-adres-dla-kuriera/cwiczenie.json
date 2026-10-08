@@ -10,7 +10,7 @@
   "slowa": [
     "additionalProperties"
   ],
-  "podpowiedz": "Domyślnie obiekt przyjmuje dowolne dodatkowe pola. `\"additionalProperties\": false` przepuszcza tylko te z `properties`.",
+  "podpowiedz": "Domyślnie obiekt przyjmuje dowolne dodatkowe pola. `\"additionalProperties\": false`{s} przepuszcza tylko te z `properties`.",
   "przyklady": [
     {
       "opis": "Bez uwag",

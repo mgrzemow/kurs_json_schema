@@ -6,7 +6,7 @@
   "czasMin": 4,
   "kolejnosc": 1,
   "kontekst": "Klient przysłał zamówienie mailem, a ktoś przepisał je do JSON-a ręcznie. System magazynu odrzuca plik jako niepoprawny JSON, zanim w ogóle dojdzie do sprawdzania schematu.",
-  "polecenie": "Popraw dokument tak, żeby był poprawnym JSON-em. Trener pokazuje po jednym błędzie naraz, z numerem linii. Gdy składnia będzie w porządku, dokument zostanie jeszcze sprawdzony schematem zamówienia.",
+  "polecenie": "Popraw dokument tak, żeby był poprawnym JSON-em. Edytor pokazuje po jednym błędzie naraz, z numerem linii. Gdy składnia będzie w porządku, dokument zostanie jeszcze sprawdzony schematem zamówienia.",
   "slowa": [],
   "podpowiedz": "W JSON-ie wartości logiczne piszemy małymi literami, ułamki dziesiętne z kropką, a po ostatnim elemencie listy nie stawiamy przecinka.",
   "bledy": ["małymi literami", "kropki zamiast przecinka", "Zbędny przecinek"],

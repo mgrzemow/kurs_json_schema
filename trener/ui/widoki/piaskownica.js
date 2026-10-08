@@ -41,22 +41,31 @@ const IKONA_T = '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="tr
 const IKONA_N = '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 
 export function renderujPiaskownice(kontener, { stan, ustaw, z, modul }) {
-  const przyklad = z && modul ? modul.wyklad.przyklady : null;
-  const schematZ = przyklad && przyklad[z.schemat] ? przyklad[z.schemat].schematTekst : null;
-  const dokumentZ = przyklad && z.dokument && przyklad[z.dokument] ? przyklad[z.dokument].dokumentTekst : null;
+  // Przykład z wykładu: klucze bloków są unikalne w module. Przycisk pod schematem otwiera też
+  // pierwszy dokument tego schematu z wykładu, żeby od razu było widać werdykt.
+  const przyklady = z && modul ? modul.wyklad.przyklady : null;
+  const pS = przyklady && przyklady[z.schemat];
+  const kluczDokumentu = z && (z.dokument || (pS && pS.pierwszyDokument));
+  const pD = przyklady && kluczDokumentu ? przyklady[kluczDokumentu] : null;
+  const schematZ = pS ? pS.schematTekst : null;
+  const dokumentZ = pD ? pD.dokumentTekst : (schematZ ? '' : null);
+  const nazwa = (p, k) => esc((p && p.nazwa) || k);
   const powrot = z ? `<a class="btn" href="${hashTrasy({ widok: 'modul', nr: z.nr, kotwica: z.kotwica })}">← Wróć do wykładu</a>` : '';
   const opis = z
-    ? `Schemat <code>${esc(z.schemat)}</code>${z.dokument ? ` i dokument <code>${esc(z.dokument)}</code>` : ''} z wykładu modułu ${z.nr}. Zmieniaj jedno albo drugie i obserwuj werdykt.`
+    ? (pS
+      ? `Schemat <code>${nazwa(pS, z.schemat)}</code>${pD ? ` i dokument <code>${nazwa(pD, kluczDokumentu)}</code>` : ''} z wykładu modułu ${z.nr}. Zmieniaj jedno albo drugie i obserwuj werdykt.`
+      : `Nie ma już takiego przykładu w wykładzie modułu ${z.nr}. Wróć do wykładu i otwórz przykład jeszcze raz.`)
     : 'Tu nie ma zadania. Po lewej schemat zamówienia, po prawej przykładowe zamówienie. Zmieniaj jedno albo drugie i obserwuj wynik. Spróbuj: ustaw ilość na 0, usuń pole <code>klient</code> albo dopisz pole, którego schemat nie zna.';
   kontener.innerHTML = `<section class="piaskownica">
-    <div class="pasek-edytora"><div><h1 style="margin:0;font-size:1.3rem">Piaskownica</h1><p class="meta" style="margin:0.2rem 0 0">${opis}</p></div><div class="pomoc">${powrot}<button type="button" id="b-reset">Przywróć domyślne</button></div></div>
+    <div class="pasek-edytora"><div><h1 style="margin:0;font-size:1.3rem">Piaskownica</h1><p class="meta" style="margin:0.2rem 0 0">${opis}</p></div><div class="pomoc">${powrot}<button type="button" id="b-reset">${z ? 'Przywróć przykład' : 'Przywróć domyślne'}</button></div></div>
     <div class="dwa-edytory">
-      <div><div class="pasek-edytora"><span class="tytul">Schemat</span></div><div class="edytor" id="ed-schemat"></div><div class="diagnoza" id="diag-schemat"></div></div>
-      <div><div class="pasek-edytora"><span class="tytul">Dokument</span></div><div class="edytor" id="ed-dokument"></div><div id="werdykt"></div></div>
+      <div><div class="pasek-edytora"><span class="tytul schemat">Schemat</span></div><div class="edytor schemat" id="ed-schemat"></div><div class="diagnoza" id="diag-schemat"></div></div>
+      <div><div class="pasek-edytora"><span class="tytul dokument">Dokument</span></div><div class="edytor dokument" id="ed-dokument"></div><div id="werdykt"></div></div>
     </div></section>`;
   const $ = s => kontener.querySelector(s);
-  const startSchemat = schematZ ?? stan.edytory['piaskownica/schemat'] ?? ladnie(DOMYSLNY_SCHEMAT);
-  const startDokument = dokumentZ ?? (schematZ ? '' : stan.edytory['piaskownica/dokument'] ?? ladnie(DOMYSLNY_DOKUMENT));
+  // Bez przykładu: ostatnia wersja z tej przeglądarki; „Przywróć domyślne” wraca do zamówienia.
+  const startSchemat = z ? (schematZ ?? '') : stan.edytory['piaskownica/schemat'] ?? ladnie(DOMYSLNY_SCHEMAT);
+  const startDokument = z ? (dokumentZ ?? '') : stan.edytory['piaskownica/dokument'] ?? ladnie(DOMYSLNY_DOKUMENT);
   const edS = utworzEdytor($('#ed-schemat'), { wartosc: startSchemat });
   const edD = utworzEdytor($('#ed-dokument'), { wartosc: startDokument });
   const mS = edS.getModel();
@@ -86,7 +95,10 @@ export function renderujPiaskownice(kontener, { stan, ustaw, z, modul }) {
   const pozniej = () => { clearTimeout(timer); timer = setTimeout(sprawdz, 180); };
   const subS = mS.onDidChangeContent(() => { if (!z) ustaw(s => { s.edytory['piaskownica/schemat'] = mS.getValue(); }); pozniej(); });
   const subD = mD.onDidChangeContent(() => { if (!z) ustaw(s => { s.edytory['piaskownica/dokument'] = mD.getValue(); }); pozniej(); });
-  $('#b-reset').onclick = () => { zamienTresc(edS, ladnie(DOMYSLNY_SCHEMAT)); zamienTresc(edD, ladnie(DOMYSLNY_DOKUMENT)); };
+  $('#b-reset').onclick = () => {
+    zamienTresc(edS, z ? startSchemat : ladnie(DOMYSLNY_SCHEMAT));
+    zamienTresc(edD, z ? startDokument : ladnie(DOMYSLNY_DOKUMENT));
+  };
   const naFormaty = () => sprawdz();
   addEventListener('trener:formaty', naFormaty);
   sprawdz();

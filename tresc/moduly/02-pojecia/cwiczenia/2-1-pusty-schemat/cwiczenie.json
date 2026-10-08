@@ -6,9 +6,9 @@
   "czasMin": 2,
   "kolejnosc": 1,
   "kontekst": "Ktoś w zespole magazynu „na razie” wgrał pusty schemat zamówienia, żeby integracja ruszyła. Obok sześć dokumentów, które przyszły od sklepu.",
-  "polecenie": "Dla każdego dokumentu obstaw, czy pusty schemat `{}` go przepuści. Potem sprawdź.",
+  "polecenie": "Dla każdego dokumentu obstaw, czy pusty schemat `{}`{s} go przepuści. Potem sprawdź.",
   "slowa": [],
-  "podpowiedz": "Schemat bez żadnej asercji nie ma czego sprawdzać. Zastanów się, czy w `{}` jest jakiekolwiek słowo, które mogłoby coś odrzucić.",
+  "podpowiedz": "Schemat bez żadnej asercji nie ma czego sprawdzać. Zastanów się, czy w `{}`{s} jest jakiekolwiek słowo, które mogłoby coś odrzucić.",
   "odpowiedzi": [
     { "opis": "Kompletne zamówienie", "dane": { "numer": "ZAM-2026-000123", "klient": "Jan Nowak", "pozycje": [{ "ean": "5901234123457", "ilosc": 2 }] }, "ok": true, "wyjasnienie": "Pusty schemat nie ma asercji, więc przechodzi wszystko." },
     { "opis": "Pusty obiekt", "dane": {}, "ok": true, "wyjasnienie": "Nic nie jest wymagane, bo nie ma `required`." },

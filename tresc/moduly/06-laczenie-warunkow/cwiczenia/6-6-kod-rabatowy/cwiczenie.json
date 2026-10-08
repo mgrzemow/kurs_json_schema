@@ -10,7 +10,7 @@
   "slowa": [
     "dependentRequired"
   ],
-  "podpowiedz": "`dependentRequired` mapuje nazwę pola na listę pól wymaganych w jego obecności: `{ \"kodRabatowy\": [\"zrodloRabatu\"] }`.",
+  "podpowiedz": "`dependentRequired` mapuje nazwę pola na listę pól wymaganych w jego obecności: `{ \"kodRabatowy\": [\"zrodloRabatu\"] }`{s}.",
   "przyklady": [
     {
       "opis": "Kod ze źródłem",

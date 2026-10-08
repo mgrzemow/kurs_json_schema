@@ -1,6 +1,7 @@
 {
   "nr": 3,
   "tytul": "Walidacja wartości",
+  "opis": "Reguły dla pojedynczych wartości: typ, lista dozwolonych wartości, długość tekstu, wyrażenia regularne i zakresy liczb.",
   "minuty": 40,
   "zakres": [
     "Walidacja instancji dowolnego typu",

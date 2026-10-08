@@ -4,7 +4,8 @@ import { readFileSync, readdirSync, existsSync, mkdirSync, writeFileSync, statSy
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Ajv2020 from 'ajv/dist/2020.js';
-import { parsujWyklad } from './wyklad-md.mjs';
+import { parsujWyklad, SZEROKOSC_PRZYKLADU } from './wyklad-md.mjs';
+import { formatujJSON } from '../trener/rdzen/formatuj.js';
 import { parsujJSON } from '../trener/rdzen/parser-json.js';
 
 const KORZEN = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -33,8 +34,11 @@ function wczytajCwiczenie(katalog) {
   const jesli = (nazwa, fn) => { const p = join(katalog, nazwa); if (existsSync(p)) fn(p); };
 
   if (cw.rodzaj === 1 || cw.rodzaj === 5) {
-    wynik.start = czytaj(join(katalog, 'start.json'));
     czytajJSON(join(katalog, 'start.json'));
+    // Start rodzaju 5 to prawdziwy wynik generatora: zostaje w jego zapisie. Pozostałe
+    // dostają ten sam układ co przykłady w wykładzie (krótkie fragmenty w jednej linii).
+    const surowy = czytaj(join(katalog, 'start.json'));
+    wynik.start = cw.rodzaj === 5 ? surowy : formatujJSON(surowy, { szerokosc: SZEROKOSC_PRZYKLADU }) + '\n';
     wynik.rozwiazanie = czytajJSON(join(katalog, 'rozwiazanie.json'));
     wynik.bledne = (cw.bledne || []).map(b => ({ nazwa: b.plik, dlaczego: b.dlaczego, schemat: czytajJSON(join(katalog, 'bledne', b.plik + '.json')) }));
   }
@@ -51,7 +55,7 @@ function wczytajCwiczenie(katalog) {
     wynik.pliki = {};
     for (const f of readdirSync(join(katalog, 'pliki')).filter(f => f.endsWith('.json')).sort()) {
       czytajJSON(join(katalog, 'pliki', f));
-      wynik.pliki[f.replace(/\.json$/, '')] = czytaj(join(katalog, 'pliki', f));
+      wynik.pliki[f.replace(/\.json$/, '')] = formatujJSON(czytaj(join(katalog, 'pliki', f)), { szerokosc: SZEROKOSC_PRZYKLADU }) + '\n';
     }
     if (!wynik.pliki[cw.glowny]) throw new Error(`${plikMeta}: plik główny „${cw.glowny}” nie istnieje w pliki/`);
     wynik.rozwiazanie = {};
@@ -85,8 +89,7 @@ export function zbudujTresc() {
   mkdirSync(WYJSCIE, { recursive: true });
   const spis = {
     tytul: kurs.tytul,
-    przerwy: kurs.przerwy || [],
-    moduly: moduly.map(m => ({ nr: m.meta.nr, tytul: m.meta.tytul, minuty: m.meta.minuty, probna: !!m.meta.probna, liczbaCwiczen: m.cwiczenia.length })),
+    moduly: moduly.map(m => ({ nr: m.meta.nr, tytul: m.meta.tytul, opis: m.meta.opis, probna: !!m.meta.probna, liczbaCwiczen: m.cwiczenia.length })),
   };
   writeFileSync(join(WYJSCIE, 'kurs.json'), JSON.stringify(spis));
   for (const m of moduly) {

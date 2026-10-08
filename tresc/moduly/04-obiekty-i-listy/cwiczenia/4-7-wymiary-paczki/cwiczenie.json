@@ -12,7 +12,7 @@
     "items",
     "minItems"
   ],
-  "podpowiedz": "`prefixItems` opisuje kolejne pozycje listy, `items: false` zabrania dalszych, `minItems: 3` wymusza komplet. Rozwiązanie z samym `items` i `minItems`/`maxItems` równymi 3 też działa.",
+  "podpowiedz": "`prefixItems` opisuje kolejne pozycje listy, `items: false`{s} zabrania dalszych, `minItems: 3`{s} wymusza komplet. Rozwiązanie z samym `items` i `minItems`/`maxItems` równymi 3 też działa.",
   "przyklady": [
     {
       "opis": "Trzy wymiary",

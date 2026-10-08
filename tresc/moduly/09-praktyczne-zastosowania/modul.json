@@ -1,6 +1,7 @@
 {
   "nr": 9,
   "tytul": "Praktyczne zastosowania JSON Schema",
+  "opis": "Gdzie JSON Schema spotyka się w praktyce: OpenAPI, pliki konfiguracyjne, kod, komunikaty, modele AI, formularze i bazy danych.",
   "minuty": 15,
   "zakres": [],
   "opisowy": true

@@ -5,7 +5,7 @@
   "poziom": 2,
   "czasMin": 5,
   "kolejnosc": 4,
-  "kontekst": "Schemat obok ma jedną definicję adresu i dwa pola, które się do niej odwołują. Przy adresie dostawy obok `$ref` stoi dodatkowe `required: [\"kraj\"]`; przy adresie faktury nie.",
+  "kontekst": "Schemat obok ma jedną definicję adresu i dwa pola, które się do niej odwołują. Przy adresie dostawy obok `$ref` stoi dodatkowe `required: [\"kraj\"]`{s}; przy adresie faktury nie.",
   "polecenie": "Obstaw werdykty. Czy reguła obok `$ref` działa? (W draft-07 nie działała.)",
   "slowa": [
     "$ref"

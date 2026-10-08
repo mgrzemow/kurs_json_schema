@@ -21,7 +21,7 @@
       "opis": "Zwrot",
       "dane": "zwrot",
       "ok": false,
-      "wskazowka": "Sam `type: string` przepuszcza każdy tekst."
+      "wskazowka": "Sam `type: string`{s} przepuszcza każdy tekst."
     },
     {
       "opis": "Wielka litera",

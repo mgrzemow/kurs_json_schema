@@ -12,7 +12,7 @@
     "exclusiveMinimum",
     "maximum"
   ],
-  "podpowiedz": "`\"type\": \"integer\"` odrzuca ułamki. `exclusiveMinimum: 0` wyklucza zero, `maximum: 1000` włącza tysiąc. Dla ceny wystarczy `exclusiveMinimum: 0`; `multipleOf: 0.01` odrzuciłoby 19.99 przez arytmetykę zmiennoprzecinkową.",
+  "podpowiedz": "`\"type\": \"integer\"`{s} odrzuca ułamki. `exclusiveMinimum: 0`{s} wyklucza zero, `maximum: 1000`{s} włącza tysiąc. Dla ceny wystarczy `exclusiveMinimum: 0`{s}; `multipleOf: 0.01`{s} odrzuciłoby 19.99 przez arytmetykę zmiennoprzecinkową.",
   "przyklady": [
     {
       "opis": "Typowa pozycja",
@@ -45,7 +45,7 @@
         "cena": 10
       },
       "ok": false,
-      "wskazowka": "`minimum: 0` dopuszcza zero. Potrzebna granica wyłączona."
+      "wskazowka": "`minimum: 0`{s} dopuszcza zero. Potrzebna granica wyłączona."
     },
     {
       "opis": "Ponad limit",
@@ -94,11 +94,11 @@
   "bledne": [
     {
       "plik": "ilosc-number",
-      "dlaczego": "`number` zamiast `integer` przepuszcza `2.5`."
+      "dlaczego": "`number` zamiast `integer` przepuszcza `2.5`{d}."
     },
     {
       "plik": "cena-multipleof",
-      "dlaczego": "`multipleOf: 0.01` wygląda rozsądnie, ale przez arytmetykę zmiennoprzecinkową odrzuca cenę `19.99`, która musi przejść."
+      "dlaczego": "`multipleOf: 0.01`{s} wygląda rozsądnie, ale przez arytmetykę zmiennoprzecinkową odrzuca cenę `19.99`{d}, która musi przejść."
     }
   ],
   "zrodla": [

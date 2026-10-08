@@ -71,7 +71,7 @@
   "bledne": [
     {
       "plik": "literowka",
-      "dlaczego": "`required` z `pozycja` zamiast `pozycje` wymaga pola, którego nikt nie wysyła, i nie wymaga pozycji; trener ostrzega, że nazwy nie ma w `properties`."
+      "dlaczego": "`required` z `pozycja` zamiast `pozycje` wymaga pola, którego nikt nie wysyła, i nie wymaga pozycji; edytor ostrzega, że nazwy nie ma w `properties`."
     }
   ],
   "zrodla": [

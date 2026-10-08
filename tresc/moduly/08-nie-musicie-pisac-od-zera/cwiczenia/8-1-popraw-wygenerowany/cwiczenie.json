@@ -7,7 +7,7 @@
   "kolejnosc": 1,
   "formaty": true,
   "kontekst": "Schemat startowy to dosłowny wynik genson z trzech prawdziwych zamówień (firmowe krajowe z fakturą, prywatne z kodem rabatowym, zagraniczne z EORI i usługą montażu). Te trzy zamówienia muszą przechodzić. Reszta przykładów to zamówienia, które magazyn ma odrzucić, a schemat z generatora przepuszcza. Magazyn przyjmuje zamówienia z kilku kanałów (sklep internetowy, telefon, EDI); nie wszystkie wysyłają `uwagi`, `telefon` czy `kodRabatowy`.",
-  "polecenie": "Popraw schemat według wymagań: uwagi mogą nie wystąpić; status to jeden z pięciu (`nowe`, `oplacone`, `wyslane`, `dostarczone`, `anulowane`); waluta to PLN, EUR albo CZK; numer zamówienia `ZAM-RRRR-NNNNNN`; numer klienta to 8 cyfr; dla kraju PL kod pocztowy `00-000`; NIP to 10 cyfr albo numer VAT UE: dwie wielkie litery kraju i 8–12 cyfr lub wielkich liter; EAN to 13 cyfr; typ pozycji to `produkt` albo `usluga`; ilość całkowita, większa od zera, najwyżej 1000; cena większa od zera; co najmniej jedna pozycja; wymiary paczki to dokładnie trzy dodatnie liczby; daty w formacie ISO (`date`, `date-time`); e-mail poprawny; kod rabatowy, jeśli jest, niepusty; faktura wymaga NIP-u klienta; adres poza PL wymaga EORI; typ dokumentu to `zamowienie`; nagłówek 2020-12. Odhaczaj punkty listy kontrolnej po prawej. Ćwiczenie jest długie: kto zrobi pierwsze pięć punktów listy, zrobił najważniejsze.",
+  "polecenie": "Popraw schemat według wymagań: uwagi mogą nie wystąpić; status to jeden z pięciu (`nowe`, `oplacone`, `wyslane`, `dostarczone`, `anulowane`); waluta to PLN, EUR albo CZK; numer zamówienia `ZAM-RRRR-NNNNNN`; numer klienta to 8 cyfr; dla kraju PL kod pocztowy `00-000`{d}; NIP to 10 cyfr albo numer VAT UE: dwie wielkie litery kraju i 8–12 cyfr lub wielkich liter; EAN to 13 cyfr; typ pozycji to `produkt` albo `usluga`; ilość całkowita, większa od zera, najwyżej 1000; cena większa od zera; co najmniej jedna pozycja; wymiary paczki to dokładnie trzy dodatnie liczby; daty w formacie ISO (`date`, `date-time`); e-mail poprawny; kod rabatowy, jeśli jest, niepusty; faktura wymaga NIP-u klienta; adres poza PL wymaga EORI; typ dokumentu to `zamowienie`; nagłówek 2020-12. Odhaczaj punkty listy kontrolnej po prawej. Ćwiczenie jest długie: kto zrobi pierwsze pięć punktów listy, zrobił najważniejsze.",
   "slowa": [
     "$schema",
     "enum",
@@ -362,7 +362,7 @@
         "utworzono": "2026-10-08T10:15:00Z"
       },
       "ok": false,
-      "wskazowka": "Dla kraju PL kod pocztowy ma wzorzec `00-000`; dla DE nie (zamówienie 3 ma `10115`)."
+      "wskazowka": "Dla kraju PL kod pocztowy ma wzorzec `00-000`{d}; dla DE nie (zamówienie 3 ma `10115`{d})."
     },
     {
       "opis": "Ilość zero",
@@ -527,7 +527,7 @@
         ]
       },
       "ok": false,
-      "wskazowka": "Wymiary to dokładnie trzy liczby: `prefixItems`, `items: false`, `minItems`."
+      "wskazowka": "Wymiary to dokładnie trzy liczby: `prefixItems`, `items: false`{s}, `minItems`."
     },
     {
       "opis": "Faktura bez NIP",
@@ -908,7 +908,7 @@
     },
     {
       "plik": "zamkniete-pozycje-bez-typ",
-      "dlaczego": "`additionalProperties: false` na pozycjach bez opisania `typ` odrzuca zamówienie 3 z usługą montażu."
+      "dlaczego": "`additionalProperties: false`{s} na pozycjach bez opisania `typ` odrzuca zamówienie 3 z usługą montażu."
     },
     {
       "plik": "literowka-statusu",

@@ -16,8 +16,8 @@ export function renderujGenerator(kontener, { stan, ustaw }) {
       <p class="meta" style="margin:0.2rem 0 0">Wklej jeden dokument JSON albo listę dokumentów <code>[…]</code>. Generator działa jak genson: opisuje to, co jest w przykładach, a nie to, co powinno być. Zobacz, czego brakuje.</p></div>
       <div class="pomoc"><button type="button" id="b-przyklad">Wstaw przykładowe zamówienia</button></div></div>
     <div class="dwa-edytory">
-      <div><div class="pasek-edytora"><span class="tytul">Przykłady</span></div><div class="edytor" id="ed-przyklady"></div><div class="diagnoza" id="diag"></div></div>
-      <div><div class="pasek-edytora"><span class="tytul">Wygenerowany schemat</span><span class="meta" id="info"></span></div><div class="edytor" id="ed-wynik"></div></div>
+      <div><div class="pasek-edytora"><span class="tytul schemat">Wygenerowany schemat</span><span class="meta" id="info"></span></div><div class="edytor schemat" id="ed-wynik"></div></div>
+      <div><div class="pasek-edytora"><span class="tytul dokument">Przykłady (wklej tutaj)</span></div><div class="edytor dokument" id="ed-przyklady"></div><div class="diagnoza" id="diag"></div></div>
     </div></section>`;
   const $ = s => kontener.querySelector(s);
   const edP = utworzEdytor($('#ed-przyklady'), { wartosc: stan.edytory['generator'] ?? ladnie(PRZYKLAD) });

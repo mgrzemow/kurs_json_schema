@@ -11,10 +11,10 @@ const WARIANTY = { 1: cwiczenieSchemat, 5: cwiczenieSchemat, 2: cwiczenieDokumen
 const RODZAJE = { 1: 'Napisz lub popraw schemat', 2: 'Napraw dokument JSON', 3: 'Zgadnij, potem sprawdź', 4: 'Projekt z wieloma plikami', 5: 'Popraw wygenerowany schemat' };
 
 function htmlRozwiazania(cw) {
-  if (cw.rodzaj === 1 || cw.rodzaj === 5) return `<pre>${koloruj(ladnie(cw.rozwiazanie))}</pre>`;
-  if (cw.rodzaj === 2) return `<pre>${koloruj(cw.rozwiazanieTekst)}</pre>`;
-  if (cw.rodzaj === 3) return `<ul>${cw.odpowiedzi.map(o => `<li>${esc(o.opis)}: <strong>${o.ok ? 'przejdzie' : 'nie przejdzie'}</strong></li>`).join('')}</ul>`;
-  if (cw.rodzaj === 4) return Object.entries(cw.rozwiazanie).map(([n, s]) => `<p class="meta">plik <code>${esc(n)}</code></p><pre>${koloruj(ladnie(s))}</pre>`).join('');
+  if (cw.rodzaj === 1 || cw.rodzaj === 5) return `<pre class="schemat">${koloruj(ladnie(cw.rozwiazanie))}</pre>`;
+  if (cw.rodzaj === 2) return `<pre class="dokument">${koloruj(cw.rozwiazanieTekst)}</pre>`;
+  if (cw.rodzaj === 3) return `<ul>${cw.odpowiedzi.map(o => `<li>${md(o.opis)}: <strong>${o.ok ? 'przejdzie' : 'nie przejdzie'}</strong></li>`).join('')}</ul>`;
+  if (cw.rodzaj === 4) return Object.entries(cw.rozwiazanie).map(([n, s]) => `<p class="meta">plik <code>${esc(n)}</code></p><pre class="schemat">${koloruj(ladnie(s))}</pre>`).join('');
   return '';
 }
 
@@ -38,10 +38,11 @@ export function renderujCwiczenie(kontener, { modul, cw, stan, ustaw }) {
     <aside class="kolumna lewa">
       <p class="eyebrow">Ćwiczenie ${idx + 1} z ${modul.cwiczenia.length} · ${RODZAJE[cw.rodzaj]}</p>
       <h1>${esc(cw.tytul)}</h1>
-      <p class="meta"><span class="gwiazdki">${gwiazdki(cw.poziom)}</span> · ok. ${cw.czasMin} min</p>
+      <p class="meta"><span class="gwiazdki" title="poziom ${cw.poziom} z 3">${gwiazdki(cw.poziom)}</span></p>
       <p class="kontekst">${md(cw.kontekst)}</p>
       <p class="polecenie"><strong>Zadanie:</strong> ${md(cw.polecenie)}</p>
-      ${cw.slowa.length ? `<p class="slowa">Nowe słowa kluczowe: ${cw.slowa.map(s => `<code>${esc(s)}</code>`).join(' ')}</p>` : ''}
+      ${cw.rodzaj === 2 && cw.schemat ? `<figure class="podglad-schematu"><figcaption>Schemat, który naprawiony dokument ma spełniać</figcaption><pre class="schemat">${koloruj(ladnie(cw.schemat))}</pre></figure>` : ''}
+      ${cw.slowa.length ? `<p class="slowa">Nowe słowa kluczowe: ${cw.slowa.map(s => `<code class="kod-schemat">${esc(s)}</code>`).join(' ')}</p>` : ''}
       ${typeof cw.formaty === 'boolean' ? `<p class="meta tryb-formatow">To ćwiczenie ma walidację <code>format</code> ${cw.formaty ? 'włączoną' : 'wyłączoną'} niezależnie od przełącznika w pasku.</p>` : ''}
       <div class="pomoc">
         <button type="button" id="b-podp" aria-expanded="false">Podpowiedź</button>

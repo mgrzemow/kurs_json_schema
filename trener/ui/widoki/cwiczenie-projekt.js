@@ -42,7 +42,7 @@ export function cwiczenieProjekt({ srodek, prawa, cw, stan, ustaw, wynik$ }) {
   zarejestrujLinkiRef();
   const nazwy = [cw.glowny, ...Object.keys(cw.pliki).filter(n => n !== cw.glowny)];
   const klucz = n => cw.id + '/' + n;
-  srodek.innerHTML = `<div class="zakladki-plikow" id="zakladki" role="tablist"></div><div class="edytor" id="ed-projekt"></div><div class="diagnoza" id="diagnoza"></div>`;
+  srodek.innerHTML = `<div class="zakladki-plikow" id="zakladki" role="tablist"></div><div class="edytor schemat" id="ed-projekt"></div><div class="diagnoza" id="diagnoza"></div>`;
   prawa.innerHTML = `<div id="przyklady"></div><div class="diagram" id="diagram"></div><div class="jak-widzi" id="jak-widzi"></div>`;
   const edytor = utworzEdytor(srodek.querySelector('#ed-projekt'), { wartosc: '' });
   edytor.getModel().dispose();

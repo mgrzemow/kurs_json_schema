@@ -1,6 +1,7 @@
 {
   "nr": 0,
   "tytul": "Start",
+  "opis": "Po co JSON Schema, na przykładzie zamówienia odrzuconego przez magazyn, i jak korzystać z tej strony.",
   "minuty": 10,
   "zakres": []
 }

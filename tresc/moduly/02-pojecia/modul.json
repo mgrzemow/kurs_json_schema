@@ -1,6 +1,12 @@
 {
   "nr": 2,
   "tytul": "Pojęcia",
+  "opis": "Dokument JSON, instancja i schemat, słowa kluczowe, metaschematy oraz krótka historia wersji JSON Schema.",
   "minuty": 15,
-  "zakres": ["Dokument JSON", "Instancje", "Dokument JSON Schema", "Metaschematy"]
+  "zakres": [
+    "Dokument JSON",
+    "Instancje",
+    "Dokument JSON Schema",
+    "Metaschematy"
+  ]
 }

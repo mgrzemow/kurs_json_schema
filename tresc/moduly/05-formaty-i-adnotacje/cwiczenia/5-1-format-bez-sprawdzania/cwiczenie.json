@@ -29,7 +29,7 @@
         "dataZamowienia": "2026-10-08"
       },
       "ok": true,
-      "wyjasnienie": "Przechodzi: `format` jest adnotacją, liczy się tylko `type: string`.",
+      "wyjasnienie": "Przechodzi: `format` jest adnotacją, liczy się tylko `type: string`{s}.",
       "wyjasnienieZFormatami": "Odrzucony: `jan@` nie jest poprawnym adresem e-mail."
     },
     {
@@ -49,7 +49,7 @@
         "dataZamowienia": 20261008
       },
       "ok": false,
-      "wyjasnienie": "Odrzucony, ale nie przez `format`: `type: string` odrzuca liczbę w każdym trybie.",
+      "wyjasnienie": "Odrzucony, ale nie przez `format`: `type: string`{s} odrzuca liczbę w każdym trybie.",
       "wyjasnienieZFormatami": "Odrzucony przez `type: string`; do sprawdzania formatu nawet nie doszło."
     },
     {

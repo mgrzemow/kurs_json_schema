@@ -1,6 +1,7 @@
 {
   "nr": 4,
   "tytul": "Obiekty i listy",
+  "opis": "Struktura dokumentu: pola obiektu, pola wymagane, null kontra brak pola, nadmiarowe pola i reguły dla list.",
   "minuty": 45,
   "zakres": []
 }

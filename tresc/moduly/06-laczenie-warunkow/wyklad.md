@@ -23,7 +23,7 @@ Wartość musi spełniać **wszystkie** podschematy. Adres dostawy to zwykły ad
 { "miasto": "Gdańsk", "instrukcjeDlaKuriera": "domofon 3" }
 ```
 
-### Pułapka: `additionalProperties: false` w gałęzi `allOf`
+### Pułapka: `additionalProperties: false`{s} w gałęzi `allOf`
 
 Kusi, żeby drugą gałąź zamknąć, bo literówki w instrukcjach dla kuriera są kosztowne. Ale każda gałąź widzi **tylko swoje** `properties`. Dla gałęzi z instrukcjami pole `miasto` jest „dodatkowe”, więc zamknięta gałąź odrzuca każdy adres z miastem, czyli każdy adres. <!-- twierdzenie --> <!-- zrodlo: core §10.2, §10.3.2.3; spec/tests/draft2020-12/additionalProperties.json (additionalProperties does not look in applicators) -->
 
@@ -60,7 +60,7 @@ Lekarstwo w 2020-12 to `unevaluatedProperties`: działa jak `additionalPropertie
 { "miasto": "Gdańsk", "instrukcje": "domofon 3" }
 ```
 
-> **W draft-07:** `unevaluatedProperties` nie istniało. Jedyne wyjście to scalić gałęzie w jeden obiekt albo zostawić obiekt otwarty. Stąd wiele starych schematów nie ma `additionalProperties: false` tam, gdzie powinno.
+> **W draft-07:** `unevaluatedProperties` nie istniało. Jedyne wyjście to scalić gałęzie w jeden obiekt albo zostawić obiekt otwarty. Stąd wiele starych schematów nie ma `additionalProperties: false`{s} tam, gdzie powinno.
 
 ### `anyOf`: co najmniej jeden
 
@@ -134,7 +134,7 @@ Wartość **nie może** spełniać podschematu. Zamówienie do magazynu nie moż
 "anulowane"
 ```
 
-**Przejdzie czy nie?** Schemat z `oneOf` dwóch gałęzi `{"type": "string"}` i `{"minLength": 1}` i dokument `"a"`.
+**Przejdzie czy nie?** Schemat z `oneOf` dwóch gałęzi `{"type": "string"}`{s} i `{"minLength": 1}`{s} i dokument `"a"`{d}.
 
 ```json schemat=oneof-dwie-prawdy
 { "oneOf": [{ "type": "string" }, { "minLength": 1 }] }
@@ -170,7 +170,7 @@ Odrzucony: `"a"` jest tekstem i ma długość 1, więc pasuje do obu gałęzi, a
 
 ### Pułapka: `if` bez `required`
 
-`if` z samym `properties` jest spełnione także wtedy, gdy pola **nie ma**, bo `properties` nie wymaga obecności (moduł 4). Zamówienie bez pola `faktura` trafia wtedy do `then` i wymaga NIP-u, czego nikt nie chciał. Lekarstwo widać wyżej: `required: ["faktura"]` wewnątrz `if`. <!-- twierdzenie --> <!-- zrodlo: core §10.2.2.1, §10.3.2.1; spec/tests/draft2020-12/properties.json (no property present is valid) -->
+`if` z samym `properties` jest spełnione także wtedy, gdy pola **nie ma**, bo `properties` nie wymaga obecności (moduł 4). Zamówienie bez pola `faktura` trafia wtedy do `then` i wymaga NIP-u, czego nikt nie chciał. Lekarstwo widać wyżej: `required: ["faktura"]`{s} wewnątrz `if`. <!-- twierdzenie --> <!-- zrodlo: core §10.2.2.1, §10.3.2.1; spec/tests/draft2020-12/properties.json (no property present is valid) -->
 
 ```json schemat=faktura-nip-bez-required
 {
@@ -192,7 +192,7 @@ Odrzucony, i to jest błąd schematu, nie dokumentu: `if` bez `required` jest sp
 
 ### `else` do zakazów
 
-Kraj inny niż PL wymaga `eori`, a dla PL `eori` jest zabronione. Zakaz zapisuje się przez `not` z `required`; czyta się to „nie może być tak, że pole `eori` jest obecne”. W tym przykładzie `if` może obyć się bez `required: ["kraj"]`, bo `kraj` jest wymagany na górze schematu, więc dokument bez kraju i tak zostanie odrzucony:
+Kraj inny niż PL wymaga `eori`, a dla PL `eori` jest zabronione. Zakaz zapisuje się przez `not` z `required`; czyta się to „nie może być tak, że pole `eori` jest obecne”. W tym przykładzie `if` może obyć się bez `required: ["kraj"]`{s}, bo `kraj` jest wymagany na górze schematu, więc dokument bez kraju i tak zostanie odrzucony:
 
 ```json schemat=eori
 {

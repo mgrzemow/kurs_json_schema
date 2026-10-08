@@ -12,7 +12,7 @@
     "propertyNames",
     "minProperties"
   ],
-  "podpowiedz": "Wartości nieznanych kluczy opisuje `additionalProperties` ze schematem. Klucze sprawdza `propertyNames` (klucz jest tekstem, więc `pattern`). `minProperties: 1` zabrania pustego słownika.",
+  "podpowiedz": "Wartości nieznanych kluczy opisuje `additionalProperties` ze schematem. Klucze sprawdza `propertyNames` (klucz jest tekstem, więc `pattern`). `minProperties: 1`{s} zabrania pustego słownika.",
   "przyklady": [
     {
       "opis": "Dwa znane EAN-y",

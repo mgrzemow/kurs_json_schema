@@ -1,8 +1,8 @@
 /* Materiały statyczne: czytelne na ekranie i w druku (A4). Czcionki systemowe, zero sieci. */
-:root { --tekst: #1e1e1e; --slaby: #5f5e58; --akcent: #2457a6; --ok: #1d7a3e; --blad: #b3261e; --ostrz: #8a5a00; --ramka: #d9d7cf; --tlo-kod: #f6f6f2; }
+:root { --tekst: #1e1e1e; --slaby: #5f5e58; --akcent: #2457a6; --ok: #1d7a3e; --blad: #b3261e; --ostrz: #8a5a00; --ramka: #d9d7cf; --tlo-kod: #f2f1ec; --schemat: #1f5fae; --schemat-tlo: #edf3fc; --dokument: #7a4bb0; --dokument-tlo: #f5f0fb; }
 * { box-sizing: border-box; }
 body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 11pt; line-height: 1.5; color: var(--tekst); background: #fff; }
-.materialy { max-width: 46rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+.materialy { max-width: 52rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 h1 { font-size: 1.8rem; margin: 2rem 0 0.8rem; }
 h2 { font-size: 1.3rem; margin: 1.6rem 0 0.6rem; padding-top: 0.4rem; border-top: 1px solid var(--ramka); }
 h3 { font-size: 1.05rem; margin: 1.4rem 0 0.4rem; }
@@ -10,6 +10,18 @@ h3 .meta { font-weight: normal; }
 code { font-family: ui-monospace, Consolas, "Cascadia Mono", monospace; font-size: 0.9em; background: var(--tlo-kod); padding: 0 0.2em; border-radius: 3px; }
 pre { font-family: ui-monospace, Consolas, "Cascadia Mono", monospace; font-size: 9.5pt; line-height: 1.4; background: var(--tlo-kod); border: 1px solid var(--ramka); border-radius: 4px; padding: 0.5rem 0.7rem; white-space: pre-wrap; word-break: break-word; margin: 0.4rem 0; }
 pre code { background: none; padding: 0; font-size: inherit; }
+/* Konwencja: schemat niebieski, dokument z danymi fioletowy (także kod w tekście). */
+code.kod-schemat { background: var(--schemat-tlo); color: var(--schemat); }
+code.kod-dokument { background: var(--dokument-tlo); color: var(--dokument); }
+pre.schemat, figure.schemat pre { background: var(--schemat-tlo); }
+pre.dokument, figure.dokument pre, details.pytanie pre { background: var(--dokument-tlo); }
+.para { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.6rem; align-items: start; margin: 0.8rem 0; }
+.para figure.przyklad, .para details.pytanie { margin: 0 0 0.5rem; }
+.para pre { font-size: 8pt; }
+.spis-modulu, .spis-sekcji { margin: 0.6rem 0 1rem; padding: 0.4rem 0.8rem; border: 1px solid var(--ramka); border-radius: 4px; }
+.spis-sekcji { border-style: dashed; }
+.spis-modulu p, .spis-sekcji p { margin: 0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slaby); }
+.spis-modulu ol, .spis-sekcji ul { margin: 0.2rem 0 0; padding-left: 1.4rem; }
 a { color: var(--akcent); }
 .meta, .kontekst { color: var(--slaby); }
 .etykieta { font-size: 0.85rem; color: var(--slaby); margin: 0.8rem 0 0.1rem; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -19,9 +31,8 @@ a { color: var(--akcent); }
 .spis ol ol { font-size: 0.9rem; color: var(--slaby); }
 .polecenie { padding: 0.5rem 0.8rem; background: #e6eefb; border-radius: 4px; }
 figure.przyklad { margin: 0.8rem 0; padding: 0.4rem 0.7rem; border: 1px solid var(--ramka); border-left-width: 4px; border-radius: 4px; }
-figure.schemat { border-left-color: var(--akcent); }
-figure.przechodzi { border-left-color: var(--ok); }
-figure.odrzucony { border-left-color: var(--blad); }
+figure.schemat { border-left-color: var(--schemat); }
+figure.dokument { border-left-color: var(--dokument); }
 figcaption { font-size: 0.85rem; color: var(--slaby); }
 .werdykt.przechodzi { color: var(--ok); font-weight: 600; }
 .werdykt.odrzucony { color: var(--blad); font-weight: 600; }
@@ -54,3 +65,10 @@ section.cwiczenie { margin: 1rem 0 1.5rem; padding-bottom: 0.5rem; border-bottom
 .drzewo { width: 100%; max-width: 36rem; height: auto; display: block; margin: 0.5rem 0; color: var(--tekst); }
 .drzewo .wezel rect { fill: #fff; stroke: var(--akcent); stroke-width: 1.5; }
 .drzewo .wezel text { fill: var(--tekst); }
+.para .dla-schematu { display: none; }
+/* Pary schemat–dokument w druku: dwie kolumny A4 mieszczą linię przykładu (do 56 znaków) bez zawijania. */
+@media print {
+  .para { gap: 0.3rem; }
+  .para figure.przyklad, .para details.pytanie { padding: 0.25rem 0.35rem; }
+  .para pre { font-size: 6.8pt; padding: 0.25rem 0.35rem; }
+}

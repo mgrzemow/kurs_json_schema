@@ -11,7 +11,7 @@
     "allOf",
     "unevaluatedProperties"
   ],
-  "podpowiedz": "Każda gałąź `allOf` widzi tylko swoje `properties`, więc `additionalProperties: false` w gałęzi odrzuca pola z drugiej gałęzi. Zamiast tego `unevaluatedProperties: false` na poziomie `allOf`. Scalenie obu gałęzi w jeden obiekt też działa.",
+  "podpowiedz": "Każda gałąź `allOf` widzi tylko swoje `properties`, więc `additionalProperties: false`{s} w gałęzi odrzuca pola z drugiej gałęzi. Zamiast tego `unevaluatedProperties: false`{s} na poziomie `allOf`. Scalenie obu gałęzi w jeden obiekt też działa.",
   "przyklady": [
     {
       "opis": "Adres z instrukcjami",

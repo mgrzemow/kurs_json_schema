@@ -34,8 +34,8 @@ export function przygotujSchemat(wartosc, klucze = new Map()) {
     schemat = { ...wartosc };
     delete schemat.$schema;
     const tekst = typeof wartosc.$schema === 'string' && /draft-0[3-7]|2019-09/.test(wartosc.$schema)
-      ? 'Trener sprawdza według wersji 2020-12. Podstawowe słowa kluczowe działają w niej tak samo jak w starszych wersjach.'
-      : 'Nieznana wartość „$schema”. Trener sprawdza według wersji 2020-12 (' + SCHEMA_2020 + ').';
+      ? 'Walidator na tej stronie sprawdza według wersji 2020-12. Podstawowe słowa kluczowe działają w niej tak samo jak w starszych wersjach.'
+      : 'Nieznana wartość „$schema”. Walidator na tej stronie sprawdza według wersji 2020-12 (' + SCHEMA_2020 + ').';
     uwagi.push({ poziom: 'info', tekst, pos: klucze.get('/$schema') });
   }
   return { schemat, uwagi };

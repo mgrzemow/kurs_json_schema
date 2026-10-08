@@ -20,7 +20,7 @@ function karta(p) {
     else if (!p.ok && p.przeszedl) powod = '<p class="powod">Ten dokument powinien zostać odrzucony, ale schemat go przepuszcza.</p>' + (p.wskazowka ? `<p class="powod"><span class="wsk">Wskazówka:</span> ${md(p.wskazowka)}</p>` : '');
     else if (!p.ok) powod = `<p class="powod">Powód: ${esc(p.powod[0] || '')}</p>`;
   }
-  return `<article class="karta ${st}"><header><span class="opis">${esc(p.opis)}</span>${chip}</header><pre>${koloruj(ladnie(p.dane))}</pre>${powod}</article>`;
+  return `<article class="karta ${st}"><header><span class="opis">${md(p.opis)}</span>${chip}</header><pre class="dokument">${koloruj(ladnie(p.dane))}</pre>${powod}</article>`;
 }
 
 // przyklady: wynik sprawdzCwiczenie().przyklady; opcje.gotowe: czy schemat się skompilował

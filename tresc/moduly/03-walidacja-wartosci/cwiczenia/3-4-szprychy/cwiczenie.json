@@ -61,7 +61,7 @@
       "opis": "Liczba zapisana jako tekst",
       "dane": "36",
       "ok": false,
-      "wyjasnienie": "`\"36\"` to tekst, nie liczba. `type: integer` go odrzuca; bez `type` reguły liczbowe w ogóle nie są sprawdzane dla tekstów."
+      "wyjasnienie": "`\"36\"`{d} to tekst, nie liczba. `type: integer`{s} go odrzuca; bez `type` reguły liczbowe w ogóle nie są sprawdzane dla tekstów."
     }
   ],
   "zrodla": [

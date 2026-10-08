@@ -183,7 +183,30 @@ await strona.waitForTimeout(500);
 sprawdz('wykład → piaskownica z dokumentem', /Wyslane/.test(await strona.locator('#ed-dokument').textContent()) && (await strona.locator('.werdykt-glowny.n').count()) === 1);
 await strona.click('text=Wróć do wykładu');
 await strona.waitForTimeout(300);
-sprawdz('piaskownica → wróć do wykładu z kotwicą', /#\/m\/3\/wyklad\/walidacja-instancji-dowolnego-typu/.test(strona.url()), strona.url());
+sprawdz('piaskownica → wróć do wykładu z kotwicą podrozdziału', /#\/m\/3\/wyklad\/enum$/.test(strona.url()), strona.url());
+
+// 7b. Przycisk pod schematem otwiera schemat razem z pierwszym dokumentem; „Przywróć przykład” cofa zmiany.
+await strona.goto(baza + '#/m/2', { waitUntil: 'networkidle' });
+await strona.waitForSelector('figure.schemat[data-nazwa="reqired"]');
+await strona.click('figure.schemat[data-nazwa="reqired"] button.otworz');
+await strona.waitForSelector('#ed-dokument .view-lines');
+await strona.waitForTimeout(500);
+sprawdz('schemat z wykładu otwiera się z dokumentem', /reqired/.test(await strona.locator('#ed-schemat').textContent()) && /Jan.Nowak/.test(await strona.locator('#ed-dokument').textContent()));
+await ustawEdytor('#ed-schemat', '{ "type": "string" }');
+await strona.waitForTimeout(400);
+await strona.click('#b-reset');
+await strona.waitForTimeout(400);
+sprawdz('„Przywróć przykład” wraca do schematu z wykładu', /reqired/.test(await strona.locator('#ed-schemat').textContent()) && /Przywróć przykład/.test(await strona.locator('#b-reset').textContent()));
+
+// 7c. Wykład: spis treści modułu, pary schemat–dokument, kolory kodu w tekście.
+await strona.goto(baza + '#/m/4', { waitUntil: 'networkidle' });
+await strona.waitForSelector('.wyklad > .spis-modulu');
+sprawdz('wykład: spis treści modułu na górze', (await strona.locator('.wyklad > .spis-modulu').count()) === 1);
+sprawdz('wykład: schemat obok dokumentów', (await strona.locator('.wyklad .para .para-schemat figure.schemat').count()) >= 3);
+sprawdz('wykład: kod schematu i dokumentu ma klasy', (await strona.locator('.wyklad code.kod-schemat').count()) > 5 && (await strona.locator('.wyklad code.kod-dokument').count()) > 0);
+await strona.click('.spis-sekcji a >> nth=0');
+await strona.waitForTimeout(300);
+sprawdz('wykład: link w spisie części prowadzi do trasy z kotwicą', /#\/m\/4\/wyklad\/[a-z-]+$/.test(strona.url()), strona.url());
 
 // 8. Duży tekst i motyw.
 await strona.check('#p-duzy');

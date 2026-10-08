@@ -1,6 +1,10 @@
 {
   "nr": 5,
   "tytul": "Formaty i adnotacje",
+  "opis": "Formaty takie jak data czy e-mail, różnica między adnotacją a asercją i adnotacje opisujące schemat.",
   "minuty": 25,
-  "zakres": ["Zdefiniowane formaty", "Podstawowe adnotacje metadanych"]
+  "zakres": [
+    "Zdefiniowane formaty",
+    "Podstawowe adnotacje metadanych"
+  ]
 }

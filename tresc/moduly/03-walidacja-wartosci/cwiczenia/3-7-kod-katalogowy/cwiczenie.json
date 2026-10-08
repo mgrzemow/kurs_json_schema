@@ -10,7 +10,7 @@
   "slowa": [
     "pattern"
   ],
-  "podpowiedz": "We wzorcu `.` znaczy „dowolny znak”. Dosłowna kropka to `\\.`, a w pliku JSON ukośnik trzeba podwoić: `\"\\\\.\"`. Jeśli wpiszesz pojedynczy, trener pokaże błąd składni JSON.",
+  "podpowiedz": "We wzorcu `.` znaczy „dowolny znak”. Dosłowna kropka to `\\.`, a w pliku JSON ukośnik trzeba podwoić: `\"\\\\.\"`{s}. Jeśli wpiszesz pojedynczy, edytor pokaże błąd składni JSON.",
   "przyklady": [
     {
       "opis": "Szprycha",

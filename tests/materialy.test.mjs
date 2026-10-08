@@ -22,7 +22,7 @@ test('materiały: każde ćwiczenie ma sekcję z poleceniem', () => {
   for (const m of kurs.moduly) {
     for (const cw of m.cwiczenia) {
       assert.ok(html.includes(`id="cw-${cw.id}"`), cw.id);
-      assert.ok(bezTagow(html).includes(bezTagow(cw.polecenie).replace(/`/g, '').replace(/\*\*/g, '')), 'polecenie ' + cw.id);
+      assert.ok(bezTagow(html).includes(bezTagow(cw.polecenie).replace(/`\{[sd]\}/g, '').replace(/`/g, '').replace(/\*\*/g, '')), 'polecenie ' + cw.id);
     }
   }
 });
@@ -59,4 +59,9 @@ test('materiały: bez przycisków i skryptów, wykład ma werdykty w tekście', 
   assert.ok(!/<button/.test(html));
   assert.ok(!/<script/.test(html));
   assert.ok(html.includes('class="werdykt przechodzi"'));
+});
+
+test('materiały: odpowiedzi na „Przejdzie czy nie?” są rozwinięte', () => {
+  assert.ok(html.includes('<details class="pytanie odpowiedz" open>'));
+  assert.ok(!/<details class="pytanie[^"]*"(?! open)/.test(html));
 });

@@ -26,7 +26,7 @@ Powyżej dokument JSON Schema (górny) i instancja (dolny). Oba są dokumentami 
 
 ### Słowa kluczowe: asercje i adnotacje
 
-Słowo kluczowe (keyword) to nazwa pola w schemacie, która coś znaczy dla walidatora: `type`, `required`, `minimum`. Specyfikacja dzieli słowa na kilka kategorii (są też identyfikatory i aplikatory, do których dojdziemy), a jedno słowo może należeć do kilku. Na razie interesują nas dwie. **Asercja** daje werdykt: `type: "string"` odrzuca liczbę. **Adnotacja** tylko opisuje: `title`, `description` niczego nie sprawdzają. Do adnotacji należy też, co zaskakuje, `format`; o tym w module 5. <!-- twierdzenie --> <!-- zrodlo: core §4.3.1, §7.6, §7.7; validation §7.2.1 -->
+Słowo kluczowe (keyword) to nazwa pola w schemacie, która coś znaczy dla walidatora: `type`, `required`, `minimum`. Specyfikacja dzieli słowa na kilka kategorii (są też identyfikatory i aplikatory, do których dojdziemy), a jedno słowo może należeć do kilku. Na razie interesują nas dwie. **Asercja** daje werdykt: `type: "string"`{s} odrzuca liczbę. **Adnotacja** tylko opisuje: `title`, `description` niczego nie sprawdzają. Do adnotacji należy też, co zaskakuje, `format`; o tym w module 5. <!-- twierdzenie --> <!-- zrodlo: core §4.3.1, §7.6, §7.7; validation §7.2.1 -->
 
 ### Pułapka 1: nieznane słowa są po cichu ignorowane
 
@@ -40,11 +40,11 @@ Specyfikacja każe traktować nieznane słowa kluczowe jak adnotacje, czyli zbie
 42
 ```
 
-Trener o tym ostrzega („czy chodziło o `type`?”), ale walidator w systemie magazynu nie powie ani słowa. Następna, stabilna wersja specyfikacji ma to zmienić i traktować nieznane słowa jako błąd; na razie trzeba uważać. (Źródło zapowiedzi poza repozytorium: json-schema.org, wpis „The last breaking change”, 2023.)
+Edytor na tej stronie o tym ostrzega („czy chodziło o `type`?”), ale walidator w systemie magazynu nie powie ani słowa. Następna, stabilna wersja specyfikacji ma to zmienić i traktować nieznane słowa jako błąd; na razie trzeba uważać. (Źródło zapowiedzi poza repozytorium: json-schema.org, wpis „The last breaking change”, 2023.)
 
 ### Pułapka 2: pusty schemat przepuszcza wszystko
 
-Schemat `{}` nie ma żadnej asercji, więc nie ma czego sprawdzać: przechodzi każdy dokument, także `null` i pusta lista. Schemat może być też samym `true` (to samo, co `{}`) albo `false`, które odrzuca wszystko. <!-- twierdzenie --> <!-- zrodlo: core §4.3.2 -->
+Schemat `{}`{s} nie ma żadnej asercji, więc nie ma czego sprawdzać: przechodzi każdy dokument, także `null` i pusta lista. Schemat może być też samym `true` (to samo, co `{}`{s}) albo `false`, które odrzuca wszystko. <!-- twierdzenie --> <!-- zrodlo: core §4.3.2 -->
 
 ```json schemat=pusty
 {}
@@ -62,7 +62,7 @@ false
 { "numer": "ZAM-2026-000123" }
 ```
 
-**Przejdzie czy nie?** Schemat `{"reqired": ["numer"]}` i zamówienie bez numeru.
+**Przejdzie czy nie?** Schemat `{"reqired": ["numer"]}`{s} i zamówienie bez numeru.
 
 ```json schemat=reqired
 { "reqired": ["numer"] }
@@ -100,15 +100,17 @@ Nic więcej o metaschematach nie trzeba wiedzieć poza jednym: słowo `$schema` 
 }
 ```
 
-Trener sprawdza zawsze według 2020-12. Gdy `$schema` wskazuje inną wersję, pokazuje o tym informację pod edytorem. To ograniczenie narzędzia na potrzeby kursu, nie reguła specyfikacji.
+Walidator na tej stronie sprawdza zawsze według 2020-12. Gdy `$schema` wskazuje inną wersję, pokazuje o tym informację pod edytorem. To uproszczenie przyjęte w tym kursie, nie reguła specyfikacji.
 
 ## Wersje w pigułce
+
+### Historia wersji
 
 JSON Schema rozwijało się jako seria wersji roboczych (draft):
 
 | Wersja | Rok | Co warto wiedzieć |
 |---|---|---|
-| draft-00 do draft-03 | 2009–2010 | prehistoria; `required: true` wewnątrz pola |
+| draft-00 do draft-03 | 2009–2010 | prehistoria; `required: true`{s} wewnątrz pola |
 | draft-04 | 2013 | pierwsza szeroko wdrożona; `id` bez dolara |
 | draft-06 | 2017 | `$id`, `exclusiveMinimum` jako liczba, `const` |
 | draft-07 | 2018 | `if`/`then`/`else`; najczęściej spotykana w praktyce |
@@ -118,24 +120,28 @@ JSON Schema rozwijało się jako seria wersji roboczych (draft):
 
 (Źródła poza repozytorium: json-schema.org/specification-links, datatracker.ietf.org/wg/jsonschema.)
 
-**Dlaczego uczymy nowszej wersji, skoro w praktyce częściej spotyka się draft-07?** Draft-07 jest wszędzie, bo przez kilka lat nie było niczego nowszego, a edytory, generatory i OpenAPI 3.0 na nim stanęły. 2020-12 stopniowo go wypiera: OpenAPI 3.1 i nowe biblioteki walidacji wspierają ją w pełni, a następna wersja specyfikacji ma być stabilna, czyli bez zmian łamiących zgodność. Kto uczy się 2020-12, uczy się wersji, która zostanie standardem na długo. Kto zna 2020-12, przeczyta draft-07 bez trudu, bo różnice to kilka słów kluczowych; dlatego przy każdym takim słowie będzie w tym kursie ramka „W draft-07”. W drugą stronę jest trudniej: kto zna tylko draft-07, nie wie, czego mu brakuje.
+### Dlaczego uczymy nowszej wersji, skoro w praktyce częściej spotyka się draft-07?
 
-**Jak rozpoznać stary schemat.** Cztery sygnały, każdy wystarczy:
+Draft-07 jest wszędzie, bo przez kilka lat nie było niczego nowszego, a edytory, generatory i OpenAPI 3.0 na nim stanęły. 2020-12 stopniowo go wypiera: OpenAPI 3.1 i nowe biblioteki walidacji wspierają ją w pełni, a następna wersja specyfikacji ma być stabilna, czyli bez zmian łamiących zgodność. Kto uczy się 2020-12, uczy się wersji, która zostanie standardem na długo. Kto zna 2020-12, przeczyta draft-07 bez trudu, bo różnice to kilka słów kluczowych; dlatego przy każdym takim słowie będzie w tym kursie ramka „W draft-07”. W drugą stronę jest trudniej: kto zna tylko draft-07, nie wie, czego mu brakuje.
+
+### Jak rozpoznać stary schemat
+
+Cztery sygnały, każdy wystarczy:
 
 1. `definitions` zamiast `$defs`.
-2. `"exclusiveMinimum": true` obok `minimum` (draft-04); w nowszych to liczba.
+2. `"exclusiveMinimum": true`{s} obok `minimum` (draft-04); w nowszych to liczba.
 3. `id` bez dolara (draft-04) zamiast `$id`.
 4. Tablica w `items` (krotka) zamiast `prefixItems`.
 
-Plus nagłówek: `"$schema": "http://json-schema.org/draft-07/schema#"` albo `draft-04`.
+Plus nagłówek: `"$schema": "http://json-schema.org/draft-07/schema#"`{s} albo `draft-04`.
 
 Jedno zdanie o OpenAPI, bo tam najczęściej spotyka się schematy: OpenAPI 3.0 używa własnego dialektu bliskiego draft-04, a OpenAPI 3.1 to pełne 2020-12. Szczegóły w module 9.
 
 **Przejdzie czy nie?** To pytanie o rozpoznawanie, nie o werdykt: które z trzech nagłówków to aktualna wersja i po czym poznać pozostałe?
 
-- `"$schema": "http://json-schema.org/draft-04/schema#"`
-- `"$schema": "http://json-schema.org/draft-07/schema#"`
-- `"$schema": "https://json-schema.org/draft/2020-12/schema"`
+- `"$schema": "http://json-schema.org/draft-04/schema#"`{s}
+- `"$schema": "http://json-schema.org/draft-07/schema#"`{s}
+- `"$schema": "https://json-schema.org/draft/2020-12/schema"`{s}
 
 ```odpowiedz
 Aktualny jest trzeci. Stare mają `http`, myślnik po `draft` i `#` na końcu.

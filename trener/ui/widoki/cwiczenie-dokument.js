@@ -6,14 +6,12 @@ import { sprawdzCwiczenie } from '../../rdzen/sprawdz-cwiczenie.js';
 import { renderujDiagnoze, markeryZDiagnozy } from './diagnoza.js';
 
 export function cwiczenieDokument({ srodek, prawa, cw, stan, ustaw, wynik$ }) {
-  srodek.innerHTML = '<div class="pasek-edytora"><span class="tytul">Dokument do naprawy</span><span class="meta">trener pokazuje pierwszy błąd składni</span></div><div class="edytor" id="ed-dokument"></div>';
+  srodek.innerHTML = '<div class="pasek-edytora"><span class="tytul dokument">Dokument do naprawy</span><span class="meta">widać pierwszy błąd składni</span></div><div class="edytor dokument" id="ed-dokument"></div>';
   prawa.innerHTML = '<h2 style="font-size:1rem;margin:0 0 0.4rem">Co widzi walidator</h2><div class="diagnoza" id="diagnoza"></div>' +
-    (cw.schemat ? '<p class="meta" style="margin-top:0.8rem">Po naprawie składni dokument jest jeszcze sprawdzany schematem zamówienia (poniżej).</p><pre id="schemat-podglad"></pre>' : '');
+    (cw.schemat ? '<p class="meta" style="margin-top:0.8rem">Po naprawie składni dokument jest jeszcze sprawdzany schematem zamówienia (po lewej, pod zadaniem).</p>' : '');
   const edytor = utworzEdytor(srodek.querySelector('#ed-dokument'), { wartosc: stan.edytory[cw.id] ?? cw.start });
   const model = edytor.getModel();
   const diagnoza = prawa.querySelector('#diagnoza');
-  const podglad = prawa.querySelector('#schemat-podglad');
-  if (podglad) podglad.textContent = JSON.stringify(cw.schemat, null, 2);
 
   const naLinie = d => {
     const p = typeof d.pos === 'number' ? model.getPositionAt(d.pos) : { lineNumber: d.linia || 1, column: 1 };

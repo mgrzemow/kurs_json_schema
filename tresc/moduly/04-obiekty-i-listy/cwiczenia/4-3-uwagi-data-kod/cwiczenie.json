@@ -12,7 +12,7 @@
     "type",
     "minLength"
   ],
-  "podpowiedz": "O obecności pola decyduje `required`. `null` przepuszcza tylko `\"null\"` na liście typów: `[\"string\", \"null\"]`. Pusty tekst odrzuca `minLength: 1`. Każde pole dostaje własną kombinację tych trzech.",
+  "podpowiedz": "O obecności pola decyduje `required`. `null` przepuszcza tylko `\"null\"`{s} na liście typów: `[\"string\", \"null\"]`{s}. Pusty tekst odrzuca `minLength: 1`{s}. Każde pole dostaje własną kombinację tych trzech.",
   "przyklady": [
     {
       "opis": "Uwagi null, bez daty i kodu",

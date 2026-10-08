@@ -27,7 +27,7 @@ Język kursu, interfejsu, komunikatów i materiałów: **polski**.
 
 ## Format kursu
 
-- Zdalnie, ok. 5 h z dwiema przerwami po 10 min. Prowadzący udostępnia ekran.
+- Zdalnie, ok. 5 h z dwiema przerwami po 10 min. Prowadzący udostępnia ekran. Przerw i czasów nie pokazujemy ani na stronie, ani w materiałach (decyzja 2026-10-08).
 - **Zajęcia prowadzone przez trenera**, z ćwiczeniami wykonywanymi indywidualnie przez każdego uczestnika. Żadnej pracy w parach ani grupach.
 - Rytm każdego modułu: prowadzący omawia wykład na udostępnionym ekranie i pokazuje przykłady na żywo w trenerze → uczestnicy samodzielnie robią ćwiczenia, a prowadzący obserwuje postępy i pomaga → wspólne omówienie.
 - **Ćwiczeń jest więcej, niż zmieści się w czasie.** Prowadzący dobiera ich liczbę do grupy albo daje limit czasu („zróbcie, ile zdążycie w 15 minut”).
@@ -61,7 +61,7 @@ Zakres wykładu wyznacza program modułu i lista pułapek (niżej). Każde hasł
 4. **Stopniowana pomoc:** werdykt z wyjaśnieniem, dlaczego nie działa → podpowiedź → na końcu rozwiązanie. Podpowiedź nigdy nie zdradza rozwiązania.
 5. **Każdy temat pojawia się kilka razy:** pierwszy raz jako temat sam w sobie, potem jako część innych tematów. Przygotuj tabelę „temat × moduły, w których występuje” i tematy pojawiające się tylko raz daj prowadzącemu do decyzji.
 6. **Poprawianie częściej niż pisanie od zera.** Zepsute albo niekompletne rozwiązanie na start ćwiczy rozwiązywanie problemu i skraca czas ćwiczenia.
-7. **Czas:** każde ćwiczenie ma szacowany czas dla przeciętnego uczestnika. Pojedyncze ćwiczenie ★★ to orientacyjnie kilka minut (ok. 5–10), ale to szacunek, a nie limit. Ćwiczeń w module może być więcej, niż mieści się w czasie, dlatego:
+7. **Czas:** każde ćwiczenie ma szacowany czas dla przeciętnego uczestnika. Pojedyncze ćwiczenie ★★ to orientacyjnie kilka minut (ok. 5–10), ale to szacunek, a nie limit. Ćwiczeń w module może być więcej, niż mieści się w czasie, dlatego: Czas jest wyłącznie w danych (planowanie, testy); strona i materiały go nie wyświetlają.
    - **kolejność ma znaczenie** — najważniejsze ćwiczenia są pierwsze, żeby grupa, która zrobi tylko kilka, zrobiła te właściwe;
    - **każde ćwiczenie da się zrobić niezależnie** od poprzednich w module.
 
@@ -130,7 +130,7 @@ Do tej weryfikacji potrzebny jest skrypt `scripts/sprawdz-rozwiazanie`, który p
 
 | Moduł | Min | Zawartość (hasłowo) |
 |---|---|---|
-| 0. Start | 10 | po co JSON Schema (umowa między zespołami, walidacja, dokumentacja); jak działa trener |
+| 0. Start | 10 | po co JSON Schema (umowa między zespołami, walidacja, dokumentacja); jak korzystać z tej strony |
 | 1. JSON | 25 | czym jest JSON; JSON a XML (analogia JSON Schema ↔ XSD); struktury danych wg json.org: object, array, value, string, number, whitespace (z diagramami składni); typowe błędy |
 | 2. Pojęcia | 15 | dokument JSON, instancja, dokument JSON Schema; metaschemat i `$schema` (opisowo); wersje w pigułce |
 | 3. Walidacja wartości | 40 | walidacja dowolnego typu (`type`, `enum`, `const`); teksty (`minLength`, `maxLength`, `pattern`); mini-lekcja wyrażeń regularnych (dialekt ECMA-262, kotwice, klasy, powtórzenia, alternatywy, ucieczki w JSON-ie); liczby (`minimum`, `maximum`, `exclusive*`, `multipleOf`) |
@@ -169,7 +169,7 @@ Utrzymuj tę tabelę jako test: materiały po kursie muszą zawierać każde has
 
 1. **Napisz/popraw schemat** — edytor schematu + przykłady „muszą przejść” / „muszą zostać odrzucone”, werdykty na bieżąco przy każdej zmianie. Przy przykładzie, który niesłusznie przechodzi, opcjonalna wskazówka; przy poprawnie odrzuconym — powód po polsku.
 2. **Napraw dokument JSON** — zepsuty JSON, polskie komunikaty składni wskazujące linię.
-3. **Zgadnij, potem sprawdź** — gotowy schemat i dokumenty; uczestnik najpierw obstawia werdykt, potem trener weryfikuje.
+3. **Zgadnij, potem sprawdź** — gotowy schemat i dokumenty; uczestnik najpierw obstawia werdykt, potem strona weryfikuje.
 4. **Projekt z wieloma plikami** — kilka schematów z `$id` w zakładkach, jeden plik główny.
 5. **Popraw wygenerowany schemat** — ćwiczenie końcowe (moduł 8).
 
@@ -240,6 +240,16 @@ Polecenia: `npm run dev` (podgląd lokalny), `npm test` (wszystkie testy, ok. 6 
 Format treści: katalog na moduł (`tresc/moduly/NN-nazwa/` z `modul.json`, `wyklad.md`, `cwiczenia/<id>/cwiczenie.json` + pliki), opisany w specu. Bloki kodu w wykładzie: ```` ```json schemat=nazwa ````, ```` ```json dokument=nazwa schemat=nazwa oczekiwane=przechodzi|odrzucony ````, ```` ```json pytanie=nazwa schemat=… oczekiwane=… ````. Twierdzenia: `<!-- twierdzenie -->` w akapicie plus `<!-- zrodlo: validation §6.3.3 -->`. Ramka draft-07: cytat zaczynający się od `**W draft-07:**`. Odpowiedź na „Przejdzie czy nie?”: blok ```` ```odpowiedz ```` (zwijany w trenerze, rozwinięty w materiałach); odpowiedzi nigdy nie stoją na widoku pod pytaniem. **Tempo i szczegółowość kursu są celowo wyważone między profilami** (decyzja 2026-10-08): nie skracać dla technicznych ani nie upraszczać dla analityków.
 
 Stary jednoplikowy prototyp (`prototyp/trener.html`, CodeMirror + Ajv z CDN) jest już tylko historyczny; jego logika została przeniesiona do `trener/rdzen/`.
+
+## Konwencje tekstu i wyglądu (decyzje 2026-10-08)
+
+- **Tekst nie mówi o sobie.** Słowa „trener” nie używamy w treści ani w interfejsie (to słowo oznacza żywego prowadzącego, a jego też nie wspominamy). Narzędzie to „ta strona”, „edytor”, „piaskownica”. „Ten kurs” tylko tam, gdzie tłumaczymy konwencję albo decyzję. Pilnuje tego test `tests/konwencje.test.mjs`.
+- **Bez czasów i przerw** na stronie i w materiałach. Start pokazuje moduły jeden pod drugim, każdy z jednozdaniowym opisem z pola `opis` w `modul.json`.
+- **Kolory: schemat niebieski, dokument z danymi fioletowy** — w ramkach przykładów, edytorach, kartach i w kodzie w tekście. Słowo kluczowe w `` `…` `` dostaje kolor schematu automatycznie; inne fragmenty oznacza się w Markdownie: `` `{"uwagi": null}`{d} ``, `` `"type": "string"`{s} `` (także w polach tekstowych `cwiczenie.json`). Wartości `null`/`true`/`false`, nazwy pól i wyrażenia regularne zostają bez koloru.
+- **Schemat po lewej, dokument po prawej**, gdy stoją razem: w wykładzie schemat i jego dokumenty bez tekstu pomiędzy układają się w parę automatycznie; w piaskownicy, generatorze i ćwiczeniu „Napraw dokument” schemat też jest po lewej.
+- **Spisy treści**: na górze wykładu spis sekcji, a na początku każdej sekcji z co najmniej dwoma podrozdziałami (`###`) spis tych podrozdziałów, generowany z nagłówków. Długie sekcje dzielimy na podrozdziały, żeby nie były jednym strumieniem tekstu z przykładami.
+- **Formatowanie JSON-a**: przykłady w wykładzie i starty ćwiczeń są formatowane przy budowaniu (`trener/rdzen/formatuj.js`, szerokość 56 znaków: co się mieści, zostaje w jednej linii). Zapis wartości zostaje bez zmian. `format=bez` w bloku wyłącza formatowanie (np. prawdziwy wynik genson); start ćwiczenia rodzaju 5 nie jest formatowany.
+- **Przykłady z wykładu w piaskownicy**: każdy blok ma własny klucz (powtórzona nazwa dostaje `~2`), przycisk pod schematem otwiera też pierwszy dokument tego schematu, „Przywróć przykład” wraca do bloku z wykładu.
 
 ## Styl tekstów w interfejsie
 

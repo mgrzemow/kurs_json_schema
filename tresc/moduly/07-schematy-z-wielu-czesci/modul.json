@@ -1,6 +1,7 @@
 {
   "nr": 7,
   "tytul": "Schematy z wielu części",
+  "opis": "Podział schematu na części: definicje i odwołania, identyfikatory fragmentów, wiele plików i ładowanie schematów przez walidator.",
   "minuty": 40,
   "zakres": [
     "Identyfikatory fragmentów",

@@ -13,7 +13,7 @@
     "else",
     "not"
   ],
-  "podpowiedz": "Warunek „kraj inny niż PL” to `if` z `required: [\"kraj\"]` i `not` na `const: \"PL\"`. `then` wymaga `eori`, a `else` zabrania go przez `not: { required: [\"eori\"] }`.",
+  "podpowiedz": "Warunek „kraj inny niż PL” to `if` z `required: [\"kraj\"]`{s} i `not` na `const: \"PL\"`{s}. `then` wymaga `eori`, a `else` zabrania go przez `not: { required: [\"eori\"] }`{s}.",
   "przyklady": [
     {
       "opis": "Niemcy z EORI",
@@ -66,7 +66,7 @@
   "bledne": [
     {
       "plik": "else-z-required",
-      "dlaczego": "`else` z `required: [\"eori\"]` zamiast zakazu wymaga EORI w Polsce, czyli dokładnie odwrotnie."
+      "dlaczego": "`else` z `required: [\"eori\"]`{s} zamiast zakazu wymaga EORI w Polsce, czyli dokładnie odwrotnie."
     }
   ],
   "zrodla": [

@@ -12,7 +12,7 @@
     "then",
     "required"
   ],
-  "podpowiedz": "`if` z samym `properties` jest spełnione także wtedy, gdy pola nie ma. Dodaj `required: [\"faktura\"]` wewnątrz `if`.",
+  "podpowiedz": "`if` z samym `properties` jest spełnione także wtedy, gdy pola nie ma. Dodaj `required: [\"faktura\"]`{s} wewnątrz `if`.",
   "przyklady": [
     {
       "opis": "Faktura z NIP",

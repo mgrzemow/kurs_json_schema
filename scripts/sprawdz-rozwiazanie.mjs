@@ -11,6 +11,8 @@ import { wczytajKurs } from './zbuduj-tresc.mjs';
 import { sprawdzCwiczenie } from '../trener/rdzen/sprawdz-cwiczenie.js';
 import { jeden } from '../trener/rdzen/pomocnicze.js';
 
+// Znaczniki kolorów z treści (`…`{s}, `…`{d}) nie mają sensu w terminalu.
+const t = x => String(x ?? '').replace(/`[{][sd][}]/g, '`');
 const argv = process.argv.slice(2);
 const formaty = argv.includes('--formaty');
 const id = argv.find(a => !a.startsWith('--'));
@@ -43,13 +45,13 @@ if (w.przyklady.length) {
   for (const p of w.przyklady) {
     const werdykt = p.przeszedl === null ? 'czeka' : p.przeszedl ? 'Przechodzi' : 'Odrzucony';
     const znak = p.przeszedl === null ? '…' : p.zgodny ? '✓' : '✗';
-    let linia = `  ${znak} ${p.opis} ${jeden(p.dane)} → ${werdykt}`;
+    let linia = `  ${znak} ${t(p.opis)} ${jeden(p.dane)} → ${werdykt}`;
     if (cw.rodzaj === 3) linia += ` (Twoja odpowiedź: ${p.odpowiedz === null ? 'brak' : p.odpowiedz ? 'przejdzie' : 'nie przejdzie'})`;
     console.log(linia);
     if (p.przeszedl !== null && !p.zgodny) {
-      if (cw.rodzaj === 3) console.log('      ' + p.wyjasnienie);
+      if (cw.rodzaj === 3) console.log('      ' + t(p.wyjasnienie));
       else if (p.ok && !p.przeszedl) console.log('      Ten dokument powinien przejść, ale schemat zgłasza: ' + p.powod.join(' '));
-      else if (!p.ok && p.przeszedl) console.log('      Ten dokument powinien zostać odrzucony, ale schemat go przepuszcza.' + (p.wskazowka ? ' Wskazówka: ' + p.wskazowka : ''));
+      else if (!p.ok && p.przeszedl) console.log('      Ten dokument powinien zostać odrzucony, ale schemat go przepuszcza.' + (p.wskazowka ? ' Wskazówka: ' + t(p.wskazowka) : ''));
     } else if (p.przeszedl === false && p.powod.length) console.log('      Powód: ' + p.powod[0]);
   }
 }

@@ -1,6 +1,7 @@
 {
   "nr": 6,
   "tytul": "Łączenie warunków",
+  "opis": "Reguły między polami: wszystkie warunki, co najmniej jeden, dokładnie jeden, zaprzeczenie, if/then/else i pola zależne.",
   "minuty": 30,
   "zakres": []
 }

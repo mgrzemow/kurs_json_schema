@@ -11,7 +11,7 @@
     "$defs",
     "$ref"
   ],
-  "podpowiedz": "Definicja w `$defs` niczego nie sprawdza, dopóki nikt się do niej nie odwołuje. Zastąp opis pola `klient` odwołaniem `{ \"$ref\": \"#/$defs/klient\" }`.",
+  "podpowiedz": "Definicja w `$defs` niczego nie sprawdza, dopóki nikt się do niej nie odwołuje. Zastąp opis pola `klient` odwołaniem `{ \"$ref\": \"#/$defs/klient\" }`{s}.",
   "przyklady": [
     {
       "opis": "Klient z e-mailem",
