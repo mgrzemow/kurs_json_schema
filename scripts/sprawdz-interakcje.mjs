@@ -76,6 +76,44 @@ const sugestie = await strona.locator('.suggest-widget .monaco-list-row').allTex
 sprawdz('Monaco: Ctrl+Spacja proponuje słowa kluczowe', sugestie.length >= 10 && sugestie.some(t => /\$defs|properties|required/.test(t)), sugestie.slice(0, 5).join(', '));
 await strona.keyboard.press('Escape');
 
+// 5a. Ćwiczenie 3-2: trzy błędy składni po kolei, potem zgodność ze schematem.
+await strona.goto(baza + '#/m/3/cw/3-2-napraw-zamowienie', { waitUntil: 'networkidle' });
+await strona.waitForSelector('#ed-dokument .view-lines');
+await strona.waitForTimeout(500);
+sprawdz('3-2: start pokazuje błąd w linii 4', /linia 4/.test(await strona.locator('#diagnoza').textContent()));
+await ustawEdytor('#ed-dokument', '{\n  "numer": "ZAM-2026-000123",\n  "klient": "Serwis",\n  "faktura": true,\n  "pozycje": [\n    { "ean": "5901234123457", "ilosc": 2, "cena": 12,50 },\n    { "ean": "5901234123464", "ilosc": 36, "cena": 1.20 },\n  ]\n}');
+await strona.waitForTimeout(500);
+sprawdz('3-2: po pierwszej naprawie błąd przecinka dziesiętnego w linii 6', /kropki zamiast przecinka/.test(await strona.locator('#diagnoza').textContent()) && /linia 6/.test(await strona.locator('#diagnoza').textContent()));
+await ustawEdytor('#ed-dokument', '{ "numer": "x", "klient": "", "faktura": true, "pozycje": [] }');
+await strona.waitForTimeout(500);
+const d32 = await strona.locator('#diagnoza').textContent();
+sprawdz('3-2: poprawny JSON niezgodny ze schematem pokazuje komunikaty walidacji', /Niezgodność ze schematem/.test(d32) && /nie pasuje do wzorca/.test(d32) && (await strona.locator('.zaliczone-ramka').count()) === 0);
+await strona.click('#b-roz');
+await strona.click('#b-wstaw');
+await strona.waitForTimeout(500);
+sprawdz('3-2: rozwiązanie zalicza', (await strona.locator('.zaliczone-ramka').count()) === 1);
+
+// 5b. Ćwiczenie 3-3: odpowiedzi, Sprawdź, wyjaśnienia, Spróbuj jeszcze raz.
+await strona.goto(baza + '#/m/3/cw/3-3-opakowania', { waitUntil: 'networkidle' });
+await strona.waitForSelector('#ed-schemat .view-lines');
+sprawdz('3-3: „Sprawdź” nieaktywne bez odpowiedzi', await strona.locator('#b-sprawdz').isDisabled());
+const poprawne = [true, true, false, false, true, false, false, false];
+for (let i = 0; i < poprawne.length; i++) {
+  const v = (i === 2 ? !poprawne[i] : poprawne[i]) ? 't' : 'n';
+  await strona.click(`input[name="o-${i}"][value="${v}"]`);
+}
+await strona.waitForTimeout(200);
+sprawdz('3-3: „Sprawdź” aktywne po wszystkich odpowiedziach', !(await strona.locator('#b-sprawdz').isDisabled()));
+await strona.click('#b-sprawdz');
+await strona.waitForTimeout(300);
+sprawdz('3-3: jedna nietrafiona z wyjaśnieniem', (await strona.locator('.karta.nietrafione').count()) === 1 && /minimum/.test(await strona.locator('.karta.nietrafione .wyjasnienie').textContent()));
+sprawdz('3-3: 7 z 8 trafionych, bez zaliczenia', /7 z 8/.test(await strona.locator('.licznik').textContent()) && (await strona.locator('.zaliczone-ramka').count()) === 0);
+await strona.click('#b-jeszcze');
+for (let i = 0; i < poprawne.length; i++) await strona.click(`input[name="o-${i}"][value="${poprawne[i] ? 't' : 'n'}"]`);
+await strona.click('#b-sprawdz');
+await strona.waitForTimeout(300);
+sprawdz('3-3: wszystkie trafione → zaliczone', (await strona.locator('.zaliczone-ramka').count()) === 1);
+
 // 6. Przełącznik formatów w piaskownicy.
 await strona.goto(baza + '#/piaskownica', { waitUntil: 'networkidle' });
 await strona.waitForSelector('.monaco-editor .view-lines');

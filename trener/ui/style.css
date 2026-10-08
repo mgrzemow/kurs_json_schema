@@ -231,3 +231,5 @@ html.motyw-ciemny .t-key { color: #f0a86b; } html.motyw-ciemny .t-str { color: #
   .dwa-edytory { grid-template-columns: 1fr; }
   .edytor { height: 18rem; }
 }
+
+button:disabled { opacity: 0.5; cursor: not-allowed; }
