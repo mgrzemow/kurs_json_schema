@@ -107,6 +107,7 @@ Do tej weryfikacji potrzebny jest skrypt `scripts/sprawdz-rozwiazanie`, który p
   - **inne wersje opisane tylko w jednym miejscu** (moduł 2, „wersje w pigułce”): krótka historia (draft-00…03 prehistoria, draft-04, draft-06, draft-07 jako najczęściej spotykany w praktyce, 2019-09 przejściowy, 2020-12 aktualny, stabilna wersja w przygotowaniu — wg IETF nie wcześniej niż 2027) i jak rozpoznać stary schemat (`definitions`, `exclusiveMinimum: true`, `id` bez dolara, tablica w `items`). Poza modułem 2 nie wspominamy o draft-04, draft-06 ani 2019-09.
 - **Metaschematy — tylko opisowo.**
 - **OpenAPI — tylko opisowo**: `components/schemas`, `$ref`, OpenAPI 3.0 (dialekt oparty na draft-04, `nullable`) kontra 3.1 (pełne 2020-12).
+- **Wiodący temat: zamówienie w hurtowni części rowerowych** (sklep → magazyn). Szczegóły i plan rozbudowy obiektu moduł po module: `docs/domena.md`. Nazwy pól polskie, camelCase, bez polskich znaków (`numerKlienta`). Identyfikatory schematów w `https://kurs.example/schematy/…`.
 - **Nacisk ćwiczeniowy na poziom średni (★★).**
 - Kurs ma służyć obu grupom odbiorców: ćwiczenia z czytania i poprawiania schematów (analitycy) przeplatają się z pisaniem (autorzy schematów).
 - Pułapki, które muszą wybrzmieć (w wykładzie lub w ćwiczeniach):
@@ -121,7 +122,9 @@ Do tej weryfikacji potrzebny jest skrypt `scripts/sprawdz-rozwiazanie`, który p
   - `oneOf` zawodzi, gdy pasują dwie opcje naraz;
   - `$id` to identyfikator, a nie adres do pobrania — walidator niczego nie ściąga z sieci;
   - w 2020-12 słowa obok `$ref` działają (w draft-07 były ignorowane);
-  - generator schematów opisuje to, co jest w przykładach, a nie to, co powinno być.
+  - generator schematów opisuje to, co jest w przykładach, a nie to, co powinno być;
+  - `additionalProperties: false` w gałęzi `allOf` odrzuca wszystko, bo każda gałąź widzi tylko swoje `properties`; rozwiązaniem w 2020-12 jest `unevaluatedProperties` (jeden akapit w module 6, bez osobnego ćwiczenia);
+  - `multipleOf` z ułamkiem dziesiętnym (np. `0.01`) bywa zawodny przez arytmetykę zmiennoprzecinkową (moduł 3).
 
 ## Program (kolejność dydaktyczna)
 
@@ -240,8 +243,7 @@ Istnieje jednoplikowy prototyp (`prototyp/trener.html`, edytor CodeMirror 5 + Aj
 ## Otwarte kwestie (do ustalenia z prowadzącym)
 
 - Ogólna struktura strony (jak zrealizować podział na części).
-- Profile uczestników (`docs/profile-uczestnikow.md`).
-- Wiodący temat (domena) przykładów i treść wszystkich ćwiczeń.
+- Treść wszystkich ćwiczeń (domena ustalona: `docs/domena.md`).
 - Konspekty wykładu dla każdego modułu.
 - Czy potrzebne są notatki dla prowadzącego (niewidoczne dla uczestników).
 - Czy w każdym module ma być ramka „minimum dla analityka”.
@@ -249,4 +251,4 @@ Istnieje jednoplikowy prototyp (`prototyp/trener.html`, edytor CodeMirror 5 + Aj
 - Czy ćwiczenia są widoczne od razu, czy moduły odblokowuje prowadzący.
 - Czy w trenerze ma być minutnik do pracy na czas.
 - Czy robimy zakładkę „Generator”.
-- Konwencja nazewnictwa w kodzie (polskie czy angielskie identyfikatory).
+- Konwencja nazewnictwa w kodzie (polskie czy angielskie identyfikatory). Nazwy pól w danych kursu są już ustalone: polskie bez znaków diakrytycznych.
