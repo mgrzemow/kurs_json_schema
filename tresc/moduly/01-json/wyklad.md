@@ -90,7 +90,7 @@ Obiekt to nawiasy klamrowe, a w nich pary `"nazwa": wartość` rozdzielone przec
 { "nazwa": "Serwis Rowerowy Pedał", "email": "serwis@example.com" }
 ```
 
-(Ten dokument jest poprawnym obiektem, ale schemat zamówienia go odrzuca, bo to klient, nie zamówienie. Składnia i zgodność ze schematem to dwie różne rzeczy.)
+(Ten dokument jest poprawnym obiektem, czyli poprawnym JSON-em, ale schemat zamówienia go odrzuca, bo to klient, nie zamówienie. Składnia i zgodność ze schematem to dwie różne rzeczy; czerwony werdykt nie znaczy tu „zły JSON”.)
 
 ### array
 

@@ -5,7 +5,7 @@
   "poziom": 2,
   "czasMin": 6,
   "kolejnosc": 5,
-  "kontekst": "Dostawca systemu kurierskiego przysłał schemat adresu. Twierdzi, że wymaga ulicy, miasta i kodu pocztowego. Trener pokazuje błąd i kilka ostrzeżeń, a zamówienia bez miasta przechodzą.",
+  "kontekst": "Dostawca systemu kurierskiego przysłał schemat adresu. Twierdzi, że wymaga ulicy, miasta i kodu pocztowego. Trener pokazuje błąd schematu i kilka ostrzeżeń, a schemat nie sprawdza tego, co dostawca obiecał.",
   "polecenie": "Popraw schemat tak, żeby naprawdę sprawdzał to, co dostawca obiecał: trzy pola tekstowe, wszystkie wymagane. Zadaj mu trzy pytania z wykładu: które pola są wymagane, co przyjmuje każde pole, czy obce pole przejdzie.",
   "slowa": [
     "properties",
@@ -61,7 +61,7 @@
   "bledne": [
     {
       "plik": "zostala-literowka",
-      "dlaczego": "Pola przeniesione do `properties`, ale `required` nadal wymaga `kod_pocztowy`, więc adres bez kodu pocztowego przechodzi, a każdy adres bez pola `kod_pocztowy` byłby odrzucany, gdyby ktoś je kiedyś dodał."
+      "dlaczego": "Pola przeniesione do `properties`, ale `required` nadal wymaga `kod_pocztowy` (z podkreślnikiem). Takiego pola nikt nie wysyła, więc odrzucany jest każdy adres, także poprawny."
     }
   ],
   "zrodla": [

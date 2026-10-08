@@ -12,7 +12,7 @@ Cztery źródła, każde daje coś innego i czegoś nie daje.
 
 **Z modelu AI.** Model językowy napisze schemat, który wygląda wiarygodnie, łącznie z `pattern` i `enum`. Problem w tym, że reguły biznesowe zgaduje, a zgaduje pewnie siebie. Schemat od modelu sprawdza się dokładnie tak samo jak wygenerowany z przykładów: przykładami, które muszą przejść i muszą zostać odrzucone.
 
-Wspólna zasada: generator to punkt wyjścia, nie wynik. Pułapka z listy obowiązkowej kursu brzmi: **generator opisuje to, co jest w przykładach, a nie to, co powinno być.**
+Wspólna zasada: generator to punkt wyjścia, nie wynik. Najważniejsza pułapka brzmi: **generator opisuje to, co jest w przykładach, a nie to, co powinno być.**
 
 ## Co generatory robią źle
 
@@ -69,7 +69,7 @@ genson -i 2 zamowienie-1.json zamowienie-2.json zamowienie-3.json
 | Generator napisał | Powinno być | Moduł |
 |---|---|---|
 | `"$schema": "http://json-schema.org/schema#"` (bez wersji) | nagłówek 2020-12 | 2 |
-| `uwagi` w `required`, bo było w każdym z trzech plików | `uwagi` opcjonalne; `required` z wymagań, nie z obecności | 4 |
+| `uwagi` w `required`, bo było w każdym z trzech plików | magazyn przyjmuje zamówienia z kilku kanałów (sklep, telefon, EDI), a nie każdy wysyła uwagi: `uwagi` opcjonalne; `required` z wymagań, nie z obecności | 4 |
 | `nip`, `kodRabatowy`, `eori` opcjonalne, bo w którymś pliku ich brakło | NIP wymagany przy fakturze, EORI poza Polską | 6 |
 | `status`, `waluta`, `typ` jako zwykły `string` | `enum`, `const` | 3 |
 | brak wzorców numeru, kodu pocztowego, NIP-u, EAN-u | `pattern` | 3 |

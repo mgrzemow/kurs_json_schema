@@ -15,7 +15,7 @@ test('rodzaj 1: rozwiązanie zalicza, start nie', () => {
   const s = sprawdzCwiczenie(c, { schemat: c.start });
   assert.equal(s.zaliczone, false);
   const niezgodne = s.przyklady.filter(p => !p.zgodny);
-  assert.equal(niezgodne.length, 3);
+  assert.equal(niezgodne.length, 4);
   assert.ok(niezgodne.every(p => p.wskazowka));
   assert.equal(niezgodne[0].przeszedl, true);
 });

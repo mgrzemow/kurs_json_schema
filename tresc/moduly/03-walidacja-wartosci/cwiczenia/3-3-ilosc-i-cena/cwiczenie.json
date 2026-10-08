@@ -88,8 +88,7 @@
         "ilosc": 1,
         "cena": "10"
       },
-      "ok": false,
-      "wskazowka": "Reguły liczbowe nie dotyczą tekstów. Cena potrzebuje `type`."
+      "ok": false
     }
   ],
   "bledne": [

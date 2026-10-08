@@ -1,4 +1,4 @@
-Magazyn odrzuca zamówienia, w których „ilość” raz jest liczbą, a raz tekstem, a status to dowolny napis. W tym module opisujemy pojedyncze wartości: jakiego mają być typu, z jakiej listy, jakiej długości, do jakiego wzorca pasować i w jakim zakresie się mieścić. Obiekty i listy przyjdą w module 4; na razie każdy przykład to jedna wartość.
+Magazyn odrzuca zamówienia, w których „ilość” raz jest liczbą, a raz tekstem, a status to dowolny napis. W tym module opisujemy pojedyncze wartości: jakiego mają być typu, z jakiej listy, jakiej długości, do jakiego wzorca pasować i w jakim zakresie się mieścić. Obiekty i listy przyjdą w module 4. W wykładzie każdy przykład to jedna wartość; niektóre ćwiczenia opakowują ją w prosty obiekt z jednym albo dwoma polami (`properties` i `required` z modułu 0 wystarczą, żeby je przeczytać).
 
 ## Walidacja instancji dowolnego typu
 
@@ -126,7 +126,7 @@ Każdy klocek z przykładem z zamówienia:
 "EURO"
 ```
 
-- **Kropka.** `.` to „dowolny znak”. Dosłowna kropka wymaga ucieczki `\.`. Kod katalogowy `SZP.36`: `^[A-Z]{3}\.[0-9]{2}$`.
+- **Kropka i inne znaki specjalne.** `.` to „dowolny znak”. Dosłowna kropka wymaga ucieczki `\.`. Kod katalogowy `SZP.36`: `^[A-Z]{3}\.[0-9]{2}$`. Tak samo każdy znak, który we wzorcu coś znaczy: `+`, `*`, `?`, `(`, `)`, `[`, `{`, `|`, `^`, `$`. Telefon z plusem na początku to `^\+48`.
 - **Ucieczka w JSON-ie.** Wzorzec stoi w tekście JSON, a w tekście JSON `\` jest znakiem ucieczki (moduł 1). Dlatego `\.` zapisujemy w pliku jako `"\\."`, a `\d` jako `"\\d"`: parser JSON zamienia `\\` na jeden `\`, zanim wzorzec trafi do walidatora. Niepodwojony ukośnik to błąd składni JSON, który trener pokaże od razu. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §7 -->
 
 ```json schemat=kod-katalogowy

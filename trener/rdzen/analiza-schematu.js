@@ -77,7 +77,9 @@ const GALEZIE = ['allOf', 'anyOf', 'oneOf', 'not', 'if', 'then', 'else', 'depend
       }
       if (STARE_SLOWA[k]) out.push({ poziom: 'info', tekst: STARE_SLOWA[k], pos: klucze.get(kp) });
       if (k === 'format' && typeof v === 'string' && !ZNANE_FORMATY.has(v)) {
-        out.push({ poziom: 'ostrz', tekst: 'Format „' + v + '” nie jest zdefiniowany w specyfikacji, więc walidator go pomija nawet przy włączonej walidacji „format”. Do własnych formatów (telefon, NIP, kod pocztowy) służy „pattern”.', pos: klucze.get(kp) });
+        const bliski = [...ZNANE_FORMATY].map(f => [f, lev(v.toLowerCase(), f)]).sort((a, b) => a[1] - b[1])[0];
+        const sugestia = bliski && bliski[1] <= 2 ? ' Czy chodziło o „' + bliski[0] + '”?' : ' Do własnych formatów (telefon, NIP, kod pocztowy) służy „pattern”.';
+        out.push({ poziom: 'ostrz', tekst: 'Format „' + v + '” nie jest zdefiniowany w specyfikacji, więc walidator go pomija także przy włączonej walidacji „format”.' + sugestia, pos: klucze.get(kp) });
       }
       if (k === 'format' && !formatPokazany) {
         formatPokazany = true;
@@ -85,8 +87,15 @@ const GALEZIE = ['allOf', 'anyOf', 'oneOf', 'not', 'if', 'then', 'else', 'depend
           ? '„format” jest teraz sprawdzany jak reguła, bo w pasku włączono „walidacja format”. Bez tego przełącznika byłby samą adnotacją.'
           : '„format” to tu tylko opis. Domyślnie walidator go nie sprawdza, więc np. "abc" przejdzie jako e-mail. Włącz „walidacja format” w pasku, żeby to zmienić.', pos: klucze.get(kp) });
       }
+      if (k === 'required' && (s.type === 'array' || s.items !== undefined || s.prefixItems !== undefined) && s.properties === undefined) {
+        out.push({ poziom: 'ostrz', tekst: '„required” stoi przy liście, a lista nie ma pól. Wymagane pola elementów wpisz wewnątrz „items”, obok jego „properties”.', pos: klucze.get(kp) });
+      }
       if (k === 'required' && !wGalezi && Array.isArray(v) && s.properties && typeof s.properties === 'object') {
         for (const r of v) {
+          if (typeof r === 'string' && r.includes('.') && !Object.prototype.hasOwnProperty.call(s.properties, r)) {
+            out.push({ poziom: 'ostrz', tekst: '„' + r + '” w „required” wygląda jak ścieżka z kropkami, a w JSON Schema nie ma ścieżek: to nazwa jednego pola z kropką w środku. Pola w obiekcie zagnieżdżonym wymaga się przez „required” wewnątrz jego schematu.', pos: klucze.get(kp) });
+            continue;
+          }
           if (typeof r === 'string' && !Object.prototype.hasOwnProperty.call(s.properties, r)) {
             out.push({ poziom: 'ostrz', tekst: 'Pole „' + r + '” jest w „required”, ale nie ma go w „properties”. To może być literówka.', pos: klucze.get(kp) });
           }

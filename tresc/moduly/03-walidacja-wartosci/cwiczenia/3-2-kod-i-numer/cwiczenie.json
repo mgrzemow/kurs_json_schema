@@ -72,6 +72,15 @@
       "wskazowka": "To samo co z kodem: kotwica `^`."
     },
     {
+      "opis": "Numer z dopiskiem po",
+      "dane": {
+        "kodPocztowy": "00-950",
+        "numer": "ZAM-2026-000123/A"
+      },
+      "ok": false,
+      "wskazowka": "Bez `$` na końcu wzorzec numeru nie sprawdza, co jest dalej."
+    },
+    {
       "opis": "Kod jako liczba",
       "dane": {
         "kodPocztowy": 31042,

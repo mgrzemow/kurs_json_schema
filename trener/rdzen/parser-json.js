@@ -33,7 +33,7 @@ export function parsujJSON(t, komunikatPusty) {
       const c = t[i];
       if (c === ' ' || c === '\t' || c === '\n' || c === '\r') i++;
       else if (c === ' ' || c === ' ' || c === ' ') fail('Tu jest twarda spacja (często zostaje po kopiowaniu z Worda lub maila). Usuń ją i wpisz zwykłą spację.');
-      else if (c === '/' && (t[i + 1] === '/' || t[i + 1] === '*')) fail('JSON nie pozwala na komentarze. Opis możesz wpisać w polu "description".');
+      else if (c === '/' && (t[i + 1] === '/' || t[i + 1] === '*')) fail('JSON nie pozwala na komentarze. Usuń komentarz. W dokumencie informację wpisz w zwykłym polu (np. "uwagi"), a w schemacie w polu "description".');
       else return;
     }
   };

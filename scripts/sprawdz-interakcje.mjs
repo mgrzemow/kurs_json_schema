@@ -27,8 +27,8 @@ await strona.goto(baza + '#/m/3/cw/3-2-kod-i-numer', { waitUntil: 'networkidle' 
 await strona.waitForSelector('.monaco-editor .view-lines');
 await strona.waitForTimeout(500);
 const licznik1 = await strona.locator('.licznik').textContent();
-sprawdz('3-2: start pokazuje 5 z 8', /5 z 8/.test(licznik1), licznik1.trim());
-sprawdz('3-2: trzy karty z wskazówką', (await strona.locator('.karta.n .wsk').count()) === 3);
+sprawdz('3-2: start pokazuje 5 z 9', /5 z 9/.test(licznik1), licznik1.trim());
+sprawdz('3-2: cztery karty z wskazówką', (await strona.locator('.karta.n .wsk').count()) === 4);
 
 // Edycja przez klawiaturę: klik w edytor, Ctrl+A, wpisanie poprawionego schematu.
 await ustawEdytor('#ed-schemat', '{ "type": "object", "properties": { "kodPocztowy": { "type": "string", "pattern": "^[0-9]{2}-[0-9]{3}$" }, "numer": { "type": "string", "pattern": "^ZAM-[0-9]{4}-[0-9]{6}$" } }, "required": ["kodPocztowy", "numer"] }');
@@ -39,7 +39,7 @@ sprawdz('3-2: zapisane w localStorage', await strona.evaluate(() => JSON.parse(l
 // 2. Zacznij od nowa → wraca start; Rozwiązanie → Wstaw → zaliczone; Ctrl+Z → wraca start.
 await strona.click('#b-nowa');
 await strona.waitForTimeout(500);
-sprawdz('3-2: „Zacznij od nowa” przywraca start', /5 z 8/.test(await strona.locator('.licznik').textContent()));
+sprawdz('3-2: „Zacznij od nowa” przywraca start', /5 z 9/.test(await strona.locator('.licznik').textContent()));
 await strona.click('#b-roz');
 await strona.click('#b-wstaw');
 await strona.waitForTimeout(500);
@@ -47,7 +47,7 @@ sprawdz('3-2: „Wstaw do edytora” zalicza', (await strona.locator('.zaliczone
 await strona.click('#ed-schemat .view-lines');
 await strona.keyboard.press('Control+Z');
 await strona.waitForTimeout(500);
-sprawdz('3-2: Ctrl+Z po wstawieniu przywraca poprzednią wersję', /5 z 8/.test(await strona.locator('.licznik').textContent()));
+sprawdz('3-2: Ctrl+Z po wstawieniu przywraca poprzednią wersję', /5 z 9/.test(await strona.locator('.licznik').textContent()));
 
 // 3. Błąd składni → marker i diagnoza z linią.
 await strona.keyboard.press('Control+A');
@@ -217,7 +217,7 @@ s2.on('pageerror', e => bledy2.push(e.message));
 await s2.goto(baza + '#/m/3/cw/3-2-kod-i-numer', { waitUntil: 'networkidle' });
 await s2.waitForSelector('.monaco-editor .view-lines');
 await s2.waitForTimeout(400);
-sprawdz('Zablokowany localStorage: ćwiczenie działa bez błędów', bledy2.length === 0 && /5 z 8/.test(await s2.locator('.licznik').textContent()), bledy2.join('; '));
+sprawdz('Zablokowany localStorage: ćwiczenie działa bez błędów', bledy2.length === 0 && /5 z 9/.test(await s2.locator('.licznik').textContent()), bledy2.join('; '));
 await k2.close();
 
 await przegladarka.close();

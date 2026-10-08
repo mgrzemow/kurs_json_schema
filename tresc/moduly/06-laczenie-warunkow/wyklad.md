@@ -80,7 +80,7 @@ Wartość musi spełniać **co najmniej jeden** podschemat. Kontakt do klienta: 
 
 ### `oneOf`: dokładnie jeden
 
-Wartość musi spełniać **dokładnie jeden** podschemat. Sposób płatności: przelew (numer konta), karta (token) albo za pobraniem (kwota). Pułapka z listy obowiązkowej: gdy dokument pasuje do dwóch opcji naraz, `oneOf` go odrzuca. Para `anyOf` kontra `oneOf` na dokumencie, który ma i numer konta, i token: <!-- twierdzenie --> <!-- zrodlo: core §10.2.1.3 -->
+Wartość musi spełniać **dokładnie jeden** podschemat. Sposób płatności: przelew (numer konta), karta (token) albo za pobraniem (kwota). Pułapka: gdy dokument pasuje do dwóch opcji naraz, `oneOf` go odrzuca. Para `anyOf` kontra `oneOf` na dokumencie, który ma i numer konta, i token: <!-- twierdzenie --> <!-- zrodlo: core §10.2.1.3 -->
 
 ```json schemat=platnosc-anyof
 { "anyOf": [{ "required": ["numerKonta"] }, { "required": ["token"] }, { "required": ["kwotaPobrania"] }] }
@@ -184,7 +184,7 @@ Wartość **nie może** spełniać podschematu. Zamówienie do magazynu nie moż
 
 ### `else` do zakazów
 
-Kraj inny niż PL wymaga `eori`, a dla PL `eori` jest zabronione. Zakaz zapisuje się przez `not` z `required`:
+Kraj inny niż PL wymaga `eori`, a dla PL `eori` jest zabronione. Zakaz zapisuje się przez `not` z `required`; czyta się to „nie może być tak, że pole `eori` jest obecne”. W tym przykładzie `if` może obyć się bez `required: ["kraj"]`, bo `kraj` jest wymagany na górze schematu, więc dokument bez kraju i tak zostanie odrzucony:
 
 ```json schemat=eori
 {
@@ -207,6 +207,40 @@ Kraj inny niż PL wymaga `eori`, a dla PL `eori` jest zabronione. Zakaz zapisuje
 ```json dokument=eori-pl-bez schemat=eori oczekiwane=przechodzi
 { "kraj": "PL" }
 ```
+
+### Warunek na jednym poziomie, reguła na innym
+
+Warunek i reguła nie muszą dotyczyć tego samego obiektu. Faktura jest polem zamówienia, a NIP siedzi w kliencie. `then` jest zwykłym schematem zamówienia, więc może sięgnąć w głąb przez `properties`. Tak samo można warunkowo dołożyć `pattern`: kod pocztowy ma polski wzorzec tylko dla kraju PL.
+
+```json schemat=warunek-w-glab
+{
+  "type": "object",
+  "if": { "properties": { "faktura": { "const": true } }, "required": ["faktura"] },
+  "then": { "properties": { "klient": { "required": ["nip"] } } },
+  "properties": {
+    "adres": {
+      "type": "object",
+      "required": ["kraj", "kodPocztowy"],
+      "if": { "properties": { "kraj": { "const": "PL" } } },
+      "then": { "properties": { "kodPocztowy": { "pattern": "^[0-9]{2}-[0-9]{3}$" } } }
+    }
+  }
+}
+```
+
+```json dokument=faktura-klient-bez-nip schemat=warunek-w-glab oczekiwane=odrzucony
+{ "faktura": true, "klient": { "nazwa": "Serwis" }, "adres": { "kraj": "PL", "kodPocztowy": "80-827" } }
+```
+
+```json dokument=niemiecki-kod schemat=warunek-w-glab oczekiwane=przechodzi
+{ "faktura": false, "klient": { "nazwa": "Radsport" }, "adres": { "kraj": "DE", "kodPocztowy": "10115" } }
+```
+
+```json dokument=polski-kod-zly schemat=warunek-w-glab oczekiwane=odrzucony
+{ "faktura": false, "klient": { "nazwa": "Jan" }, "adres": { "kraj": "PL", "kodPocztowy": "80827" } }
+```
+
+Uwaga na komunikat: przy pierwszym dokumencie walidator mówi „brakuje wymaganego pola „nip”” i wskazuje klienta, nie zamówienie, bo tam stoi `required` z gałęzi `then`. <!-- twierdzenie --> <!-- zrodlo: core §10.2.2.2, §10.3.2.1 -->
 
 **Przejdzie czy nie?** Schemat `faktura-nip-bez-required` i dokument bez `faktura` i bez `nip`. (Odpowiedź wyżej: odrzucony, i to jest błąd schematu, nie dokumentu.)
 

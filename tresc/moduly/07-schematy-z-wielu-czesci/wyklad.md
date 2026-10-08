@@ -89,7 +89,7 @@ W 2020-12 słowa obok `$ref` działają. `{"$ref": "#/$defs/adres", "description
 { "pozycja": { "nazwa": "Szprycha" } }
 ```
 
-> **W draft-07:** wszystko obok `$ref` było ignorowane, więc `{"$ref": "...", "required": ["ean"]}` wymagało tylko tego, co w definicji. Stare schematy owijają `$ref` w `allOf`, żeby dołożyć regułę. Taki zapis w 2020-12 nadal działa, ale nie jest już potrzebny. To pułapka z listy obowiązkowej kursu: przy przenoszeniu schematu z draft-07 na 2020-12 reguły obok `$ref` zaczynają działać.
+> **W draft-07:** wszystko obok `$ref` było ignorowane, więc `{"$ref": "...", "required": ["ean"]}` wymagało tylko tego, co w definicji. Stare schematy owijają `$ref` w `allOf`, żeby dołożyć regułę. Taki zapis w 2020-12 nadal działa, ale nie jest już potrzebny. Pułapka: przy przenoszeniu schematu z draft-07 na 2020-12 reguły obok `$ref` zaczynają działać.
 
 ## Wiele plików: `$id` i adres bazowy
 
@@ -108,7 +108,7 @@ Produkt jest wspólny dla zamówienia i katalogu, więc dostaje osobny plik. Ka�
 }
 ```
 
-**Pułapka z listy obowiązkowej: `$id` to identyfikator, a nie adres do pobrania.** Walidator niczego nie ściąga z sieci; schematy trzeba mu podać (zarejestrować) przed użyciem. Adres `https://kurs.example/...` nie istnieje w sieci i nie musi; gdyby istniał, walidator i tak by tam nie poszedł. W trenerze panel „jak to widzi walidator” pokazuje mapę nazwa pliku → `$id`, a diagram zależności pokazuje odwołania, w tym zepsute. <!-- twierdzenie --> <!-- zrodlo: core §9.1.2 -->
+**Jedna z najczęstszych pułapek: `$id` to identyfikator, a nie adres do pobrania.** Walidator niczego nie ściąga z sieci; schematy trzeba mu podać (zarejestrować) przed użyciem. Adres `https://kurs.example/...` nie istnieje w sieci i nie musi; gdyby istniał, walidator i tak by tam nie poszedł. W trenerze panel „jak to widzi walidator” pokazuje mapę nazwa pliku → `$id`, a diagram zależności pokazuje odwołania, w tym zepsute. <!-- twierdzenie --> <!-- zrodlo: core §9.1.2 -->
 
 Uwaga dla autorów: `$id` wewnątrz podschematu zmienia adres bazowy dla wszystkiego poniżej. To zaawansowane i częste źródło błędów, więc w kursie `$id` stoi wyłącznie na poziomie pliku.
 

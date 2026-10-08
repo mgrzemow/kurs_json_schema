@@ -5,7 +5,7 @@
   "poziom": 3,
   "czasMin": 7,
   "kolejnosc": 4,
-  "kontekst": "Trzy pola, trzy zachowania. `uwagi` zawsze są w zamówieniu, ale mogą być puste (`null`), bo sklep wysyła je nawet, gdy klient nic nie wpisał. `dataDostawy` jest opcjonalna, a jeśli jest, to niepusty tekst. `kodRabatowy` jest opcjonalny, niepusty i nigdy nie jest `null`.",
+  "kontekst": "Trzy pola, trzy zachowania. W tym kontrakcie ze sklepem internetowym `uwagi` zawsze są w zamówieniu, ale mogą mieć wartość `null`, bo sklep wysyła pole nawet wtedy, gdy klient nic nie wpisał. `dataDostawy` jest opcjonalna, a jeśli jest, to niepusty tekst. `kodRabatowy` jest opcjonalny, niepusty i nigdy nie jest `null`.",
   "polecenie": "Popraw schemat tak, żeby każde z trzech pól zachowywało się zgodnie z opisem. Przykłady pokrywają wszystkie kombinacje.",
   "slowa": [
     "required",

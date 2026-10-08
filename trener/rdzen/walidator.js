@@ -57,6 +57,10 @@ function bladMeta(bledy, schemat, klucze) {
     const granica = slowo === 'exclusiveMinimum' ? 'minimum' : 'maximum';
     return new BladSchematu('„' + slowo + '”: true obok „' + granica + '” to zapis z draft-04. W 2020-12 granica wyłączna jest liczbą, np. "' + slowo + '": 0 zamiast "' + granica + '": 0 i "' + slowo + '": true.', { pos: klucze.get(stary.instancePath) });
   }
+  const wymWProps = bledy.find(x => /\/properties\/required$/.test(x.instancePath) && Array.isArray(wskaz(schemat, x.instancePath)));
+  if (wymWProps) {
+    return new BladSchematu('„required” stoi w środku „properties”, więc walidator bierze je za opis pola o nazwie „required”. Przenieś „required” poziom wyżej, obok „properties”.', { pos: klucze.get(wymWProps.instancePath) });
+  }
   const krotka = bledy.find(x => /\/items$/.test(x.instancePath) && Array.isArray(wskaz(schemat, x.instancePath)));
   if (krotka) {
     return new BladSchematu('Lista schematów w „items” to zapis krotki z draft-07. W 2020-12 pozycje opisuje „prefixItems”, a „items”: false zabrania dalszych elementów.', { pos: klucze.get(krotka.instancePath) });

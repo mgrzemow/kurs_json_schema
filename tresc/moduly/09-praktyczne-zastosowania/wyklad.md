@@ -28,7 +28,7 @@ Zdanie z domeny: ten sam schemat zamówienia opisuje żądanie sklepu i odpowied
 
 ## Pliki konfiguracyjne i podpowiedzi w edytorach
 
-SchemaStore to katalog schematów dla setek formatów konfiguracji (pakiety npm, pliki CI, ustawienia edytorów). VS Code i inne edytory dobierają schemat po nazwie pliku albo po `$schema` w pliku i dają podpowiedzi, opisy po najechaniu i podkreślenia błędów. Uczestnik już to widział: trener robi dokładnie to samo własnym schematem podpowiedzi.
+SchemaStore to katalog schematów dla setek formatów konfiguracji (pakiety npm, pliki CI, ustawienia edytorów). VS Code i inne edytory dobierają schemat po nazwie pliku albo po `$schema` w pliku i dają podpowiedzi, opisy po najechaniu i podkreślenia błędów. Znacie to już z trenera: robi dokładnie to samo własnym schematem podpowiedzi.
 
 Specyfika: tu rządzi draft-07, bo takie jest wsparcie edytorów, i SchemaStore wprost je zaleca. Własny schemat konfiguracji podpina się przez `$schema` w pliku albo w ustawieniach edytora; od tej chwili każdy, kto edytuje plik, dostaje podpowiedzi. (Źródło: SchemaStore, przewodnik dla autorów, poza repozytorium.)
 

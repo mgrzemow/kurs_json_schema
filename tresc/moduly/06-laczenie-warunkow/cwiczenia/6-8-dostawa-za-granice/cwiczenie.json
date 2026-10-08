@@ -44,7 +44,7 @@
         "eori": "PL123456789012345"
       },
       "ok": false,
-      "wskazowka": "Brakuje gałęzi `else`, która zabroni EORI."
+      "wskazowka": "Polska z EORI ma zostać odrzucona. Gałąź `else` musi EORI zabraniać (`not` z `required`), a nie go wymagać."
     },
     {
       "opis": "Bez kraju, bez EORI",

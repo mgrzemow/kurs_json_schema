@@ -14,7 +14,7 @@ export function renderujDiagnoze(kontener, diagnoza, { gdyPusto = 'Schemat jest 
   }
   kontener.innerHTML = diagnoza.map((d, i) => {
     const etykieta = d.rodzaj || ETYKIETA[d.poziom] || '';
-    const gdzie = [pokazPlik && d.plik ? `plik „${esc(d.plik)}”` : null, d.linia ? `linia ${d.linia}` : null].filter(Boolean).join(', ');
+    const gdzie = [pokazPlik && d.plik ? `plik „${esc(d.plik)}”` : null, d.linia ? `linia ${d.linia}${d.kolumna ? `, kol. ${d.kolumna}` : ''}` : null].filter(Boolean).join(', ');
     const przycisk = (d.linia || typeof d.pos === 'number') && naLinie ? `<button type="button" class="do-linii" data-i="${i}">${gdzie || 'pokaż'}</button>` : `<span class="gdzie">${gdzie}</span>`;
     return `<div class="diag ${d.poziom}"><span class="znak" aria-hidden="true">${ZNAK[d.poziom] || ''}</span><p>${etykieta ? `<span class="etykieta">${esc(etykieta)}.</span> ` : ''}${esc(d.tekst)}</p>${przycisk}</div>`;
   }).join('');

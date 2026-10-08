@@ -5,7 +5,7 @@
   "poziom": 2,
   "czasMin": 4,
   "kolejnosc": 3,
-  "kontekst": "Schemat obok ma walutę z wartością domyślną `PLN` i wymaga waluty. Analityk uznał, że skoro jest domyślna, to zamówienie bez waluty dostanie PLN.",
+  "kontekst": "Schemat obok ma walutę z wartością domyślną `PLN` i wymaga waluty. Ktoś w zespole uznał, że skoro jest domyślna, to zamówienie bez waluty dostanie PLN.",
   "polecenie": "Obstaw werdykty, potem sprawdź.",
   "slowa": [
     "default"

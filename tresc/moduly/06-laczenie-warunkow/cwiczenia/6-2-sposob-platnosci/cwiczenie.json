@@ -5,7 +5,7 @@
   "poziom": 3,
   "czasMin": 7,
   "kolejnosc": 2,
-  "kontekst": "Płatność ma dokładnie jeden z trzech kształtów: przelew (`numerKonta`), karta (`token`) albo za pobraniem (`kwotaPobrania`). Schemat używa `anyOf` bez pola rozróżniającego i przepuszcza płatność, która ma jednocześnie numer konta i token. Każda płatność ma pole `typ`.",
+  "kontekst": "Płatność ma dokładnie jeden z trzech kształtów: przelew (`numerKonta`), karta (`token`) albo za pobraniem (`kwotaPobrania`). Każda płatność ma pole `typ`. Schemat używa `anyOf` bez pola rozróżniającego, więc płatność oznaczona jako karta, ale z numerem konta zamiast tokenu, przechodzi jako przelew. Dodatkowe pola obok wymaganego (np. karta z tokenem i zapisanym numerem konta) są dozwolone.",
   "polecenie": "Przerób schemat tak, żeby płatność pasowała do dokładnie jednej gałęzi, a gałąź była wybierana przez `typ` (`przelew`, `karta`, `pobranie`).",
   "slowa": [
     "oneOf",
