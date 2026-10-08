@@ -167,6 +167,32 @@ await strona.waitForTimeout(500);
 await strona.reload({ waitUntil: 'networkidle' });
 sprawdz('Ustawienia przeżywają odświeżenie', await strona.evaluate(() => document.documentElement.classList.contains('motyw-ciemny') && document.documentElement.classList.contains('duzy-tekst')));
 
+// 9. Ciemny motyw: zrzut ćwiczenia; wąski ekran: kolumny jedna pod drugą, bez poziomego przewijania.
+await strona.goto(baza + '#/m/3/cw/3-1-kod-pocztowy', { waitUntil: 'networkidle' });
+await strona.waitForSelector('.monaco-editor .view-lines');
+await strona.waitForTimeout(400);
+await strona.screenshot({ path: '.superpowers/ciemny.png' });
+sprawdz('Motyw ciemny: Monaco w vs-dark', (await strona.locator('.monaco-editor.vs-dark').count()) >= 1);
+await strona.setViewportSize({ width: 420, height: 900 });
+await strona.waitForTimeout(400);
+const szerokosc = await strona.evaluate(() => document.documentElement.scrollWidth);
+sprawdz('Wąski ekran: brak poziomego przewijania', szerokosc <= 420, 'scrollWidth=' + szerokosc);
+const kolumny = await strona.evaluate(() => getComputedStyle(document.querySelector('.cwiczenie')).gridTemplateColumns.split(' ').length);
+sprawdz('Wąski ekran: jedna kolumna', kolumny === 1, 'kolumn=' + kolumny);
+await strona.screenshot({ path: '.superpowers/waski.png', fullPage: true });
+
+// 10. Zablokowany localStorage: aplikacja startuje i działa.
+const k2 = await przegladarka.newContext({ viewport: { width: 1200, height: 800 } });
+await k2.addInitScript(() => { Object.defineProperty(window, 'localStorage', { get() { throw new Error('localStorage zablokowany'); } }); });
+const s2 = await k2.newPage();
+const bledy2 = [];
+s2.on('pageerror', e => bledy2.push(e.message));
+await s2.goto(baza + '#/m/3/cw/3-1-kod-pocztowy', { waitUntil: 'networkidle' });
+await s2.waitForSelector('.monaco-editor .view-lines');
+await s2.waitForTimeout(400);
+sprawdz('Zablokowany localStorage: ćwiczenie działa bez błędów', bledy2.length === 0 && /5 z 7/.test(await s2.locator('.licznik').textContent()), bledy2.join('; '));
+await k2.close();
+
 await przegladarka.close();
 const zle = wyniki.filter(w => !w[0]).length;
 console.log(bledy.length ? 'Błędy strony:\n' + bledy.join('\n') : 'Brak błędów strony.');
