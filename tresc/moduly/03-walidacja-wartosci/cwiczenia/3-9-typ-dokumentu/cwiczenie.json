@@ -1,0 +1,49 @@
+{
+  "id": "3-9-typ-dokumentu",
+  "rodzaj": 1,
+  "tytul": "Typ dokumentu",
+  "poziom": 1,
+  "czasMin": 3,
+  "kolejnosc": 9,
+  "kontekst": "Magazyn odbiera tym samym kanałem zamówienia, zwroty i reklamacje. Schemat zamówienia ma przyjmować tylko dokumenty z `typDokumentu` równym `zamowienie`.",
+  "polecenie": "Ogranicz pole do jednej jedynej wartości `zamowienie`.",
+  "slowa": [
+    "const"
+  ],
+  "podpowiedz": "`const` przyjmuje dokładnie jedną dozwoloną wartość. `enum` z jednym elementem działa tak samo.",
+  "przyklady": [
+    {
+      "opis": "Zamówienie",
+      "dane": "zamowienie",
+      "ok": true
+    },
+    {
+      "opis": "Zwrot",
+      "dane": "zwrot",
+      "ok": false,
+      "wskazowka": "Sam `type: string` przepuszcza każdy tekst."
+    },
+    {
+      "opis": "Wielka litera",
+      "dane": "Zamowienie",
+      "ok": false
+    },
+    {
+      "opis": "Pusty tekst",
+      "dane": "",
+      "ok": false
+    },
+    {
+      "opis": "Brak wartości",
+      "dane": null,
+      "ok": false
+    }
+  ],
+  "bledne": [],
+  "zrodla": [
+    {
+      "twierdzenie": "const jest równoważne enum z jedną wartością.",
+      "zrodlo": "validation §6.1.3"
+    }
+  ]
+}

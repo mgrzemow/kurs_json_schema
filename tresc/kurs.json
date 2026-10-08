@@ -16,6 +16,10 @@
     {
       "nr": 3,
       "katalog": "03-walidacja-wartosci"
+    },
+    {
+      "nr": 7,
+      "katalog": "07-schematy-z-wielu-czesci"
     }
   ]
 }

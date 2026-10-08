@@ -1,0 +1,65 @@
+{
+  "id": "3-1-status",
+  "rodzaj": 1,
+  "tytul": "Status zamówienia",
+  "poziom": 1,
+  "czasMin": 4,
+  "kolejnosc": 1,
+  "kontekst": "Magazyn rozumie pięć statusów zamówienia: `nowe`, `oplacone`, `wyslane`, `dostarczone`, `anulowane`. Sklep wysyłał już `Wyslane` z wielkiej litery i `w drodze`, których magazyn nie zna.",
+  "polecenie": "Ogranicz pole statusu do pięciu dozwolonych wartości, dokładnie w takim zapisie, jakiego używa magazyn.",
+  "slowa": [
+    "enum"
+  ],
+  "podpowiedz": "`enum` przyjmuje listę dozwolonych wartości. Wartość musi być identyczna z jedną z nich, łącznie z wielkością liter. Wzorzec z alternatywą też by się dało, ale bez kotwic przepuści `nienowe`.",
+  "przyklady": [
+    {
+      "opis": "Paczka w drodze",
+      "dane": "wyslane",
+      "ok": true
+    },
+    {
+      "opis": "Nowe zamówienie",
+      "dane": "nowe",
+      "ok": true
+    },
+    {
+      "opis": "Wielka litera",
+      "dane": "Wyslane",
+      "ok": false,
+      "wskazowka": "Wielkość liter ma znaczenie. Wypisz dozwolone wartości dokładnie tak, jak zna je magazyn."
+    },
+    {
+      "opis": "Status spoza listy",
+      "dane": "w drodze",
+      "ok": false
+    },
+    {
+      "opis": "Dopisek wokół statusu",
+      "dane": "nienowe",
+      "ok": false,
+      "wskazowka": "Jeśli użyto wzorca bez kotwic, `nowe` pasuje do fragmentu `nienowe`."
+    },
+    {
+      "opis": "Brak statusu",
+      "dane": null,
+      "ok": false
+    },
+    {
+      "opis": "Pusty tekst",
+      "dane": "",
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "wzorzec-bez-kotwic",
+      "dlaczego": "Alternatywa we wzorcu bez `^` i `$` dopasowuje fragment, więc `nienowe` przechodzi."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "enum przepuszcza instancję równą jednemu z elementów listy; porównanie jest dokładne.",
+      "zrodlo": "validation §6.1.2"
+    }
+  ]
+}

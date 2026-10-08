@@ -36,7 +36,7 @@ test('materiały: rozwiązania tylko w dodatku na końcu', () => {
   // „cena”: 12.50 występuje wyłącznie w rozwiązaniu ćwiczenia 1-1 (start ma 12,50, wykład 12.5)
   assert.ok(!przed.includes('&quot;cena&quot;: 12.50'), 'rozwiązanie 1-1 nie może być przed dodatkiem');
   assert.ok(po.includes('&quot;cena&quot;: 12.50'));
-  assert.ok(po.includes('id="roz-3-1-kod-pocztowy"'));
+  assert.ok(po.includes('id="roz-3-1-status"'));
   assert.ok(!przed.includes('id="roz-'));
 });
 

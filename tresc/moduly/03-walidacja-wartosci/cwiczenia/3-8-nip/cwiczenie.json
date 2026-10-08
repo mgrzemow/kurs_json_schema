@@ -1,0 +1,65 @@
+{
+  "id": "3-8-nip",
+  "rodzaj": 1,
+  "tytul": "NIP z myślnikami albo bez",
+  "poziom": 3,
+  "czasMin": 6,
+  "kolejnosc": 8,
+  "kontekst": "Klienci wpisują NIP na dwa sposoby: `1234567890` albo `123-456-78-90`. Oba są poprawne, nic innego nie. Ktoś zapisał to wzorcem „dziesięć do trzynastu cyfr lub myślników”, który przepuszcza same myślniki.",
+  "polecenie": "Napisz wzorzec, który przyjmuje dokładnie te dwa zapisy NIP-u.",
+  "slowa": [
+    "pattern"
+  ],
+  "podpowiedz": "Myślniki stoją w stałych miejscach: po trzeciej, szóstej i ósmej cyfrze. Każdy z nich jest opcjonalny: `-?`. Albo zapisz dwa pełne wzorce z alternatywą w nawiasach.",
+  "przyklady": [
+    {
+      "opis": "Bez myślników",
+      "dane": "1234567890",
+      "ok": true
+    },
+    {
+      "opis": "Z myślnikami",
+      "dane": "123-456-78-90",
+      "ok": true
+    },
+    {
+      "opis": "Myślniki w złych miejscach",
+      "dane": "123-45-67-890",
+      "ok": false,
+      "wskazowka": "Układ cyfr między myślnikami jest stały: 3-3-2-2."
+    },
+    {
+      "opis": "Jedenaście cyfr",
+      "dane": "12345678901",
+      "ok": false
+    },
+    {
+      "opis": "Same myślniki",
+      "dane": "----------",
+      "ok": false,
+      "wskazowka": "Klasa `[0-9-]` pozwala na myślnik w każdym miejscu, także zamiast cyfry."
+    },
+    {
+      "opis": "Spacje zamiast myślników",
+      "dane": "123 456 78 90",
+      "ok": false
+    },
+    {
+      "opis": "Dziewięć cyfr",
+      "dane": "123456789",
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "klasa-z-myslnikiem",
+      "dlaczego": "`^[0-9-]{10,13}$` pozwala na dowolną mieszankę cyfr i myślników, więc `----------` i `123-45-67-890` przechodzą."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "Powtórzenie ? oznacza zero lub jedno wystąpienie; grupy i alternatywa należą do zalecanego podzbioru składni.",
+      "zrodlo": "core §6.4"
+    }
+  ]
+}

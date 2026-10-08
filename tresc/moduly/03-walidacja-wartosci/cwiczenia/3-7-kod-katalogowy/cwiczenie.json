@@ -1,0 +1,63 @@
+{
+  "id": "3-7-kod-katalogowy",
+  "rodzaj": 1,
+  "tytul": "Kod katalogowy z kropką",
+  "poziom": 2,
+  "czasMin": 5,
+  "kolejnosc": 7,
+  "kontekst": "Kod katalogowy części to trzy wielkie litery, kropka i dwie cyfry, np. `SZP.36` (szprycha 36 mm). Schemat przepuszcza `SZPX36`.",
+  "polecenie": "Popraw wzorzec tak, żeby kropka w kodzie była naprawdę kropką.",
+  "slowa": [
+    "pattern"
+  ],
+  "podpowiedz": "We wzorcu `.` znaczy „dowolny znak”. Dosłowna kropka to `\\.`, a w pliku JSON ukośnik trzeba podwoić: `\"\\\\.\"`. Jeśli wpiszesz pojedynczy, trener pokaże błąd składni JSON.",
+  "przyklady": [
+    {
+      "opis": "Szprycha",
+      "dane": "SZP.36",
+      "ok": true
+    },
+    {
+      "opis": "Dętka",
+      "dane": "DET.28",
+      "ok": true
+    },
+    {
+      "opis": "Litera zamiast kropki",
+      "dane": "SZPX36",
+      "ok": false,
+      "wskazowka": "Kropka we wzorcu pasuje do dowolnego znaku, także do `X`."
+    },
+    {
+      "opis": "Małe litery",
+      "dane": "szp.36",
+      "ok": false
+    },
+    {
+      "opis": "Jedna cyfra",
+      "dane": "SZP.3",
+      "ok": false
+    },
+    {
+      "opis": "Spacja na końcu",
+      "dane": "SZP.36 ",
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "kropka-bez-ucieczki",
+      "dlaczego": "Niezabezpieczona kropka pasuje do każdego znaku, więc `SZPX36` przechodzi."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "Kropka w wyrażeniu regularnym ECMA-262 pasuje do dowolnego znaku; dosłowna wymaga ucieczki.",
+      "zrodlo": "core §6.4 (dialekt ECMA-262)"
+    },
+    {
+      "twierdzenie": "W tekście JSON odwrotny ukośnik zapisuje się jako \\\\.",
+      "zrodlo": "RFC 8259 §7"
+    }
+  ]
+}

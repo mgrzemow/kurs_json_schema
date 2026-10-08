@@ -1,0 +1,10 @@
+{
+  "type": "string",
+  "enum": [
+    "nowe",
+    "oplacone",
+    "wyslane",
+    "dostarczone",
+    "anulowane"
+  ]
+}

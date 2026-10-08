@@ -1,0 +1,99 @@
+{
+  "id": "3-2-kod-i-numer",
+  "rodzaj": 1,
+  "tytul": "Kod pocztowy i numer zamówienia",
+  "poziom": 2,
+  "czasMin": 6,
+  "kolejnosc": 2,
+  "kontekst": "Etykieta kurierska potrzebuje kodu pocztowego w postaci `00-950`, a magazyn numeru zamówienia w postaci `ZAM-2026-000123` (rok i sześć cyfr). Schemat już ma wzorce, ale przepuszcza teksty, w których kod albo numer są tylko fragmentem.",
+  "polecenie": "Popraw oba wzorce tak, żeby przechodził wyłącznie sam kod pocztowy i sam numer zamówienia, bez dopisków przed ani po.",
+  "slowa": [
+    "pattern"
+  ],
+  "podpowiedz": "Wzorzec bez `^` na początku i `$` na końcu pasuje do dowolnego fragmentu tekstu. Dodaj kotwice w obu wzorcach.",
+  "przyklady": [
+    {
+      "opis": "Poprawne oba pola",
+      "dane": {
+        "kodPocztowy": "00-950",
+        "numer": "ZAM-2026-000123"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Inny poprawny kod i numer",
+      "dane": {
+        "kodPocztowy": "80-180",
+        "numer": "ZAM-2026-999999"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Kod bez myślnika",
+      "dane": {
+        "kodPocztowy": "00950",
+        "numer": "ZAM-2026-000123"
+      },
+      "ok": false
+    },
+    {
+      "opis": "Dopisek przed kodem",
+      "dane": {
+        "kodPocztowy": "kod: 00-950",
+        "numer": "ZAM-2026-000123"
+      },
+      "ok": false,
+      "wskazowka": "Wzorzec znajduje kod w środku tekstu. Co oznacza `^` na początku wzorca?"
+    },
+    {
+      "opis": "O cyfrę za dużo",
+      "dane": {
+        "kodPocztowy": "00-9500",
+        "numer": "ZAM-2026-000123"
+      },
+      "ok": false,
+      "wskazowka": "Wzorzec pasuje do pierwszych sześciu znaków i nie sprawdza reszty. Co oznacza `$` na końcu wzorca?"
+    },
+    {
+      "opis": "Numer ze skróconym rokiem",
+      "dane": {
+        "kodPocztowy": "00-950",
+        "numer": "ZAM-26-000123"
+      },
+      "ok": false
+    },
+    {
+      "opis": "Numer z dopiskiem",
+      "dane": {
+        "kodPocztowy": "00-950",
+        "numer": "nr ZAM-2026-000123"
+      },
+      "ok": false,
+      "wskazowka": "To samo co z kodem: kotwica `^`."
+    },
+    {
+      "opis": "Kod jako liczba",
+      "dane": {
+        "kodPocztowy": 31042,
+        "numer": "ZAM-2026-000123"
+      },
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "bez-kotwic",
+      "dlaczego": "Bez kotwic wzorzec dopasowuje fragment: `kod: 00-950` i `00-9500` przechodzą."
+    },
+    {
+      "plik": "tylko-poczatek",
+      "dlaczego": "Kotwica `^` pilnuje początku, ale bez `$` tekst może mieć dowolny ogon: `00-9500` przechodzi."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "Wzorzec w pattern nie jest domyślnie zakotwiczony; walidator nie może go kotwiczyć sam.",
+      "zrodlo": "validation §6.3.3; core §6.4"
+    }
+  ]
+}

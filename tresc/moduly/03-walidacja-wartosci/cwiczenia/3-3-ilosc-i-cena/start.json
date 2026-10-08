@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "ilosc": {
+      "type": "number",
+      "minimum": 0
+    },
+    "cena": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "ilosc",
+    "cena"
+  ]
+}

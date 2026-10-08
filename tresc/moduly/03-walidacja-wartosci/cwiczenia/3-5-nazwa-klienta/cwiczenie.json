@@ -1,0 +1,66 @@
+{
+  "id": "3-5-nazwa-klienta",
+  "rodzaj": 1,
+  "tytul": "Nazwa klienta",
+  "poziom": 1,
+  "czasMin": 4,
+  "kolejnosc": 5,
+  "kontekst": "Nazwa klienta trafia na etykietę kurierską, która mieści 80 znaków. Pusta nazwa oznacza, że kurier nie wie, komu doręczyć.",
+  "polecenie": "Nazwa ma mieć od 1 do 80 znaków. Polskie litery liczą się jak każde inne.",
+  "slowa": [
+    "minLength",
+    "maxLength"
+  ],
+  "podpowiedz": "`minLength: 1` odrzuca pusty tekst, `maxLength: 80` ogranicza długość. Oba liczą znaki, nie bajty.",
+  "przyklady": [
+    {
+      "opis": "Jedna litera",
+      "dane": "A",
+      "ok": true
+    },
+    {
+      "opis": "Typowa nazwa z polskimi literami",
+      "dane": "Serwis Rowerowy Pedał",
+      "ok": true
+    },
+    {
+      "opis": "Dokładnie 80 znaków",
+      "dane": "Serwis Rowerowy Pedał i Spółka Serwis Rowerowy Pedał i Spółka Serwis Rowerowy Pe",
+      "ok": true
+    },
+    {
+      "opis": "Pusta nazwa",
+      "dane": "",
+      "ok": false,
+      "wskazowka": "Pusty tekst to nadal tekst. Ustaw minimalną długość."
+    },
+    {
+      "opis": "81 znaków",
+      "dane": "Serwis Rowerowy Pedał i Spółka Serwis Rowerowy Pedał i Spółka Serwis Rowerowy Ped",
+      "ok": false,
+      "wskazowka": "Brakuje górnej granicy długości."
+    },
+    {
+      "opis": "Liczba zamiast tekstu",
+      "dane": 12345,
+      "ok": false
+    },
+    {
+      "opis": "Brak wartości",
+      "dane": null,
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "tylko-maks",
+      "dlaczego": "Samo `maxLength` przepuszcza pusty tekst."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "minLength i maxLength liczą znaki tekstu (punkty kodowe), nie bajty.",
+      "zrodlo": "validation §6.3.1, §6.3.2"
+    }
+  ]
+}

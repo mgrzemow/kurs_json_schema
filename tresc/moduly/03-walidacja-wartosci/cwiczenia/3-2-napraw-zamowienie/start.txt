@@ -1,9 +1,0 @@
-{
-  "numer": "ZAM-2026-000123",
-  "klient": "Serwis Rowerowy Pedał",
-  "faktura": True,
-  "pozycje": [
-    { "ean": "5901234123457", "ilosc": 2, "cena": 12,50 },
-    { "ean": "5901234123464", "ilosc": 36, "cena": 1.20 },
-  ]
-}

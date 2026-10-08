@@ -1,0 +1,58 @@
+{
+  "id": "3-6-waluta",
+  "rodzaj": 3,
+  "tytul": "Waluta bez kotwic",
+  "poziom": 2,
+  "czasMin": 5,
+  "kolejnosc": 6,
+  "kontekst": "Sklep przyjmuje trzy waluty: PLN, EUR i CZK. Ktoś opisał to wzorcem obok. Wygląda dobrze.",
+  "polecenie": "Dla każdej wartości obstaw, czy schemat ją przepuści. Potem sprawdź.",
+  "slowa": [
+    "pattern"
+  ],
+  "podpowiedz": "Wzorzec bez `^` i `$` dopasowuje fragment tekstu. Alternatywa `|` bez nawiasów dzieli cały wzorzec, nie tylko sąsiednie litery.",
+  "odpowiedzi": [
+    {
+      "opis": "Złoty",
+      "dane": "PLN",
+      "ok": true,
+      "wyjasnienie": "`PLN` pasuje do pierwszej gałęzi alternatywy."
+    },
+    {
+      "opis": "Euro słownie",
+      "dane": "EURO",
+      "ok": true,
+      "wyjasnienie": "Wzorzec nie jest zakotwiczony: `EUR` pasuje do fragmentu `EURO`."
+    },
+    {
+      "opis": "Małe litery",
+      "dane": "pln",
+      "ok": false,
+      "wyjasnienie": "Wielkość liter ma znaczenie, żadna gałąź nie pasuje."
+    },
+    {
+      "opis": "Dopisek przed",
+      "dane": "XPLN",
+      "ok": true,
+      "wyjasnienie": "`PLN` jest fragmentem `XPLN`; bez `^` to wystarcza."
+    },
+    {
+      "opis": "Spacja na końcu",
+      "dane": "EUR ",
+      "ok": true,
+      "wyjasnienie": "Spacja nie przeszkadza, bo nie ma `$`."
+    },
+    {
+      "opis": "Dolar",
+      "dane": "USD",
+      "ok": false,
+      "wyjasnienie": "Żadna z trzech liter sekwencji nie występuje w tekście."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "Walidator nie kotwiczy wzorca; dopasowanie fragmentu wystarcza.",
+      "zrodlo": "core §6.4; validation §6.3.3"
+    }
+  ]
+}

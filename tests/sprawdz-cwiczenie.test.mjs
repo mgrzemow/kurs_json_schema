@@ -7,7 +7,7 @@ const { moduly } = wczytajKurs();
 const cw = id => moduly.flatMap(m => m.cwiczenia).find(c => c.id === id);
 
 test('rodzaj 1: rozwiązanie zalicza, start nie', () => {
-  const c = cw('3-1-kod-pocztowy');
+  const c = cw('3-2-kod-i-numer');
   const r = sprawdzCwiczenie(c, { schemat: JSON.stringify(c.rozwiazanie) });
   assert.equal(r.zaliczone, true);
   assert.equal(r.diagnoza.length, 0);
@@ -15,20 +15,20 @@ test('rodzaj 1: rozwiązanie zalicza, start nie', () => {
   const s = sprawdzCwiczenie(c, { schemat: c.start });
   assert.equal(s.zaliczone, false);
   const niezgodne = s.przyklady.filter(p => !p.zgodny);
-  assert.equal(niezgodne.length, 2);
+  assert.equal(niezgodne.length, 3);
   assert.ok(niezgodne.every(p => p.wskazowka));
   assert.equal(niezgodne[0].przeszedl, true);
 });
 
 test('rodzaj 1: odrzucony przykład ma powód po polsku', () => {
-  const c = cw('3-1-kod-pocztowy');
+  const c = cw('3-2-kod-i-numer');
   const r = sprawdzCwiczenie(c, { schemat: JSON.stringify(c.rozwiazanie) });
-  const brak = r.przyklady.find(p => p.opis === 'Brak kodu');
-  assert.match(brak.powod[0], /Brakuje wymaganego pola „kodPocztowy”/);
+  const zly = r.przyklady.find(p => p.opis === 'Kod bez myślnika');
+  assert.match(zly.powod[0], /Pole „kodPocztowy”: tekst "00950" nie pasuje do wzorca/);
 });
 
 test('rodzaj 1: błąd składni daje diagnozę z pozycją, przykłady czekają', () => {
-  const c = cw('3-1-kod-pocztowy');
+  const c = cw('3-2-kod-i-numer');
   const r = sprawdzCwiczenie(c, { schemat: '{ "type": ' });
   assert.equal(r.diagnoza[0].poziom, 'blad');
   assert.equal(typeof r.diagnoza[0].pos, 'number');
@@ -37,20 +37,20 @@ test('rodzaj 1: błąd składni daje diagnozę z pozycją, przykłady czekają',
 });
 
 test('rodzaj 1: ostrzeżenie o nieznanym słowie', () => {
-  const c = cw('3-1-kod-pocztowy');
+  const c = cw('3-2-kod-i-numer');
   const r = sprawdzCwiczenie(c, { schemat: '{ "requried": ["kodPocztowy"] }' });
   assert.equal(r.diagnoza[0].poziom, 'ostrz');
 });
 
 test('rodzaj 1: przełącznik formatów zmienia werdykt', () => {
-  const c = { ...cw('3-1-kod-pocztowy'), przyklady: [{ opis: 'e', dane: 'jan@', ok: false }] };
+  const c = { ...cw('3-2-kod-i-numer'), przyklady: [{ opis: 'e', dane: 'jan@', ok: false }] };
   const schemat = '{ "type": "string", "format": "email" }';
   assert.equal(sprawdzCwiczenie(c, { schemat }, { formaty: false }).zaliczone, false);
   assert.equal(sprawdzCwiczenie(c, { schemat }, { formaty: true }).zaliczone, true);
 });
 
 test('rodzaj 2: start daje błąd składni z linią, rozwiązanie zalicza', () => {
-  const c = cw('3-2-napraw-zamowienie');
+  const c = cw('1-1-zamowienie-z-maila');
   const s = sprawdzCwiczenie(c, { dokument: c.start });
   assert.equal(s.diagnoza[0].poziom, 'blad');
   assert.equal(s.diagnoza[0].linia, 4);
@@ -60,14 +60,14 @@ test('rodzaj 2: start daje błąd składni z linią, rozwiązanie zalicza', () =
 });
 
 test('rodzaj 2: poprawny JSON niezgodny ze schematem nie zalicza i pokazuje komunikaty', () => {
-  const c = cw('3-2-napraw-zamowienie');
+  const c = cw('1-1-zamowienie-z-maila');
   const r = sprawdzCwiczenie(c, { dokument: '{ "numer": "x" }' });
   assert.equal(r.zaliczone, false);
   assert.ok(r.diagnoza.some(d => /Brakuje wymaganego pola/.test(d.tekst)));
 });
 
 test('rodzaj 3: odpowiedzi', () => {
-  const c = cw('3-3-opakowania');
+  const c = cw('3-4-szprychy');
   const dobre = c.odpowiedzi.map(o => o.ok);
   const r = sprawdzCwiczenie(c, { odpowiedzi: dobre });
   assert.equal(r.zaliczone, true);
@@ -82,7 +82,7 @@ test('rodzaj 3: odpowiedzi', () => {
 });
 
 test('rodzaj 4: zepsute odwołanie wskazuje plik, rozwiązanie zalicza', () => {
-  const c = cw('3-4-projekt-zamowienia');
+  const c = cw('7-2-trzy-pliki');
   const s = sprawdzCwiczenie(c, { pliki: c.pliki });
   assert.equal(s.zaliczone, false);
   assert.equal(s.diagnoza[0].plik, 'zamowienie');
@@ -97,14 +97,14 @@ test('rodzaj 4: zepsute odwołanie wskazuje plik, rozwiązanie zalicza', () => {
 });
 
 test('rodzaj 4: błąd składni w jednym pliku wskazuje ten plik', () => {
-  const c = cw('3-4-projekt-zamowienia');
+  const c = cw('7-2-trzy-pliki');
   const s = sprawdzCwiczenie(c, { pliki: { ...c.pliki, adres: '{ "a": ' } });
   assert.equal(s.diagnoza[0].plik, 'adres');
   assert.equal(s.diagnoza[0].poziom, 'blad');
 });
 
 test('I1: nieoczekiwany wyjątek Ajv w ćwiczeniu daje diagnozę, nie wyjątek', () => {
-  const c = cw('3-1-kod-pocztowy');
+  const c = cw('3-2-kod-i-numer');
   for (const s of ['{ "$schema": "https://json-schema.org/draft/2020-12/schema-x" }', '{ "$schema": 5 }', '{ "$dynamicRef": "#x" }']) {
     const r = sprawdzCwiczenie(c, { schemat: s });
     assert.equal(r.zaliczone, false, s);
@@ -114,7 +114,7 @@ test('I1: nieoczekiwany wyjątek Ajv w ćwiczeniu daje diagnozę, nie wyjątek',
 });
 
 test('I2: w projekcie każdy komunikat wskazuje plik swojej reguły', () => {
-  const c = cw('3-4-projekt-zamowienia');
+  const c = cw('7-2-trzy-pliki');
   const naprawione = { ...c.pliki, zamowienie: JSON.stringify(c.rozwiazanie.zamowienie) };
   const c2 = { ...c, przyklady: [{ opis: 'bez miasta i bez e-maila', dane: { numer: 'ZAM-2026-000124', klient: { nazwa: 'Jan' }, adresDostawy: { ulica: 'Długa 5', kodPocztowy: '80-827' } }, ok: false }] };
   const r = sprawdzCwiczenie(c2, { pliki: naprawione });
@@ -124,7 +124,7 @@ test('I2: w projekcie każdy komunikat wskazuje plik swojej reguły', () => {
 });
 
 test('I3: przy włączonych formatach informacja o format nie zaprzecza werdyktowi', () => {
-  const c = { ...cw('3-1-kod-pocztowy'), przyklady: [{ opis: 'e', dane: 'jan@', ok: false }] };
+  const c = { ...cw('3-2-kod-i-numer'), przyklady: [{ opis: 'e', dane: 'jan@', ok: false }] };
   const schemat = '{ "type": "string", "format": "email" }';
   const bez = sprawdzCwiczenie(c, { schemat }, { formaty: false });
   const z = sprawdzCwiczenie(c, { schemat }, { formaty: true });
@@ -134,10 +134,10 @@ test('I3: przy włączonych formatach informacja o format nie zaprzecza werdykto
 });
 
 test('I5: obcy $schema w ćwiczeniu daje informację i nadal działa', () => {
-  const c = cw('3-1-kod-pocztowy');
+  const c = cw('3-2-kod-i-numer');
   const r = sprawdzCwiczenie(c, { schemat: JSON.stringify({ $schema: 'http://json-schema.org/draft-07/schema#', ...c.rozwiazanie }) });
   assert.equal(r.zaliczone, true);
   assert.ok(r.diagnoza.some(d => d.poziom === 'info' && /2020-12/.test(d.tekst)));
-  const p = sprawdzCwiczenie(cw('3-4-projekt-zamowienia'), { pliki: { ...cw('3-4-projekt-zamowienia').pliki, adres: JSON.stringify({ $schema: 'http://json-schema.org/draft-07/schema#', ...JSON.parse(cw('3-4-projekt-zamowienia').pliki.adres) }) } });
+  const p = sprawdzCwiczenie(cw('7-2-trzy-pliki'), { pliki: { ...cw('7-2-trzy-pliki').pliki, adres: JSON.stringify({ $schema: 'http://json-schema.org/draft-07/schema#', ...JSON.parse(cw('7-2-trzy-pliki').pliki.adres) }) } });
   assert.ok(p.diagnoza.some(d => d.poziom === 'info' && /2020-12/.test(d.tekst) && d.plik === 'adres'));
 });

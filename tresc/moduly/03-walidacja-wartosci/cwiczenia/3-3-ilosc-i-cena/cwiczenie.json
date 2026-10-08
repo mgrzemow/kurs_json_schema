@@ -1,0 +1,115 @@
+{
+  "id": "3-3-ilosc-i-cena",
+  "rodzaj": 1,
+  "tytul": "Ilość i cena w pozycji",
+  "poziom": 3,
+  "czasMin": 7,
+  "kolejnosc": 3,
+  "kontekst": "Pozycja zamówienia ma ilość i cenę jednostkową. Ilość to liczba całkowita większa od zera i najwyżej 1000 sztuk. Cena jest większa od zera; w systemie magazynu ceny mają dwa miejsca po przecinku, ale to nie jest coś, co da się bezpiecznie sprawdzić schematem.",
+  "polecenie": "Popraw schemat pozycji tak, żeby ilość i cena spełniały opisane reguły. Zwróć uwagę na granice: 0 jest zabronione, 1000 dozwolone.",
+  "slowa": [
+    "integer",
+    "exclusiveMinimum",
+    "maximum"
+  ],
+  "podpowiedz": "`\"type\": \"integer\"` odrzuca ułamki. `exclusiveMinimum: 0` wyklucza zero, `maximum: 1000` włącza tysiąc. Dla ceny wystarczy `exclusiveMinimum: 0`; `multipleOf: 0.01` odrzuciłoby 19.99 przez arytmetykę zmiennoprzecinkową.",
+  "przyklady": [
+    {
+      "opis": "Typowa pozycja",
+      "dane": {
+        "ilosc": 1,
+        "cena": 19.99
+      },
+      "ok": true
+    },
+    {
+      "opis": "Górna granica ilości i cena groszowa",
+      "dane": {
+        "ilosc": 1000,
+        "cena": 0.07
+      },
+      "ok": true
+    },
+    {
+      "opis": "Opakowanie szprych",
+      "dane": {
+        "ilosc": 36,
+        "cena": 1.1
+      },
+      "ok": true
+    },
+    {
+      "opis": "Zero sztuk",
+      "dane": {
+        "ilosc": 0,
+        "cena": 10
+      },
+      "ok": false,
+      "wskazowka": "`minimum: 0` dopuszcza zero. Potrzebna granica wyłączona."
+    },
+    {
+      "opis": "Ponad limit",
+      "dane": {
+        "ilosc": 1001,
+        "cena": 10
+      },
+      "ok": false,
+      "wskazowka": "Brakuje górnej granicy ilości."
+    },
+    {
+      "opis": "Pół sztuki",
+      "dane": {
+        "ilosc": 2.5,
+        "cena": 10
+      },
+      "ok": false,
+      "wskazowka": "`number` przepuszcza ułamki. Który typ oznacza liczbę całkowitą?"
+    },
+    {
+      "opis": "Cena zero",
+      "dane": {
+        "ilosc": 1,
+        "cena": 0
+      },
+      "ok": false,
+      "wskazowka": "Cena ma być większa od zera, nie „co najmniej zero”."
+    },
+    {
+      "opis": "Ilość jako tekst",
+      "dane": {
+        "ilosc": "1",
+        "cena": 10
+      },
+      "ok": false
+    },
+    {
+      "opis": "Cena jako tekst",
+      "dane": {
+        "ilosc": 1,
+        "cena": "10"
+      },
+      "ok": false,
+      "wskazowka": "Reguły liczbowe nie dotyczą tekstów. Cena potrzebuje `type`."
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "ilosc-number",
+      "dlaczego": "`number` zamiast `integer` przepuszcza `2.5`."
+    },
+    {
+      "plik": "cena-multipleof",
+      "dlaczego": "`multipleOf: 0.01` wygląda rozsądnie, ale przez arytmetykę zmiennoprzecinkową odrzuca cenę `19.99`, która musi przejść."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "integer pasuje do liczb z zerową częścią ułamkową; exclusiveMinimum wyklucza granicę, maximum ją włącza.",
+      "zrodlo": "validation §6.1.1, §6.2.2, §6.2.5"
+    },
+    {
+      "twierdzenie": "Walidatory mogą się różnić w arytmetyce liczb; multipleOf z ułamkiem bywa zawodne.",
+      "zrodlo": "validation §4.2, §6.2.1"
+    }
+  ]
+}

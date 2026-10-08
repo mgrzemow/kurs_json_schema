@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "ilosc": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 1000
+    },
+    "cena": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "multipleOf": 0.01
+    }
+  },
+  "required": [
+    "ilosc",
+    "cena"
+  ]
+}
