@@ -1,6 +1,6 @@
 # Moduł 3: Walidacja wartości (40 min) — opis sekcji
 
-Status: propozycja do akceptacji. Rdzeń kursu, nie skracać. Budżet: 18 min wykładu, 18 min ćwiczeń, 4 min omówienia. Nagłówki z obowiązkowego zakresu: „Walidacja instancji dowolnego typu”, „Walidacja instancji tekstowych”, „Wyrażenia regularne”, „Walidacja instancji numerycznych”. Zastępuje obecną treść próbną.
+Status: **zaakceptowany 2026-10-08** (ramka draft-07 w proponowanym brzmieniu; dziewięć ćwiczeń). Rdzeń kursu, nie skracać. Budżet: 18 min wykładu, 18 min ćwiczeń, 4 min omówienia. Nagłówki z obowiązkowego zakresu: „Walidacja instancji dowolnego typu”, „Walidacja instancji tekstowych”, „Wyrażenia regularne”, „Walidacja instancji numerycznych”. Zastępuje obecną treść próbną.
 
 Obiekt wiodący na tym etapie: pojedyncze pola zamówienia (status, numer, kod pocztowy, NIP, EAN, kod katalogowy, nazwa klienta, ilość, cena, rabat). Obiekty i listy dopiero w module 4, więc wszystkie przykłady to pojedyncze wartości albo płaski obiekt z jednym polem.
 

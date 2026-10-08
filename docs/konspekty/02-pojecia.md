@@ -1,6 +1,6 @@
 # Moduł 2: Pojęcia (15 min) — opis sekcji
 
-Status: propozycja do akceptacji. Budżet: 11 min wykładu, 4 min na dwa krótkie ćwiczenia (albo tylko wykład, gdy brak czasu). Nagłówki z obowiązkowego zakresu: „Dokument JSON”, „Instancje”, „Dokument JSON Schema”, „Metaschematy”. To jedyne miejsce w kursie, gdzie mówimy o innych wersjach niż 2020-12.
+Status: **zaakceptowany 2026-10-08** (bez liczb z pomiarów; akapit o tym, dlaczego nowsza wersja). Budżet: 11 min wykładu, 4 min na dwa krótkie ćwiczenia (albo tylko wykład, gdy brak czasu). Nagłówki z obowiązkowego zakresu: „Dokument JSON”, „Instancje”, „Dokument JSON Schema”, „Metaschematy”. To jedyne miejsce w kursie, gdzie mówimy o innych wersjach niż 2020-12.
 
 ## Sekcja 2.1: Dokument JSON, instancje, dokument JSON Schema (5 min)
 
@@ -20,7 +20,8 @@ Status: propozycja do akceptacji. Budżet: 11 min wykładu, 4 min na dwa krótki
 
 ## Sekcja 2.3: Wersje w pigułce (5 min)
 
-- Tabela: draft-00…03 (prehistoria, 2009–2010), draft-04 (2013, pierwsza szeroko wdrożona), draft-06 (2017), draft-07 (2018, najczęściej spotykana w praktyce), 2019-09 (przejściowa), 2020-12 (aktualna, tej uczymy), stabilna wersja w przygotowaniu (IETF: nie wcześniej niż 2027). Dane z pomiaru z 2026-10-08: w katalogu SchemaStore ok. 91% schematów to draft-07, 8% 2020-12; w katalogu APIs.guru 59% definicji API to OpenAPI 3.0, 1,4% OpenAPI 3.1. Wniosek dla uczestnika: uczymy aktualnej wersji, ale w pracy spotkasz draft-07, dlatego przy każdym różniącym się słowie będzie ramka „W draft-07”. (Źródła poza `spec/`: json-schema.org/specification-links, datatracker.ietf.org/wg/jsonschema; pomiar własny, skrypt w `docs/`.)
+- Tabela: draft-00…03 (prehistoria, 2009–2010), draft-04 (2013, pierwsza szeroko wdrożona), draft-06 (2017), draft-07 (2018, najczęściej spotykana w praktyce), 2019-09 (przejściowa), 2020-12 (aktualna, tej uczymy), stabilna wersja w przygotowaniu (IETF: nie wcześniej niż 2027). Bez liczb z pomiarów (decyzja prowadzącego).
+- **Dlaczego na kursie jest nowsza wersja, skoro w praktyce częściej spotyka się draft-07.** Akapit w wykładzie: draft-07 jest wszędzie, bo przez kilka lat nie było niczego nowszego, a edytory, generatory i OpenAPI 3.0 na nim stanęły. 2020-12 stopniowo go wypiera: OpenAPI 3.1 i nowe biblioteki walidacji wspierają ją w pełni, a następna wersja specyfikacji ma być stabilna, czyli bez zmian łamiących zgodność. Kto uczy się 2020-12, uczy się wersji, która zostanie standardem na długo; kto zna 2020-12, przeczyta draft-07 bez trudu, bo różnice to kilka słów kluczowych (stąd ramki „W draft-07” w całym kursie). W drugą stronę jest trudniej: kto zna tylko draft-07, nie wie, czego mu brakuje. (Źródła poza `spec/`: json-schema.org/specification-links; wpis „The last breaking change”, json-schema.org 2023; datatracker.ietf.org/wg/jsonschema.)
 - **Jak rozpoznać stary schemat**, cztery sygnały z przykładem każdego: `definitions` zamiast `$defs`; `"exclusiveMinimum": true` obok `minimum`; `id` bez dolara (draft-04); tablica w `items` zamiast `prefixItems`. Plus nagłówek `$schema` z `draft-07` albo `draft-04`.
 - Jedno zdanie o OpenAPI: wersja 3.0 używa własnego dialektu bliskiego draft-04, wersja 3.1 to pełne 2020-12; szczegóły w module 9.
 - Pytanie do sali: trzy nagłówki `$schema` (draft-04 z `http://`, draft-07 z `#` na końcu, 2020-12), „który jest aktualny i po czym poznać pozostałe?”.
@@ -33,5 +34,5 @@ Status: propozycja do akceptacji. Budżet: 11 min wykładu, 4 min na dwa krótki
 
 ## Uwagi do decyzji
 
-- Liczby z pomiaru (SchemaStore, APIs.guru) w wykładzie: zostawiam, bo dobrze uzasadniają ramki „W draft-07”. Jeśli wolisz bez liczb, wytnę.
+- Decyzja 2026-10-08: bez liczb z pomiarów; zamiast nich akapit, dlaczego kurs uczy nowszej wersji.
 - Fragment metaschematu pokazuję jako ciekawostkę w jednej ramce; nie wchodzę w `$vocabulary` ani `$dynamicRef`.
