@@ -125,3 +125,15 @@ test('parsujWyklad: blok z rolą dostaje kolor konwencji bez werdyktu i jest spr
   assert.match(parsujWyklad('```json rola=dokument\n{"a": 1}\n```\n').html, /<pre class="dokument"><code class="jezyk-json">\{ "a": 1 \}|<pre class="dokument"><code class="jezyk-json">\{ &quot;a&quot;: 1 \}/);
   assert.throws(() => parsujWyklad('```json rola=dokument\n{"a": }\n```\n'), /niepoprawny JSON/);
 });
+
+test('lustro: poziom w schemacie liczy się według properties, tak jak poziom w dokumencie', () => {
+  const md = '```json lustro=k strona=dokument\n{\n  "numer": "Z",\n  "klient": {\n    "nazwa": "S"\n  }\n}\n```\n\n' +
+    '```json lustro=k strona=schemat\n{\n  "type": "object",\n  "properties": {\n    "numer": { "type": "string", "pattern": "^[A-Z]{1}$" },\n    "klient": {\n      "type": "object",\n      "properties": {\n        "nazwa": { "type": "string" }\n      }\n    }\n  }\n}\n```\n';
+  const html = parsujWyklad(md).html;
+  const poziom = (strona, fragment) => new RegExp(`data-strona="${strona}"[^]*?<span class="poziom-(\\d)">[^<]*${fragment}`).exec(html)[1];
+  assert.equal(poziom('dokument', '&quot;numer&quot;'), '1');
+  assert.equal(poziom('schemat', '&quot;numer&quot;'), '1');
+  assert.equal(poziom('dokument', '&quot;nazwa&quot;'), '2');
+  assert.equal(poziom('schemat', '&quot;nazwa&quot;'), '2');
+  assert.equal(poziom('schemat', '&quot;type&quot;: &quot;object&quot;'), '0');
+});

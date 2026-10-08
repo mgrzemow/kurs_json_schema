@@ -124,7 +124,7 @@ export function parsujWyklad(md, { walidator = walidatorDomyslny } = {}) {
       if (info.jezyk === 'json' && info.lustro) {
         try { parsujJSON(text); } catch (e) { throw new Error(`Blok „${lang}”: niepoprawny JSON: ${e.message}`); }
         const strona = info.strona === 'schemat' ? 'schemat' : 'dokument';
-        return `<figure class="lustro-czesc ${strona}" data-lustro="${esc(info.lustro)}" data-strona="${strona}"><figcaption>${strona === 'schemat' ? 'Schemat' : 'Dokument'}</figcaption><pre><code class="jezyk-json">${kolorujPoziomy(text)}</code></pre></figure>\n`;
+        return `<figure class="lustro-czesc ${strona}" data-lustro="${esc(info.lustro)}" data-strona="${strona}"><figcaption>${strona === 'schemat' ? 'Schemat' : 'Dokument'}</figcaption><pre><code class="jezyk-json">${kolorujPoziomy(text, strona)}</code></pre></figure>\n`;
       }
       // Fragment bez werdyktu, ale z rolą („rola=dokument” albo „rola=schemat”): tylko kolor konwencji.
       if (info.jezyk === 'json' && (info.rola === 'dokument' || info.rola === 'schemat') && !(info.schemat || info.dokument || info.pytanie)) {
@@ -208,15 +208,25 @@ function dodajSpisy(html, naglowki) {
   return html;
 }
 
-// Każda linia JSON-a dostaje klasę poziomu zagnieżdżenia (liczoną z bilansu nawiasów przed linią).
-function kolorujPoziomy(tekst) {
-  let poziom = 0;
+// Każda linia JSON-a dostaje klasę poziomu zagnieżdżenia. W dokumencie poziom to liczba otwartych
+// nawiasów przed linią. W schemacie każdy poziom dokumentu to dwa nawiasy (podschemat i jego
+// `properties`), więc poziom liczy się jako liczba otwartych obiektów `properties` — wtedy pole
+// klienta ma w schemacie ten sam kolor co w dokumencie. Teksty w cudzysłowach nie liczą się
+// (wzorce mają nawiasy).
+function kolorujPoziomy(tekst, strona = 'dokument') {
+  const stos = []; // true = obiekt będący wartością "properties"
+  const poziom = () => (strona === 'schemat' ? stos.filter(Boolean).length : stos.length);
   return tekst.split('\n').map(linia => {
-    const otwierajace = (linia.match(/[{[]/g) || []).length;
-    const zamykajace = (linia.match(/[}\]]/g) || []).length;
-    const poczatkoweZamkniecia = (linia.match(/^\s*[}\]]/) ? 1 : 0);
-    const biezacy = Math.max(0, poziom - poczatkoweZamkniecia);
-    poziom = Math.max(0, poziom + otwierajace - zamykajace);
+    const bezTekstow = linia.replace(/"(?:\\.|[^"\\])*"/g, m => (m === '"properties"' ? m : '""'));
+    const zamkniecia = /^\s*([}\]]+)/.exec(bezTekstow);
+    for (let i = 0; zamkniecia && i < zamkniecia[1].length; i++) stos.pop();
+    const biezacy = poziom();
+    const reszta = zamkniecia ? bezTekstow.slice(zamkniecia[0].length) : bezTekstow;
+    for (let i = 0; i < reszta.length; i++) {
+      const c = reszta[i];
+      if (c === '{' || c === '[') stos.push(c === '{' && /"properties"\s*:\s*$/.test(reszta.slice(0, i)));
+      else if (c === '}' || c === ']') stos.pop();
+    }
     return `<span class="poziom-${biezacy}">${esc(linia)}</span>`;
   }).join('\n');
 }

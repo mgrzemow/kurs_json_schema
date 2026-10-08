@@ -4,7 +4,7 @@ Do tej pory sprawdzaliśmy pojedyncze wartości. Zamówienie to jednak obiekt z 
 
 Dla analityka obiekt to formularz: każde pole ma nazwę i wartość. Dla programisty to mapa albo słownik: nazwa → wartość. Nazwy są tekstami i nie powinny się powtarzać, kolejność nie ma znaczenia, a wartość może być kolejnym obiektem. Stąd zagnieżdżenie: zamówienie ma klienta, klient ma adres, adres ma kod pocztowy. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §4; core §4.2.1 -->
 
-<svg class="drzewo" viewBox="0 0 640 230" role="img" aria-label="Drzewo zamówienia: zamowienie zawiera numer, klient i pozycje; klient zawiera nazwa, email i adres; adres zawiera ulica, miasto, kodPocztowy">
+<svg class="drzewo" viewBox="0 0 640 255" role="img" aria-label="Drzewo zamówienia: zamowienie zawiera numer, klient i pozycje; klient zawiera nazwa, email i adres; adres zawiera ulica, miasto, kodPocztowy">
   <g fill="none" stroke="currentColor" stroke-width="1.5">
     <path d="M320 40 V60 H110 V80"/><path d="M320 60 V80"/><path d="M320 60 H530 V80"/>
     <path d="M320 110 V130 H200 V150"/><path d="M320 130 V150"/><path d="M320 130 H440 V150"/>
@@ -35,10 +35,7 @@ Każdy poziom zagnieżdżenia w dokumencie ma swój poziom w schemacie, z własn
   "numer": "ZAM-2026-000123",
   "klient": {
     "nazwa": "Serwis Rowerowy Dętka",
-    "adres": {
-      "miasto": "Gdańsk",
-      "kodPocztowy": "80-827"
-    }
+    "email": "serwis@example.com"
   }
 }
 ```
@@ -52,23 +49,16 @@ Każdy poziom zagnieżdżenia w dokumencie ma swój poziom w schemacie, z własn
       "type": "object",
       "properties": {
         "nazwa": { "type": "string" },
-        "adres": {
-          "type": "object",
-          "properties": {
-            "miasto": { "type": "string" },
-            "kodPocztowy": { "type": "string" }
-          },
-          "required": ["miasto", "kodPocztowy"]
-        }
+        "email": { "type": "string" }
       },
-      "required": ["nazwa", "adres"]
+      "required": ["nazwa"]
     }
   },
   "required": ["numer", "klient"]
 }
 ```
 
-Kolor tła oznacza poziom zagnieżdżenia: to, co w dokumencie jest na drugim poziomie (klient), w schemacie siedzi w `properties` → `klient`, a jego pola w `properties` → `klient` → `properties`. Schemat jest dłuższy niż dokument, bo każde pole dostaje opis, ale kształt jest ten sam.
+Kolor tła oznacza poziom w dokumencie. Niebieskie są pola zamówienia (`numer`, `klient`) i to, co je opisuje w schemacie: wpisy w zewnętrznym `properties`, razem z całym opisem klienta. Zielone są pola klienta (`nazwa`, `email`); w schemacie siedzą w `properties` wewnątrz opisu klienta. Schemat jest dłuższy niż dokument, bo każdy poziom ma swoje `type`, `properties` i `required`, ale kształt jest ten sam.
 
 ### Trzy najczęstsze błędy strukturalne
 
