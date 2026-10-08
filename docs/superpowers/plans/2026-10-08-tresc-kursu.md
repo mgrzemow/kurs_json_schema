@@ -10,7 +10,7 @@
 - [x] A4. Rodzaj 5: `listaKontrolna: [string]` w `cwiczenie.json`, prawa kolumna z checkboxami zapamiętywanymi w `stan.odpowiedzi[cw.id].lista`.
 - [x] A5. Renderer wykładu: blok „lustro” (dwa bloki json obok siebie z tłem w kolorze poziomu zagnieżdżenia): fence ```` ```json lustro=nazwa strona=dokument|schemat ````; para renderowana jako `<div class="lustro">` gdy sąsiadują.
 - [ ] A6. Kolejność ćwiczeń po `kolejnosc`, a numer wyświetlany = pozycja; identyfikatory wg konspektów (np. 4-10).
-- [ ] A7. Ćwiczenie końcowe: `start.json` = wynik genson; test porównuje z `python -m genson` (pomijany, gdy genson niedostępny); workflowy instalują genson.
+- [x] A7. Ćwiczenie końcowe: `start.json` = wynik genson; test porównuje z `python -m genson` (pomijany, gdy genson niedostępny); workflowy instalują genson.
 - [x] A8 (słowniczek). Słowniczek `docs/slowniczek.md` (założenie, uzupełniany przy pisaniu) i tabela `docs/tematy-x-moduly.md`.
 
 ## B. Treść (każdy moduł: modul.json, wyklad.md, cwiczenia/; `npm test` zielone; commit)
@@ -23,8 +23,8 @@
 - [x] B5. Moduł 5 (25 min, 5 ćw.; `formaty`)
 - [x] B6. Moduł 6 (30 min, 8 ćw.)
 - [x] B7. Moduł 7 (40 min, 7 ćw., w tym 3 rodzaju 4)
-- [ ] B8. Moduł 8 (35 min, 1 ćw. rodzaju 5 z listą kontrolną; genson)
-- [ ] B9. Moduł 9 (15 min, 0 ćw.)
+- [x] B8. Moduł 8 (35 min, 1 ćw. rodzaju 5 z listą kontrolną; genson)
+- [x] B9. Moduł 9 (15 min, 0 ćw.)
 - [ ] B10. `tresc/kurs.json` z dziesięcioma modułami; start trenera pokazuje przerwy.
 
 ## C. Weryfikacja

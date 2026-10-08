@@ -12,7 +12,8 @@ const dane = readdirSync(join(katalog, 'dane')).filter(f => f.endsWith('.json'))
 
 function genson() {
   for (const py of ['python', 'python3', 'py']) {
-    const w = spawnSync(py, ['-I', '-m', 'genson', '-i', '2', ...dane], { encoding: 'utf8', env: { ...process.env, PYTHONUTF8: '1' } });
+    // -X utf8 zamiast zmiennej środowiskowej: tryb izolowany (-I) ignorowałby PYTHONUTF8, a genson czyta pliki w kodowaniu systemowym.
+    const w = spawnSync(py, ['-X', 'utf8', '-m', 'genson', '-i', '2', ...dane], { encoding: 'utf8' });
     if (w.status === 0 && w.stdout.trim().startsWith('{')) return w.stdout;
   }
   return null;

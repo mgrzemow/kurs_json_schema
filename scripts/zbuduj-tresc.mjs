@@ -85,6 +85,7 @@ export function zbudujTresc() {
   mkdirSync(WYJSCIE, { recursive: true });
   const spis = {
     tytul: kurs.tytul,
+    przerwy: kurs.przerwy || [],
     moduly: moduly.map(m => ({ nr: m.meta.nr, tytul: m.meta.tytul, minuty: m.meta.minuty, probna: !!m.meta.probna, liczbaCwiczen: m.cwiczenia.length })),
   };
   writeFileSync(join(WYJSCIE, 'kurs.json'), JSON.stringify(spis));

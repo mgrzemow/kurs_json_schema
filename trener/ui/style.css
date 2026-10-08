@@ -263,3 +263,4 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .drzewo { width: 100%; max-width: 40rem; height: auto; display: block; margin: 0.6rem 0; color: var(--tekst); }
 .drzewo .wezel rect { fill: var(--tlo-karta); stroke: var(--akcent); stroke-width: 1.5; }
 .drzewo .wezel text { fill: var(--tekst); }
+.moduly .przerwa { grid-column: 1 / -1; text-align: center; color: var(--tekst-slaby); font-size: 0.85rem; padding: 0.2rem 0; border-top: 1px dashed var(--ramka); border-bottom: 1px dashed var(--ramka); }
