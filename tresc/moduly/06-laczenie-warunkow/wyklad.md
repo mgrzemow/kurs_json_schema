@@ -184,6 +184,12 @@ Odrzucony: `"a"` jest tekstem i ma długość 1, więc pasuje do obu gałęzi, a
 { "numer": "ZAM-2026-000123" }
 ```
 
+**Przejdzie czy nie?** Powtórka: schemat `faktura-nip-bez-required` i dokument bez `faktura` i bez `nip`.
+
+```odpowiedz
+Odrzucony, i to jest błąd schematu, nie dokumentu: `if` bez `required` jest spełnione, gdy pola nie ma.
+```
+
 ### `else` do zakazów
 
 Kraj inny niż PL wymaga `eori`, a dla PL `eori` jest zabronione. Zakaz zapisuje się przez `not` z `required`; czyta się to „nie może być tak, że pole `eori` jest obecne”. W tym przykładzie `if` może obyć się bez `required: ["kraj"]`, bo `kraj` jest wymagany na górze schematu, więc dokument bez kraju i tak zostanie odrzucony:
@@ -243,12 +249,6 @@ Warunek i reguła nie muszą dotyczyć tego samego obiektu. Faktura jest polem z
 ```
 
 Uwaga na komunikat: przy pierwszym dokumencie walidator mówi „brakuje wymaganego pola „nip”” i wskazuje klienta, nie zamówienie, bo tam stoi `required` z gałęzi `then`. <!-- twierdzenie --> <!-- zrodlo: core §10.2.2.2, §10.3.2.1 -->
-
-**Przejdzie czy nie?** Powtórka: schemat `faktura-nip-bez-required` i dokument bez `faktura` i bez `nip`.
-
-```odpowiedz
-Odrzucony, i to jest błąd schematu, nie dokumentu: `if` bez `required` jest spełnione, gdy pola nie ma.
-```
 
 ## `dependentRequired`
 

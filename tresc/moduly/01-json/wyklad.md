@@ -209,7 +209,7 @@ Liczba to opcjonalny minus, cyfry, opcjonalna część ułamkowa po kropce i opc
   </g>
 </svg>
 
-Białe znaki wolno wstawiać między elementami w dowolnej ilości, ale tylko cztery: spację, tabulator, nową linię i powrót karetki. Twarda spacja z Worda wygląda jak spacja, a nie jest białym znakiem. Komentarzy w JSON-ie nie ma w ogóle. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §2 -->
+Białe znaki wolno wstawiać między elementami w dowolnej ilości, ale tylko cztery: spację, tabulator, nową linię i powrót karetki. Twarda spacja z Worda wygląda jak spacja, a nie jest białym znakiem. Komentarzy w JSON-ie nie ma w ogóle. W schemacie JSON Schema na komentarz dla autorów jest osobne słowo `$comment`: zwykłe pole z tekstem, które walidator pomija. W dokumentach z danymi takiego słowa nie ma; uwagę wpisuje się w zwykłym polu, np. `uwagi`. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §2; core §8.3 -->
 
 **Przejdzie czy nie?** Trzy dokumenty do oceny jako JSON (poprawny czy nie): `{"ilosc": 02}`, `{'ilosc': 2}`, `{"uwagi": null}`. Odpowiedzcie na czacie, potem otwórzcie piaskownicę i wklejcie każdy z nich: parser powie, co jest nie tak.
 

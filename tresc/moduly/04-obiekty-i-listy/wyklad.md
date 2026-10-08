@@ -158,6 +158,72 @@ Pusty obiekt `{}` bez `required` przechodzi. Gdy nazwy pól nie są z góry znan
 Odrzucony, ale nie przez `required`: pole `klient` jest. Odrzuca go `type: "string"` w schemacie klienta, bo `{}` to obiekt. `required` sprawdza obecność, `properties` wartość; tu zadziałało to drugie.
 ```
 
+## `null` kontra brak pola kontra pusty tekst
+
+Najpierw trzy schematy, które rozróżniają trzy sytuacje: pole wymagane i tekstowe; pole wymagane, ale dopuszczające `null`; pole opcjonalne, ale niepuste.
+
+```json schemat=uwagi-wymagane-tekst
+{ "properties": { "uwagi": { "type": "string" } }, "required": ["uwagi"] }
+```
+
+```json schemat=uwagi-wymagane-lub-null
+{ "properties": { "uwagi": { "type": ["string", "null"] } }, "required": ["uwagi"] }
+```
+
+```json schemat=uwagi-opcjonalne-niepuste
+{ "properties": { "uwagi": { "type": "string", "minLength": 1 } } }
+```
+
+Teraz trzy zamówienia, które wyglądają podobnie, a są trzema różnymi sytuacjami (sprawdzone pierwszym schematem):
+
+```json dokument=uwagi-brak schemat=uwagi-wymagane-tekst oczekiwane=odrzucony
+{ "numer": "ZAM-2026-000123" }
+```
+
+```json dokument=uwagi-null schemat=uwagi-wymagane-tekst oczekiwane=odrzucony
+{ "numer": "ZAM-2026-000123", "uwagi": null }
+```
+
+```json dokument=uwagi-puste schemat=uwagi-wymagane-tekst oczekiwane=przechodzi
+{ "numer": "ZAM-2026-000123", "uwagi": "" }
+```
+
+Pierwszy nie ma pola. Drugi ma pole z wartością `null`, czyli „wiemy, że nie ma uwag”. Trzeci ma pole z pustym tekstem. O każdej z tych sytuacji decyduje inne słowo: o obecności pola `required`, o `null` wpis `"null"` na liście typów, o pustym tekście `minLength`. <!-- twierdzenie --> <!-- zrodlo: validation §6.1.1, §6.5.3, §6.3.2 -->
+
+Werdykty policzone walidatorem dla pozostałych kombinacji:
+
+```json dokument=uwagi-brak-lub-null schemat=uwagi-wymagane-lub-null oczekiwane=odrzucony
+{ "numer": "ZAM-2026-000123" }
+```
+
+```json dokument=uwagi-null-lub-null schemat=uwagi-wymagane-lub-null oczekiwane=przechodzi
+{ "numer": "ZAM-2026-000123", "uwagi": null }
+```
+
+```json dokument=uwagi-puste-lub-null schemat=uwagi-wymagane-lub-null oczekiwane=przechodzi
+{ "numer": "ZAM-2026-000123", "uwagi": "" }
+```
+
+```json dokument=uwagi-brak-opcjonalne schemat=uwagi-opcjonalne-niepuste oczekiwane=przechodzi
+{ "numer": "ZAM-2026-000123" }
+```
+
+```json dokument=uwagi-null-opcjonalne schemat=uwagi-opcjonalne-niepuste oczekiwane=odrzucony
+{ "numer": "ZAM-2026-000123", "uwagi": null }
+```
+
+```json dokument=uwagi-puste-opcjonalne schemat=uwagi-opcjonalne-niepuste oczekiwane=odrzucony
+{ "numer": "ZAM-2026-000123", "uwagi": "" }
+```
+
+Zasada projektowa dla autorów: najpierw odpowiedz na pytania biznesowe („czy pole może nie istnieć? czy może być puste? czy brak informacji to `null`?”), potem dobierz słowa. Zasada dla czytających: jeśli schemat nie ma `required` i `minLength`, to „wymagane” w dokumentacji nic nie znaczy.
+
+**Przejdzie czy nie?** Powtórka: schemat `uwagi-wymagane-lub-null` i dokument z `"uwagi": null`.
+
+```odpowiedz
+Przechodzi, bo `null` jest na liście typów, a pole jest obecne.
+```
+
 ## Nadmiarowe pola: `additionalProperties`
 
 Domyślnie obiekt może mieć dowolne dodatkowe pola. Skutek: literówka `adrs` zamiast `adres` przechodzi bez słowa, a magazyn nie dostaje adresu. `additionalProperties: false` zamyka obiekt: dozwolone są tylko pola wymienione w `properties` (i pasujące do `patternProperties`, o którym za chwilę). <!-- twierdzenie --> <!-- zrodlo: core §10.3.2.3 -->
@@ -228,72 +294,6 @@ W `properties` nie da się tego opisać, bo nie wiadomo, jakie będą klucze. Sc
 Kiedy lista obiektów, a kiedy słownik: lista, gdy element ma kilka atrybutów, kolejność ma znaczenie albo klucz może się powtórzyć; słownik, gdy klucz jest z natury unikalny i chcemy szybko trafić po kluczu. Pozycje zamówienia to lista (ten sam EAN może wystąpić w dwóch liniach, pozycja ma ilość i cenę); stan magazynu to słownik.
 
 > **W draft-07:** identycznie; `propertyNames` pojawiło się w draft-06, więc w draft-04 trzeba było radzić sobie `patternProperties`.
-
-## `null` kontra brak pola kontra pusty tekst
-
-Najpierw trzy schematy, które rozróżniają trzy sytuacje: pole wymagane i tekstowe; pole wymagane, ale dopuszczające `null`; pole opcjonalne, ale niepuste.
-
-```json schemat=uwagi-wymagane-tekst
-{ "properties": { "uwagi": { "type": "string" } }, "required": ["uwagi"] }
-```
-
-```json schemat=uwagi-wymagane-lub-null
-{ "properties": { "uwagi": { "type": ["string", "null"] } }, "required": ["uwagi"] }
-```
-
-```json schemat=uwagi-opcjonalne-niepuste
-{ "properties": { "uwagi": { "type": "string", "minLength": 1 } } }
-```
-
-Teraz trzy zamówienia, które wyglądają podobnie, a są trzema różnymi sytuacjami (sprawdzone pierwszym schematem):
-
-```json dokument=uwagi-brak schemat=uwagi-wymagane-tekst oczekiwane=odrzucony
-{ "numer": "ZAM-2026-000123" }
-```
-
-```json dokument=uwagi-null schemat=uwagi-wymagane-tekst oczekiwane=odrzucony
-{ "numer": "ZAM-2026-000123", "uwagi": null }
-```
-
-```json dokument=uwagi-puste schemat=uwagi-wymagane-tekst oczekiwane=przechodzi
-{ "numer": "ZAM-2026-000123", "uwagi": "" }
-```
-
-Pierwszy nie ma pola. Drugi ma pole z wartością `null`, czyli „wiemy, że nie ma uwag”. Trzeci ma pole z pustym tekstem. O każdej z tych sytuacji decyduje inne słowo: o obecności pola `required`, o `null` wpis `"null"` na liście typów, o pustym tekście `minLength`. <!-- twierdzenie --> <!-- zrodlo: validation §6.1.1, §6.5.3, §6.3.2 -->
-
-Werdykty policzone walidatorem dla pozostałych kombinacji:
-
-```json dokument=uwagi-brak-lub-null schemat=uwagi-wymagane-lub-null oczekiwane=odrzucony
-{ "numer": "ZAM-2026-000123" }
-```
-
-```json dokument=uwagi-null-lub-null schemat=uwagi-wymagane-lub-null oczekiwane=przechodzi
-{ "numer": "ZAM-2026-000123", "uwagi": null }
-```
-
-```json dokument=uwagi-puste-lub-null schemat=uwagi-wymagane-lub-null oczekiwane=przechodzi
-{ "numer": "ZAM-2026-000123", "uwagi": "" }
-```
-
-```json dokument=uwagi-brak-opcjonalne schemat=uwagi-opcjonalne-niepuste oczekiwane=przechodzi
-{ "numer": "ZAM-2026-000123" }
-```
-
-```json dokument=uwagi-null-opcjonalne schemat=uwagi-opcjonalne-niepuste oczekiwane=odrzucony
-{ "numer": "ZAM-2026-000123", "uwagi": null }
-```
-
-```json dokument=uwagi-puste-opcjonalne schemat=uwagi-opcjonalne-niepuste oczekiwane=odrzucony
-{ "numer": "ZAM-2026-000123", "uwagi": "" }
-```
-
-Zasada projektowa dla autorów: najpierw odpowiedz na pytania biznesowe („czy pole może nie istnieć? czy może być puste? czy brak informacji to `null`?”), potem dobierz słowa. Zasada dla czytających: jeśli schemat nie ma `required` i `minLength`, to „wymagane” w dokumentacji nic nie znaczy.
-
-**Przejdzie czy nie?** Powtórka: schemat `uwagi-wymagane-lub-null` i dokument z `"uwagi": null`.
-
-```odpowiedz
-Przechodzi, bo `null` jest na liście typów, a pole jest obecne.
-```
 
 ## Listy: `items`, `minItems`/`maxItems`, `uniqueItems`, `contains`, `prefixItems`
 

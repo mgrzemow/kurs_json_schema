@@ -118,16 +118,6 @@ Uwaga dla autorów: `$id` wewnątrz podschematu zmienia adres bazowy dla wszystk
 
 > **W draft-07:** to samo `$id`. W draft-04 było `id` bez dolara, co jest jednym z sygnałów starego schematu z modułu 2.
 
-## Jak to wygląda w prawdziwych repozytoriach
-
-Trzy sytuacje, które spotkacie w firmowych repozytoriach schematów. Nie ćwiczymy ich, ale warto je rozpoznać.
-
-**Odwołanie do kawałka innego pliku.** Częsty układ to jeden plik „wspólny” z wieloma definicjami (kod pocztowy, NIP, EAN, kwota) i pliki, które biorą z niego pojedyncze elementy. Odwołanie łączy wtedy dwie rzeczy z tego modułu: najpierw identyfikator pliku, potem po `#` ścieżkę do definicji w środku, np. `wspolne#/$defs/kodPocztowy`. Walidator najpierw znajduje plik, a potem idzie w nim po ścieżce, dokładnie tak, jak przy odwołaniu w obrębie jednego pliku. <!-- twierdzenie --> <!-- zrodlo: core §8.2.3.1, §9.2 -->
-
-**Pliki bez `$id`, z odwołaniami po ścieżkach.** W wielu repozytoriach schematy nie mają `$id` i odwołują się do siebie jak do plików na dysku, np. `./adres.json`. To nie błąd: adresem bazowym schematu bez `$id` jest miejsce, z którego go wczytano, więc odwołanie względne rozwiązuje się względem katalogu pliku. Działa to, dopóki narzędzie wczytuje pliki z dysku z zachowaniem ich położenia; po skopiowaniu schematu gdzie indziej odwołania mogą przestać pasować. W tym kursie (i w trenerze) używamy `$id`, bo nie zależy od tego, skąd plik wczytano. <!-- twierdzenie --> <!-- zrodlo: core §9.1.1, §8.2.1 -->
-
-**Jak podać walidatorowi wiele plików.** Walidator nic nie pobiera sam, więc wszystkie pliki trzeba mu dać przed sprawdzeniem dokumentu. W narzędziach uruchamianych z linii poleceń (także w pipeline'ach CI) zwykle podaje się plik główny i osobno listę plików, do których się odwołuje. W kodzie każdy plik rejestruje się w walidatorze, zanim skompiluje się schemat główny. Jeśli walidator zgłasza „nie można rozwiązać odwołania”, najczęściej brakuje któregoś pliku na tej liście albo jego `$id` nie zgadza się z odwołaniem. Szczegóły są w dokumentacji konkretnego narzędzia. <!-- twierdzenie --> <!-- zrodlo: core §9.1.2 -->
-
 ## Ładowanie i przetwarzanie schematów
 
 Co walidator robi po kolei: <!-- twierdzenie --> <!-- zrodlo: core §9.1, §9.2 -->
@@ -146,3 +136,13 @@ Pakowanie (bundling) jednym zdaniem: wiele plików da się scalić w jeden, wsta
 ```odpowiedz
 Zepsute, bo `https://kurs.example/schematy/adres` i `https://kurs.example/schematy/adres.json` to różne identyfikatory. Identyfikatory porównuje się po normalizacji (np. wielkość liter w nazwie hosta nie ma znaczenia), ale końcówka `.json` to zawsze inny identyfikator.
 ```
+
+## Jak to wygląda w prawdziwych repozytoriach
+
+Trzy sytuacje, które spotkacie w firmowych repozytoriach schematów. Nie ćwiczymy ich, ale warto je rozpoznać.
+
+**Odwołanie do kawałka innego pliku.** Częsty układ to jeden plik „wspólny” z wieloma definicjami (kod pocztowy, NIP, EAN, kwota) i pliki, które biorą z niego pojedyncze elementy. Odwołanie łączy wtedy dwie rzeczy z tego modułu: najpierw identyfikator pliku, potem po `#` ścieżkę do definicji w środku, np. `wspolne#/$defs/kodPocztowy`. Walidator najpierw znajduje plik, a potem idzie w nim po ścieżce, dokładnie tak, jak przy odwołaniu w obrębie jednego pliku. <!-- twierdzenie --> <!-- zrodlo: core §8.2.3.1, §9.2 -->
+
+**Pliki bez `$id`, z odwołaniami po ścieżkach.** W wielu repozytoriach schematy nie mają `$id` i odwołują się do siebie jak do plików na dysku, np. `./adres.json`. To nie błąd: adresem bazowym schematu bez `$id` jest miejsce, z którego go wczytano, więc odwołanie względne rozwiązuje się względem katalogu pliku. Działa to, dopóki narzędzie wczytuje pliki z dysku z zachowaniem ich położenia; po skopiowaniu schematu gdzie indziej odwołania mogą przestać pasować. W tym kursie (i w trenerze) używamy `$id`, bo nie zależy od tego, skąd plik wczytano. <!-- twierdzenie --> <!-- zrodlo: core §9.1.1, §8.2.1 -->
+
+**Jak podać walidatorowi wiele plików.** Walidator nic nie pobiera sam, więc wszystkie pliki trzeba mu dać przed sprawdzeniem dokumentu. W narzędziach uruchamianych z linii poleceń (także w pipeline'ach CI) zwykle podaje się plik główny i osobno listę plików, do których się odwołuje. W kodzie każdy plik rejestruje się w walidatorze, zanim skompiluje się schemat główny. Jeśli walidator zgłasza „nie można rozwiązać odwołania”, najczęściej brakuje któregoś pliku na tej liście albo jego `$id` nie zgadza się z odwołaniem. Szczegóły są w dokumentacji konkretnego narzędzia. <!-- twierdzenie --> <!-- zrodlo: core §9.1.2 -->
