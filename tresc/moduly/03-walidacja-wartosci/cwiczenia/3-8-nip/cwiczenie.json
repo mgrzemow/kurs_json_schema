@@ -10,7 +10,7 @@
   "slowa": [
     "pattern"
   ],
-  "podpowiedz": "Myślniki stoją w stałych miejscach: po trzeciej, szóstej i ósmej cyfrze. Każdy z nich jest opcjonalny: `-?`. Albo zapisz dwa pełne wzorce z alternatywą w nawiasach.",
+  "podpowiedz": "Dwa dozwolone zapisy to dwa osobne wzorce: same cyfry albo cyfry z myślnikami w układzie 3-3-2-2. Połącz je alternatywą w nawiasach z kotwicami na zewnątrz. Uwaga: `-?` w każdym miejscu z osobna przepuszcza formy mieszane, np. `123-4567890`.",
   "przyklady": [
     {
       "opis": "Bez myślników",
@@ -27,6 +27,12 @@
       "dane": "123-45-67-890",
       "ok": false,
       "wskazowka": "Układ cyfr między myślnikami jest stały: 3-3-2-2."
+    },
+    {
+      "opis": "Tylko jeden myślnik",
+      "dane": "123-4567890",
+      "ok": false,
+      "wskazowka": "Myślniki są albo wszystkie, albo żadnego. Niezależne `-?` przepuszczają formy mieszane."
     },
     {
       "opis": "Jedenaście cyfr",
@@ -54,6 +60,10 @@
     {
       "plik": "klasa-z-myslnikiem",
       "dlaczego": "`^[0-9-]{10,13}$` pozwala na dowolną mieszankę cyfr i myślników, więc `----------` i `123-45-67-890` przechodzą."
+    },
+    {
+      "plik": "niezalezne-myslniki",
+      "dlaczego": "Wzorzec z `-?` w każdym miejscu przepuszcza formy mieszane, np. `123-4567890`, a dozwolone są tylko dwa pełne zapisy."
     }
   ],
   "zrodla": [

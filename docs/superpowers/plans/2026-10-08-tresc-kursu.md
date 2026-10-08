@@ -30,6 +30,6 @@
 ## C. Weryfikacja
 
 - [x] C1. Build, `sprawdz-interakcje` (zaktualizować identyfikatory ćwiczeń), zrzuty wybranych ekranów.
-- [ ] C2. Agent `weryfikator-specyfikacji` na każdym module; rozbieżności do prowadzącego, oczywiste błędy poprawione.
+- [x] C2. Agent `weryfikator-specyfikacji` na każdym module; rozbieżności do prowadzącego, oczywiste błędy poprawione.
 - [ ] C3. Agent `uczestnik` dla profilu A i B; raporty w `docs/raporty-uczestnikow/`; podsumowanie dla prowadzącego.
 - [ ] C4. Materiały (workflow), CLAUDE.md i README zaktualizowane, push, Pages.

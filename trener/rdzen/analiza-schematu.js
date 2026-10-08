@@ -53,7 +53,16 @@ export function najblizszeSlowo(k) {
 export function analizujSchemat(s, klucze = new Map(), { formaty = false } = {}) {
   const out = [];
   let formatPokazany = false;
-  (function idz(s, p) {
+// Słowa z draft-07 (i starszych), które w 2020-12 mają nowsze odpowiedniki.
+const STARE_SLOWA = {
+  definitions: '„definitions” to nazwa z draft-07; w 2020-12 definicje trzyma się w „$defs”.',
+  dependencies: '„dependencies” to słowo z draft-07; w 2020-12 zastąpiły je „dependentRequired” (lista pól) i „dependentSchemas” (schemat).',
+  additionalItems: '„additionalItems” to słowo z draft-07; w 2020-12 krotkę opisuje „prefixItems”, a dalsze elementy „items”.',
+};
+// Aplikatory, w których gałęziach „required” często stoi bez własnego „properties” (np. dyskryminator w oneOf).
+const GALEZIE = ['allOf', 'anyOf', 'oneOf', 'not', 'if', 'then', 'else', 'dependentSchemas'];
+
+  (function idz(s, p, wGalezi = false) {
     if (!s || typeof s !== 'object' || Array.isArray(s)) return;
     for (const k of Object.keys(s)) {
       const v = s[k];
@@ -66,6 +75,7 @@ export function analizujSchemat(s, klucze = new Map(), { formaty = false } = {})
         out.push({ poziom: 'ostrz', tekst, pos: klucze.get(kp) });
         continue;
       }
+      if (STARE_SLOWA[k]) out.push({ poziom: 'info', tekst: STARE_SLOWA[k], pos: klucze.get(kp) });
       if (k === 'format' && typeof v === 'string' && !ZNANE_FORMATY.has(v)) {
         out.push({ poziom: 'ostrz', tekst: 'Format „' + v + '” nie jest zdefiniowany w specyfikacji, więc walidator go pomija nawet przy włączonej walidacji „format”. Do własnych formatów (telefon, NIP, kod pocztowy) służy „pattern”.', pos: klucze.get(kp) });
       }
@@ -75,20 +85,21 @@ export function analizujSchemat(s, klucze = new Map(), { formaty = false } = {})
           ? '„format” jest teraz sprawdzany jak reguła, bo w pasku włączono „walidacja format”. Bez tego przełącznika byłby samą adnotacją.'
           : '„format” to tu tylko opis. Domyślnie walidator go nie sprawdza, więc np. "abc" przejdzie jako e-mail. Włącz „walidacja format” w pasku, żeby to zmienić.', pos: klucze.get(kp) });
       }
-      if (k === 'required' && Array.isArray(v) && s.properties && typeof s.properties === 'object') {
+      if (k === 'required' && !wGalezi && Array.isArray(v) && s.properties && typeof s.properties === 'object') {
         for (const r of v) {
           if (typeof r === 'string' && !Object.prototype.hasOwnProperty.call(s.properties, r)) {
             out.push({ poziom: 'ostrz', tekst: 'Pole „' + r + '” jest w „required”, ale nie ma go w „properties”. To może być literówka.', pos: klucze.get(kp) });
           }
         }
       }
+      const galaz = GALEZIE.includes(k);
       if (PODSCHEMAT.includes(k)) {
-        if (Array.isArray(v)) v.forEach((x, j) => idz(x, kp + '/' + j));
-        else idz(v, kp);
+        if (Array.isArray(v)) v.forEach((x, j) => idz(x, kp + '/' + j, galaz));
+        else idz(v, kp, galaz);
       } else if (MAPA.includes(k) && v && typeof v === 'object') {
-        for (const nm of Object.keys(v)) idz(v[nm], kp + '/' + kodujSegment(nm));
+        for (const nm of Object.keys(v)) idz(v[nm], kp + '/' + kodujSegment(nm), galaz);
       } else if (LISTA.includes(k) && Array.isArray(v)) {
-        v.forEach((x, j) => idz(x, kp + '/' + j));
+        v.forEach((x, j) => idz(x, kp + '/' + j, galaz));
       }
     }
   })(s, '');

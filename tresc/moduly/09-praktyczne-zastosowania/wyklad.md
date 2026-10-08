@@ -40,7 +40,8 @@ Biblioteki: Ajv (JavaScript), `jsonschema` (Python), networknt i everit (Java), 
 
 ```python
 from jsonschema import Draft202012Validator
-Draft202012Validator(schemat).validate(zamowienie)   # rzuca wyjątek z listą błędów
+Draft202012Validator(schemat).validate(zamowienie)            # rzuca jeden wyjątek: pierwszy błąd
+bledy = list(Draft202012Validator(schemat).iter_errors(zamowienie))  # wszystkie błędy
 ```
 
 ```js

@@ -64,11 +64,13 @@ false
 
 **Przejdzie czy nie?** Schemat `{"reqired": ["numer"]}` i zamówienie bez numeru.
 
-```json pytanie=reqired schemat=literowka oczekiwane=przechodzi
-{ "klient": "Jan Nowak" }
+```json schemat=reqired
+{ "reqired": ["numer"] }
 ```
 
-(Powyższe pytanie używa schematu `literowka`, bo mechanizm jest ten sam: słowo z literówką jest ignorowane.)
+```json pytanie=reqired schemat=reqired oczekiwane=przechodzi
+{ "klient": "Jan Nowak" }
+```
 
 ## Metaschematy i `$schema`
 

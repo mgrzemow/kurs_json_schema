@@ -18,7 +18,8 @@ export class BladSchematu extends Error {
 const OPCJE_AJV = { allErrors: true, strict: false, useDefaults: false, validateSchema: true, allowUnionTypes: true };
 
 function nowyAjv(formaty) {
-  const ajv = new Ajv2020({ ...OPCJE_AJV, validateFormats: formaty });
+  // logger: false — ostrzeżenia Ajv (np. „unknown format … ignored”) nie trafiają do konsoli; trener ma własne, polskie.
+  const ajv = new Ajv2020({ ...OPCJE_AJV, validateFormats: formaty, logger: false });
   if (formaty) addFormats(ajv, { mode: 'full' });
   return ajv;
 }
@@ -48,6 +49,17 @@ function bladMeta(bledy, schemat, klucze) {
   if (typBlad) {
     const v = wskaz(schemat, typBlad.instancePath);
     return new BladSchematu('„type” ma nieznaną wartość ' + krotko(v) + '. Dozwolone: ' + TYPY.map(t => '"' + t + '"').join(', ') + '.', { pos: klucze.get(typBlad.instancePath) });
+  }
+  // Nawyki ze starych wersji: komunikat mówi, z której wersji pochodzi zapis i jak go przepisać.
+  const stary = bledy.find(x => /\/(exclusiveMinimum|exclusiveMaximum)$/.test(x.instancePath) && typeof wskaz(schemat, x.instancePath) === 'boolean');
+  if (stary) {
+    const slowo = segmenty(stary.instancePath).pop();
+    const granica = slowo === 'exclusiveMinimum' ? 'minimum' : 'maximum';
+    return new BladSchematu('„' + slowo + '”: true obok „' + granica + '” to zapis z draft-04. W 2020-12 granica wyłączna jest liczbą, np. "' + slowo + '": 0 zamiast "' + granica + '": 0 i "' + slowo + '": true.', { pos: klucze.get(stary.instancePath) });
+  }
+  const krotka = bledy.find(x => /\/items$/.test(x.instancePath) && Array.isArray(wskaz(schemat, x.instancePath)));
+  if (krotka) {
+    return new BladSchematu('Lista schematów w „items” to zapis krotki z draft-07. W 2020-12 pozycje opisuje „prefixItems”, a „items”: false zabrania dalszych elementów.', { pos: klucze.get(krotka.instancePath) });
   }
   const e = bledy.find(x => !['anyOf', 'oneOf', 'if'].includes(x.keyword)) || bledy[0];
   const v = wskaz(schemat, e.instancePath);
@@ -90,7 +102,7 @@ function wyjatek(e, { plik, pliki } = {}) {
       const zPliku = Object.keys(pliki).find(n => pliki[n].wartosc && pliki[n].wartosc.$id === r[2]) || plik;
       return new BladSchematu('Odwołanie „' + r[1] + '” w pliku „' + zPliku + '” nie prowadzi do żadnego schematu. Sprawdź „$id” plików i nazwę w odwołaniu.', { plik: zPliku });
     }
-    return new BladSchematu('Odwołanie ' + r[1] + ' nie prowadzi do żadnej definicji. Sprawdź nazwę w „$defs”.', { plik });
+    return new BladSchematu('Odwołanie ' + r[1] + ' nie prowadzi do żadnego miejsca w schemacie. Sprawdź całą ścieżkę po „#”: każdy segment musi być kluczem, który naprawdę istnieje, np. „#/$defs/adres/properties/kodPocztowy”.', { plik });
   }
   return new BladSchematu('Walidator nie może użyć tego schematu: ' + m, { plik });
 }
@@ -173,6 +185,9 @@ export function utworzWalidator({ formaty = false } = {}) {
       const przygotowany = przygotujSchemat(p.wartosc, p.klucze);
       const schemat = przygotowany.schemat;
       for (const u of przygotowany.uwagi) uwagi.push({ ...u, plik: nazwa });
+      if (schemat && typeof schemat === 'object' && typeof schemat.$id === 'string' && !/^[a-z][a-z0-9+.-]*:/i.test(schemat.$id)) {
+        throw new BladSchematu('„$id” w pliku „' + nazwa + '” jest względny („' + schemat.$id + '”). Plik na najwyższym poziomie musi mieć pełny adres, bo nie ma względem czego go rozwiązać, np. „https://kurs.example/schematy/' + schemat.$id + '”.', { plik: nazwa });
+      }
       if (!schemat || typeof schemat !== 'object' || typeof schemat.$id !== 'string') {
         throw new BladSchematu('Plik „' + nazwa + '” nie ma „$id”. W projekcie z wieloma plikami każdy schemat musi mieć „$id”, żeby inne mogły się do niego odwołać.', { plik: nazwa });
       }

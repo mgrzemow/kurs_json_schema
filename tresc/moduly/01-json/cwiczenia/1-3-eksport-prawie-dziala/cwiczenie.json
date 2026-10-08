@@ -6,13 +6,22 @@
   "czasMin": 6,
   "kolejnosc": 3,
   "kontekst": "Stary system sklepu eksportuje zamówienia do JSON-a własnym kodem. Większość plików przechodzi, ale ten nie. Po naprawie składni dokument ma spełnić schemat zamówienia: kod pocztowy to tekst w formacie `00-950`, ilość najwyżej 1000, ścieżka do faktury to tekst.",
-  "polecenie": "Napraw składnię, a potem zgodność ze schematem. Uwaga: jeden z problemów nie jest błędem składni i parser go przepuści, a trener tylko ostrzeże. Przeczytaj ostrzeżenie uważnie.",
+  "polecenie": "Napraw składnię, a potem zgodność ze schematem. Uwaga: jeden z problemów nie jest błędem składni i parser go przepuści, a trener tylko ostrzeże. Przeczytaj ostrzeżenie uważnie. Z dwóch wartości ilości w pozycji prawdziwa jest 36 (system dopisał drugą przy błędzie eksportu).",
   "slowa": [],
   "podpowiedz": "Kod pocztowy z zerem na początku nie może być liczbą: nie usuwaj zera, tylko zrób z niego tekst w cudzysłowie (ze schematu wynika też myślnik). W ścieżce każdy `\\` trzeba podwoić. Jeśli pole występuje dwa razy, liczy się ostatnie wystąpienie: usuń niepotrzebne.",
-  "bledy": ["zaczynać się od zera", "Ukośnik trzeba podwoić"],
+  "bledy": [
+    "zaczynać się od zera",
+    "Ukośnik trzeba podwoić"
+  ],
   "poSkladni": "odrzucony",
   "zrodla": [
-    { "twierdzenie": "Liczby nie mają zer wiodących; w tekście odwrotny ukośnik wymaga ucieczki.", "zrodlo": "RFC 8259 §6, §7" },
-    { "twierdzenie": "Nazwy pól w obiekcie powinny być unikalne; przy duplikacie zachowanie parserów jest nieprzewidywalne (wiele bierze ostatnią wartość).", "zrodlo": "RFC 8259 §4" }
+    {
+      "twierdzenie": "Liczby nie mają zer wiodących; w tekście odwrotny ukośnik wymaga ucieczki.",
+      "zrodlo": "RFC 8259 §6, §7"
+    },
+    {
+      "twierdzenie": "Nazwy pól w obiekcie powinny być unikalne; przy duplikacie zachowanie parserów jest nieprzewidywalne (wiele bierze ostatnią wartość).",
+      "zrodlo": "RFC 8259 §4"
+    }
   ]
 }

@@ -60,7 +60,7 @@ Format spoza listy, np. `"format": "telefon"`, jest zbierany jak każda adnotacj
 "2026-10-08"
 ```
 
-> **W draft-07:** lista formatów prawie ta sama (`duration` i `uuid` doszły w 2019-09). `format` też był domyślnie adnotacją, ale wiele walidatorów sprawdzało go domyślnie, więc przy przejściu na nowszą bibliotekę zdarza się, że „walidacja przestała działać”. Nie przestała: nigdy nie była obiecana.
+> **W draft-07:** lista formatów prawie ta sama (`duration` i `uuid` doszły w 2019-09). Sprawdzanie `format` było dla walidatorów opcjonalne (pojęcia „adnotacji” w dzisiejszym sensie jeszcze nie było), a wiele z nich sprawdzało go domyślnie, więc przy przejściu na nowszą bibliotekę zdarza się, że „walidacja przestała działać”. Nie przestała: nigdy nie była obiecana.
 
 ## Podstawowe adnotacje metadanych
 

@@ -46,7 +46,7 @@
       "opis": "Dolar",
       "dane": "USD",
       "ok": false,
-      "wyjasnienie": "Żadna z trzech liter sekwencji nie występuje w tekście."
+      "wyjasnienie": "Żadna z trzech sekwencji liter nie występuje w tekście."
     }
   ],
   "zrodla": [
