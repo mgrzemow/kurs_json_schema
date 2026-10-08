@@ -305,3 +305,6 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .drzewo { width: 100%; max-width: 40rem; height: auto; display: block; margin: 0.6rem 0; color: var(--tekst); }
 .drzewo .wezel rect { fill: var(--tlo-karta); stroke: var(--akcent); stroke-width: 1.5; }
 .drzewo .wezel text { fill: var(--tekst); }
+.start .autor { margin: -0.4rem 0 0.8rem; color: var(--tekst-slaby); }
+.start .wstep p { margin: 0.4rem 0; }
+.start .prawa { margin-top: 2rem; padding-top: 0.8rem; border-top: 1px solid var(--ramka); font-size: 0.8rem; color: var(--tekst-slaby); max-width: 48rem; }

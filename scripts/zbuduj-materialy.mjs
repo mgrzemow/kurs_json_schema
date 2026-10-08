@@ -119,18 +119,21 @@ export function zbudujMaterialyHtml({ kurs, moduly }) {
       ${m.cwiczenia.map((cw, i) => sekcjaCwiczenia(cw, nr, i)).join('')}</section>`;
   }).join('');
   const rozwiazania = `<section id="rozwiazania"><h1>Dodatek: rozwiązania ćwiczeń</h1>${moduly.flatMap(m => m.cwiczenia.map((cw, i) => sekcjaRozwiazania(cw, m.meta.nr, i))).join('')}</section>`;
-  const tresc = `<header class="okladka"><h1>${esc(kurs.tytul)}</h1><p>Materiały po kursie: wykład, ćwiczenia, ściągawka i rozwiązania. Wygenerowane ${new Date().toISOString().slice(0, 10)}.</p></header>
+  const tresc = `<header class="okladka"><h1>${esc(kurs.tytul)}</h1>${kurs.autor ? `<p class="autor">${esc(kurs.autor)}${kurs.linkedin ? ` · <a href="${esc(kurs.linkedin)}">${esc(kurs.linkedin.replace(/^https:\/\/(www\.)?/, ''))}</a>` : ''}</p>` : ''}<p>Materiały po kursie: wykład, ćwiczenia, ściągawka i rozwiązania. Wygenerowane ${new Date().toISOString().slice(0, 10)}.</p>${kurs.prawa ? `<p class="prawa">${esc(kurs.prawa)}</p>` : ''}</header>
     <nav class="spis"><h2>Spis treści</h2><ol>${spis}</ol></nav>${modulyHtml}${sciagawka()}${rozwiazania}`;
   // Funkcje zamiast stringów w replace: treść zawiera `$`, który replace traktowałby jako wzorzec zamiany.
   return szablon.replace('{{tytul}}', () => esc(kurs.tytul)).replace('{{styl}}', () => styl).replace('{{tresc}}', () => tresc);
 }
+
+// Stopka każdej strony PDF: autor i numer strony (szablon Chromium, style muszą być w linii).
+const STOPKA = '<div style="font-size:7pt;color:#777;width:100%;padding:0 16mm;display:flex;justify-content:space-between"><span>© 2026 Michał Grzemowski · materiały chronione prawem autorskim</span><span><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>';
 
 async function zbudujPdf(htmlSciezka, pdfSciezka) {
   const { chromium } = await import('playwright');
   const przegladarka = await chromium.launch();
   const strona = await przegladarka.newPage();
   await strona.goto('file://' + htmlSciezka.replace(/\\/g, '/'), { waitUntil: 'load' });
-  await strona.pdf({ path: pdfSciezka, format: 'A4', printBackground: true, margin: { top: '18mm', bottom: '18mm', left: '16mm', right: '16mm' } });
+  await strona.pdf({ path: pdfSciezka, format: 'A4', printBackground: true, displayHeaderFooter: true, headerTemplate: '<span></span>', footerTemplate: STOPKA, margin: { top: '18mm', bottom: '18mm', left: '16mm', right: '16mm' } });
   await przegladarka.close();
 }
 

@@ -27,3 +27,13 @@ test('spis kursu na stronie nie ma przerw ani czasów', () => {
 test('znaczniki kolorów kodu nie zostają w wykładzie jako tekst', () => {
   for (const m of moduly) assert.doesNotMatch(m.wyklad.html, /`\{[sd]\}|<\/code>\{[sd]\}/, 'moduł ' + m.meta.nr);
 });
+
+test('strona startowa: tytuł, autor z LinkedInem, czas, opis i nota o prawach autorskich', () => {
+  const spis = zbudujTresc();
+  assert.equal(spis.tytul, 'Kurs JSON Schema');
+  assert.equal(spis.autor, 'Michał Grzemowski');
+  assert.match(spis.linkedin, /^https:\/\/www\.linkedin\.com\//);
+  assert.equal(spis.czas, '1 dzień');
+  assert.ok(spis.opis.length >= 1);
+  assert.match(spis.prawa, /prawem autorskim/);
+});

@@ -1,5 +1,13 @@
 {
-  "tytul": "Kurs JSON Schema 2020-12",
+  "tytul": "Kurs JSON Schema",
+  "autor": "Michał Grzemowski",
+  "linkedin": "https://www.linkedin.com/in/michal-grzemowski-trainer/",
+  "czas": "1 dzień",
+  "opis": [
+    "Autorski kurs JSON Schema 2020-12: od składni JSON, przez reguły dla wartości, obiektów i list, po schematy złożone z wielu plików i poprawianie tego, co wygeneruje narzędzie.",
+    "Wykład i ćwiczenia są w jednym miejscu. Każdy przykład można otworzyć w edytorze, zmienić i od razu zobaczyć, czy dokument przechodzi. Kurs powstał do szkolenia pod okiem trenera, ale ćwiczenia mają stopniowaną pomoc, od wskazówki po gotowe rozwiązanie, więc da się je przejść także samodzielnie."
+  ],
+  "prawa": "© 2026 Michał Grzemowski. Wykład, ćwiczenia, przykłady i rozwiązania są utworem chronionym prawem autorskim. Udział w szkoleniu pozwala korzystać z materiałów na własny użytek, ale nie oznacza przeniesienia autorskich praw majątkowych ani zgody na kopiowanie, udostępnianie innym osobom czy wykorzystanie w innych szkoleniach bez pisemnej zgody autora.",
   "moduly": [
     {
       "nr": 0,

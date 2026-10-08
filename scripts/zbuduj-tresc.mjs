@@ -89,6 +89,11 @@ export function zbudujTresc() {
   mkdirSync(WYJSCIE, { recursive: true });
   const spis = {
     tytul: kurs.tytul,
+    autor: kurs.autor,
+    linkedin: kurs.linkedin,
+    czas: kurs.czas,
+    opis: kurs.opis || [],
+    prawa: kurs.prawa,
     moduly: moduly.map(m => ({ nr: m.meta.nr, tytul: m.meta.tytul, opis: m.meta.opis, probna: !!m.meta.probna, liczbaCwiczen: m.cwiczenia.length })),
   };
   writeFileSync(join(WYJSCIE, 'kurs.json'), JSON.stringify(spis));
