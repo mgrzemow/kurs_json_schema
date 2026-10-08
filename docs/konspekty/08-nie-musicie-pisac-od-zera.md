@@ -1,6 +1,6 @@
 # Moduł 8: Nie musicie pisać od zera (35 min) — opis sekcji
 
-Status: propozycja do akceptacji. Budżet: 12 min wykładu, 18 min ćwiczenia końcowego, 5 min omówienia. Pułapka z listy obowiązkowej: generator opisuje to, co jest w przykładach, a nie to, co powinno być.
+Status: **zaakceptowany 2026-10-08** (dane do genson, bez anegdot, lista kontrolna z checkboxami). Budżet: 12 min wykładu, 18 min ćwiczenia końcowego, 5 min omówienia. Pułapka z listy obowiązkowej: generator opisuje to, co jest w przykładach, a nie to, co powinno być.
 
 ## Dane wejściowe do generatora (do akceptacji)
 

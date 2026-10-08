@@ -1,6 +1,6 @@
 # Moduł 9: Praktyczne zastosowania JSON Schema (15 min) — opis sekcji
 
-Status: propozycja do akceptacji. Wyłącznie wykład. Lista obszarów zaakceptowana 2026-10-08 do omówienia: 1, 2, 3, 5, 6 szerzej (po 2–3 min), 4 i 7 jednym akapitem, 8 tylko w materiałach. Na końcu informacja o materiałach (1 min). Każdy obszar ma ten sam układ: gdzie uczestnik to spotka, co jest specyficzne, jedno zdanie z domeny zamówienia.
+Status: **zaakceptowany 2026-10-08**. Wyłącznie wykład. Lista obszarów zaakceptowana 2026-10-08 do omówienia: 1, 2, 3, 5, 6 szerzej (po 2–3 min), 4 i 7 jednym akapitem, 8 tylko w materiałach. Na końcu informacja o materiałach (1 min). Każdy obszar ma ten sam układ: gdzie uczestnik to spotka, co jest specyficzne, jedno zdanie z domeny zamówienia.
 
 ## Sekcja 9.1: Kontrakty API: OpenAPI (3 min)
 
