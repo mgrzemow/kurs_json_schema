@@ -49,3 +49,16 @@ for (const m of moduly) {
     for (const p of dok) assert.ok(['przechodzi', 'odrzucony'].includes(p.werdykt));
   });
 }
+
+test('parsujWyklad: blok odpowiedzi jest zwijany, z markdownem w środku', () => {
+  const w = parsujWyklad('```odpowiedz\nPrzechodzi, bo `null` jest na liście.\n```\n');
+  assert.match(w.html, /<details class="pytanie odpowiedz"><summary>Odsłoń odpowiedź<\/summary>/);
+  assert.match(w.html, /<code>null<\/code>/);
+});
+
+test('wykłady nie podają odpowiedzi na „Przejdzie czy nie?” na widoku', () => {
+  for (const m of moduly) {
+    const tekst = m.wyklad.html.replace(/<details[^]*?<\/details>/g, '');
+    assert.doesNotMatch(tekst, /Odpowiedź( wyżej)?:/, 'moduł ' + m.meta.nr);
+  }
+});

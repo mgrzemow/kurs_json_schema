@@ -35,7 +35,14 @@ Dwa przebiegi agenta `uczestnik` (profil A: analityk, profil B: inżynier) przez
 **Drobne**
 - Usunięte frazy z notatek autora („pułapka z listy obowiązkowej”, „uczestnik już to widział”), ton w 5-3, tytuł 3-6 nie zdradza odpowiedzi, martwa wskazówka w 3-3.
 
-## Do decyzji prowadzącego
+## Decyzje prowadzącego (2026-10-08)
+
+- **Pkt 1: nie.** Kurs zostaje wyważony między profilami; poziom szczegółowości i tempo bez zmian. Dla analityka ostrzej pod koniec, dla technicznego nudniej na początku: to zamierzone.
+- **Pkt 2: tak.** Odpowiedzi w blokach ```` ```odpowiedz ```` (zwijane w trenerze, rozwinięte w materiałach); zrobione.
+- **Pkt 3 i 4 (ćwiczenie migracji): nie.**
+- Pkt 5 (moduł 7): w trakcie wyjaśniania.
+
+## Propozycje (stan przed decyzjami)
 
 1. **Tempo dla dwóch profili naraz.** B uważa moduły 1–5 za za wolne (historia JSON, XSD, diagramy, klocki regex, macierz `null`), A uważa moduły 2, 5, 7, 9 za przeładowane żargonem (tabela wersji, metaschemat, biblioteki, URI, Kafka). Propozycja: w wykładzie ramki „Dla technicznych” i „Analitykowi wystarczy”, które prowadzący może pominąć na żywo, a w materiałach zostają.
 2. **Odpowiedzi „Przejdzie czy nie?” podane od razu w tekście** (moduły 1, 2, 4, 5, 6, 7). Oba profile to zauważyły. Propozycja: odpowiedź zawsze w zwijanym bloku „Odsłoń”, jak już działa przy pytaniach z werdyktem; w materiałach rozwinięta.

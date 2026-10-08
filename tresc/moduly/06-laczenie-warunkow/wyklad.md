@@ -144,7 +144,9 @@ Wartość **nie może** spełniać podschematu. Zamówienie do magazynu nie moż
 "a"
 ```
 
-(Odrzucony: `"a"` jest tekstem i ma długość 1, więc pasuje do obu gałęzi, a `oneOf` chce dokładnie jednej.)
+```odpowiedz
+Odrzucony: `"a"` jest tekstem i ma długość 1, więc pasuje do obu gałęzi, a `oneOf` chce dokładnie jednej.
+```
 
 ## `if`/`then`/`else`
 
@@ -242,7 +244,11 @@ Warunek i reguła nie muszą dotyczyć tego samego obiektu. Faktura jest polem z
 
 Uwaga na komunikat: przy pierwszym dokumencie walidator mówi „brakuje wymaganego pola „nip”” i wskazuje klienta, nie zamówienie, bo tam stoi `required` z gałęzi `then`. <!-- twierdzenie --> <!-- zrodlo: core §10.2.2.2, §10.3.2.1 -->
 
-**Przejdzie czy nie?** Schemat `faktura-nip-bez-required` i dokument bez `faktura` i bez `nip`. (Odpowiedź wyżej: odrzucony, i to jest błąd schematu, nie dokumentu.)
+**Przejdzie czy nie?** Powtórka: schemat `faktura-nip-bez-required` i dokument bez `faktura` i bez `nip`.
+
+```odpowiedz
+Odrzucony, i to jest błąd schematu, nie dokumentu: `if` bez `required` jest spełnione, gdy pola nie ma.
+```
 
 ## `dependentRequired`
 

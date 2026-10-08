@@ -137,6 +137,8 @@ Jedno zdanie o OpenAPI, bo tam najczęściej spotyka się schematy: OpenAPI 3.0 
 - `"$schema": "http://json-schema.org/draft-07/schema#"`
 - `"$schema": "https://json-schema.org/draft/2020-12/schema"`
 
-Odpowiedź: trzeci. Stare mają `http`, myślnik po `draft` i `#` na końcu.
+```odpowiedz
+Aktualny jest trzeci. Stare mają `http`, myślnik po `draft` i `#` na końcu.
+```
 
 > **W draft-07:** nagłówek to `http://json-schema.org/draft-07/schema#` (z `http` i `#`). W 2020-12: `https://json-schema.org/draft/2020-12/schema`, bez `#`. Oba wpisujemy dosłownie, znak po znaku; wiele walidatorów nie rozpozna wersji zapisanej inaczej.

@@ -67,7 +67,11 @@ Część odwołania po `#` to **identyfikator fragmentu**. Są dwa rodzaje. <!--
 
 Kiedy co: wskaźnik do `$defs` w małych schematach; `$anchor`, gdy schemat jest duży albo struktura się zmienia.
 
-**Przejdzie czy nie?** `"$ref": "#/defs/adres"` (bez dolara). Odpowiedź: to nie jest werdykt dla dokumentu, tylko błąd kompilacji całego schematu, bo odwołanie nie prowadzi nigdzie. Trener pokazuje „odwołanie nie prowadzi do żadnej definicji”, a walidator w magazynie najpewniej odmówi uruchomienia. (Specyfikacja nie rozstrzyga, co robić z odwołaniem bez celu; tak zachowują się Ajv i większość popularnych walidatorów.)
+**Przejdzie czy nie?** `"$ref": "#/defs/adres"` (bez dolara).
+
+```odpowiedz
+To nie jest werdykt dla dokumentu, tylko błąd kompilacji całego schematu, bo odwołanie nie prowadzi nigdzie. Trener pokazuje „odwołanie nie prowadzi do żadnej definicji”, a walidator w magazynie najpewniej odmówi uruchomienia. (Specyfikacja nie rozstrzyga, co robić z odwołaniem bez celu; tak zachowują się Ajv i większość popularnych walidatorów.)
+```
 
 > **W draft-07:** zamiast `$anchor` używało się `$id` z samym fragmentem (`"$id": "#adres"`). W 2020-12 to niedozwolone; `$id` nie może mieć fragmentu.
 
@@ -127,4 +131,8 @@ Zepsute odwołanie to błąd w kroku 3, czyli w trenerze i w Ajv błąd kompilac
 
 Pakowanie (bundling) jednym zdaniem: wiele plików da się scalić w jeden, wstawiając je do `$defs` z zachowaniem ich `$id`; narzędzia robią to automatycznie, w kursie nie ćwiczymy. <!-- twierdzenie --> <!-- zrodlo: core §9.3.1 -->
 
-**Przejdzie czy nie?** Plik `adres` ma `$id` `https://kurs.example/schematy/adres.json`, a zamówienie odwołuje się do `adres`. Odpowiedź: zepsute, bo `https://kurs.example/schematy/adres` i `https://kurs.example/schematy/adres.json` to różne identyfikatory. Identyfikatory porównuje się po normalizacji (np. wielkość liter w nazwie hosta nie ma znaczenia), ale końcówka `.json` to zawsze inny identyfikator.
+**Przejdzie czy nie?** Plik `adres` ma `$id` `https://kurs.example/schematy/adres.json`, a zamówienie odwołuje się do `adres`.
+
+```odpowiedz
+Zepsute, bo `https://kurs.example/schematy/adres` i `https://kurs.example/schematy/adres.json` to różne identyfikatory. Identyfikatory porównuje się po normalizacji (np. wielkość liter w nazwie hosta nie ma znaczenia), ale końcówka `.json` to zawsze inny identyfikator.
+```

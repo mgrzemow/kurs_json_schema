@@ -154,7 +154,9 @@ Pusty obiekt `{}` bez `required` przechodzi. Gdy nazwy pól nie są z góry znan
 { "klient": {} }
 ```
 
-(Odrzucony, ale nie przez `required`: pole `klient` jest. Odrzuca go `type: "string"` w schemacie klienta, bo `{}` to obiekt. `required` sprawdza obecność, `properties` wartość; tu zadziałało to drugie.)
+```odpowiedz
+Odrzucony, ale nie przez `required`: pole `klient` jest. Odrzuca go `type: "string"` w schemacie klienta, bo `{}` to obiekt. `required` sprawdza obecność, `properties` wartość; tu zadziałało to drugie.
+```
 
 ## Nadmiarowe pola: `additionalProperties`
 
@@ -287,7 +289,11 @@ Werdykty policzone walidatorem dla pozostałych kombinacji:
 
 Zasada projektowa dla autorów: najpierw odpowiedz na pytania biznesowe („czy pole może nie istnieć? czy może być puste? czy brak informacji to `null`?”), potem dobierz słowa. Zasada dla czytających: jeśli schemat nie ma `required` i `minLength`, to „wymagane” w dokumentacji nic nie znaczy.
 
-**Przejdzie czy nie?** Schemat `uwagi-wymagane-lub-null` i dokument z `"uwagi": null`. (Odpowiedź wyżej: przechodzi, bo `null` jest na liście typów, a pole jest obecne.)
+**Przejdzie czy nie?** Powtórka: schemat `uwagi-wymagane-lub-null` i dokument z `"uwagi": null`.
+
+```odpowiedz
+Przechodzi, bo `null` jest na liście typów, a pole jest obecne.
+```
 
 ## Listy: `items`, `minItems`/`maxItems`, `uniqueItems`, `contains`, `prefixItems`
 
@@ -370,4 +376,8 @@ Krotka to lista o ustalonych pozycjach: wymiary paczki `[długość, szerokość
 
 > **W draft-07:** krotkę zapisywało się tablicą schematów w `items`, a dodatkowe elementy kontrolował `additionalItems`. W 2020-12 tablica w `items` nie jest poprawnym schematem; to jeden z czterech sygnałów starego schematu z modułu 2.
 
-**Przejdzie czy nie?** Schemat `unikalne` i lista dwóch pozycji z tym samym EAN i różną ilością. (Odpowiedź wyżej: przechodzi, bo obiekty różnią się ilością.)
+**Przejdzie czy nie?** Powtórka: schemat `unikalne` i lista dwóch pozycji z tym samym EAN i różną ilością.
+
+```odpowiedz
+Przechodzi, bo obiekty różnią się ilością, więc nie są równe.
+```

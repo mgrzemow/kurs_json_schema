@@ -50,7 +50,7 @@ Zasada dla autora schematu: jeśli format ma być regułą, dopisz `pattern` tam
 
 Format spoza listy, np. `"format": "telefon"`, jest zbierany jak każda adnotacja i nie wpływa na werdykt. Tak jest także wtedy, gdy sprawdzanie formatów włącza się opcją walidatora (jak przełącznik w trenerze). Dopiero schemat, który jawnie korzysta ze słownika „format-assertion”, musi przy nieznanym formacie zgłosić błąd; w praktyce spotyka się to rzadko. Dla telefonu, NIP-u i kodu pocztowego służy `pattern` z modułu 3. Trener ostrzega o nieznanym formacie; walidator w magazynie nie. <!-- twierdzenie --> <!-- zrodlo: validation §7.2.3 -->
 
-**Przejdzie czy nie?** Schemat `data` z włączoną walidacją `format` i dokument `"2026-02-30"` (30 lutego). Odpowiedź: zależy od biblioteki; walidator trenera w trybie pełnym odrzuca, bo sprawdza kalendarz. To kolejny powód, żeby nie polegać na `format` w kontrakcie między systemami.
+**Przejdzie czy nie?** Schemat `data` z włączoną walidacją `format` i dokument `"2026-02-30"` (30 lutego). Schemat `data` jest niżej.
 
 ```json schemat=data
 { "type": "string", "format": "date" }
@@ -58,6 +58,10 @@ Format spoza listy, np. `"format": "telefon"`, jest zbierany jak każda adnotacj
 
 ```json dokument=data-ok schemat=data oczekiwane=przechodzi
 "2026-10-08"
+```
+
+```odpowiedz
+Zależy od biblioteki; walidator trenera w trybie pełnym odrzuca, bo sprawdza kalendarz. To kolejny powód, żeby nie polegać na `format` w kontrakcie między systemami.
 ```
 
 > **W draft-07:** lista formatów prawie ta sama (`duration` i `uuid` doszły w 2019-09). Sprawdzanie `format` było dla walidatorów opcjonalne (pojęcia „adnotacji” w dzisiejszym sensie jeszcze nie było), a wiele z nich sprawdzało go domyślnie, więc przy przejściu na nowszą bibliotekę zdarza się, że „walidacja przestała działać”. Nie przestała: nigdy nie była obiecana.
@@ -111,6 +115,8 @@ Adnotacje niczego nie sprawdzają. Służą ludziom i narzędziom: dokumentacji,
 { "numer": "ZAM-2026-000123", "kodKlienta": "K-0001" }
 ```
 
-(Przechodzi: `deprecated` to adnotacja, a `numer` jest. Gdyby `numer` był inny niż w przykładzie `examples`, też by przeszło.)
+```odpowiedz
+Przechodzi: `deprecated` to adnotacja, a `numer` jest. Gdyby `numer` był inny niż w przykładzie `examples`, też by przeszło.
+```
 
 > **W draft-07:** `deprecated` nie istniało (doszło w 2019-09). `readOnly` i `writeOnly` doszły w draft-07, zapożyczone z OpenAPI, gdzie mają praktyczne znaczenie przy opisie żądań i odpowiedzi (moduł 9).

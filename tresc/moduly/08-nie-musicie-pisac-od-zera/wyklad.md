@@ -88,7 +88,7 @@ Zakładka **Generator** w trenerze robi to samo, co genson: wklej własne dokume
 
 **Przejdzie czy nie?** Przez schemat z genson: zamówienie 2 w oryginale i to samo zamówienie bez pola `uwagi`.
 
-```json dokument=zamowienie-2 schemat=genson oczekiwane=przechodzi
+```json pytanie=zamowienie-2 schemat=genson oczekiwane=przechodzi
 {
   "typDokumentu": "zamowienie",
   "numer": "ZAM-2026-000124",
@@ -121,7 +121,7 @@ Zakładka **Generator** w trenerze robi to samo, co genson: wklej własne dokume
 }
 ```
 
-```json dokument=zamowienie-2-bez-uwag schemat=genson oczekiwane=odrzucony
+```json pytanie=zamowienie-2-bez-uwag schemat=genson oczekiwane=odrzucony
 {
   "typDokumentu": "zamowienie",
   "numer": "ZAM-2026-000124",
@@ -153,7 +153,9 @@ Zakładka **Generator** w trenerze robi to samo, co genson: wklej własne dokume
 }
 ```
 
-Drugie odrzucone, bo `uwagi` trafiło do `required`. Pierwsze zamówienie od klienta, który nie wpisał uwag, wywróciłoby integrację.
+```odpowiedz
+Pierwsze przechodzi. Drugie odrzucone, bo `uwagi` trafiło do `required`. Pierwsze zamówienie od klienta, który nie wpisał uwag, wywróciłoby integrację.
+```
 
 ## Lista kontrolna poprawek
 

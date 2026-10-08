@@ -65,6 +65,10 @@ export function parsujWyklad(md, { walidator = walidatorDomyslny } = {}) {
       },
       code({ text, lang }) {
         const info = parsujInfo(lang);
+        // Odpowiedź na „Przejdzie czy nie?”: w trenerze zwinięta, w materiałach rozwinięta.
+        if (info.jezyk === 'odpowiedz') {
+          return `<details class="pytanie odpowiedz"><summary>Odsłoń odpowiedź</summary>${new Marked().parse(text)}</details>\n`;
+        }
         if (info.jezyk === 'json' && info.lustro) {
           try { parsujJSON(text); } catch (e) { throw new Error(`Blok „${lang}”: niepoprawny JSON: ${e.message}`); }
           return `<figure class="lustro-czesc" data-lustro="${esc(info.lustro)}" data-strona="${esc(info.strona || 'dokument')}"><figcaption>${info.strona === 'schemat' ? 'Schemat' : 'Dokument'}</figcaption><pre><code class="jezyk-json">${kolorujPoziomy(text)}</code></pre></figure>\n`;

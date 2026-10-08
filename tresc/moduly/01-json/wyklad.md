@@ -211,7 +211,11 @@ Liczba to opcjonalny minus, cyfry, opcjonalna część ułamkowa po kropce i opc
 
 Białe znaki wolno wstawiać między elementami w dowolnej ilości, ale tylko cztery: spację, tabulator, nową linię i powrót karetki. Twarda spacja z Worda wygląda jak spacja, a nie jest białym znakiem. Komentarzy w JSON-ie nie ma w ogóle. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §2 -->
 
-**Przejdzie czy nie?** Trzy dokumenty do oceny jako JSON (poprawny czy nie): `{"ilosc": 02}`, `{'ilosc': 2}`, `{"uwagi": null}`. Odpowiedzcie na czacie, potem otwórzcie piaskownicę i wklejcie każdy z nich: parser powie, co jest nie tak. (Odpowiedź: tylko trzeci jest poprawny.)
+**Przejdzie czy nie?** Trzy dokumenty do oceny jako JSON (poprawny czy nie): `{"ilosc": 02}`, `{'ilosc': 2}`, `{"uwagi": null}`. Odpowiedzcie na czacie, potem otwórzcie piaskownicę i wklejcie każdy z nich: parser powie, co jest nie tak.
+
+```odpowiedz
+Poprawny jest tylko trzeci. W pierwszym liczba ma zero wiodące, w drugim zamiast cudzysłowów są apostrofy.
+```
 
 ## Typowe błędy
 
