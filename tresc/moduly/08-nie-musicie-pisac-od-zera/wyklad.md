@@ -98,6 +98,48 @@ Jedna rzecz wyszła akurat dobrze: `uwagi` jako `["null", "string"]`{s}, bo w je
 
 **Przejdzie czy nie?** Przez schemat z genson: zamówienie 2 w oryginale i to samo zamówienie bez pola `uwagi`.
 
+```json schemat=genson format=bez
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "typDokumentu": { "type": "string" },
+    "numer": { "type": "string" },
+    "status": { "type": "string" },
+    "waluta": { "type": "string" },
+    "faktura": { "type": "boolean" },
+    "klient": {
+      "type": "object",
+      "properties": {
+        "numerKlienta": { "type": "string" },
+        "nazwa": { "type": "string" },
+        "nip": { "type": "string" },
+        "email": { "type": "string" },
+        "telefon": { "type": "string" }
+      },
+      "required": ["email", "nazwa", "numerKlienta"]
+    },
+    "pozycje": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ean": { "type": "string" },
+          "nazwa": { "type": "string" },
+          "ilosc": { "type": "integer" },
+          "cena": { "type": "number" },
+          "typ": { "type": "string" }
+        },
+        "required": ["cena", "ean", "ilosc", "nazwa"]
+      }
+    },
+    "uwagi": { "type": ["null", "string"] },
+    "wymiaryPaczki": { "type": "array", "items": { "type": "integer" } }
+  },
+  "required": ["adresDostawy", "dataZamowienia", "faktura", "klient", "numer", "pozycje", "status", "typDokumentu", "utworzono", "uwagi", "waluta"]
+}
+```
+
 ```json pytanie=zamowienie-2 schemat=genson oczekiwane=przechodzi
 {
   "typDokumentu": "zamowienie",

@@ -50,7 +50,7 @@ Zasada dla autora schematu: jeśli format ma być regułą, dopisz `pattern` tam
 
 Format spoza listy, np. `"format": "telefon"`{s}, jest zbierany jak każda adnotacja i nie wpływa na werdykt. Tak jest także wtedy, gdy sprawdzanie formatów włącza się opcją walidatora (jak przełącznik w pasku tej strony). Dopiero schemat, który jawnie korzysta ze słownika „format-assertion”, musi przy nieznanym formacie zgłosić błąd; w praktyce spotyka się to rzadko. Dla telefonu, NIP-u i kodu pocztowego służy `pattern` z modułu 3. Edytor na tej stronie ostrzega o nieznanym formacie; walidator w magazynie nie. <!-- twierdzenie --> <!-- zrodlo: validation §7.2.3 -->
 
-**Przejdzie czy nie?** Schemat `data` z włączoną walidacją `format` i dokument `"2026-02-30"`{d} (30 lutego). Schemat `data` jest niżej.
+**Przejdzie czy nie?** Schemat `data` z włączoną walidacją `format` i dokument `"2026-02-30"`{d} (30 lutego).
 
 ```json schemat=data
 { "type": "string", "format": "date" }
@@ -58,6 +58,10 @@ Format spoza listy, np. `"format": "telefon"`{s}, jest zbierany jak każda adnot
 
 ```json dokument=data-ok schemat=data oczekiwane=przechodzi
 "2026-10-08"
+```
+
+```json pytanie=data-30-lutego schemat=data formaty=tak oczekiwane=odrzucony
+"2026-02-30"
 ```
 
 ```odpowiedz
@@ -112,6 +116,21 @@ Adnotacje niczego nie sprawdzają. Służą ludziom i narzędziom: dokumentacji,
 (Niektóre biblioteki mają opcję „wpisuj wartości domyślne”, która zmienia dane w trakcie walidacji. To rozszerzenie biblioteki, nie zachowanie specyfikacji, i w kontrakcie między systemami nie wolno na nim polegać.)
 
 **Przejdzie czy nie?** Schemat `opisany` i dokument z numerem i polem `kodKlienta`.
+
+```json schemat=opisany
+{
+  "title": "Zamówienie",
+  "description": "Komunikat ze sklepu do magazynu. Jedno zamówienie, jeden komunikat.",
+  "type": "object",
+  "properties": {
+    "numer": { "type": "string", "description": "Numer nadany przez sklep, unikalny w roku.", "examples": ["ZAM-2026-000123"], "readOnly": true },
+    "waluta": { "type": "string", "enum": ["PLN", "EUR", "CZK"], "default": "PLN" },
+    "kodKlienta": { "type": "string", "deprecated": true, "description": "Zastąpione przez numerKlienta." },
+    "tokenPlatnosci": { "type": "string", "writeOnly": true }
+  },
+  "required": ["numer"]
+}
+```
 
 ```json pytanie=przestarzale schemat=opisany oczekiwane=przechodzi
 { "numer": "ZAM-2026-000123", "kodKlienta": "K-0001" }

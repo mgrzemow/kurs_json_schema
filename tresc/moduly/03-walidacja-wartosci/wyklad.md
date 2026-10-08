@@ -26,6 +26,10 @@ Najprostsza reguła mówi, jakiego typu ma być wartość. `type` przyjmuje jedn
 
 **Przejdzie czy nie?** Schemat `typ-integer` i dokument `36.0`{d}.
 
+```json schemat=typ-integer
+{ "type": "integer" }
+```
+
 ```json pytanie=integer-zero-ulamek schemat=typ-integer oczekiwane=przechodzi
 36.0
 ```

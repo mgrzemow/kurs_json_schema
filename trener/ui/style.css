@@ -312,3 +312,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .wyklad .lustro figure pre { background: var(--tlo-karta); }
 .lustro .poziom-1 { background: rgba(36, 87, 166, 0.16); }
 .lustro .poziom-2 { background: rgba(29, 122, 62, 0.20); }
+/* Pytanie „Przejdzie czy nie?”: dokument na widoku, zwinięty tylko werdykt. */
+.wyklad figure.pytanie { border-style: dashed; border-color: var(--ostrz); border-left: 4px solid var(--dokument); }
+.wyklad details.pytanie.werdykt { margin: 0.3rem 0; padding: 0.2rem 0.6rem; }
+.wyklad details.pytanie.werdykt p { margin: 0.2rem 0; }

@@ -7,6 +7,8 @@ import { formatujJSON } from '../trener/rdzen/formatuj.js';
 import { klasaKodu, NAZWY_KLAS } from '../trener/rdzen/kod-w-tekscie.js';
 
 const walidatorDomyslny = utworzWalidator({ formaty: false });
+// Blok z „formaty=tak” liczy werdykt z walidacją `format` jako asercją (jak po włączeniu przełącznika).
+const walidatorZFormatami = utworzWalidator({ formaty: true });
 // Szerokość, do której łamiemy JSON w przykładach: mieści się w połowie szerokości wykładu
 // (schemat i dokument obok siebie) i w kolumnie materiałów A4.
 export const SZEROKOSC_PRZYKLADU = 56;
@@ -149,7 +151,8 @@ export function parsujWyklad(md, { walidator = walidatorDomyslny } = {}) {
       const schemat = przyklady[kluczSchematu];
       if (!schemat) throw new Error(`Blok „${lang}”: schemat „${info.schemat}” nie został wcześniej zdefiniowany.`);
       let werdykt;
-      try { werdykt = walidator.kompiluj(schemat.schemat).sprawdz(wartosc).ok ? 'przechodzi' : 'odrzucony'; } catch (e) { throw new Error(`Blok „${lang}”: schemat „${info.schemat}” nie kompiluje się: ${e.message}`); }
+      const w = info.formaty === 'tak' ? walidatorZFormatami : walidator;
+      try { werdykt = w.kompiluj(schemat.schemat).sprawdz(wartosc).ok ? 'przechodzi' : 'odrzucony'; } catch (e) { throw new Error(`Blok „${lang}”: schemat „${info.schemat}” nie kompiluje się: ${e.message}`); }
       if (info.oczekiwane && info.oczekiwane !== werdykt) throw new Error(`Blok „${lang}”: oczekiwany werdykt „${info.oczekiwane}”, a walidator dał „${werdykt}”.`);
       const klucz = kluczBloku(nazwa);
       przyklady[klucz] = { dokument: wartosc, dokumentTekst: tekst, schemat: kluczSchematu, werdykt, pytanie: !!info.pytanie, nazwa };
@@ -157,9 +160,10 @@ export function parsujWyklad(md, { walidator = walidatorDomyslny } = {}) {
       const etykieta = werdykt === 'przechodzi' ? 'Przechodzi' : 'Odrzucony';
       const pre = `<pre><code class="jezyk-json">${esc(tekst)}</code></pre>`;
       const przycisk = `<button type="button" class="otworz" data-otworz-schemat="${esc(kluczSchematu)}" data-otworz-dokument="${esc(klucz)}">Otwórz w edytorze</button>`;
+      // Pytanie: dokument jest na widoku (potrzebny do zgadywania), zwinięty jest tylko werdykt.
       if (info.pytanie) {
-        return `<details class="pytanie" data-nazwa="${esc(klucz)}" data-schemat="${esc(kluczSchematu)}"><summary>Przejdzie czy nie? Dokument dla schematu <code>${esc(info.schemat)}</code></summary>${pre}` +
-          `<p class="werdykt ${werdykt}">Werdykt: ${etykieta}.</p>${przycisk}</details>\n`;
+        return `<figure class="przyklad dokument pytanie" data-nazwa="${esc(klucz)}" data-schemat="${esc(kluczSchematu)}"><figcaption>Dokument <code>${esc(nazwa)}</code><span class="dla-schematu"> dla schematu <code>${esc(info.schemat)}</code></span>: przejdzie czy nie?</figcaption>${pre}` +
+          `<details class="pytanie werdykt"><summary>Odsłoń werdykt</summary><p class="werdykt ${werdykt}">Werdykt: ${etykieta}.</p></details>${przycisk}</figure>\n`;
       }
       return `<figure class="przyklad dokument ${werdykt}" data-nazwa="${esc(klucz)}" data-schemat="${esc(kluczSchematu)}"><figcaption>Dokument <code>${esc(nazwa)}</code><span class="dla-schematu"> dla schematu <code>${esc(info.schemat)}</code></span>: <span class="werdykt ${werdykt}">${etykieta}</span></figcaption>${pre}${przycisk}</figure>\n`;
     },

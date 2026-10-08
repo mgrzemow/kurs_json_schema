@@ -45,3 +45,11 @@ test('treść nie odnosi się do formy zajęć (czat, praca zdalna, udostępnian
     for (const cw of m.cwiczenia) for (const t of teksty(cw)) assert.doesNotMatch(t, re, cw.id);
   }
 });
+
+test('pytanie „Przejdzie czy nie?” z dokumentem ma tuż przed sobą swój schemat (obok siebie)', () => {
+  for (const m of moduly) {
+    const html = m.wyklad.html.replace(/<div class="para">[^]*?<\/div><\/div>\n/g, '');
+    const samotne = [...html.matchAll(/<figure class="przyklad dokument pytanie" data-nazwa="([^"]+)"/g)].map(x => x[1]);
+    assert.deepEqual(samotne, [], 'moduł ' + m.meta.nr);
+  }
+});

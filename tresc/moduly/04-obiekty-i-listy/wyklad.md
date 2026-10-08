@@ -146,6 +146,10 @@ Pusty obiekt `{}`{d} bez `required` przechodzi. Gdy nazwy pól nie są z góry z
 
 **Przejdzie czy nie?** Schemat `z-required` i dokument poniżej (klient jest, choć pusty).
 
+```json schemat=z-required
+{ "type": "object", "properties": { "klient": { "type": "string" } }, "required": ["klient"] }
+```
+
 ```json pytanie=klient-pusty schemat=z-required oczekiwane=odrzucony
 { "klient": {} }
 ```
@@ -218,7 +222,15 @@ Niżej trzy schematy, każdy z tymi samymi trzema zamówieniami: bez pola, z `nu
 
 Zasada projektowa dla autorów: najpierw odpowiedz na pytania biznesowe („czy pole może nie istnieć? czy może być puste? czy brak informacji to `null`?”), potem dobierz słowa. Zasada dla czytających: jeśli schemat nie ma `required` i `minLength`, to „wymagane” w dokumentacji nic nie znaczy.
 
-**Przejdzie czy nie?** Powtórka: schemat `uwagi-wymagane-lub-null` i dokument z `"uwagi": null`.
+**Przejdzie czy nie?** Powtórka: schemat `uwagi-wymagane-lub-null` i dokument z `"uwagi": null`{d}.
+
+```json schemat=uwagi-wymagane-lub-null
+{ "properties": { "uwagi": { "type": ["string", "null"] } }, "required": ["uwagi"] }
+```
+
+```json pytanie=powtorka-uwagi-null schemat=uwagi-wymagane-lub-null oczekiwane=przechodzi
+{ "numer": "ZAM-2026-000123", "uwagi": null }
+```
 
 ```odpowiedz
 Przechodzi, bo `null` jest na liście typów, a pole jest obecne.
@@ -383,6 +395,14 @@ Krotka to lista o ustalonych pozycjach: wymiary paczki `[długość, szerokość
 > **W draft-07:** krotkę zapisywało się tablicą schematów w `items`, a dodatkowe elementy kontrolował `additionalItems`. W 2020-12 tablica w `items` nie jest poprawnym schematem; to jeden z czterech sygnałów starego schematu z modułu 2.
 
 **Przejdzie czy nie?** Powtórka: schemat `unikalne` i lista dwóch pozycji z tym samym EAN i różną ilością.
+
+```json schemat=unikalne
+{ "type": "array", "uniqueItems": true }
+```
+
+```json pytanie=powtorka-ten-sam-ean schemat=unikalne oczekiwane=przechodzi
+[{ "ean": "5901234123457", "ilosc": 2 }, { "ean": "5901234123457", "ilosc": 3 }]
+```
 
 ```odpowiedz
 Przechodzi, bo obiekty różnią się ilością, więc nie są równe.

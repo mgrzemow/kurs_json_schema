@@ -186,6 +186,18 @@ Odrzucony: `"a"` jest tekstem i ma długość 1, więc pasuje do obu gałęzi, a
 
 **Przejdzie czy nie?** Powtórka: schemat `faktura-nip-bez-required` i dokument bez `faktura` i bez `nip`.
 
+```json schemat=faktura-nip-bez-required
+{
+  "type": "object",
+  "if": { "properties": { "faktura": { "const": true } } },
+  "then": { "required": ["nip"] }
+}
+```
+
+```json pytanie=powtorka-bez-faktury schemat=faktura-nip-bez-required oczekiwane=odrzucony
+{ "numer": "ZAM-2026-000123" }
+```
+
 ```odpowiedz
 Odrzucony, i to jest błąd schematu, nie dokumentu: `if` bez `required` jest spełnione, gdy pola nie ma.
 ```

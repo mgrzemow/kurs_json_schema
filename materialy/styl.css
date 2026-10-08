@@ -75,3 +75,6 @@ section.cwiczenie { margin: 1rem 0 1.5rem; padding-bottom: 0.5rem; border-bottom
 .okladka .autor { font-size: 1.2rem; }
 .okladka .prawa { max-width: 36rem; margin: 2rem auto 0; font-size: 0.85rem; color: var(--slaby); }
 .lustro figure pre { background: #fff; }
+figure.pytanie { border-style: dashed; border-color: var(--ostrz); border-left: 4px solid var(--dokument); }
+details.pytanie.werdykt { margin: 0.2rem 0; padding: 0.15rem 0.5rem; }
+details.pytanie.werdykt p { margin: 0.1rem 0; }

@@ -28,10 +28,11 @@ test('parsujWyklad: nagłówki dostają kotwice, ramka draft-07 klasę', () => {
   assert.match(w.html, /class="draft07"/);
 });
 
-test('parsujWyklad: pytanie do sali renderuje się jako zwijany blok', () => {
+test('parsujWyklad: pytanie pokazuje dokument na widoku, a zwija tylko werdykt', () => {
   const md = '```json schemat=s\n{"minimum": 1}\n```\n\n```json pytanie=p schemat=s oczekiwane=odrzucony\n0\n```\n';
   const w = parsujWyklad(md);
-  assert.match(w.html, /<details class="pytanie"/);
+  assert.match(w.html, /<figure class="przyklad dokument pytanie" data-nazwa="p"[^>]*><figcaption>[^]*?<\/figcaption><pre><code class="jezyk-json">0<\/code><\/pre><details class="pytanie werdykt"><summary>Odsłoń werdykt<\/summary><p class="werdykt odrzucony">/);
+  assert.doesNotMatch(w.html, /<figcaption>[^<]*(Przechodzi|Odrzucony)/);
   assert.equal(w.przyklady.p.werdykt, 'odrzucony');
 });
 
@@ -136,4 +137,11 @@ test('lustro: poziom w schemacie liczy się według properties, tak jak poziom w
   assert.equal(poziom('dokument', '&quot;nazwa&quot;'), '2');
   assert.equal(poziom('schemat', '&quot;nazwa&quot;'), '2');
   assert.equal(poziom('schemat', '&quot;type&quot;: &quot;object&quot;'), '0');
+});
+
+test('parsujWyklad: blok z formaty=tak liczy werdykt z walidacją format', () => {
+  const md = '```json schemat=d\n{"type": "string", "format": "date"}\n```\n\n```json pytanie=bez schemat=d oczekiwane=przechodzi\n"2026-02-30"\n```\n\n```json pytanie=z schemat=d formaty=tak oczekiwane=odrzucony\n"2026-02-30"\n```\n';
+  const w = parsujWyklad(md);
+  assert.equal(w.przyklady.bez.werdykt, 'przechodzi');
+  assert.equal(w.przyklady.z.werdykt, 'odrzucony');
 });

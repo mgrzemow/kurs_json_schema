@@ -71,7 +71,14 @@ JSON Pointer to ścieżka po kluczach od najwyższego poziomu pliku (korzenia), 
 
 Kiedy co: wskaźnik do `$defs` w małych schematach; `$anchor`, gdy schemat jest duży albo struktura się zmienia.
 
-**Przejdzie czy nie?** `"$ref": "#/defs/adres"`{s} (bez dolara).
+**Przejdzie czy nie?** Odwołanie `"$ref": "#/defs/adres"`{s}, bez dolara przed `defs`. Co zrobi walidator z dokumentem, który ma adres dostawy?
+
+```json rola=schemat
+{
+  "$defs": { "adres": { "type": "object", "required": ["miasto"] } },
+  "properties": { "adresDostawy": { "$ref": "#/defs/adres" } }
+}
+```
 
 ```odpowiedz
 To nie jest werdykt dla dokumentu, tylko błąd całego schematu, wykryty przy jego przygotowaniu do użycia (kompilacji), bo odwołanie nie prowadzi nigdzie. Edytor pokazuje „odwołanie nie prowadzi do żadnej definicji”, a walidator w magazynie najpewniej odmówi uruchomienia. (Specyfikacja nie rozstrzyga, co robić z odwołaniem bez celu; tak zachowują się Ajv i większość popularnych walidatorów.)
@@ -139,7 +146,22 @@ Co walidator robi po kolei: <!-- twierdzenie --> <!-- zrodlo: core §9.1, §9.2 
 
 Zepsute odwołanie to błąd w kroku 3, czyli w Ajv (także na tej stronie) błąd kompilacji całego schematu, a nie werdykt dla dokumentu (specyfikacja dopuszcza też walidatory, które rozwiązują odwołania leniwie). Dlatego w ćwiczeniach przy zepsutym odwołaniu przykłady nie dostają werdyktów („czeka”), tylko diagnoza mówi, w którym pliku jest zepsute odwołanie.
 
-**Przejdzie czy nie?** Plik `adres` ma `$id` `https://kurs.example/schematy/adres.json`, a zamówienie odwołuje się do `adres`.
+**Przejdzie czy nie?** Dwa pliki. Czy odwołanie z zamówienia trafi do adresu?
+
+Plik `adres`:
+
+```json rola=schemat
+{ "$id": "https://kurs.example/schematy/adres.json", "type": "object" }
+```
+
+Plik `zamowienie`:
+
+```json rola=schemat
+{
+  "$id": "https://kurs.example/schematy/zamowienie",
+  "properties": { "adresDostawy": { "$ref": "adres" } }
+}
+```
 
 ```odpowiedz
 Zepsute, bo `https://kurs.example/schematy/adres` i `https://kurs.example/schematy/adres.json` to różne identyfikatory. Identyfikatory porównuje się po drobnym ujednoliceniu zapisu (np. wielkość liter w nazwie domeny nie ma znaczenia), ale końcówka `.json` to zawsze inny identyfikator.
