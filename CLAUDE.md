@@ -204,6 +204,7 @@ Dane każdego ćwiczenia: poziom (★/★★/★★★), szacowany czas, kolejno
   2. **materiały statyczne** (HTML + PDF, np. przez Playwright) — bez interakcji, z werdyktami przykładów **policzonymi w trakcie budowania** prawdziwym walidatorem, rozwiązania w osobnym dodatku na końcu, ściągawka słów kluczowych, nagłówki zgodne z obowiązkowym zakresem.
 - GitHub Actions: „Publikuj trener” (Pages przy zmianie na `main`) i „Materiały” (uruchamiane ręcznie, wynik jako artefakt do pobrania). Prowadzący nie musi niczego instalować lokalnie.
 - Procedura po kursie: wyłączyć Pages → uruchomić „Materiały” → wysłać PDF/HTML.
+- **Docelowo dwa repozytoria** (decyzja 2026-10-08, na razie jedno publiczne): kod i treść kursu (w tym rozwiązania) w repozytorium prywatnym, a do publicznego trafia tylko zbudowana strona konkretnego kursu (zawartość `dist/`), publikowana na GitHub Pages. Powód: treść jest chroniona prawem autorskim, a publiczne repozytorium udostępnia ją w całości.
 
 ## Proponowana struktura repozytorium
 

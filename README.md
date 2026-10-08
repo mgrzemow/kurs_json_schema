@@ -37,3 +37,7 @@ node scripts/testuj-ajv-spec.mjs      # Ajv kontra oficjalny zestaw testów
 ## Praca z Claude Code
 
 W tym folderze uruchom `claude`. Agenci: `.claude/agents/weryfikator-specyfikacji.md` (sprawdza twierdzenia o JSON Schema wyłącznie na podstawie `spec/`) i `.claude/agents/uczestnik.md` (symuluje uczestnika o wskazanym profilu). Hooki w `.claude/settings.json` uruchamiają testy po zmianach w `tresc/` i przed zakończeniem pracy.
+
+## Docelowy układ repozytoriów
+
+Na razie wszystko jest w jednym publicznym repozytorium. Docelowo kod i treść kursu (z rozwiązaniami) trafią do repozytorium prywatnego, a do publicznego tylko zbudowana strona konkretnego kursu (`dist/`) publikowana na GitHub Pages.
