@@ -12,7 +12,8 @@ import { sprawdzCwiczenie } from '../trener/rdzen/sprawdz-cwiczenie.js';
 const schematCwiczenia = JSON.parse(readFileSync(new URL('../tresc/schemat-cwiczenia.json', import.meta.url), 'utf8'));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 const poprawneCwiczenie = ajv.compile(schematCwiczenia);
-const walidator = utworzWalidator({ formaty: false });
+const walidatory = { bez: utworzWalidator({ formaty: false }), z: utworzWalidator({ formaty: true }) };
+const walidatorDla = cw => (cw.formaty ? walidatory.z : walidatory.bez);
 
 const { moduly } = wczytajKurs();
 const cwiczenia = moduly.flatMap(m => m.cwiczenia.map(cw => [m.meta.nr, cw]));
@@ -20,15 +21,15 @@ const cwiczenia = moduly.flatMap(m => m.cwiczenia.map(cw => [m.meta.nr, cw]));
 assert.ok(cwiczenia.length >= 4, 'treść próbna ma co najmniej 4 ćwiczenia');
 
 // Ile przykładów oblewa dany schemat (błąd kompilacji = oblewa wszystkie).
-function oblane(schemat, przyklady) {
+function oblane(schemat, przyklady, cw) {
   let fn;
-  try { fn = walidator.kompiluj(schemat); } catch (_) { return przyklady.length; }
+  try { fn = walidatorDla(cw).kompiluj(schemat); } catch (_) { return przyklady.length; }
   return przyklady.filter(p => fn.sprawdz(p.dane).ok !== p.ok).length;
 }
 
-function oblaneProjekt(pliki, glowny, przyklady) {
+function oblaneProjekt(pliki, glowny, przyklady, cw) {
   let fn;
-  try { fn = walidator.kompilujProjekt(Object.fromEntries(Object.entries(pliki).map(([n, t]) => [n, { wartosc: parsujJSON(t).wartosc }])), glowny); } catch (_) { return przyklady.length; }
+  try { fn = walidatorDla(cw).kompilujProjekt(Object.fromEntries(Object.entries(pliki).map(([n, t]) => [n, { wartosc: parsujJSON(t).wartosc }])), glowny); } catch (_) { return przyklady.length; }
   return przyklady.filter(p => fn.sprawdz(p.dane).ok !== p.ok).length;
 }
 
@@ -42,14 +43,14 @@ for (const [nr, cw] of cwiczenia) {
 
   if (cw.rodzaj === 1 || cw.rodzaj === 5) {
     test(`${cw.id}: rozwiązanie przechodzi wszystkie przykłady`, () => {
-      assert.equal(oblane(cw.rozwiazanie, cw.przyklady), 0);
+      assert.equal(oblane(cw.rozwiazanie, cw.przyklady, cw), 0);
     });
     test(`${cw.id}: schemat startowy oblewa co najmniej jeden przykład`, () => {
-      assert.ok(oblane(parsujJSON(cw.start).wartosc, cw.przyklady) >= 1);
+      assert.ok(oblane(parsujJSON(cw.start).wartosc, cw.przyklady, cw) >= 1);
     });
     for (const b of cw.bledne) {
       test(`${cw.id}: błędne rozwiązanie „${b.nazwa}” oblewa co najmniej jeden przykład`, () => {
-        assert.ok(oblane(b.schemat, cw.przyklady) >= 1);
+        assert.ok(oblane(b.schemat, cw.przyklady, cw) >= 1);
         assert.ok(b.dlaczego.length > 10);
       });
     }
@@ -83,23 +84,23 @@ for (const [nr, cw] of cwiczenia) {
     });
     if (cw.schemat) {
       test(`${cw.id}: naprawiony dokument spełnia schemat`, () => {
-        assert.equal(walidator.kompiluj(cw.schemat).sprawdz(cw.rozwiazanie).ok, true);
+        assert.equal(walidatorDla(cw).kompiluj(cw.schemat).sprawdz(cw.rozwiazanie).ok, true);
       });
     }
   }
 
   if (cw.rodzaj === 3) {
     test(`${cw.id}: odpowiedzi zgadzają się z walidatorem`, () => {
-      const fn = walidator.kompiluj(cw.schemat);
+      const fn = walidatorDla(cw).kompiluj(cw.schemat);
       for (const o of cw.odpowiedzi) assert.equal(fn.sprawdz(o.dane).ok, o.ok, o.opis);
     });
   }
 
   if (cw.rodzaj === 4) {
     test(`${cw.id}: pliki startowe oblewają, rozwiązanie przechodzi`, () => {
-      assert.ok(oblaneProjekt(cw.pliki, cw.glowny, cw.przyklady) >= 1);
+      assert.ok(oblaneProjekt(cw.pliki, cw.glowny, cw.przyklady, cw) >= 1);
       const naprawione = { ...cw.pliki, ...Object.fromEntries(Object.entries(cw.rozwiazanie).map(([n, o]) => [n, JSON.stringify(o)])) };
-      assert.equal(oblaneProjekt(naprawione, cw.glowny, cw.przyklady), 0);
+      assert.equal(oblaneProjekt(naprawione, cw.glowny, cw.przyklady, cw), 0);
     });
     test(`${cw.id}: każdy plik startowy to poprawny JSON`, () => {
       for (const t of Object.values(cw.pliki)) parsujJSON(t);
