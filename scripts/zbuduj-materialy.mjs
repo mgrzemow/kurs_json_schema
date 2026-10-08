@@ -50,7 +50,8 @@ function wykladStatyczny(html) {
 
 function tabelaPrzykladow(przyklady, { kolumnaOdpowiedz = false } = {}) {
   return `<table class="przyklady"><thead><tr><th>Opis</th><th>Dokument</th><th>${kolumnaOdpowiedz ? 'Twoja odpowiedź' : 'Oczekiwany werdykt'}</th></tr></thead><tbody>` +
-    przyklady.map(p => `<tr data-werdykt="${p.ok ? 'przechodzi' : 'odrzucony'}"><td>${esc(p.opis)}</td><td><pre>${esc(ladnie(p.dane))}</pre></td><td>${kolumnaOdpowiedz ? '☐ przejdzie ☐ nie przejdzie' : p.ok ? 'musi przejść' : 'musi zostać odrzucony'}</td></tr>`).join('') +
+    // W ćwiczeniu „zgadnij” wiersz nie dostaje data-werdykt: kolor kolumny zdradzałby odpowiedź.
+    przyklady.map(p => `<tr${kolumnaOdpowiedz ? '' : ` data-werdykt="${p.ok ? 'przechodzi' : 'odrzucony'}"`}><td>${esc(p.opis)}</td><td><pre>${esc(ladnie(p.dane))}</pre></td><td>${kolumnaOdpowiedz ? '☐ przejdzie ☐ nie przejdzie' : p.ok ? 'musi przejść' : 'musi zostać odrzucony'}</td></tr>`).join('') +
     '</tbody></table>';
 }
 
