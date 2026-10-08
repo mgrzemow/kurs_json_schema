@@ -114,6 +114,28 @@ await strona.click('#b-sprawdz');
 await strona.waitForTimeout(300);
 sprawdz('3-3: wszystkie trafione → zaliczone', (await strona.locator('.zaliczone-ramka').count()) === 1);
 
+// 5c. Ćwiczenie 3-4: zepsute odwołanie, diagram, poprawa, przykłady z nazwą pliku.
+await strona.goto(baza + '#/m/3/cw/3-4-projekt-zamowienia', { waitUntil: 'networkidle' });
+await strona.waitForSelector('#ed-projekt .view-lines');
+await strona.waitForTimeout(500);
+sprawdz('3-4: trzy zakładki, główny oznaczony', (await strona.locator('#zakladki button').count()) === 3 && /główny/.test(await strona.locator('#zakladki button.aktywny').textContent()));
+const d34 = await strona.locator('#diagnoza').textContent();
+sprawdz('3-4: diagnoza wskazuje zepsute odwołanie i plik', /„klinet”/.test(d34) && /plik „zamowienie”/.test(d34), d34.trim().slice(0, 90));
+sprawdz('3-4: diagram ma czerwoną krawędź i węzeł „?”', (await strona.locator('#diagram .krawedz.zepsute').count()) === 1 && (await strona.locator('#diagram .wezel.brak').count()) === 1);
+sprawdz('3-4: „jak widzi walidator” pokazuje $id', /https:\/\/kurs\.example\/schematy\/adres/.test(await strona.locator('#jak-widzi').textContent()));
+await strona.click('#zakladki button[data-plik="adres"]');
+await strona.waitForTimeout(200);
+sprawdz('3-4: zakładka przełącza plik', /schematy\/adres/.test(await strona.locator('#ed-projekt').textContent()));
+await strona.click('#zakladki button[data-plik="zamowienie"]');
+await ustawEdytor('#ed-projekt', JSON.stringify({ $id: 'https://kurs.example/schematy/zamowienie', type: 'object', properties: { numer: { type: 'string', pattern: '^ZAM-[0-9]{4}-[0-9]{6}$' }, klient: { $ref: 'klient' }, adresDostawy: { $ref: 'adres' } }, required: ['numer', 'klient', 'adresDostawy'] }, null, 2));
+await strona.waitForTimeout(600);
+sprawdz('3-4: po poprawce zaliczone', (await strona.locator('.zaliczone-ramka').count()) === 1);
+sprawdz('3-4: powód odrzucenia wskazuje plik z regułą', /reguła z pliku „adres”/.test(await strona.locator('#przyklady').textContent()));
+sprawdz('3-4: diagram bez zepsutych krawędzi', (await strona.locator('#diagram .krawedz.zepsute').count()) === 0 && (await strona.locator('#diagram .krawedz').count()) === 2);
+await ustawEdytor('#ed-projekt', '{ "a": ');
+await strona.waitForTimeout(500);
+sprawdz('3-4: błąd składni w pliku oznacza zakładkę', (await strona.locator('#zakladki button.z-bledem').count()) === 1);
+
 // 6. Przełącznik formatów w piaskownicy.
 await strona.goto(baza + '#/piaskownica', { waitUntil: 'networkidle' });
 await strona.waitForSelector('.monaco-editor .view-lines');
