@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "identyfikator": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "linkFaktury": {
+      "type": "string",
+      "format": "uri"
+    },
+    "telefon": {
+      "type": "string",
+      "pattern": "^(\\+48 [0-9]{3} [0-9]{3} [0-9]{3}|[0-9]{9})$"
+    }
+  },
+  "required": [
+    "identyfikator",
+    "linkFaktury",
+    "telefon"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "id": "5-5-co-sprawdza-adnotacja",
+  "rodzaj": 3,
+  "tytul": "Co sprawdza adnotacja",
+  "poziom": 1,
+  "czasMin": 3,
+  "kolejnosc": 5,
+  "kontekst": "Schemat obok jest dobrze opisany: `readOnly` na numerze, `deprecated` na starym kodzie klienta, opisy wszędzie. Wymaga tylko numeru.",
+  "polecenie": "Obstaw werdykty. Które z tych rzeczy walidator naprawdę sprawdza?",
+  "slowa": [
+    "readOnly",
+    "deprecated",
+    "description"
+  ],
+  "podpowiedz": "Z całego schematu werdykt daje tylko `type` i `required`. Reszta to adnotacje.",
+  "odpowiedzi": [
+    {
+      "opis": "Z przestarzałym kodem klienta",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "kodKlienta": "K-0001"
+      },
+      "ok": true,
+      "wyjasnienie": "`deprecated` to ostrzeżenie dla ludzi i narzędzi, nie zakaz."
+    },
+    {
+      "opis": "Bez numeru",
+      "dane": {
+        "kodKlienta": "K-0001"
+      },
+      "ok": false,
+      "wyjasnienie": "Odrzuca `required`, nie `readOnly`."
+    },
+    {
+      "opis": "Numer o dowolnej treści",
+      "dane": {
+        "numer": "cokolwiek"
+      },
+      "ok": true,
+      "wyjasnienie": "`readOnly` nie sprawdza wartości ani tego, kto ją nadał; nie ma też `pattern`."
+    },
+    {
+      "opis": "Numer jako liczba",
+      "dane": {
+        "numer": 123
+      },
+      "ok": false,
+      "wyjasnienie": "Odrzuca `type: string`; opis pola nie ma z tym nic wspólnego."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "deprecated, readOnly, writeOnly, title i description są adnotacjami i nie wpływają na werdykt.",
+      "zrodlo": "validation §9.1, §9.3, §9.4"
+    }
+  ]
+}

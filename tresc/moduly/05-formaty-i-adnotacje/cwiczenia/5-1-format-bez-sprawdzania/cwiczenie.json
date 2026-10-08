@@ -1,0 +1,72 @@
+{
+  "id": "5-1-format-bez-sprawdzania",
+  "rodzaj": 3,
+  "tytul": "Co robi `format` bez sprawdzania",
+  "poziom": 2,
+  "czasMin": 5,
+  "kolejnosc": 1,
+  "kontekst": "Schemat obok opisuje e-mail klienta i datę zamówienia formatami. Zrób to ćwiczenie dwa razy: najpierw z **wyłączoną** walidacją `format` w pasku (tak jest domyślnie), potem „Spróbuj jeszcze raz” z **włączoną**. Wyjaśnienia zmienią się razem z trybem.",
+  "polecenie": "Obstaw werdykt dla każdego dokumentu w bieżącym trybie, sprawdź, a potem przełącz tryb i powtórz.",
+  "slowa": [
+    "format"
+  ],
+  "podpowiedz": "Z wyłączoną walidacją `format` jest tylko adnotacją: sprawdzany jest wyłącznie `type`. Z włączoną walidator porównuje tekst z definicją formatu (RFC 3339 dla dat, RFC 5322 dla e-maila).",
+  "odpowiedzi": [
+    {
+      "opis": "E-mail poprawny",
+      "dane": {
+        "email": "jan@example.com",
+        "dataZamowienia": "2026-10-08"
+      },
+      "ok": true,
+      "wyjasnienie": "Przechodzi: to teksty, a `format` nie jest sprawdzany.",
+      "wyjasnienieZFormatami": "Przechodzi: poprawny e-mail i poprawna data."
+    },
+    {
+      "opis": "E-mail urwany",
+      "dane": {
+        "email": "jan@",
+        "dataZamowienia": "2026-10-08"
+      },
+      "ok": true,
+      "wyjasnienie": "Przechodzi: `format` jest adnotacją, liczy się tylko `type: string`.",
+      "wyjasnienieZFormatami": "Odrzucony: `jan@` nie jest poprawnym adresem e-mail."
+    },
+    {
+      "opis": "Data po polsku",
+      "dane": {
+        "email": "jan@example.com",
+        "dataZamowienia": "08.10.2026"
+      },
+      "ok": true,
+      "wyjasnienie": "Przechodzi: tekst jest tekstem, format nikt nie sprawdza.",
+      "wyjasnienieZFormatami": "Odrzucony: `date` to rok-miesiąc-dzień według RFC 3339."
+    },
+    {
+      "opis": "Data jako liczba",
+      "dane": {
+        "email": "jan@example.com",
+        "dataZamowienia": 20261008
+      },
+      "ok": false,
+      "wyjasnienie": "Odrzucony, ale nie przez `format`: `type: string` odrzuca liczbę w każdym trybie.",
+      "wyjasnienieZFormatami": "Odrzucony przez `type: string`; do sprawdzania formatu nawet nie doszło."
+    },
+    {
+      "opis": "Dowolny tekst w obu polach",
+      "dane": {
+        "email": "brak",
+        "dataZamowienia": "wczoraj"
+      },
+      "ok": true,
+      "wyjasnienie": "Przechodzi: oba pola to teksty.",
+      "wyjasnienieZFormatami": "Odrzucony: ani e-mail, ani data nie pasują do formatu."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "format jest domyślnie adnotacją; jako asercja działa tylko w słowniku format-assertion albo po włączeniu w walidatorze.",
+      "zrodlo": "validation §7.2.1, §7.2.2"
+    }
+  ]
+}

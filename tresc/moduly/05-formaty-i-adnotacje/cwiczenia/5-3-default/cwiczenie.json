@@ -1,0 +1,57 @@
+{
+  "id": "5-3-default",
+  "rodzaj": 3,
+  "tytul": "`default` niczego nie wpisuje",
+  "poziom": 2,
+  "czasMin": 4,
+  "kolejnosc": 3,
+  "kontekst": "Schemat obok ma walutę z wartością domyślną `PLN` i wymaga waluty. Analityk uznał, że skoro jest domyślna, to zamówienie bez waluty dostanie PLN.",
+  "polecenie": "Obstaw werdykty, potem sprawdź.",
+  "slowa": [
+    "default"
+  ],
+  "podpowiedz": "`default` to adnotacja: informacja dla ludzi i narzędzi. Walidator nie zmienia dokumentu, tylko go ocenia.",
+  "odpowiedzi": [
+    {
+      "opis": "Z walutą",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "waluta": "EUR"
+      },
+      "ok": true,
+      "wyjasnienie": "Pole jest i ma dozwoloną wartość."
+    },
+    {
+      "opis": "Bez waluty",
+      "dane": {
+        "numer": "ZAM-2026-000123"
+      },
+      "ok": false,
+      "wyjasnienie": "`default` niczego nie wpisuje. Pola nie ma, a `required` go wymaga."
+    },
+    {
+      "opis": "Waluta małymi literami",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "waluta": "pln"
+      },
+      "ok": false,
+      "wyjasnienie": "`enum` porównuje dokładnie; `default` nie poprawia wartości."
+    },
+    {
+      "opis": "Waluta null",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "waluta": null
+      },
+      "ok": false,
+      "wyjasnienie": "`null` nie jest na liście `enum`, a `default` nie zastępuje `null`."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "default jest adnotacją; walidacja nie modyfikuje instancji.",
+      "zrodlo": "validation §9.2"
+    }
+  ]
+}

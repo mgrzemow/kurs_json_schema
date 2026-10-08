@@ -1,0 +1,85 @@
+{
+  "id": "5-2-daty-i-email",
+  "rodzaj": 1,
+  "tytul": "Daty i e-mail zamówienia",
+  "poziom": 1,
+  "czasMin": 4,
+  "kolejnosc": 2,
+  "formaty": true,
+  "kontekst": "Zamówienie ma datę zamówienia (sam dzień), znacznik utworzenia (dzień i czas ze strefą) i e-mail klienta. Systemy po obu stronach mają włączone sprawdzanie formatów, więc to ćwiczenie też ma je włączone.",
+  "polecenie": "Dopisz formaty do trzech pól: `dataZamowienia` to data, `utworzono` to data z czasem, `email` to adres e-mail.",
+  "slowa": [
+    "format"
+  ],
+  "podpowiedz": "Nazwy formatów: `date`, `date-time`, `email`. Data to `2026-10-08`, data z czasem to `2026-10-08T10:15:00Z` (litera T i strefa).",
+  "przyklady": [
+    {
+      "opis": "Wszystko poprawne",
+      "dane": {
+        "dataZamowienia": "2026-10-08",
+        "utworzono": "2026-10-08T10:15:00Z",
+        "email": "jan@example.com"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Czas z przesunięciem strefy",
+      "dane": {
+        "dataZamowienia": "2026-10-08",
+        "utworzono": "2026-10-08T12:15:00+02:00",
+        "email": "serwis@example.com"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Data bez zera wiodącego",
+      "dane": {
+        "dataZamowienia": "2026-10-8",
+        "utworzono": "2026-10-08T10:15:00Z",
+        "email": "jan@example.com"
+      },
+      "ok": false,
+      "wskazowka": "Format `date` wymaga dokładnie dwóch cyfr dnia."
+    },
+    {
+      "opis": "Data po polsku",
+      "dane": {
+        "dataZamowienia": "08.10.2026",
+        "utworzono": "2026-10-08T10:15:00Z",
+        "email": "jan@example.com"
+      },
+      "ok": false
+    },
+    {
+      "opis": "Czas bez litery T i strefy",
+      "dane": {
+        "dataZamowienia": "2026-10-08",
+        "utworzono": "2026-10-08 10:15",
+        "email": "jan@example.com"
+      },
+      "ok": false,
+      "wskazowka": "`date-time` to data, litera `T`, czas i strefa."
+    },
+    {
+      "opis": "E-mail urwany",
+      "dane": {
+        "dataZamowienia": "2026-10-08",
+        "utworzono": "2026-10-08T10:15:00Z",
+        "email": "jan@"
+      },
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "tylko-type",
+      "dlaczego": "Same typy tekstowe przepuszczają każdą datę i każdy e-mail."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "date i date-time są według RFC 3339; email według RFC 5322.",
+      "zrodlo": "validation §7.3.1, §7.3.2"
+    }
+  ]
+}

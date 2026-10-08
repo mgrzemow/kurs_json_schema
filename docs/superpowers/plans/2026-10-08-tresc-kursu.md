@@ -19,7 +19,7 @@
 - [x] B1. Moduł 1 (25 min, 3 ćw. rodzaju 2; diagramy składni SVG; RFC 8259 jako źródło)
 - [x] B2. Moduł 2 (15 min, 2 ćw.; wersje bez liczb)
 - [x] B3. Moduł 3 (40 min, 9 ćw.; zastępuje treść próbną)
-- [ ] B4. Moduł 4 (45 min, 10 ćw.; lustro, drzewo SVG)
+- [x] B4. Moduł 4 (45 min, 10 ćw.; lustro, drzewo SVG)
 - [ ] B5. Moduł 5 (25 min, 5 ćw.; `formaty`)
 - [ ] B6. Moduł 6 (30 min, 8 ćw.)
 - [ ] B7. Moduł 7 (40 min, 7 ćw., w tym 3 rodzaju 4)

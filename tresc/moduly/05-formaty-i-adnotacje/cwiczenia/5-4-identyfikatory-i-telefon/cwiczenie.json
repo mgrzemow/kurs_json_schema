@@ -1,0 +1,91 @@
+{
+  "id": "5-4-identyfikatory-i-telefon",
+  "rodzaj": 1,
+  "tytul": "Identyfikatory i telefon",
+  "poziom": 3,
+  "czasMin": 6,
+  "kolejnosc": 4,
+  "formaty": true,
+  "kontekst": "Zamówienie ma techniczny identyfikator (UUID), link do faktury (pełny adres URI) i telefon klienta w jednej z dwóch postaci: `+48 600 100 200` albo `600100200`. Ktoś wpisał `\"format\": \"telefon\"` i dziwi się, że zły telefon przechodzi.",
+  "polecenie": "Dopisz właściwe formaty dla identyfikatora i linku, a telefon opisz tak, żeby przechodziły tylko dwie dozwolone postacie.",
+  "slowa": [
+    "format",
+    "pattern"
+  ],
+  "podpowiedz": "Nieznany format jest ignorowany (trener ostrzega). Dla telefonu nie ma formatu: użyj `pattern`, np. `^(\\\\+48 [0-9]{3} [0-9]{3} [0-9]{3}|[0-9]{9})$` (plus wymaga ucieczki, w JSON-ie podwójnej). Formaty: `uuid`, `uri`.",
+  "przyklady": [
+    {
+      "opis": "Wszystko poprawne, telefon z prefiksem",
+      "dane": {
+        "identyfikator": "123e4567-e89b-12d3-a456-426614174000",
+        "linkFaktury": "https://example.com/faktury/123.pdf",
+        "telefon": "+48 600 100 200"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Telefon bez prefiksu",
+      "dane": {
+        "identyfikator": "123e4567-e89b-12d3-a456-426614174000",
+        "linkFaktury": "https://example.com/faktury/123.pdf",
+        "telefon": "600100200"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Telefon słownie",
+      "dane": {
+        "identyfikator": "123e4567-e89b-12d3-a456-426614174000",
+        "linkFaktury": "https://example.com/faktury/123.pdf",
+        "telefon": "zadzwonić po 16"
+      },
+      "ok": false,
+      "wskazowka": "`format: telefon` nie istnieje, więc jest ignorowany. Potrzebny `pattern`."
+    },
+    {
+      "opis": "Telefon z myślnikami",
+      "dane": {
+        "identyfikator": "123e4567-e89b-12d3-a456-426614174000",
+        "linkFaktury": "https://example.com/faktury/123.pdf",
+        "telefon": "600-100-200"
+      },
+      "ok": false
+    },
+    {
+      "opis": "UUID bez myślników",
+      "dane": {
+        "identyfikator": "123e4567e89b12d3a456426614174000",
+        "linkFaktury": "https://example.com/faktury/123.pdf",
+        "telefon": "600100200"
+      },
+      "ok": false,
+      "wskazowka": "Format `uuid` wymaga myślników w stałych miejscach."
+    },
+    {
+      "opis": "Link bez schematu https",
+      "dane": {
+        "identyfikator": "123e4567-e89b-12d3-a456-426614174000",
+        "linkFaktury": "www.example.com/faktury/123.pdf",
+        "telefon": "600100200"
+      },
+      "ok": false,
+      "wskazowka": "`uri` wymaga pełnego adresu ze schematem (`https://`). Adres bez schematu to co najwyżej `uri-reference`."
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "format-phone",
+      "dlaczego": "`format: \"phone\"` też nie jest zdefiniowany, więc telefon słownie przechodzi."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "Nieznany format jest ignorowany (implementacja powinna traktować go jak adnotację).",
+      "zrodlo": "validation §7.2.3"
+    },
+    {
+      "twierdzenie": "uuid i uri są zdefiniowanymi formatami; uri wymaga pełnego URI, uri-reference dopuszcza odwołania względne.",
+      "zrodlo": "validation §7.3.5"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "title": "Zamówienie",
+  "description": "Komunikat ze sklepu do magazynu.",
+  "type": "object",
+  "properties": {
+    "numer": {
+      "type": "string",
+      "description": "Numer nadany przez sklep.",
+      "readOnly": true
+    },
+    "kodKlienta": {
+      "type": "string",
+      "deprecated": true,
+      "description": "Zastąpione przez numerKlienta."
+    }
+  },
+  "required": [
+    "numer"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "identyfikator": {
+      "type": "string"
+    },
+    "linkFaktury": {
+      "type": "string"
+    },
+    "telefon": {
+      "type": "string",
+      "format": "telefon"
+    }
+  },
+  "required": [
+    "identyfikator",
+    "linkFaktury",
+    "telefon"
+  ]
+}

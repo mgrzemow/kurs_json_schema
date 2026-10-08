@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "dataZamowienia": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "email",
+    "dataZamowienia"
+  ]
+}
