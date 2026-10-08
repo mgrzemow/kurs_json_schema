@@ -1,0 +1,46 @@
+/* Materiały statyczne: czytelne na ekranie i w druku (A4). Czcionki systemowe, zero sieci. */
+:root { --tekst: #1e1e1e; --slaby: #5f5e58; --akcent: #2457a6; --ok: #1d7a3e; --blad: #b3261e; --ostrz: #8a5a00; --ramka: #d9d7cf; --tlo-kod: #f6f6f2; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 11pt; line-height: 1.5; color: var(--tekst); background: #fff; }
+.materialy { max-width: 46rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+h1 { font-size: 1.8rem; margin: 2rem 0 0.8rem; }
+h2 { font-size: 1.3rem; margin: 1.6rem 0 0.6rem; padding-top: 0.4rem; border-top: 1px solid var(--ramka); }
+h3 { font-size: 1.05rem; margin: 1.4rem 0 0.4rem; }
+h3 .meta { font-weight: normal; }
+code { font-family: ui-monospace, Consolas, "Cascadia Mono", monospace; font-size: 0.9em; background: var(--tlo-kod); padding: 0 0.2em; border-radius: 3px; }
+pre { font-family: ui-monospace, Consolas, "Cascadia Mono", monospace; font-size: 9.5pt; line-height: 1.4; background: var(--tlo-kod); border: 1px solid var(--ramka); border-radius: 4px; padding: 0.5rem 0.7rem; white-space: pre-wrap; word-break: break-word; margin: 0.4rem 0; }
+pre code { background: none; padding: 0; font-size: inherit; }
+a { color: var(--akcent); }
+.meta, .kontekst { color: var(--slaby); }
+.etykieta { font-size: 0.85rem; color: var(--slaby); margin: 0.8rem 0 0.1rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.okladka { text-align: center; padding: 3rem 0 2rem; }
+.okladka h1 { font-size: 2.4rem; margin: 0 0 0.5rem; }
+.spis ol { padding-left: 1.4rem; }
+.spis ol ol { font-size: 0.9rem; color: var(--slaby); }
+.polecenie { padding: 0.5rem 0.8rem; background: #e6eefb; border-radius: 4px; }
+figure.przyklad { margin: 0.8rem 0; padding: 0.4rem 0.7rem; border: 1px solid var(--ramka); border-left-width: 4px; border-radius: 4px; }
+figure.schemat { border-left-color: var(--akcent); }
+figure.przechodzi { border-left-color: var(--ok); }
+figure.odrzucony { border-left-color: var(--blad); }
+figcaption { font-size: 0.85rem; color: var(--slaby); }
+.werdykt.przechodzi { color: var(--ok); font-weight: 600; }
+.werdykt.odrzucony { color: var(--blad); font-weight: 600; }
+details.pytanie { margin: 0.8rem 0; padding: 0.4rem 0.7rem; border: 1px dashed var(--ostrz); border-radius: 4px; background: #fff8e6; }
+details.pytanie summary { font-weight: 600; }
+blockquote { margin: 0.8rem 0; padding: 0.4rem 0.8rem; border-left: 4px solid var(--ramka); color: var(--slaby); }
+blockquote.draft07 { border-left-color: var(--ostrz); background: #fff8e6; color: var(--tekst); }
+table { border-collapse: collapse; width: 100%; margin: 0.5rem 0; font-size: 0.9rem; }
+th, td { text-align: left; vertical-align: top; padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--ramka); }
+th { background: var(--tlo-kod); }
+table.przyklady pre { margin: 0; font-size: 8.5pt; }
+tr[data-werdykt="przechodzi"] td:nth-child(3) { color: var(--ok); }
+tr[data-werdykt="odrzucony"] td:nth-child(3) { color: var(--blad); }
+section.cwiczenie { margin: 1rem 0 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px dotted var(--ramka); }
+@page { size: A4; margin: 18mm 16mm; }
+@media print {
+  .materialy { max-width: none; padding: 0; }
+  section.modul, #sciagawka, #rozwiazania { break-before: page; }
+  h2, h3 { break-after: avoid; }
+  pre, table, figure { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+}
