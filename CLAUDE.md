@@ -73,7 +73,7 @@ Dwa niezależne źródła prawdy, które sprawdzają co innego:
 
 Zasady:
 1. Każdy schemat, dokument i rozwiązanie — w ćwiczeniach i w wykładzie — przechodzi przez walidator w testach. Werdykty w tekście są wyliczane, a nie wpisane ręcznie.
-2. **Specyfikacja leży w repozytorium**, w `spec/`: JSON Schema 2020-12 Core i Validation (tekst), RFC 8259 (składnia JSON, źródło dla modułu 1), oficjalne metaschematy 2020-12 i katalog `tests/draft2020-12` z oficjalnego [JSON-Schema-Test-Suite](https://github.com/json-schema-org/JSON-Schema-Test-Suite). Pobierz je w pierwszej sesji i nigdy nie edytuj. Zestaw testów rozstrzyga, gdy zdanie w specyfikacji jest niejasne.
+2. **Specyfikacja leży w repozytorium**, w `spec/`: JSON Schema 2020-12 Core i Validation (tekst), RFC 8259 (składnia JSON, źródło dla modułu 1), RFC 6901 (JSON Pointer, źródło dla modułu 7), oficjalne metaschematy 2020-12 i katalog `tests/draft2020-12` z oficjalnego [JSON-Schema-Test-Suite](https://github.com/json-schema-org/JSON-Schema-Test-Suite). Pobierz je w pierwszej sesji i nigdy nie edytuj. Zestaw testów rozstrzyga, gdy zdanie w specyfikacji jest niejasne.
 3. **Twierdzenia o specyfikacji sprawdzane u źródła.** Przy najmniejszej niepewności zajrzyj do `spec/` albo sprawdź zachowanie walidatorem, zamiast pisać z pamięci.
 4. **Każde twierdzenie o działaniu JSON Schema w wykładzie ma źródło** w danych (ukryte dla uczestników): numer sekcji specyfikacji albo plik z zestawu testów. Prowadzący sprawdza je wyrywkowo.
 5. **Po napisaniu lub zmianie treści uruchom agenta `weryfikator-specyfikacji`** (`.claude/agents/weryfikator-specyfikacji.md`). Działa w osobnym kontekście, czyta tylko `spec/` i ocenia twierdzenia bez znajomości Twojego rozumowania.

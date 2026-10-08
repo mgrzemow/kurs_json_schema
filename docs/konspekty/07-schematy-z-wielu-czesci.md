@@ -1,8 +1,8 @@
 # Moduł 7: Schematy z wielu części (40 min) — opis sekcji
 
-Status: propozycja do akceptacji. Rdzeń kursu, nie skracać. Budżet: 15 min wykładu, 20 min ćwiczeń, 5 min omówienia. Nagłówki z obowiązkowego zakresu: „Identyfikatory fragmentów”, „Ładowanie i przetwarzanie schematów”. Kolejność dydaktyczna ustalona 2026-10-08: najpierw `$defs`/`$ref` w jednym pliku, potem wiele plików, potem `$id` i adres bazowy jako „jak walidator to znajduje”, a JSON Pointer i `$anchor` jako składnia celu odwołania.
+Status: **zaakceptowany 2026-10-08** (RFC 6901 w spec/; błędne rozwiązanie 7-3 tylko w omówieniu). Rdzeń kursu, nie skracać. Budżet: 15 min wykładu, 20 min ćwiczeń, 5 min omówienia. Nagłówki z obowiązkowego zakresu: „Identyfikatory fragmentów”, „Ładowanie i przetwarzanie schematów”. Kolejność dydaktyczna ustalona 2026-10-08: najpierw `$defs`/`$ref` w jednym pliku, potem wiele plików, potem `$id` i adres bazowy jako „jak walidator to znajduje”, a JSON Pointer i `$anchor` jako składnia celu odwołania.
 
-Proponuję pobrać do `spec/tekst/` także RFC 6901 (JSON Pointer), żeby twierdzenia o składni wskaźników miały źródło w repozytorium.
+RFC 6901 (JSON Pointer) jest w `spec/tekst/rfc6901.txt`; twierdzenia o składni wskaźników cytują jego sekcje.
 
 ## Sekcja 7.1: Powtórzenia w schemacie: `$defs` i `$ref` (4 min)
 
@@ -54,6 +54,5 @@ Tabela „temat × ćwiczenia”: `$defs`/`$ref` (7-1, 7-5, 7-7), JSON Pointer/`
 
 ## Uwagi do decyzji
 
-- Pobranie RFC 6901 do `spec/tekst/`: rekomenduję tak, analogicznie do RFC 8259.
-- Ćwiczenie 7-3 ma „błędne rozwiązanie”, którego nie da się sprawdzić bez drugiego pliku głównego; przy generowaniu albo rozszerzę rodzaj 4 o listę plików głównych z osobnymi przykładami, albo zostawię to w omówieniu bez testu. Wolę pierwsze (mała zmiana), chyba że uznasz, że nie warto.
+- Decyzja 2026-10-08: błędne rozwiązanie w 7-3 (`required` wpisane do pliku `produkt`) jest tylko opisane w omówieniu, bez testu i bez rozszerzania trenera.
 - Rekurencja przez `$ref` tylko jednym zdaniem.

@@ -1,6 +1,6 @@
 # Moduł 6: Łączenie warunków (30 min) — opis sekcji
 
-Status: propozycja do akceptacji. Budżet: 13 min wykładu, 13 min ćwiczeń, 4 min omówienia. Przy braku czasu zostaje tylko sekcja 6.3 (`if`/`then`) z ćwiczeniem 6-1. Obiekt wiodący: zamówienie z fakturą, płatnością, kontaktem, kodem rabatowym i krajem dostawy.
+Status: **zaakceptowany 2026-10-08**. Budżet: 13 min wykładu, 13 min ćwiczeń, 4 min omówienia. Przy braku czasu zostaje tylko sekcja 6.3 (`if`/`then`) z ćwiczeniem 6-1. Obiekt wiodący: zamówienie z fakturą, płatnością, kontaktem, kodem rabatowym i krajem dostawy.
 
 ## Sekcja 6.1: Reguły między polami (1 min)
 
