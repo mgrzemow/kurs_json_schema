@@ -15,7 +15,8 @@ const pamiecModulow = new Map();
 let sprzatanie = null;
 
 async function pobierzJSON(sciezka) {
-  const r = await fetch(BAZA + sciezka);
+  // no-cache: przeglądarka pyta serwer o nowszą wersję (ETag), więc poprawki treści widać od razu.
+  const r = await fetch(BAZA + sciezka, { cache: 'no-cache' });
   if (!r.ok) throw new Error(`Nie udało się wczytać ${sciezka} (${r.status}).`);
   return r.json();
 }
