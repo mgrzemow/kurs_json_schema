@@ -2,6 +2,8 @@
 // Zwraca wartość, mapę kluczy (JSON Pointer → offset) i listę zduplikowanych kluczy.
 // Bez zależności od przeglądarki: działa w Node i w przeglądarce.
 
+import { kodujSegment } from './pomocnicze.js';
+
 const DRUKARSKIE = '“”„‟″';
 const RE_LICZBA = /-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/y;
 
@@ -17,9 +19,6 @@ export class BladSkladni extends Error {
   }
 }
 
-export function kodujSegment(s) {
-  return s.replace(/~/g, '~0').replace(/\//g, '~1');
-}
 
 export function parsujJSON(t, komunikatPusty) {
   let i = 0;
