@@ -1,6 +1,6 @@
 # Moduł 4: Obiekty i listy (45 min) — opis sekcji
 
-Status: propozycja do akceptacji (wersja 2: rozwinięte obiekty). Rdzeń kursu, nie skracać. Budżet: 20 min wykładu (obiekty 12, null 3, listy 5), 20 min ćwiczeń, 5 min omówienia. Od tego modułu obiekt wiodący to już całe zamówienie: numer, klient, adres dostawy, pozycje, uwagi, kod rabatowy, data dostawy, wymiary paczki.
+Status: **zaakceptowany 2026-10-08** (wersja 2: rozwinięte obiekty). Rdzeń kursu, nie skracać. Budżet: 20 min wykładu (obiekty 12, null 3, listy 5), 20 min ćwiczeń, 5 min omówienia. Od tego modułu obiekt wiodący to już całe zamówienie: numer, klient, adres dostawy, pozycje, uwagi, kod rabatowy, data dostawy, wymiary paczki.
 
 ## Sekcja 4.1: Obiekt to zbiór nazwanych pól (2 min)
 
