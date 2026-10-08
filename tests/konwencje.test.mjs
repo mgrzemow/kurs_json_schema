@@ -37,3 +37,11 @@ test('strona startowa: tytuł, autor z LinkedInem, czas, opis i nota o prawach a
   assert.ok(spis.opis.length >= 1);
   assert.match(spis.prawa, /prawem autorskim/);
 });
+
+test('treść nie odnosi się do formy zajęć (czat, praca zdalna, udostępnianie ekranu)', () => {
+  const re = /czat|zdaln|udostępnian|ekranie/i;
+  for (const m of moduly) {
+    assert.doesNotMatch(m.wyklad.html, re, 'wykład modułu ' + m.meta.nr);
+    for (const cw of m.cwiczenia) for (const t of teksty(cw)) assert.doesNotMatch(t, re, cw.id);
+  }
+});

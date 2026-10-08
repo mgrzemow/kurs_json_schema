@@ -44,17 +44,17 @@ Trzy zastosowania, wszystkie na tym samym pliku.
 
 JSON Schema nie zmienia danych, nie wpisuje wartości domyślnych, nie zamienia tekstu `"2"`{d} na liczbę. Tylko sprawdza i opisuje. Do wartości domyślnych wrócimy w module 5, gdzie ta cecha zaskakuje najbardziej.
 
-**Pytanie na czat:** a u ciebie kto odpowiada za kontrolę spójności danych pomiędzy systemami? Człowiek, kod, nikt?
+**Pytanie:** a u ciebie kto odpowiada za kontrolę spójności danych pomiędzy systemami? Człowiek, kod, nikt?
 
 ## Jak korzystać z tej strony
 
 Ta strona jest zarówno wykładem, jak i miejscem na ćwiczenia, które każdy robi samodzielnie u siebie.
 
-- **Nawigacja.** Start → moduł → zakładki *Wykład* i *Ćwiczenia*. Każde miejsce ma własny link, który można wkleić na czat.
+- **Nawigacja.** Start → moduł → zakładki *Wykład* i *Ćwiczenia*. Każde miejsce ma własny link, który można komuś przesłać.
 - **Kolory.** Schemat jest zawsze niebieski, dokument z danymi fioletowy: w ramkach z przykładami, w edytorach i w kodzie wplecionym w tekst, np. słowo kluczowe `required` i dane `{"uwagi": null}`{d}. Gdy schemat i dokument stoją obok siebie, schemat jest po lewej.
 - **Przykłady w wykładzie.** Przy każdym schemacie i dokumencie jest przycisk „Otwórz w edytorze”. Otwiera piaskownicę ze schematem i dokumentem; „Przywróć przykład” cofa własne zmiany, a „Wróć do wykładu” wraca w to samo miejsce.
 - **Ćwiczenie.** Po lewej zadanie, w środku edytor, po prawej przykłady. Przykłady dzielą się na te, które muszą przejść, i te, które muszą zostać odrzucone. Werdykty liczą się przy każdej zmianie w edytorze, nie ma przycisku „sprawdź”.
 - **Pomoc stopniowana.** Czerwona karta mówi, co jest nie tak. Jeśli to nie wystarczy, jest *Podpowiedź*. Na końcu *Rozwiązanie* z przyciskiem „Wstaw do edytora”; Ctrl+Z przywraca własną wersję. *Zacznij od nowa* wraca do stanu początkowego.
 - **Ćwiczeń jest więcej, niż zmieści się w czasie.** Są ułożone od najważniejszych: dwa pierwsze to minimum, reszta zostaje w materiałach.
-- **Pasek u góry.** *Duży tekst* do udostępniania ekranu, motyw jasny lub ciemny i przełącznik „walidacja `format`”, który na razie zostaje wyłączony; wrócimy do niego w module 5.
+- **Pasek u góry.** *Duży tekst* do pokazywania strony innym, motyw jasny lub ciemny i przełącznik „walidacja `format`”, który na razie zostaje wyłączony; wrócimy do niego w module 5.
 - **Postęp** zapisuje się w tej przeglądarce. Strona działa tylko w czasie zajęć; potem zostają materiały PDF i HTML ze wszystkimi ćwiczeniami i rozwiązaniami.

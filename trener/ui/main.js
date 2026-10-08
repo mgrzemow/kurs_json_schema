@@ -46,7 +46,7 @@ function renderujPasek(kurs) {
     <span id="pasek-modul" class="pasek-modul"></span>
     <span class="rozpychacz"></span>
     <label class="przelacznik" title="Sprawdzanie formatów (date, email…) jako asercji zamiast adnotacji"><input type="checkbox" id="p-formaty"> walidacja <code>format</code></label>
-    <label class="przelacznik" title="Większe litery do udostępniania ekranu"><input type="checkbox" id="p-duzy"> Duży tekst</label>
+    <label class="przelacznik" title="Większe litery, np. do pokazywania strony innym"><input type="checkbox" id="p-duzy"> Duży tekst</label>
     <label class="przelacznik">Motyw <select id="p-motyw"><option value="auto">systemowy</option><option value="jasny">jasny</option><option value="ciemny">ciemny</option></select></label>`;
   document.getElementById('p-formaty').onchange = e => { ustaw(s => { s.formaty = e.target.checked; }); dispatchEvent(new CustomEvent('trener:formaty')); };
   document.getElementById('p-duzy').onchange = e => { ustaw(s => { s.duzyTekst = e.target.checked; }); zastosujUstawienia(); };

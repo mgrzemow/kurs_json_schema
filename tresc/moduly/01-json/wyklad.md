@@ -237,7 +237,7 @@ Liczba to opcjonalny minus, cyfry, opcjonalna część ułamkowa po kropce i opc
 
 Białe znaki wolno wstawiać między elementami w dowolnej ilości, ale tylko cztery: spację, tabulator, nową linię i powrót karetki (niewidoczny znak, który Windows wstawia przed nową linią). Twarda spacja z Worda wygląda jak spacja, a nie jest białym znakiem. Komentarzy w JSON-ie nie ma w ogóle. W schemacie JSON Schema na komentarz dla autorów jest osobne słowo `$comment`: zwykłe pole z tekstem, które walidator pomija. W dokumentach z danymi takiego słowa nie ma; uwagę wpisuje się w zwykłym polu, np. `uwagi`. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §2; core §8.3 -->
 
-**Przejdzie czy nie?** Trzy dokumenty do oceny jako JSON (poprawny czy nie): `{"ilosc": 02}`{d}, `{'ilosc': 2}`{d}, `{"uwagi": null}`{d}. Odpowiedz na czacie, potem otwórz piaskownicę i wklej każdy z nich: parser powie, co jest nie tak.
+**Przejdzie czy nie?** Trzy dokumenty do oceny jako JSON (poprawny czy nie): `{"ilosc": 02}`{d}, `{'ilosc': 2}`{d}, `{"uwagi": null}`{d}. Odpowiedz, potem otwórz piaskownicę i wklej każdy z nich: parser powie, co jest nie tak.
 
 ```odpowiedz
 Poprawny jest tylko trzeci. W pierwszym liczba ma zero wiodące, w drugim zamiast cudzysłowów są apostrofy.
@@ -245,7 +245,7 @@ Poprawny jest tylko trzeci. W pierwszym liczba ma zero wiodące, w drugim zamias
 
 ### Rekord: obiekt czy lista?
 
-**Pytanie na czat:** ten sam klient zapisany na dwa sposoby. Który zapis jest lepszy i dlaczego?
+**Pytanie:** ten sam klient zapisany na dwa sposoby. Który zapis jest lepszy i dlaczego?
 
 ```json rola=dokument
 ["Serwis Rowerowy Dętka", "serwis@example.com", "Gdańsk"]

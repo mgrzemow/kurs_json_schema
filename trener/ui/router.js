@@ -1,4 +1,4 @@
-// Trasy po „#”, żeby każdy widok miał link do wklejenia na czat.
+// Trasy po „#”, żeby każdy widok miał własny link.
 //   #/                      start
 //   #/m/3                   moduł 3, zakładka wykład
 //   #/m/3/wyklad/kotwica    moduł 3, wykład przewinięty do sekcji
