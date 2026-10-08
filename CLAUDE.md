@@ -106,7 +106,7 @@ Do tej weryfikacji potrzebny jest skrypt `scripts/sprawdz-rozwiazanie`, który p
   - różnice do draft-07 omawiane solidnie: przy każdym słowie kluczowym, które się różni, krótka ramka „w draft-07” (`definitions` kontra `$defs`, tablica w `items` kontra `prefixItems`, `exclusiveMinimum` jako boolean kontra liczba, `dependencies` kontra `dependentRequired`, słowa obok `$ref` ignorowane kontra działające), oraz kolumna „w draft-07” w ściągawce słów kluczowych;
   - **inne wersje opisane tylko w jednym miejscu** (moduł 2, „wersje w pigułce”): krótka historia (draft-00…03 prehistoria, draft-04, draft-06, draft-07 jako najczęściej spotykany w praktyce, 2019-09 przejściowy, 2020-12 aktualny, stabilna wersja w przygotowaniu — wg IETF nie wcześniej niż 2027) i jak rozpoznać stary schemat (`definitions`, `exclusiveMinimum: true`, `id` bez dolara, tablica w `items`). Poza modułem 2 nie wspominamy o draft-04, draft-06 ani 2019-09.
 - **Metaschematy — tylko opisowo.**
-- **OpenAPI — tylko opisowo**: `components/schemas`, `$ref`, OpenAPI 3.0 (dialekt oparty na draft-04, `nullable`) kontra 3.1 (pełne 2020-12).
+- **OpenAPI — tylko opisowo**, jako jeden z obszarów w module 9: `components/schemas`, `$ref`, OpenAPI 3.0 (własny dialekt bliski draft-04, `nullable`) kontra 3.1 (pełne 2020-12). Moduł 9 (decyzja z 2026-10-08) to przegląd praktycznych zastosowań JSON Schema ze specyfiką każdego obszaru, bez ćwiczeń.
 - **Wiodący temat: zamówienie w hurtowni części rowerowych** (sklep → magazyn). Szczegóły i plan rozbudowy obiektu moduł po module: `docs/domena.md`. Nazwy pól polskie, camelCase, bez polskich znaków (`numerKlienta`). Identyfikatory schematów w `https://kurs.example/schematy/…`.
 - **Nacisk ćwiczeniowy na poziom średni (★★).**
 - Kurs ma służyć obu grupom odbiorców: ćwiczenia z czytania i poprawiania schematów (analitycy) przeplatają się z pisaniem (autorzy schematów).
@@ -141,9 +141,9 @@ Do tej weryfikacji potrzebny jest skrypt `scripts/sprawdz-rozwiazanie`, który p
 | 6. Łączenie warunków | 30 | `allOf`, `anyOf`, `oneOf`, `not`; `if`/`then`/`else`; `dependentRequired` |
 | 7. Schematy z wielu części | 40 | identyfikatory fragmentów (JSON Pointer, `$anchor`); `$defs`, `$ref`; ładowanie i przetwarzanie schematów (`$id`, adres bazowy, rozwiązywanie odwołań); wiele plików; `$ref` z regułami obok |
 | 8. Nie musicie pisać od zera | 35 | generatory schematów: z przykładów (genson, quicktype), z kodu (pydantic, Zod/TS, Java, .NET), z XSD, modele AI; co generują źle; lista kontrolna poprawek; **ćwiczenie końcowe: poprawa wygenerowanego schematu** |
-| 9. OpenAPI i zamknięcie | 15 | OpenAPI opisowo; podsumowanie; informacja o materiałach |
+| 9. Praktyczne zastosowania JSON Schema | 15 | wyłącznie wykład: najpopularniejsze obszary użycia i specyfika każdego z nich (m.in. OpenAPI, pliki konfiguracyjne i podpowiedzi w edytorach, walidacja w kodzie, komunikaty i zdarzenia, ustrukturyzowane odpowiedzi modeli AI); lista obszarów do ustalenia z prowadzącym w konspekcie; informacja o materiałach |
 
-Moduły opisowe (2, 9, części 5 i 8) mogą być w całości wykładem. Moduły 3, 4 i 7 to rdzeń — nie skracać. Przy braku czasu skracamy moduł 6 (zostaje `if`/`then`) i 9.
+Moduły opisowe (2, 9, części 5 i 8) mogą być w całości wykładem; moduł 9 jest wyłącznie wykładem, bez ćwiczeń. Moduły 3, 4 i 7 to rdzeń — nie skracać. Przy braku czasu skracamy moduł 6 (zostaje `if`/`then`) i 9.
 
 ### Ćwiczenie końcowe (moduł 8)
 
