@@ -1,6 +1,6 @@
 # Moduł 5: Formaty i adnotacje (25 min) — opis sekcji
 
-Status: propozycja do akceptacji. Budżet: 12 min wykładu, 10 min ćwiczeń, 3 min omówienia. Nagłówki z obowiązkowego zakresu: „Zdefiniowane formaty”, „Podstawowe adnotacje metadanych”. Moduł częściowo opisowy; przełącznik „walidacja `format`” jest tu głównym narzędziem pokazu.
+Status: **zaakceptowany 2026-10-08** (tabela walidatorów hasłowo). Budżet: 12 min wykładu, 10 min ćwiczeń, 3 min omówienia. Nagłówki z obowiązkowego zakresu: „Zdefiniowane formaty”, „Podstawowe adnotacje metadanych”. Moduł częściowo opisowy; przełącznik „walidacja `format`” jest tu głównym narzędziem pokazu.
 
 ## Sekcja 5.1: Zdefiniowane formaty (6 min)
 
@@ -41,5 +41,5 @@ Tabela „temat × ćwiczenia”: adnotacja kontra asercja (5-1, 5-2, 5-4), zdef
 
 ## Uwagi do decyzji
 
-- Tabela „który walidator sprawdza formaty domyślnie” ma źródła poza `spec/` (dokumentacje bibliotek); proponuję ją hasłowo, z zastrzeżeniem „sprawdź w swojej bibliotece”.
+- Decyzja 2026-10-08: tabela walidatorów hasłowo, z zastrzeżeniem „sprawdź w swojej bibliotece”.
 - Pytanie do sali o `2026-02-30` potwierdzę walidatorem; jeśli `ajv-formats` tego nie wyłapie, zamienię na `2026-13-01`.
