@@ -62,8 +62,8 @@ export function analizujSchemat(s, klucze = new Map(), { formaty = false } = {})
       if (k === 'format' && !formatPokazany) {
         formatPokazany = true;
         out.push({ poziom: 'info', tekst: formaty
-          ? '„format” jest teraz sprawdzany jak reguła, bo w pasku włączono „sprawdzaj format”. Bez tego przełącznika byłby samą adnotacją.'
-          : '„format” to tu tylko opis. Domyślnie walidator go nie sprawdza, więc np. "abc" przejdzie jako e-mail. Włącz „sprawdzaj format” w pasku, żeby to zmienić.', pos: klucze.get(kp) });
+          ? '„format” jest teraz sprawdzany jak reguła, bo w pasku włączono „walidacja format”. Bez tego przełącznika byłby samą adnotacją.'
+          : '„format” to tu tylko opis. Domyślnie walidator go nie sprawdza, więc np. "abc" przejdzie jako e-mail. Włącz „walidacja format” w pasku, żeby to zmienić.', pos: klucze.get(kp) });
       }
       if (k === 'required' && Array.isArray(v) && s.properties && typeof s.properties === 'object') {
         for (const r of v) {
