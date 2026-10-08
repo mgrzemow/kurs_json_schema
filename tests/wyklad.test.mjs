@@ -40,9 +40,10 @@ for (const m of moduly) {
   test(`moduł ${m.meta.nr}: każde twierdzenie w wykładzie ma źródło`, () => {
     const bez = m.wyklad.twierdzenia.filter(t => !t.zrodlo);
     assert.deepEqual(bez.map(t => t.tekst), []);
-    assert.ok(m.wyklad.twierdzenia.length >= 1, 'wykład ma oznaczone twierdzenia');
+    // Moduł opisowy (modul.json: "opisowy": true) może nie mieć twierdzeń o JSON Schema ani przykładów z werdyktami.
+    if (!m.meta.opisowy) assert.ok(m.wyklad.twierdzenia.length >= 1, 'wykład ma oznaczone twierdzenia');
   });
-  test(`moduł ${m.meta.nr}: wykład ma przykłady z policzonymi werdyktami`, () => {
+  test(`moduł ${m.meta.nr}: wykład ma przykłady z policzonymi werdyktami`, { skip: m.meta.opisowy ? 'moduł opisowy' : false }, () => {
     const dok = Object.values(m.wyklad.przyklady).filter(p => p.dokument !== undefined);
     assert.ok(dok.length >= 2);
     for (const p of dok) assert.ok(['przechodzi', 'odrzucony'].includes(p.werdykt));

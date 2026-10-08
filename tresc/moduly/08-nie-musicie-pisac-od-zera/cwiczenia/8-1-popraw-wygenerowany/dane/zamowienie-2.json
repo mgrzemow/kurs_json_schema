@@ -1,0 +1,30 @@
+{
+  "typDokumentu": "zamowienie",
+  "numer": "ZAM-2026-000124",
+  "status": "nowe",
+  "waluta": "PLN",
+  "faktura": false,
+  "klient": {
+    "numerKlienta": "00098765",
+    "nazwa": "Jan Nowak",
+    "email": "jan@example.com"
+  },
+  "adresDostawy": {
+    "ulica": "Floriańska 12/3",
+    "miasto": "Kraków",
+    "kodPocztowy": "31-019",
+    "kraj": "PL"
+  },
+  "pozycje": [
+    {
+      "ean": "5901234123471",
+      "nazwa": "Łańcuch 11rz.",
+      "ilosc": 1,
+      "cena": 249
+    }
+  ],
+  "uwagi": null,
+  "kodRabatowy": "WIOSNA10",
+  "dataZamowienia": "2026-10-08",
+  "utworzono": "2026-10-08T11:02:33Z"
+}

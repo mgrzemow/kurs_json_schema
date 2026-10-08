@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Zamówienie",
+  "description": "Komunikat ze sklepu do magazynu hurtowni części rowerowych.",
+  "type": "object",
+  "properties": {
+    "typDokumentu": {
+      "const": "zamowienie"
+    },
+    "numer": {
+      "type": "string",
+      "pattern": "^ZAM-[0-9]{4}-[0-9]{6}$",
+      "description": "Numer nadany przez sklep."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "nowe",
+        "oplacone",
+        "wyslane",
+        "dostarczone",
+        "anulowane"
+      ]
+    },
+    "waluta": {
+      "type": "string",
+      "enum": [
+        "PLN",
+        "EUR",
+        "CZK"
+      ]
+    },
+    "faktura": {
+      "type": "boolean"
+    },
+    "klient": {
+      "type": "object",
+      "properties": {
+        "numerKlienta": {
+          "type": "string",
+          "pattern": "^[0-9]{8}$"
+        },
+        "nazwa": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nip": {
+          "type": "string",
+          "pattern": "^([0-9]{10}|[A-Z]{2}[0-9A-Z]{8,12})$",
+          "description": "Polski NIP (10 cyfr) albo numer VAT UE z prefiksem kraju."
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "telefon": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "numerKlienta",
+        "nazwa",
+        "email"
+      ]
+    },
+    "adresDostawy": {
+      "type": "object",
+      "properties": {
+        "ulica": {
+          "type": "string",
+          "minLength": 1
+        },
+        "miasto": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kodPocztowy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kraj": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "eori": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "ulica",
+        "miasto",
+        "kodPocztowy",
+        "kraj"
+      ],
+      "if": {
+        "properties": {
+          "kraj": {
+            "const": "PL"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "kodPocztowy": {
+            "pattern": "^[0-9]{2}-[0-9]{3}$"
+          }
+        }
+      },
+      "else": {
+        "required": [
+          "eori"
+        ]
+      }
+    },
+    "pozycje": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "ean": {
+            "type": "string",
+            "pattern": "^[0-9]{13}$"
+          },
+          "nazwa": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ilosc": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 1000
+          },
+          "cena": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "typ": {
+            "type": "string",
+            "enum": [
+              "produkt",
+              "usluga"
+            ]
+          }
+        },
+        "required": [
+          "ean",
+          "nazwa",
+          "ilosc",
+          "cena"
+        ]
+      }
+    },
+    "uwagi": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "dataZamowienia": {
+      "type": "string",
+      "format": "date"
+    },
+    "utworzono": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "kodRabatowy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "wymiaryPaczki": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      ],
+      "items": false,
+      "minItems": 3
+    }
+  },
+  "required": [
+    "typDokumentu",
+    "numer",
+    "status",
+    "waluta",
+    "faktura",
+    "klient",
+    "adresDostawy",
+    "pozycje",
+    "dataZamowienia",
+    "utworzono"
+  ],
+  "if": {
+    "properties": {
+      "faktura": {
+        "const": true
+      }
+    },
+    "required": [
+      "faktura"
+    ]
+  },
+  "then": {
+    "properties": {
+      "klient": {
+        "required": [
+          "nip"
+        ]
+      }
+    }
+  }
+}

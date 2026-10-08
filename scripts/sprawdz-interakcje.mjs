@@ -23,39 +23,39 @@ async function ustawEdytor(selektor, tekst) {
 }
 
 // 1. Ćwiczenie 3-1: start → 5/7, po dopisaniu kotwic → zaliczone.
-await strona.goto(baza + '#/m/3/cw/3-1-kod-pocztowy', { waitUntil: 'networkidle' });
+await strona.goto(baza + '#/m/3/cw/3-2-kod-i-numer', { waitUntil: 'networkidle' });
 await strona.waitForSelector('.monaco-editor .view-lines');
 await strona.waitForTimeout(500);
 const licznik1 = await strona.locator('.licznik').textContent();
-sprawdz('3-1: start pokazuje 5 z 7', /5 z 7/.test(licznik1), licznik1.trim());
-sprawdz('3-1: dwie karty z wskazówką', (await strona.locator('.karta.n .wsk').count()) === 2);
+sprawdz('3-2: start pokazuje 5 z 8', /5 z 8/.test(licznik1), licznik1.trim());
+sprawdz('3-2: trzy karty z wskazówką', (await strona.locator('.karta.n .wsk').count()) === 3);
 
 // Edycja przez klawiaturę: klik w edytor, Ctrl+A, wpisanie poprawionego schematu.
-await ustawEdytor('#ed-schemat', '{ "type": "object", "properties": { "kodPocztowy": { "type": "string", "pattern": "^[0-9]{2}-[0-9]{3}$" } }, "required": ["kodPocztowy"] }');
+await ustawEdytor('#ed-schemat', '{ "type": "object", "properties": { "kodPocztowy": { "type": "string", "pattern": "^[0-9]{2}-[0-9]{3}$" }, "numer": { "type": "string", "pattern": "^ZAM-[0-9]{4}-[0-9]{6}$" } }, "required": ["kodPocztowy", "numer"] }');
 await strona.waitForTimeout(600);
-sprawdz('3-1: po poprawce „Zaliczone”', (await strona.locator('.zaliczone-ramka').count()) === 1);
-sprawdz('3-1: zapisane w localStorage', await strona.evaluate(() => JSON.parse(localStorage.getItem('kurs-json-schema/v1') || '{}').zaliczone?.['3-1-kod-pocztowy'] === true));
+sprawdz('3-2: po poprawce „Zaliczone”', (await strona.locator('.zaliczone-ramka').count()) === 1);
+sprawdz('3-2: zapisane w localStorage', await strona.evaluate(() => JSON.parse(localStorage.getItem('kurs-json-schema/v1') || '{}').zaliczone?.['3-2-kod-i-numer'] === true));
 
 // 2. Zacznij od nowa → wraca start; Rozwiązanie → Wstaw → zaliczone; Ctrl+Z → wraca start.
 await strona.click('#b-nowa');
 await strona.waitForTimeout(500);
-sprawdz('3-1: „Zacznij od nowa” przywraca start', /5 z 7/.test(await strona.locator('.licznik').textContent()));
+sprawdz('3-2: „Zacznij od nowa” przywraca start', /5 z 8/.test(await strona.locator('.licznik').textContent()));
 await strona.click('#b-roz');
 await strona.click('#b-wstaw');
 await strona.waitForTimeout(500);
-sprawdz('3-1: „Wstaw do edytora” zalicza', (await strona.locator('.zaliczone-ramka').count()) === 1);
+sprawdz('3-2: „Wstaw do edytora” zalicza', (await strona.locator('.zaliczone-ramka').count()) === 1);
 await strona.click('#ed-schemat .view-lines');
 await strona.keyboard.press('Control+Z');
 await strona.waitForTimeout(500);
-sprawdz('3-1: Ctrl+Z po wstawieniu przywraca poprzednią wersję', /5 z 7/.test(await strona.locator('.licznik').textContent()));
+sprawdz('3-2: Ctrl+Z po wstawieniu przywraca poprzednią wersję', /5 z 8/.test(await strona.locator('.licznik').textContent()));
 
 // 3. Błąd składni → marker i diagnoza z linią.
 await strona.keyboard.press('Control+A');
 await strona.keyboard.insertText('{\n  "type": "object",\n  "properties": {\n    "kodPocztowy": { "type": "string", },\n  }\n}');
 await strona.waitForTimeout(500);
 const diag = await strona.locator('.diag.blad').textContent();
-sprawdz('3-1: błąd składni po polsku z linią', /Zbędny przecinek/.test(diag) && /linia 4/.test(diag), diag.trim().slice(0, 80));
-sprawdz('3-1: marker błędu w edytorze', (await strona.locator('.monaco-editor .squiggly-error').count()) >= 1);
+sprawdz('3-2: błąd składni po polsku z linią', /Zbędny przecinek/.test(diag) && /linia 4/.test(diag), diag.trim().slice(0, 80));
+sprawdz('3-2: marker błędu w edytorze', (await strona.locator('.monaco-editor .squiggly-error').count()) >= 1);
 
 // 4. Podpowiedzi Monaco: po najechaniu na "required" opis po polsku.
 await strona.keyboard.press('Control+A');
@@ -77,64 +77,64 @@ sprawdz('Monaco: Ctrl+Spacja proponuje słowa kluczowe', sugestie.length >= 10 &
 await strona.keyboard.press('Escape');
 
 // 5a. Ćwiczenie 3-2: trzy błędy składni po kolei, potem zgodność ze schematem.
-await strona.goto(baza + '#/m/3/cw/3-2-napraw-zamowienie', { waitUntil: 'networkidle' });
+await strona.goto(baza + '#/m/1/cw/1-1-zamowienie-z-maila', { waitUntil: 'networkidle' });
 await strona.waitForSelector('#ed-dokument .view-lines');
 await strona.waitForTimeout(500);
-sprawdz('3-2: start pokazuje błąd w linii 4', /linia 4/.test(await strona.locator('#diagnoza').textContent()));
+sprawdz('1-1: start pokazuje błąd w linii 4', /linia 4/.test(await strona.locator('#diagnoza').textContent()));
 await ustawEdytor('#ed-dokument', '{\n  "numer": "ZAM-2026-000123",\n  "klient": "Serwis",\n  "faktura": true,\n  "pozycje": [\n    { "ean": "5901234123457", "ilosc": 2, "cena": 12,50 },\n    { "ean": "5901234123464", "ilosc": 36, "cena": 1.20 },\n  ]\n}');
 await strona.waitForTimeout(500);
-sprawdz('3-2: po pierwszej naprawie błąd przecinka dziesiętnego w linii 6', /kropki zamiast przecinka/.test(await strona.locator('#diagnoza').textContent()) && /linia 6/.test(await strona.locator('#diagnoza').textContent()));
+sprawdz('1-1: po pierwszej naprawie błąd przecinka dziesiętnego w linii 6', /kropki zamiast przecinka/.test(await strona.locator('#diagnoza').textContent()) && /linia 6/.test(await strona.locator('#diagnoza').textContent()));
 await ustawEdytor('#ed-dokument', '{ "numer": "x", "klient": "", "faktura": true, "pozycje": [] }');
 await strona.waitForTimeout(500);
 const d32 = await strona.locator('#diagnoza').textContent();
-sprawdz('3-2: poprawny JSON niezgodny ze schematem pokazuje komunikaty walidacji', /Niezgodność ze schematem/.test(d32) && /nie pasuje do wzorca/.test(d32) && (await strona.locator('.zaliczone-ramka').count()) === 0);
+sprawdz('1-1: poprawny JSON niezgodny ze schematem pokazuje komunikaty walidacji', /Niezgodność ze schematem/.test(d32) && /nie pasuje do wzorca/.test(d32) && (await strona.locator('.zaliczone-ramka').count()) === 0);
 await strona.click('#b-roz');
 await strona.click('#b-wstaw');
 await strona.waitForTimeout(500);
-sprawdz('3-2: rozwiązanie zalicza', (await strona.locator('.zaliczone-ramka').count()) === 1);
+sprawdz('1-1: rozwiązanie zalicza', (await strona.locator('.zaliczone-ramka').count()) === 1);
 
 // 5b. Ćwiczenie 3-3: odpowiedzi, Sprawdź, wyjaśnienia, Spróbuj jeszcze raz.
-await strona.goto(baza + '#/m/3/cw/3-3-opakowania', { waitUntil: 'networkidle' });
+await strona.goto(baza + '#/m/3/cw/3-4-szprychy', { waitUntil: 'networkidle' });
 await strona.waitForSelector('#ed-schemat .view-lines');
-sprawdz('3-3: „Sprawdź” nieaktywne bez odpowiedzi', await strona.locator('#b-sprawdz').isDisabled());
+sprawdz('3-4: „Sprawdź” nieaktywne bez odpowiedzi', await strona.locator('#b-sprawdz').isDisabled());
 const poprawne = [true, true, false, false, true, false, false, false];
 for (let i = 0; i < poprawne.length; i++) {
   const v = (i === 2 ? !poprawne[i] : poprawne[i]) ? 't' : 'n';
   await strona.click(`input[name="o-${i}"][value="${v}"]`);
 }
 await strona.waitForTimeout(200);
-sprawdz('3-3: „Sprawdź” aktywne po wszystkich odpowiedziach', !(await strona.locator('#b-sprawdz').isDisabled()));
+sprawdz('3-4: „Sprawdź” aktywne po wszystkich odpowiedziach', !(await strona.locator('#b-sprawdz').isDisabled()));
 await strona.click('#b-sprawdz');
 await strona.waitForTimeout(300);
-sprawdz('3-3: jedna nietrafiona z wyjaśnieniem', (await strona.locator('.karta.nietrafione').count()) === 1 && /minimum/.test(await strona.locator('.karta.nietrafione .wyjasnienie').textContent()));
-sprawdz('3-3: 7 z 8 trafionych, bez zaliczenia', /7 z 8/.test(await strona.locator('.licznik').textContent()) && (await strona.locator('.zaliczone-ramka').count()) === 0);
+sprawdz('3-4: jedna nietrafiona z wyjaśnieniem', (await strona.locator('.karta.nietrafione').count()) === 1 && /minimum/.test(await strona.locator('.karta.nietrafione .wyjasnienie').textContent()));
+sprawdz('3-4: 7 z 8 trafionych, bez zaliczenia', /7 z 8/.test(await strona.locator('.licznik').textContent()) && (await strona.locator('.zaliczone-ramka').count()) === 0);
 await strona.click('#b-jeszcze');
 for (let i = 0; i < poprawne.length; i++) await strona.click(`input[name="o-${i}"][value="${poprawne[i] ? 't' : 'n'}"]`);
 await strona.click('#b-sprawdz');
 await strona.waitForTimeout(300);
-sprawdz('3-3: wszystkie trafione → zaliczone', (await strona.locator('.zaliczone-ramka').count()) === 1);
+sprawdz('3-4: wszystkie trafione → zaliczone', (await strona.locator('.zaliczone-ramka').count()) === 1);
 
 // 5c. Ćwiczenie 3-4: zepsute odwołanie, diagram, poprawa, przykłady z nazwą pliku.
-await strona.goto(baza + '#/m/3/cw/3-4-projekt-zamowienia', { waitUntil: 'networkidle' });
+await strona.goto(baza + '#/m/7/cw/7-2-trzy-pliki', { waitUntil: 'networkidle' });
 await strona.waitForSelector('#ed-projekt .view-lines');
 await strona.waitForTimeout(500);
-sprawdz('3-4: trzy zakładki, główny oznaczony', (await strona.locator('#zakladki button').count()) === 3 && /główny/.test(await strona.locator('#zakladki button.aktywny').textContent()));
+sprawdz('7-2: trzy zakładki, główny oznaczony', (await strona.locator('#zakladki button').count()) === 3 && /główny/.test(await strona.locator('#zakladki button.aktywny').textContent()));
 const d34 = await strona.locator('#diagnoza').textContent();
-sprawdz('3-4: diagnoza wskazuje zepsute odwołanie i plik', /„klinet”/.test(d34) && /plik „zamowienie”/.test(d34), d34.trim().slice(0, 90));
-sprawdz('3-4: diagram ma czerwoną krawędź i węzeł „?”', (await strona.locator('#diagram .krawedz.zepsute').count()) === 1 && (await strona.locator('#diagram .wezel.brak').count()) === 1);
-sprawdz('3-4: „jak widzi walidator” pokazuje $id', /https:\/\/kurs\.example\/schematy\/adres/.test(await strona.locator('#jak-widzi').textContent()));
+sprawdz('7-2: diagnoza wskazuje zepsute odwołanie i plik', /„klinet”/.test(d34) && /plik „zamowienie”/.test(d34), d34.trim().slice(0, 90));
+sprawdz('7-2: diagram ma czerwoną krawędź i węzeł „?”', (await strona.locator('#diagram .krawedz.zepsute').count()) === 1 && (await strona.locator('#diagram .wezel.brak').count()) === 1);
+sprawdz('7-2: „jak widzi walidator” pokazuje $id', /https:\/\/kurs\.example\/schematy\/adres/.test(await strona.locator('#jak-widzi').textContent()));
 await strona.click('#zakladki button[data-plik="adres"]');
 await strona.waitForTimeout(200);
-sprawdz('3-4: zakładka przełącza plik', /schematy\/adres/.test(await strona.locator('#ed-projekt').textContent()));
+sprawdz('7-2: zakładka przełącza plik', /schematy\/adres/.test(await strona.locator('#ed-projekt').textContent()));
 await strona.click('#zakladki button[data-plik="zamowienie"]');
 await ustawEdytor('#ed-projekt', JSON.stringify({ $id: 'https://kurs.example/schematy/zamowienie', type: 'object', properties: { numer: { type: 'string', pattern: '^ZAM-[0-9]{4}-[0-9]{6}$' }, klient: { $ref: 'klient' }, adresDostawy: { $ref: 'adres' } }, required: ['numer', 'klient', 'adresDostawy'] }, null, 2));
 await strona.waitForTimeout(600);
-sprawdz('3-4: po poprawce zaliczone', (await strona.locator('.zaliczone-ramka').count()) === 1);
-sprawdz('3-4: powód odrzucenia wskazuje plik z regułą', /reguła z pliku „adres”/.test(await strona.locator('#przyklady').textContent()));
-sprawdz('3-4: diagram bez zepsutych krawędzi', (await strona.locator('#diagram .krawedz.zepsute').count()) === 0 && (await strona.locator('#diagram .krawedz').count()) === 2);
+sprawdz('7-2: po poprawce zaliczone', (await strona.locator('.zaliczone-ramka').count()) === 1);
+sprawdz('7-2: powód odrzucenia wskazuje plik z regułą', /reguła z pliku „adres”/.test(await strona.locator('#przyklady').textContent()));
+sprawdz('7-2: diagram bez zepsutych krawędzi', (await strona.locator('#diagram .krawedz.zepsute').count()) === 0 && (await strona.locator('#diagram .krawedz').count()) === 2);
 await ustawEdytor('#ed-projekt', '{ "a": ');
 await strona.waitForTimeout(500);
-sprawdz('3-4: błąd składni w pliku oznacza zakładkę', (await strona.locator('#zakladki button.z-bledem').count()) === 1);
+sprawdz('7-2: błąd składni w pliku oznacza zakładkę', (await strona.locator('#zakladki button.z-bledem').count()) === 1);
 // M1: „Zacznij od nowa” w nieaktywnym pliku da się cofnąć Ctrl+Z.
 await strona.click('#zakladki button[data-plik="adres"]');
 await strona.click('#ed-projekt .view-lines');
@@ -150,7 +150,7 @@ await strona.click('#ed-projekt .view-lines');
 await strona.keyboard.press('Control+Z');
 await strona.waitForTimeout(300);
 const poCofnieciu = await strona.evaluate(() => window.__monaco.editor.getEditors()[0].getModel().getValue());
-sprawdz('3-4: Ctrl+Z cofa „Zacznij od nowa” także w nieaktywnym pliku', !/   $/.test(przedCofnieciem) && /   $/.test(poCofnieciu));
+sprawdz('7-2: Ctrl+Z cofa „Zacznij od nowa” także w nieaktywnym pliku', !/   $/.test(przedCofnieciem) && /   $/.test(poCofnieciu));
 // Piaskownica: błędny schemat nie wywala widoku i nie blokuje po odświeżeniu (C1).
 await strona.goto(baza + '#/piaskownica', { waitUntil: 'networkidle' });
 await strona.waitForSelector('#ed-schemat .view-lines');
@@ -177,10 +177,10 @@ sprawdz('piaskownica: po włączeniu formatów "jan@" odrzucony', (await strona.
 
 // 7. Wykład → Otwórz w edytorze → piaskownica z przykładem → Wróć do wykładu.
 await strona.goto(baza + '#/m/3', { waitUntil: 'networkidle' });
-await strona.click('figure[data-nazwa="status-zly"] button.otworz');
+await strona.click('figure[data-nazwa="status-wielka-litera"] button.otworz');
 await strona.waitForSelector('#ed-dokument .view-lines');
 await strona.waitForTimeout(500);
-sprawdz('wykład → piaskownica z dokumentem', /Wysłane/.test(await strona.locator('#ed-dokument').textContent()) && (await strona.locator('.werdykt-glowny.n').count()) === 1);
+sprawdz('wykład → piaskownica z dokumentem', /Wyslane/.test(await strona.locator('#ed-dokument').textContent()) && (await strona.locator('.werdykt-glowny.n').count()) === 1);
 await strona.click('text=Wróć do wykładu');
 await strona.waitForTimeout(300);
 sprawdz('piaskownica → wróć do wykładu z kotwicą', /#\/m\/3\/wyklad\/walidacja-instancji-dowolnego-typu/.test(strona.url()), strona.url());
@@ -195,7 +195,7 @@ await strona.reload({ waitUntil: 'networkidle' });
 sprawdz('Ustawienia przeżywają odświeżenie', await strona.evaluate(() => document.documentElement.classList.contains('motyw-ciemny') && document.documentElement.classList.contains('duzy-tekst')));
 
 // 9. Ciemny motyw: zrzut ćwiczenia; wąski ekran: kolumny jedna pod drugą, bez poziomego przewijania.
-await strona.goto(baza + '#/m/3/cw/3-1-kod-pocztowy', { waitUntil: 'networkidle' });
+await strona.goto(baza + '#/m/3/cw/3-2-kod-i-numer', { waitUntil: 'networkidle' });
 await strona.waitForSelector('.monaco-editor .view-lines');
 await strona.waitForTimeout(400);
 await strona.screenshot({ path: '.superpowers/ciemny.png' });
@@ -214,10 +214,10 @@ await k2.addInitScript(() => { Object.defineProperty(window, 'localStorage', { g
 const s2 = await k2.newPage();
 const bledy2 = [];
 s2.on('pageerror', e => bledy2.push(e.message));
-await s2.goto(baza + '#/m/3/cw/3-1-kod-pocztowy', { waitUntil: 'networkidle' });
+await s2.goto(baza + '#/m/3/cw/3-2-kod-i-numer', { waitUntil: 'networkidle' });
 await s2.waitForSelector('.monaco-editor .view-lines');
 await s2.waitForTimeout(400);
-sprawdz('Zablokowany localStorage: ćwiczenie działa bez błędów', bledy2.length === 0 && /5 z 7/.test(await s2.locator('.licznik').textContent()), bledy2.join('; '));
+sprawdz('Zablokowany localStorage: ćwiczenie działa bez błędów', bledy2.length === 0 && /5 z 8/.test(await s2.locator('.licznik').textContent()), bledy2.join('; '));
 await k2.close();
 
 await przegladarka.close();

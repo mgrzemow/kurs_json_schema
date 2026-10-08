@@ -1,0 +1,163 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Zamowienie",
+    "definitions": {
+        "Zamowienie": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "typDokumentu": {
+                    "type": "string"
+                },
+                "numer": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "waluta": {
+                    "type": "string"
+                },
+                "faktura": {
+                    "type": "boolean"
+                },
+                "klient": {
+                    "$ref": "#/definitions/Klient"
+                },
+                "adresDostawy": {
+                    "$ref": "#/definitions/AdresDostawy"
+                },
+                "pozycje": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Pozycje"
+                    }
+                },
+                "uwagi": {
+                    "anyOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "dataZamowienia": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "utworzono": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "kodRabatowy": {
+                    "type": "string"
+                },
+                "wymiaryPaczki": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "required": [
+                "adresDostawy",
+                "dataZamowienia",
+                "faktura",
+                "klient",
+                "numer",
+                "pozycje",
+                "status",
+                "typDokumentu",
+                "utworzono",
+                "uwagi",
+                "waluta"
+            ],
+            "title": "Zamowienie"
+        },
+        "AdresDostawy": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "ulica": {
+                    "type": "string"
+                },
+                "miasto": {
+                    "type": "string"
+                },
+                "kodPocztowy": {
+                    "type": "string"
+                },
+                "kraj": {
+                    "type": "string"
+                },
+                "eori": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "kodPocztowy",
+                "kraj",
+                "miasto",
+                "ulica"
+            ],
+            "title": "AdresDostawy"
+        },
+        "Klient": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "numerKlienta": {
+                    "type": "string"
+                },
+                "nazwa": {
+                    "type": "string"
+                },
+                "nip": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "telefon": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "email",
+                "nazwa",
+                "numerKlienta"
+            ],
+            "title": "Klient"
+        },
+        "Pozycje": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "ean": {
+                    "type": "string"
+                },
+                "nazwa": {
+                    "type": "string"
+                },
+                "ilosc": {
+                    "type": "integer"
+                },
+                "cena": {
+                    "type": "number"
+                },
+                "typ": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "cena",
+                "ean",
+                "ilosc",
+                "nazwa"
+            ],
+            "title": "Pozycje"
+        }
+    }
+}

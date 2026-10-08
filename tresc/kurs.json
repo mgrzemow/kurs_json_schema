@@ -32,6 +32,24 @@
     {
       "nr": 7,
       "katalog": "07-schematy-z-wielu-czesci"
+    },
+    {
+      "nr": 8,
+      "katalog": "08-nie-musicie-pisac-od-zera"
+    },
+    {
+      "nr": 9,
+      "katalog": "09-praktyczne-zastosowania"
+    }
+  ],
+  "przerwy": [
+    {
+      "po": 3,
+      "minuty": 10
+    },
+    {
+      "po": 5,
+      "minuty": 10
     }
   ]
 }
