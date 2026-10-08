@@ -1,0 +1,8 @@
+{
+  "typ": "object",
+  "propreties": {
+    "numer": { "type": "string" },
+    "klient": { "type": "string" }
+  },
+  "required": ["numer", "klient"]
+}

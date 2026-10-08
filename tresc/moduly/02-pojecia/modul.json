@@ -1,0 +1,6 @@
+{
+  "nr": 2,
+  "tytul": "Pojęcia",
+  "minuty": 15,
+  "zakres": ["Dokument JSON", "Instancje", "Dokument JSON Schema", "Metaschematy"]
+}

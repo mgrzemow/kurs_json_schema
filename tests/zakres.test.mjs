@@ -8,7 +8,7 @@ const { moduly } = wczytajKurs();
 for (const m of moduly) {
   for (const haslo of m.meta.zakres || []) {
     test(`moduł ${m.meta.nr}: hasło „${haslo}” jest w nagłówku`, () => {
-      assert.ok(m.wyklad.sekcje.some(s => s.tytul.includes(haslo)), `brak nagłówka z „${haslo}”; są: ${m.wyklad.sekcje.map(s => s.tytul).join(' | ')}`);
+      assert.ok(m.wyklad.naglowki.some(s => s.tytul.includes(haslo)), `brak nagłówka z „${haslo}”; są: ${m.wyklad.naglowki.map(s => s.tytul).join(' | ')}`);
     });
   }
 }

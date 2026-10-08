@@ -10,6 +10,10 @@
       "katalog": "01-json"
     },
     {
+      "nr": 2,
+      "katalog": "02-pojecia"
+    },
+    {
       "nr": 3,
       "katalog": "03-walidacja-wartosci"
     }

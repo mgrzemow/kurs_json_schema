@@ -44,6 +44,7 @@ function zbierzTwierdzenia(md) {
 
 export function parsujWyklad(md, { walidator = walidatorDomyslny } = {}) {
   const sekcje = [];
+  const naglowki = [];
   const przyklady = {};
   const { md: mdCzysty, twierdzenia } = zbierzTwierdzenia(md);
 
@@ -54,6 +55,7 @@ export function parsujWyklad(md, { walidator = walidatorDomyslny } = {}) {
         const czysty = tytul.replace(/<[^>]+>/g, '');
         const id = slug(czysty);
         if (depth === 2) sekcje.push({ id, tytul: czysty });
+        if (depth === 2 || depth === 3) naglowki.push({ poziom: depth, id, tytul: czysty });
         return `<h${depth} id="${id}">${tytul}</h${depth}>\n`;
       },
       blockquote({ tokens }) {
@@ -99,7 +101,7 @@ export function parsujWyklad(md, { walidator = walidatorDomyslny } = {}) {
   let html = marked.parse(mdCzysty);
   // Dwie sąsiednie części lustra o tej samej nazwie trafiają do wspólnego kontenera.
   html = html.replace(/(<figure class="lustro-czesc" data-lustro="([^"]+)"[^]*?<\/figure>\n)\s*(<figure class="lustro-czesc" data-lustro="\2"[^]*?<\/figure>\n)/g, '<div class="lustro">$1$3</div>\n');
-  return { html, sekcje, przyklady, twierdzenia };
+  return { html, sekcje, naglowki, przyklady, twierdzenia };
 }
 
 // Każda linia JSON-a dostaje klasę poziomu zagnieżdżenia (liczoną z bilansu nawiasów przed linią).
