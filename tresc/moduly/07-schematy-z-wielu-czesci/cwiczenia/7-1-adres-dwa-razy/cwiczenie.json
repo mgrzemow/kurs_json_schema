@@ -1,0 +1,89 @@
+{
+  "id": "7-1-adres-dwa-razy",
+  "rodzaj": 1,
+  "tytul": "Adres dwa razy",
+  "poziom": 2,
+  "czasMin": 6,
+  "kolejnosc": 1,
+  "kontekst": "Zamówienie ma adres dostawy i adres do faktury. Ktoś skopiował schemat adresu, a potem dopisał wzorzec kodu pocztowego tylko w jednej kopii. Adres do faktury przepuszcza zły kod.",
+  "polecenie": "Opisz adres raz i użyj go w obu miejscach, tak żeby oba adresy sprawdzały kod pocztowy. (Dopisanie wzorca w drugiej kopii też przejdzie przykłady; w rozwiązaniu jest, dlaczego to gorsze.)",
+  "slowa": [
+    "$defs",
+    "$ref"
+  ],
+  "podpowiedz": "Definicję adresu umieść w `$defs` pod nazwą `adres`, a w obu polach wstaw `{ \"$ref\": \"#/$defs/adres\" }`. Odwołanie zaczyna się od `#/$defs/`, z dolarem.",
+  "przyklady": [
+    {
+      "opis": "Oba adresy poprawne",
+      "dane": {
+        "adresDostawy": {
+          "miasto": "Gdańsk",
+          "kodPocztowy": "80-827"
+        },
+        "adresFaktury": {
+          "miasto": "Gdańsk",
+          "kodPocztowy": "80-827"
+        }
+      },
+      "ok": true
+    },
+    {
+      "opis": "Zły kod w adresie faktury",
+      "dane": {
+        "adresDostawy": {
+          "miasto": "Gdańsk",
+          "kodPocztowy": "80-827"
+        },
+        "adresFaktury": {
+          "miasto": "Gdańsk",
+          "kodPocztowy": "80827"
+        }
+      },
+      "ok": false,
+      "wskazowka": "Kopia adresu w `adresFaktury` nie ma wzorca. Zamiast poprawiać kopię, usuń ją."
+    },
+    {
+      "opis": "Zły kod w adresie dostawy",
+      "dane": {
+        "adresDostawy": {
+          "miasto": "Gdańsk",
+          "kodPocztowy": "80827"
+        },
+        "adresFaktury": {
+          "miasto": "Gdańsk",
+          "kodPocztowy": "80-827"
+        }
+      },
+      "ok": false
+    },
+    {
+      "opis": "Adres faktury bez miasta",
+      "dane": {
+        "adresDostawy": {
+          "miasto": "Gdańsk",
+          "kodPocztowy": "80-827"
+        },
+        "adresFaktury": {
+          "kodPocztowy": "80-827"
+        }
+      },
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "bez-dolara",
+      "dlaczego": "`#/defs/adres` (bez dolara) nie prowadzi nigdzie; schemat w ogóle się nie kompiluje."
+    },
+    {
+      "plik": "ref-bez-fragmentu",
+      "dlaczego": "`\"$ref\": \"adres\"` w pojedynczym pliku bez `$id` szuka osobnego schematu o takim identyfikatorze, którego nie ma."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "$defs przechowuje schematy do wielokrotnego użycia; $ref odwołuje się do nich przez JSON Pointer.",
+      "zrodlo": "core §8.2.4, §8.2.3.1"
+    }
+  ]
+}

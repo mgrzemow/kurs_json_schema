@@ -1,0 +1,78 @@
+{
+  "id": "7-3-czwarty-plik-produkt",
+  "rodzaj": 4,
+  "tytul": "Czwarty plik: produkt",
+  "poziom": 3,
+  "czasMin": 8,
+  "kolejnosc": 3,
+  "kontekst": "Produkt jest wspólny dla zamówienia i katalogu, więc dostał osobny plik. W katalogu produkt może nie mieć EAN-u (towar w przygotowaniu), ale w zamówieniu EAN jest obowiązkowy. Plik główny już odwołuje się do produktu i dokłada regułę obok `$ref`, lecz walidator nie znajduje pliku `produkt`.",
+  "polecenie": "Spraw, żeby plik `produkt` był widoczny dla walidatora pod identyfikatorem, do którego odwołuje się zamówienie. Nie przenoś `required: [\"ean\"]` do pliku produktu: katalog ma prawo nie mieć EAN-u.",
+  "slowa": [
+    "$id",
+    "$ref"
+  ],
+  "podpowiedz": "Plik bez `$id` nie ma nazwy, pod którą walidator mógłby go znaleźć. Nadaj mu `$id` w tej samej przestrzeni, co pozostałe pliki: `https://kurs.example/schematy/produkt`.",
+  "glowny": "zamowienie",
+  "przyklady": [
+    {
+      "opis": "Pozycja z EAN",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "pozycje": [
+          {
+            "ean": "5901234123457",
+            "nazwa": "Szprycha",
+            "cena": 1.2
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "opis": "Pozycja bez EAN",
+      "dane": {
+        "numer": "ZAM-2026-000124",
+        "pozycje": [
+          {
+            "nazwa": "Szprycha",
+            "cena": 1.2
+          }
+        ]
+      },
+      "ok": false,
+      "wskazowka": "Regułę o EAN-ie dokłada `required` obok `$ref` w zamówieniu; w 2020-12 działa razem z definicją."
+    },
+    {
+      "opis": "Pozycja z ceną zero",
+      "dane": {
+        "numer": "ZAM-2026-000125",
+        "pozycje": [
+          {
+            "ean": "5901234123457",
+            "nazwa": "Szprycha",
+            "cena": 0
+          }
+        ]
+      },
+      "ok": false
+    },
+    {
+      "opis": "Bez pozycji",
+      "dane": {
+        "numer": "ZAM-2026-000126",
+        "pozycje": []
+      },
+      "ok": false
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "Schemat jest dostępny dla odwołań pod swoim $id; odwołanie względne rozwiązuje się względem adresu bazowego.",
+      "zrodlo": "core §8.2.1, §9.1.1, §9.1.2"
+    },
+    {
+      "twierdzenie": "Słowa obok $ref działają razem z definicją (w draft-07 były ignorowane).",
+      "zrodlo": "core §8.2.3.1, §7.5.1"
+    }
+  ]
+}

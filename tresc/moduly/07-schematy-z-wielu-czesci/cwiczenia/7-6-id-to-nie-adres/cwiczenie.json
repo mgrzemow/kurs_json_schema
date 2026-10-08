@@ -1,0 +1,57 @@
+{
+  "id": "7-6-id-to-nie-adres",
+  "rodzaj": 4,
+  "tytul": "`$id` to nie adres",
+  "poziom": 3,
+  "czasMin": 6,
+  "kolejnosc": 6,
+  "kontekst": "Plik `adres` skopiowano z innego projektu razem z jego `$id` wskazującym na `example.com`. Zamówienie odwołuje się do `adres` w swojej przestrzeni. Walidator nie znajduje celu, a nikt niczego z `example.com` nie pobierze, bo walidatory nie chodzą do sieci.",
+  "polecenie": "Napraw odwołanie między plikami. Dwa poprawne sposoby: ujednolicić `$id` adresu z przestrzenią projektu albo wpisać w `$ref` pełny identyfikator z `example.com`.",
+  "slowa": [
+    "$id",
+    "$ref"
+  ],
+  "podpowiedz": "`$ref: \"adres\"` w pliku o `$id` `https://kurs.example/schematy/zamowienie` znaczy `https://kurs.example/schematy/adres`. Plik adresu ma inny identyfikator. Zrównaj je: zmień `$id` adresu albo wpisz w `$ref` cały identyfikator.",
+  "glowny": "zamowienie",
+  "przyklady": [
+    {
+      "opis": "Poprawne zamówienie",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "adresDostawy": {
+          "miasto": "Gdańsk",
+          "kodPocztowy": "80-827"
+        }
+      },
+      "ok": true
+    },
+    {
+      "opis": "Zły kod pocztowy",
+      "dane": {
+        "numer": "ZAM-2026-000124",
+        "adresDostawy": {
+          "miasto": "Gdańsk",
+          "kodPocztowy": "80827"
+        }
+      },
+      "ok": false
+    },
+    {
+      "opis": "Bez adresu",
+      "dane": {
+        "numer": "ZAM-2026-000125"
+      },
+      "ok": false
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "$id identyfikuje schemat; walidator nie pobiera schematów z sieci na podstawie $id.",
+      "zrodlo": "core §8.2.1, §9.1.2"
+    },
+    {
+      "twierdzenie": "Odwołanie względne łączy się z adresem bazowym pliku, w którym stoi.",
+      "zrodlo": "core §8.2.1, §9.1.1"
+    }
+  ]
+}

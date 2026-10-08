@@ -1,0 +1,16 @@
+{
+  "$id": "https://kurs.example/schematy/zamowienie",
+  "type": "object",
+  "properties": {
+    "numer": {
+      "type": "string"
+    },
+    "adresDostawy": {
+      "$ref": "adres"
+    }
+  },
+  "required": [
+    "numer",
+    "adresDostawy"
+  ]
+}

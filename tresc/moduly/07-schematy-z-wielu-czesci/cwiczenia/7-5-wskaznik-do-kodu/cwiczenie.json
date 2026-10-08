@@ -1,0 +1,49 @@
+{
+  "id": "7-5-wskaznik-do-kodu",
+  "rodzaj": 1,
+  "tytul": "Wskaźnik do kodu pocztowego",
+  "poziom": 1,
+  "czasMin": 4,
+  "kolejnosc": 5,
+  "kontekst": "Kod pocztowy jest opisany wewnątrz definicji adresu. Pole `kodPocztowyPaczkomatu` ma używać tego samego opisu, ale odwołanie wskazuje w złe miejsce i schemat się nie kompiluje.",
+  "polecenie": "Popraw odwołanie tak, żeby prowadziło do schematu kodu pocztowego. Możesz użyć JSON Pointera albo nadać kodowi `$anchor`.",
+  "slowa": [
+    "$ref",
+    "$anchor"
+  ],
+  "podpowiedz": "JSON Pointer idzie po kluczach: `$defs` → `adres` → `properties` → `kodPocztowy`. W odwołaniu brakuje jednego z tych kluczy. Alternatywa: `\"$anchor\": \"kod\"` w schemacie kodu i `\"$ref\": \"#kod\"`.",
+  "przyklady": [
+    {
+      "opis": "Poprawny kod paczkomatu",
+      "dane": {
+        "kodPocztowyPaczkomatu": "80-827"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Zły kod paczkomatu",
+      "dane": {
+        "kodPocztowyPaczkomatu": "80827"
+      },
+      "ok": false,
+      "wskazowka": "Dopóki odwołanie jest zepsute, nic nie jest sprawdzane."
+    },
+    {
+      "opis": "Adres z poprawnym kodem",
+      "dane": {
+        "adresDostawy": {
+          "miasto": "Gdańsk",
+          "kodPocztowy": "80-827"
+        }
+      },
+      "ok": true
+    }
+  ],
+  "bledne": [],
+  "zrodla": [
+    {
+      "twierdzenie": "JSON Pointer wskazuje miejsce w dokumencie przez ścieżkę kluczy; $anchor nadaje nazwę niezależną od miejsca.",
+      "zrodlo": "core §9.2.1, §8.2.2; RFC 6901 §3"
+    }
+  ]
+}

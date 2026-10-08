@@ -1,0 +1,63 @@
+{
+  "id": "7-4-reguly-obok-ref",
+  "rodzaj": 3,
+  "tytul": "Reguły obok `$ref`",
+  "poziom": 2,
+  "czasMin": 5,
+  "kolejnosc": 4,
+  "kontekst": "Schemat obok ma jedną definicję adresu i dwa pola, które się do niej odwołują. Przy adresie dostawy obok `$ref` stoi dodatkowe `required: [\"kraj\"]`; przy adresie faktury nie.",
+  "polecenie": "Obstaw werdykty. Czy reguła obok `$ref` działa? (W draft-07 nie działała.)",
+  "slowa": [
+    "$ref"
+  ],
+  "podpowiedz": "W 2020-12 `$ref` z regułą obok działa jak `allOf` z definicji i reguły.",
+  "odpowiedzi": [
+    {
+      "opis": "Adres dostawy z krajem",
+      "dane": {
+        "adresDostawy": {
+          "miasto": "Gdańsk",
+          "kraj": "PL"
+        }
+      },
+      "ok": true,
+      "wyjasnienie": "Definicja wymaga miasta, reguła obok wymaga kraju; oba są."
+    },
+    {
+      "opis": "Adres dostawy bez kraju",
+      "dane": {
+        "adresDostawy": {
+          "miasto": "Gdańsk"
+        }
+      },
+      "ok": false,
+      "wyjasnienie": "Reguła obok `$ref` działa: `kraj` jest wymagany. W draft-07 ten dokument by przeszedł."
+    },
+    {
+      "opis": "Adres faktury bez kraju",
+      "dane": {
+        "adresFaktury": {
+          "miasto": "Gdańsk"
+        }
+      },
+      "ok": true,
+      "wyjasnienie": "Przy adresie faktury nie ma reguły obok, obowiązuje sama definicja."
+    },
+    {
+      "opis": "Adres dostawy bez miasta",
+      "dane": {
+        "adresDostawy": {
+          "kraj": "PL"
+        }
+      },
+      "ok": false,
+      "wyjasnienie": "Definicja z `$defs` nadal obowiązuje: miasto jest wymagane."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "Słowa kluczowe obok $ref są stosowane razem z odwołanym schematem.",
+      "zrodlo": "core §8.2.3.1, §7.5.1"
+    }
+  ]
+}

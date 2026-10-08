@@ -1,0 +1,17 @@
+{
+  "$id": "https://kurs.example/schematy/adres",
+  "type": "object",
+  "properties": {
+    "miasto": {
+      "type": "string"
+    },
+    "kodPocztowy": {
+      "type": "string",
+      "pattern": "^[0-9]{2}-[0-9]{3}$"
+    }
+  },
+  "required": [
+    "miasto",
+    "kodPocztowy"
+  ]
+}

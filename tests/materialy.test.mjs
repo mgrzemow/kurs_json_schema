@@ -7,7 +7,7 @@ import { zbudujMaterialyHtml } from '../scripts/zbuduj-materialy.mjs';
 
 const kurs = wczytajKurs();
 const html = zbudujMaterialyHtml(kurs);
-const bezTagow = s => s.replace(/<[^>]+>/g, '');
+const bezTagow = s => s.replace(/<[^>]+>/g, '').replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 
 test('materiały: każde hasło z obowiązkowego zakresu jest w nagłówku', () => {
   for (const m of kurs.moduly) {
@@ -22,7 +22,7 @@ test('materiały: każde ćwiczenie ma sekcję z poleceniem', () => {
   for (const m of kurs.moduly) {
     for (const cw of m.cwiczenia) {
       assert.ok(html.includes(`id="cw-${cw.id}"`), cw.id);
-      assert.ok(bezTagow(html).includes(bezTagow(cw.polecenie).replace(/`/g, '')), 'polecenie ' + cw.id);
+      assert.ok(bezTagow(html).includes(bezTagow(cw.polecenie).replace(/`/g, '').replace(/\*\*/g, '')), 'polecenie ' + cw.id);
     }
   }
 });

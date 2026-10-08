@@ -1,0 +1,53 @@
+{
+  "id": "7-7-martwa-definicja",
+  "rodzaj": 1,
+  "tytul": "Martwa definicja",
+  "poziom": 1,
+  "czasMin": 3,
+  "kolejnosc": 7,
+  "kontekst": "Schemat ma w `$defs` porządną definicję klienta z wymaganym e-mailem. Mimo to klient bez e-maila przechodzi, bo pole `klient` opisano osobno, bez odwołania do definicji.",
+  "polecenie": "Spraw, żeby pole `klient` używało definicji z `$defs`.",
+  "slowa": [
+    "$defs",
+    "$ref"
+  ],
+  "podpowiedz": "Definicja w `$defs` niczego nie sprawdza, dopóki nikt się do niej nie odwołuje. Zastąp opis pola `klient` odwołaniem `{ \"$ref\": \"#/$defs/klient\" }`.",
+  "przyklady": [
+    {
+      "opis": "Klient z e-mailem",
+      "dane": {
+        "klient": {
+          "nazwa": "Jan Nowak",
+          "email": "jan@example.com"
+        }
+      },
+      "ok": true
+    },
+    {
+      "opis": "Klient bez e-maila",
+      "dane": {
+        "klient": {
+          "nazwa": "Jan Nowak"
+        }
+      },
+      "ok": false,
+      "wskazowka": "Pole `klient` ma własny, luźniejszy opis, który nie korzysta z `$defs`."
+    },
+    {
+      "opis": "Klient bez nazwy",
+      "dane": {
+        "klient": {
+          "email": "jan@example.com"
+        }
+      },
+      "ok": false
+    }
+  ],
+  "bledne": [],
+  "zrodla": [
+    {
+      "twierdzenie": "Schematy w $defs są stosowane wyłącznie przez odwołanie.",
+      "zrodlo": "core §8.2.4"
+    }
+  ]
+}

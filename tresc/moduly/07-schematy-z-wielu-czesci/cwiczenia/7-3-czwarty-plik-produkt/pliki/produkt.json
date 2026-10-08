@@ -1,0 +1,21 @@
+{
+  "title": "Produkt",
+  "type": "object",
+  "properties": {
+    "ean": {
+      "type": "string",
+      "pattern": "^[0-9]{13}$"
+    },
+    "nazwa": {
+      "type": "string"
+    },
+    "cena": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    }
+  },
+  "required": [
+    "nazwa",
+    "cena"
+  ]
+}

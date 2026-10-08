@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "properties": {
+    "klient": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "klient": {
+      "type": "object",
+      "properties": {
+        "nazwa": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
+      },
+      "required": [
+        "nazwa",
+        "email"
+      ]
+    }
+  }
+}

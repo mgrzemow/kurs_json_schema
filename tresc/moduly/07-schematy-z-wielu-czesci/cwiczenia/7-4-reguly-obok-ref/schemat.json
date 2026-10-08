@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "properties": {
+    "adresDostawy": {
+      "$ref": "#/$defs/adres",
+      "required": [
+        "kraj"
+      ]
+    },
+    "adresFaktury": {
+      "$ref": "#/$defs/adres"
+    }
+  },
+  "$defs": {
+    "adres": {
+      "type": "object",
+      "properties": {
+        "miasto": {
+          "type": "string"
+        },
+        "kraj": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "miasto"
+      ]
+    }
+  }
+}

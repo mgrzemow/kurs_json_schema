@@ -1,0 +1,23 @@
+{
+  "$id": "https://kurs.example/schematy/zamowienie",
+  "type": "object",
+  "properties": {
+    "numer": {
+      "type": "string"
+    },
+    "pozycje": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "produkt",
+        "required": [
+          "ean"
+        ]
+      }
+    }
+  },
+  "required": [
+    "numer",
+    "pozycje"
+  ]
+}

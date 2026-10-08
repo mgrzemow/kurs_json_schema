@@ -5,8 +5,8 @@
   "poziom": 2,
   "czasMin": 8,
   "kolejnosc": 2,
-  "kontekst": "Schemat zamówienia został podzielony na trzy pliki: zamówienie, adres i klient. Plik główny odwołuje się do dwóch pozostałych przez ich identyfikatory. Po ostatniej zmianie walidator nie chce go skompilować.",
-  "polecenie": "Znajdź i popraw zepsute odwołanie w pliku głównym, tak żeby wszystkie przykłady dawały oczekiwany werdykt. Diagram po prawej pokazuje, które odwołanie nie prowadzi do żadnego pliku.",
+  "kontekst": "Schemat zamówienia został podzielony na trzy pliki: zamówienie, adres i klient, każdy ze swoim `$id` w przestrzeni `https://kurs.example/schematy/`. Plik główny odwołuje się do dwóch pozostałych względnie. Po ostatniej zmianie walidator nie chce go skompilować.",
+  "polecenie": "Znajdź i popraw zepsute odwołanie w pliku głównym, tak żeby wszystkie przykłady dawały oczekiwany werdykt. Diagram po prawej pokazuje, które odwołanie nie prowadzi do żadnego pliku, a panel „jak to widzi walidator” pokazuje identyfikatory plików.",
   "slowa": [
     "$id",
     "$ref"
