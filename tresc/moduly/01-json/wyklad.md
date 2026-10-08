@@ -4,7 +4,7 @@ JSON to **tekst** zapisany według kilku prostych reguł. Nie „obiekt”, nie 
 
 Skrót rozwija się do *JavaScript Object Notation*, bo składnię zapożyczono z JavaScriptu, ale JSON od dawna nie ma z nim nic wspólnego poza nazwą. Douglas Crockford, który spisał specyfikację, twierdzi, że JSON-a nie wynalazł, tylko „odkrył” w 2001 roku, bo taki zapis już istniał w języku. Pierwsza strona json.org powstała z przyczyn czysto praktycznych: klienci nie chcieli przyjąć formatu bez specyfikacji, więc Crockford napisał ją w jedno popołudnie i zmieścił na jednej stronie. Ta jedna strona wystarcza do dziś. (Źródło: D. Crockford, wykład „The JSON Saga”, 2009, poza repozytorium.)
 
-Gdzie JSON spotyka się w pracy: odpowiedzi API, pliki konfiguracyjne narzędzi, eksporty z systemów, komunikaty między sklepem a magazynem, logi. Dla osób pracujących z YAML-em: YAML to nadzbiór JSON-a, więc każdy poprawny JSON jest poprawnym YAML-em, ale nie odwrotnie. W YAML-u są komentarze, w JSON-ie nie.
+Gdzie JSON spotyka się w pracy: odpowiedzi API (interfejsów, przez które systemy wymieniają dane), pliki konfiguracyjne narzędzi, eksporty z systemów, komunikaty między sklepem a magazynem, logi. Dla osób pracujących z YAML-em: YAML to nadzbiór JSON-a, więc każdy poprawny JSON jest poprawnym YAML-em, ale nie odwrotnie. W YAML-u są komentarze, w JSON-ie nie.
 
 Przykład z modułu 0, dla przypomnienia, jak wygląda zamówienie w JSON-ie:
 
@@ -43,7 +43,7 @@ Różnice, które mają znaczenie, gdy piszemy schemat:
 
 - W XML-u jedna informacja może być elementem (`<numer>`) albo atrybutem (`faktura="true"`). W JSON-ie jest tylko jeden rodzaj: pole.
 - XML nie zna typów: `ilosc="2"` to tekst, dopóki schemat XSD nie powie inaczej. JSON odróżnia liczbę `2`{d} od tekstu `"2"`{d} już w składni. To rozróżnienie będzie jeszcze wiele razy wracać, bo czterdzieści zamówień z modułu 0 odrzucono właśnie przez `"2"`{d}.
-- JSON nie ma komentarzy, przestrzeni nazw ani deklaracji nagłówka. Mniej do nauczenia, mniej do popsucia.
+- JSON nie ma komentarzy, przedrostków nazw w stylu `xs:` ani wiersza `<?xml …?>` na początku. Mniej do nauczenia, mniej do popsucia.
 
 Dla osób, które znają XSD: JSON Schema jest dla JSON-a tym, czym XSD dla XML-a. Kilka odpowiedników na start, reszta wyjdzie w praktyce:
 
@@ -161,7 +161,7 @@ Wartość to jedna z siedmiu rzeczy: obiekt, lista, tekst, liczba, `true`, `fals
   </g>
 </svg>
 
-Tekst stoi w podwójnych cudzysłowach. Apostrofy `'tak'` nie są cudzysłowem. Kilka znaków trzeba poprzedzić odwrotnym ukośnikiem; taki zapis to ucieczka (escape): cudzysłów `\"`, sam ukośnik `\\`, nowa linia `\n`, tabulator `\t`, dowolny znak przez kod `\u0141`. Polskie litery wpisujemy wprost, bo JSON jest zapisany w UTF-8, kodowaniu obejmującym znaki wszystkich alfabetów; `"Dętka"`{d} jest poprawne i nie trzeba pisać `"D\u0119tka"`{d}. Ucieczka `\\` wróci w module 3 przy wyrażeniach regularnych, gdzie jest najczęstszym źródłem błędów. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §7, §8.1 -->
+Tekst stoi w podwójnych cudzysłowach. Apostrofy `'tak'` nie są cudzysłowem. Niektóre znaki trzeba poprzedzić odwrotnym ukośnikiem; taki zapis to ucieczka (escape). Obowiązkowo: cudzysłów `\"`, sam ukośnik `\\` i znaki sterujące, np. nowa linia `\n` i tabulator `\t`. Dowolny inny znak można, ale nie trzeba, zapisać przez jego kod, np. `\u0141`. Polskie litery wpisujemy wprost, bo JSON jest zapisany w UTF-8, kodowaniu obejmującym znaki wszystkich alfabetów; `"Dętka"`{d} jest poprawne i nie trzeba pisać `"D\u0119tka"`{d}. Ucieczka `\\` wróci w module 3 przy wyrażeniach regularnych, gdzie jest najczęstszym źródłem błędów. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §7, §8.1 -->
 
 ```json dokument=tekst-z-cudzyslowem schemat=zamowienie-1 oczekiwane=odrzucony
 { "nazwa": "Serwis \"Dętka\"", "sciezka": "C:\\faktury\\2026" }

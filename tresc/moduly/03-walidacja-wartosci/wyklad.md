@@ -154,7 +154,7 @@ Specyfikacja zaleca autorom schematów ograniczyć się do małego podzbioru sk�
 | kod pocztowy | `^[0-9]{2}-[0-9]{3}$` |
 | numer zamówienia | `^ZAM-[0-9]{4}-[0-9]{6}$` |
 | NIP | `^[0-9]{10}$` |
-| EAN-13 | `^[0-9]{13}$` |
+| EAN-13 (kod kreskowy produktu) | `^[0-9]{13}$` |
 | kod katalogowy | `^[A-Z]{3}\.[0-9]{2}$` (w JSON-ie `\\.`) |
 | waluta | `^(PLN\|EUR\|CZK)$` |
 

@@ -74,7 +74,7 @@ false
 
 ## Metaschematy i `$schema`
 
-Skoro schemat jest dokumentem JSON, można napisać schemat, który sprawdza schematy. Taki schemat nazywa się **metaschematem**. Mówi on, że `type` przyjmuje jedną z siedmiu nazw, że `required` to lista tekstów, że `minimum` to liczba. Oficjalny metaschemat 2020-12 leży pod adresem `https://json-schema.org/draft/2020-12/schema` i składa się z kilku mniejszych metaschematów, po jednym dla każdego słownika (vocabulary). Słownik to zestaw słów kluczowych razem z ich znaczeniem: osobno słowa rdzenia, osobno aplikatory (`properties`, `items`), osobno walidacja (`minimum`, `pattern`), osobno adnotacje i kilka innych. <!-- twierdzenie --> <!-- zrodlo: core §4.3.4, §4.3.3, §8.1 -->
+Skoro schemat jest dokumentem JSON, można napisać schemat, który sprawdza schematy. Taki schemat nazywa się **metaschematem**. Mówi on, że `type` przyjmuje jedną z siedmiu nazw, że `required` to lista tekstów, że `minimum` to liczba. Oficjalny metaschemat 2020-12 leży pod adresem `https://json-schema.org/draft/2020-12/schema` i składa się z kilku mniejszych metaschematów, po jednym dla każdego słownika (vocabulary). Słownik to zestaw słów kluczowych razem z ich znaczeniem: osobno słowa podstawowe (rdzeń, ang. core), osobno aplikatory (`properties`, `items`), osobno walidacja (`minimum`, `pattern`), osobno adnotacje i kilka innych. <!-- twierdzenie --> <!-- zrodlo: core §4.3.4, §4.3.3, §8.1 -->
 
 Fragment słownika walidacji, tylko do przeczytania (definicja `type` z pliku `meta/validation`):
 
@@ -122,7 +122,7 @@ JSON Schema rozwijało się jako seria wersji roboczych (draft):
 
 ### Dlaczego uczymy nowszej wersji, skoro w praktyce częściej spotyka się draft-07?
 
-Draft-07 jest wszędzie, bo przez kilka lat nie było niczego nowszego, a edytory, generatory i OpenAPI 3.0 na nim stanęły. 2020-12 stopniowo go wypiera: OpenAPI 3.1 i nowe biblioteki walidacji wspierają ją w pełni, a następna wersja specyfikacji ma być stabilna, czyli bez zmian łamiących zgodność: poprawny schemat ma pozostać poprawny w kolejnych wydaniach. Kto uczy się 2020-12, uczy się wersji, która zostanie standardem na długo. Kto zna 2020-12, przeczyta draft-07 bez trudu, bo różnice to kilka słów kluczowych; dlatego przy każdym takim słowie będzie w tym kursie ramka „W draft-07”. W drugą stronę jest trudniej: kto zna tylko draft-07, nie wie, czego mu brakuje.
+Draft-07 jest wszędzie, bo przez kilka lat nie było niczego nowszego, a edytory, generatory i OpenAPI 3.0 na nim stanęły. 2020-12 stopniowo go wypiera: OpenAPI 3.1 i nowe biblioteki walidacji wspierają ją w pełni, a następna wersja specyfikacji ma być stabilna, czyli bez zmian łamiących zgodność: poprawny schemat ma pozostać poprawny w kolejnych wydaniach. Kto uczy się 2020-12, uczy się wersji, która zostanie standardem na długo. Kto zna 2020-12, przeczyta draft-07 bez trudu, bo różnice to kilka słów kluczowych; dlatego przy każdym takim słowie będzie w tym kursie ramka „W draft-07”. W drugą stronę jest trudniej: przy znajomości tylko draft-07 trudno zauważyć, czego brakuje.
 
 ### Jak rozpoznać stary schemat
 
@@ -131,7 +131,7 @@ Cztery sygnały, każdy wystarczy:
 1. `definitions` zamiast `$defs`.
 2. `"exclusiveMinimum": true`{s} obok `minimum` (draft-04); w nowszych to liczba.
 3. `id` bez dolara (draft-04) zamiast `$id`.
-4. Tablica w `items` (krotka, czyli osobny schemat dla każdej kolejnej pozycji listy) zamiast `prefixItems`.
+4. Tablica w `items` (krotka, czyli osobny schemat dla każdej z pierwszych pozycji listy) zamiast `prefixItems`.
 
 Plus nagłówek: `"$schema": "http://json-schema.org/draft-07/schema#"`{s} albo `draft-04`.
 

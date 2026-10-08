@@ -10,7 +10,7 @@ Generator (genson w Pythonie, quicktype, dziesiątki stron online) dostaje kilka
 
 ### Z kodu
 
-Programista i tak opisuje w kodzie, jak wygląda zamówienie: jakie ma pola i jakiego typu. Z takiej definicji typów schemat generują biblioteki, czyli gotowe moduły dołączane do programu: Pydantic w Pythonie, Zod i typy w TypeScripcie, adnotacje w Javie i .NET (znaczniki w kodzie, niezwiązane z adnotacjami JSON Schema). Dają strukturę i tyle reguł, ile programista zapisał w kodzie (często tylko typy). Wersja schematu zależy od biblioteki i bywa to draft-07; nagłówek `$schema` mówi, co dostaliśmy (moduł 2).
+Programista i tak opisuje w kodzie, jak wygląda zamówienie: jakie ma pola i jakiego typu. Z takiej definicji typów schemat generują biblioteki: Pydantic w Pythonie, Zod i typy w TypeScripcie, adnotacje w Javie i .NET (znaczniki w kodzie, niezwiązane z adnotacjami JSON Schema). Dają strukturę i tyle reguł, ile programista zapisał w kodzie (często tylko typy). Wersja schematu zależy od biblioteki i bywa to draft-07; nagłówek `$schema` mówi, co dostaliśmy (moduł 2).
 
 ### Z XSD
 

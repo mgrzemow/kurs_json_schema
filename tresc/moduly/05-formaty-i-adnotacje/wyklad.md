@@ -14,11 +14,11 @@ Zamówienie ma datę, adres e-mail klienta i link do faktury. Wzorcem da się op
 | `hostname` | `"magazyn.example"`{d} | nazwa komputera w sieci (hosta) |
 | `ipv4`, `ipv6` | `zrodloZamowienia: "10.0.0.7"` | adres IP (tu: do wykrywania oszustw, tylko hasłowo) |
 | `uri`, `uri-reference` | `linkFaktury: "https://example.com/f/123.pdf"` | link, czyli adres URI: pełny (z początkiem w rodzaju `https://`) albo, dla `uri-reference`, też względny, np. `"/f/123.pdf"`{d} |
-| `uuid` | `identyfikator: "123e4567-e89b-12d3-a456-426614174000"` | identyfikator UUID |
+| `uuid` | `identyfikator: "123e4567-e89b-12d3-a456-426614174000"` | identyfikator UUID: 32 cyfry szesnastkowe (0–9, a–f) w grupach 8-4-4-4-12, rozdzielonych myślnikami |
 | `regex` | `"^[0-9]{2}-[0-9]{3}$"`{s} | poprawne wyrażenie regularne |
 | `json-pointer` | `"/klient/adres"`{d} | wskaźnik JSON (wróci w module 7) |
 
-Daty i czasy są według RFC 3339: `2026-10-08`{d} jest datą, `08.10.2026`{d} nie, a `2026-10-08 10:15`{d} nie jest `date-time`, bo brakuje litery `T` i strefy czasowej.
+Daty i czasy są według RFC 3339 (RFC to normy internetowe): `2026-10-08`{d} jest datą, `08.10.2026`{d} nie, a `2026-10-08 10:15`{d} nie jest `date-time`, bo brakuje litery `T`, sekund i strefy czasowej.
 
 ### Adnotacja kontra asercja
 
@@ -34,7 +34,7 @@ Tu jest pułapka numer jeden tego modułu. **Domyślnie `format` jest adnotacją
 
 Powyższy werdykt policzył walidator tej strony w trybie domyślnym, czyli z wyłączoną walidacją `format`. Teraz włącz przełącznik „walidacja `format`” w pasku i otwórz ten przykład w edytorze: ten sam dokument zostanie odrzucony. Przy wyłączonym przełączniku edytor pokazuje pod edytorem informację, że `format` jest tylko opisem.
 
-Od czego to zależy w praktyce: od walidatora i jego konfiguracji, nie od schematu. W systemie walidator jest zwykle biblioteką, czyli gotowym modułem, który programiści dołączają do własnego kodu. Hasłowo, do sprawdzenia w dokumentacji biblioteki używanej w danym systemie:
+Od czego to zależy w praktyce: od walidatora i jego konfiguracji, nie od schematu. W systemie walidator jest zwykle biblioteką dołączoną do kodu. Hasłowo, do sprawdzenia w dokumentacji biblioteki używanej w danym systemie:
 
 | Biblioteka | Co z `format` |
 |---|---|
@@ -76,7 +76,7 @@ Adnotacje niczego nie sprawdzają. Służą ludziom i narzędziom: dokumentacji,
 - **`examples`**: lista przykładowych wartości. Nie są sprawdzane względem schematu, więc przykład niezgodny ze wzorcem przechodzi niezauważony. <!-- twierdzenie --> <!-- zrodlo: validation §9.5 -->
 - **`default`**: wartość domyślna, np. waluta `PLN`. <!-- twierdzenie --> <!-- zrodlo: validation §9.2 -->
 - **`deprecated: true`{s}**: pole przestarzałe, które ma zniknąć; nadal przechodzi, ale narzędzia mogą ostrzegać. Stare `kodKlienta` zastąpione przez `numerKlienta`. <!-- twierdzenie --> <!-- zrodlo: validation §9.3 -->
-- **`readOnly`** i **`writeOnly`**: informacja dla API. `numer` i `utworzono` nadaje system (`readOnly`), token płatności wysyła klient i nigdy nie dostaje go z powrotem (`writeOnly`). Walidator nie egzekwuje żadnego z nich. <!-- twierdzenie --> <!-- zrodlo: validation §9.4 -->
+- **`readOnly`** i **`writeOnly`**: informacja dla API. `numer` i `utworzono` nadaje system (`readOnly`), token płatności (jednorazowy kod zastępujący numer karty) wysyła klient i nigdy nie dostaje go z powrotem (`writeOnly`). Walidator nie egzekwuje żadnego z nich. <!-- twierdzenie --> <!-- zrodlo: validation §9.4 -->
 
 ```json schemat=opisany
 {
@@ -121,4 +121,4 @@ Adnotacje niczego nie sprawdzają. Służą ludziom i narzędziom: dokumentacji,
 Przechodzi: `deprecated` to adnotacja, a `numer` jest. Gdyby `numer` był inny niż w przykładzie `examples`, też by przeszło.
 ```
 
-> **W draft-07:** `deprecated` nie istniało (doszło w 2019-09). `readOnly` i `writeOnly` doszły w draft-07, zapożyczone z OpenAPI, gdzie mają praktyczne znaczenie przy opisie żądań (co wysyła klient) i odpowiedzi (co oddaje system); więcej w module 9.
+> **W draft-07:** `deprecated` jeszcze nie istniało. `readOnly` przeszło w draft-07 z osobnej specyfikacji hyper-schema do podstawowej, a `writeOnly` doszło w draft-07. Oba mają praktyczne znaczenie przy opisie żądań (co wysyła klient) i odpowiedzi (co oddaje system); więcej w module 9.
