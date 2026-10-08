@@ -1,0 +1,1334 @@
+<title>Trener JSON Schema</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Recursive:wght,CASL,MONO@300..900,0..1,0..1&display=swap">
+<style>
+/* Układ: trzy kolumny jak stanowisko pracy — lista ćwiczeń | zadanie + edytor schematu | przykłady z werdyktami */
+:root {
+  --bg: #eef1f5;
+  --panel: #ffffff;
+  --sunk: #f5f7fa;
+  --ink: #141c28;
+  --muted: #566173;
+  --line: #d6dce5;
+  --accent: #1f45c9;
+  --accent-ink: #ffffff;
+  --accent-soft: #e2e8fb;
+  --ok: #11764a;
+  --ok-soft: #ddf1e6;
+  --bad: #c03228;
+  --bad-soft: #fbe4e1;
+  --warn: #8a5800;
+  --warn-soft: #fbefd4;
+  --tk-key: #1f45c9;
+  --tk-str: #0e7155;
+  --tk-num: #b0470d;
+  --tk-atom: #8a2fa8;
+  --f-sans: "Recursive", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "Recursive", ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1218; --panel: #141b24; --sunk: #10161e; --ink: #e3e8ef; --muted: #97a3b3; --line: #263142;
+    --accent: #88a4ff; --accent-ink: #0d1218; --accent-soft: #1d2a4d;
+    --ok: #52c690; --ok-soft: #11301f; --bad: #ff8278; --bad-soft: #3b1815; --warn: #e4ad4e; --warn-soft: #33260c;
+    --tk-key: #93b2ff; --tk-str: #6fd3a8; --tk-num: #ffab70; --tk-atom: #d49cf0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1218; --panel: #141b24; --sunk: #10161e; --ink: #e3e8ef; --muted: #97a3b3; --line: #263142;
+  --accent: #88a4ff; --accent-ink: #0d1218; --accent-soft: #1d2a4d;
+  --ok: #52c690; --ok-soft: #11301f; --bad: #ff8278; --bad-soft: #3b1815; --warn: #e4ad4e; --warn-soft: #33260c;
+  --tk-key: #93b2ff; --tk-str: #6fd3a8; --tk-num: #ffab70; --tk-atom: #d49cf0;
+  color-scheme: dark;
+}
+
+.CodeMirror {
+  font-family: monospace;
+  height: 300px;
+  color: black;
+  direction: ltr;
+}
+.CodeMirror-lines {
+  padding: 4px 0; 
+}
+.CodeMirror pre.CodeMirror-line,
+.CodeMirror pre.CodeMirror-line-like {
+  padding: 0 4px; 
+}
+.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+  background-color: white; 
+}
+.CodeMirror-gutters {
+  border-right: 1px solid #ddd;
+  background-color: #f7f7f7;
+  white-space: nowrap;
+}
+.CodeMirror-linenumbers {}
+.CodeMirror-linenumber {
+  padding: 0 3px 0 5px;
+  min-width: 20px;
+  text-align: right;
+  color: #999;
+  white-space: nowrap;
+}
+.CodeMirror-guttermarker { color: black; }
+.CodeMirror-guttermarker-subtle { color: #999; }
+.CodeMirror-cursor {
+  border-left: 1px solid black;
+  border-right: none;
+  width: 0;
+}
+.CodeMirror div.CodeMirror-secondarycursor {
+  border-left: 1px solid silver;
+}
+.cm-fat-cursor .CodeMirror-cursor {
+  width: auto;
+  border: 0 !important;
+  background: #7e7;
+}
+.cm-fat-cursor div.CodeMirror-cursors {
+  z-index: 1;
+}
+.cm-fat-cursor .CodeMirror-line::selection,
+.cm-fat-cursor .CodeMirror-line > span::selection, 
+.cm-fat-cursor .CodeMirror-line > span > span::selection { background: transparent; }
+.cm-fat-cursor .CodeMirror-line::-moz-selection,
+.cm-fat-cursor .CodeMirror-line > span::-moz-selection,
+.cm-fat-cursor .CodeMirror-line > span > span::-moz-selection { background: transparent; }
+.cm-fat-cursor { caret-color: transparent; }
+@-moz-keyframes blink {
+  0% {}
+  50% { background-color: transparent; }
+  100% {}
+}
+@-webkit-keyframes blink {
+  0% {}
+  50% { background-color: transparent; }
+  100% {}
+}
+@keyframes blink {
+  0% {}
+  50% { background-color: transparent; }
+  100% {}
+}
+.CodeMirror-overwrite .CodeMirror-cursor {}
+.cm-tab { display: inline-block; text-decoration: inherit; }
+.CodeMirror-rulers {
+  position: absolute;
+  left: 0; right: 0; top: -50px; bottom: 0;
+  overflow: hidden;
+}
+.CodeMirror-ruler {
+  border-left: 1px solid #ccc;
+  top: 0; bottom: 0;
+  position: absolute;
+}
+.cm-negative {color: #d44;}
+.cm-positive {color: #292;}
+.cm-header, .cm-strong {font-weight: bold;}
+.cm-em {font-style: italic;}
+.cm-link {text-decoration: underline;}
+.cm-strikethrough {text-decoration: line-through;}
+.cm-invalidchar {color: #f00;}
+.CodeMirror-composing { border-bottom: 2px solid; }
+div.CodeMirror span.CodeMirror-matchingbracket {color: #0b0;}
+div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}
+.CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); }
+.CodeMirror-activeline-background {background: #e8f2ff;}
+.CodeMirror {
+  position: relative;
+  overflow: hidden;
+  background: white;
+}
+.CodeMirror-scroll {
+  overflow: scroll !important; 
+  margin-bottom: -50px; margin-right: -50px;
+  padding-bottom: 50px;
+  height: 100%;
+  outline: none; 
+  position: relative;
+  z-index: 0;
+}
+.CodeMirror-sizer {
+  position: relative;
+  border-right: 50px solid transparent;
+}
+.CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+  position: absolute;
+  z-index: 6;
+  display: none;
+  outline: none;
+}
+.CodeMirror-vscrollbar {
+  right: 0; top: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.CodeMirror-hscrollbar {
+  bottom: 0; left: 0;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+.CodeMirror-scrollbar-filler {
+  right: 0; bottom: 0;
+}
+.CodeMirror-gutter-filler {
+  left: 0; bottom: 0;
+}
+.CodeMirror-gutters {
+  position: absolute; left: 0; top: 0;
+  min-height: 100%;
+  z-index: 3;
+}
+.CodeMirror-gutter {
+  white-space: normal;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: -50px;
+}
+.CodeMirror-gutter-wrapper {
+  position: absolute;
+  z-index: 4;
+  background: none !important;
+  border: none !important;
+}
+.CodeMirror-gutter-background {
+  position: absolute;
+  top: 0; bottom: 0;
+  z-index: 4;
+}
+.CodeMirror-gutter-elt {
+  position: absolute;
+  cursor: default;
+  z-index: 4;
+}
+.CodeMirror-gutter-wrapper ::selection { background-color: transparent }
+.CodeMirror-gutter-wrapper ::-moz-selection { background-color: transparent }
+.CodeMirror-lines {
+  cursor: text;
+  min-height: 1px; 
+}
+.CodeMirror pre.CodeMirror-line,
+.CodeMirror pre.CodeMirror-line-like {
+  -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0;
+  border-width: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  margin: 0;
+  white-space: pre;
+  word-wrap: normal;
+  line-height: inherit;
+  color: inherit;
+  z-index: 2;
+  position: relative;
+  overflow: visible;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-variant-ligatures: contextual;
+  font-variant-ligatures: contextual;
+}
+.CodeMirror-wrap pre.CodeMirror-line,
+.CodeMirror-wrap pre.CodeMirror-line-like {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: normal;
+}
+.CodeMirror-linebackground {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  z-index: 0;
+}
+.CodeMirror-linewidget {
+  position: relative;
+  z-index: 2;
+  padding: 0.1px; 
+}
+.CodeMirror-widget {}
+.CodeMirror-rtl pre { direction: rtl; }
+.CodeMirror-code {
+  outline: none;
+}
+.CodeMirror-scroll,
+.CodeMirror-sizer,
+.CodeMirror-gutter,
+.CodeMirror-gutters,
+.CodeMirror-linenumber {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+.CodeMirror-measure {
+  position: absolute;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+.CodeMirror-cursor {
+  position: absolute;
+  pointer-events: none;
+}
+.CodeMirror-measure pre { position: static; }
+div.CodeMirror-cursors {
+  visibility: hidden;
+  position: relative;
+  z-index: 3;
+}
+div.CodeMirror-dragcursors {
+  visibility: visible;
+}
+.CodeMirror-focused div.CodeMirror-cursors {
+  visibility: visible;
+}
+.CodeMirror-selected { background: #d9d9d9; }
+.CodeMirror-focused .CodeMirror-selected { background: #d7d4f0; }
+.CodeMirror-crosshair { cursor: crosshair; }
+.CodeMirror-line::selection, .CodeMirror-line > span::selection, .CodeMirror-line > span > span::selection { background: #d7d4f0; }
+.CodeMirror-line::-moz-selection, .CodeMirror-line > span::-moz-selection, .CodeMirror-line > span > span::-moz-selection { background: #d7d4f0; }
+.cm-searching {
+  background-color: #ffa;
+  background-color: rgba(255, 255, 0, .4);
+}
+.cm-force-border { padding-right: .1px; }
+@media print {
+  .CodeMirror div.CodeMirror-cursors {
+    visibility: hidden;
+  }
+}
+.cm-tab-wrap-hack:after { content: ''; }
+span.CodeMirror-selectedtext { background: none; }
+
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+html.duze { font-size: 118%; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-sans); font-variation-settings: "CASL" 0, "MONO" 0;
+  font-size: 0.95rem; line-height: 1.5;
+}
+code, pre, .CodeMirror { font-family: var(--f-mono); font-variation-settings: "MONO" 1, "CASL" 0; }
+code { font-size: 0.92em; background: var(--accent-soft); color: var(--ink); padding: 0.05em 0.35em; border-radius: 4px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, .marka { font-variation-settings: "CASL" 1, "MONO" 0; text-wrap: balance; }
+
+.app {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 236px minmax(0, 1.12fr) minmax(0, 1fr);
+}
+
+/* ——— Lista ćwiczeń ——— */
+.nav {
+  background: var(--panel); border-right: 1px solid var(--line);
+  overflow: auto; padding: 20px 14px; display: flex; flex-direction: column; gap: 18px;
+}
+.marka { display: flex; align-items: center; gap: 10px; padding-inline: 6px; }
+.marka-znak {
+  width: 34px; height: 34px; border-radius: 8px; flex: none;
+  display: grid; place-items: center; background: var(--accent); color: var(--accent-ink);
+  font-family: var(--f-mono); font-variation-settings: "MONO" 1; font-weight: 800; font-size: 0.95rem;
+}
+.marka-tekst { line-height: 1.15; }
+.marka-tekst strong { display: block; font-weight: 820; font-size: 1.02rem; }
+.marka-tekst span { font-size: 0.78rem; color: var(--muted); }
+
+.lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.lista button {
+  width: 100%; display: grid; grid-template-columns: 26px 1fr 18px; align-items: center; gap: 8px;
+  text-align: left; background: none; border: 0; border-radius: 8px; padding: 8px 8px; color: var(--ink);
+}
+.lista button:hover { background: var(--sunk); }
+.lista button[aria-current="true"] { background: var(--accent-soft); }
+.lista .nr {
+  font-family: var(--f-mono); font-variation-settings: "MONO" 1; font-size: 0.78rem; color: var(--muted);
+  font-variant-numeric: tabular-nums; text-align: center;
+}
+.lista button[aria-current="true"] .nr { color: var(--accent); font-weight: 700; }
+.lista .tytul { font-size: 0.9rem; line-height: 1.25; min-width: 0; }
+.lista .zrobione { color: var(--ok); display: grid; place-items: center; }
+.lista .oddziel { height: 1px; background: var(--line); margin: 8px 6px; }
+
+.nav-stopka { margin-top: auto; display: flex; flex-direction: column; gap: 10px; padding-inline: 6px; }
+.nav-stopka p { margin: 0; font-size: 0.78rem; color: var(--muted); }
+.przelacznik {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: var(--sunk); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font-size: 0.85rem;
+}
+.przelacznik .stan { font-size: 0.75rem; color: var(--muted); }
+.przelacznik[aria-pressed="true"] { border-color: var(--accent); }
+.przelacznik[aria-pressed="true"] .stan { color: var(--accent); font-weight: 700; }
+.link-btn { background: none; border: 0; padding: 0; font-size: 0.78rem; color: var(--muted); text-decoration: underline; text-align: left; }
+.link-btn.uwaga { color: var(--bad); }
+
+/* ——— Środek: zadanie + edytor ——— */
+.srodek { min-height: 0; overflow: auto; padding: 24px 28px; display: flex; flex-direction: column; gap: 18px; }
+.zadanie { display: flex; flex-direction: column; gap: 10px; max-width: 68ch; }
+.eyebrow { margin: 0; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.zadanie h1 { margin: 0; font-size: 1.75rem; line-height: 1.15; font-weight: 820; }
+.zadanie p { margin: 0; }
+.kontekst { color: var(--muted); }
+.polecenie strong { font-weight: 750; }
+.slowa { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 0.82rem; color: var(--muted); }
+.pomoc { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; font-size: 0.86rem;
+}
+.btn:hover { border-color: var(--accent); }
+.btn[aria-expanded="true"] { background: var(--accent-soft); border-color: var(--accent); }
+.btn-main { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+.btn-main:hover { filter: brightness(1.08); }
+.pomoc-tresc {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.pomoc-tresc p { margin: 0; }
+.pomoc-tresc pre {
+  margin: 0; background: var(--sunk); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
+  overflow-x: auto; font-size: 0.85rem; line-height: 1.5;
+}
+.pomoc-akcje { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.pomoc-akcje small { color: var(--muted); }
+
+.edytor { display: flex; flex-direction: column; gap: 8px; flex: 1 1 auto; min-height: 0; }
+.edytor-pasek { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.edytor-pasek h2 { margin: 0; font-size: 0.95rem; font-weight: 750; }
+.ramka {
+  position: relative; flex: 1 1 auto; min-height: 300px;
+  border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); overflow: hidden;
+}
+.ramka .CodeMirror { position: absolute; inset: 0; height: 100%; }
+.diagnoza { display: flex; flex-direction: column; gap: 6px; }
+.diag {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: start;
+  font-size: 0.86rem; border-radius: 8px; padding: 8px 10px; background: var(--sunk); border: 1px solid var(--line);
+}
+.diag .znak { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 0.75rem; margin-top: 1px; }
+.diag p { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.diag .etykieta { font-weight: 750; }
+.diag.blad { background: var(--bad-soft); border-color: transparent; }
+.diag.blad .znak { background: var(--bad); color: var(--panel); }
+.diag.ostrz { background: var(--warn-soft); border-color: transparent; }
+.diag.ostrz .znak { background: var(--warn); color: var(--panel); }
+.diag.info .znak { background: var(--muted); color: var(--panel); }
+.diag.dobrze { background: none; border-color: transparent; padding-block: 2px; color: var(--muted); }
+.diag.dobrze .znak { background: var(--ok); color: var(--panel); }
+.do-linii {
+  background: none; border: 1px solid currentColor; border-radius: 6px; padding: 1px 7px; font-size: 0.75rem;
+  white-space: nowrap; color: var(--muted);
+}
+
+/* ——— Prawa kolumna: przykłady ——— */
+.prawa { overflow: auto; padding: 24px 24px; background: var(--sunk); border-left: 1px solid var(--line); display: flex; flex-direction: column; gap: 18px; }
+#panel-przyklady { display: flex; flex-direction: column; gap: 18px; }
+.podsum { display: flex; flex-direction: column; gap: 10px; }
+.podsum-wiersz { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.podsum h2 { margin: 0; font-size: 1.05rem; font-weight: 800; }
+.licznik { font-size: 0.88rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.licznik strong { color: var(--ink); font-size: 1rem; }
+.pasek { display: flex; gap: 3px; height: 8px; }
+.pasek span { flex: 1; border-radius: 3px; background: var(--line); transition: background-color .25s; }
+.pasek span.t { background: var(--ok); }
+.pasek span.n { background: var(--bad); }
+
+.zaliczone {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  background: var(--ok-soft); border-radius: var(--r); padding: 14px 16px;
+}
+.stempel {
+  display: inline-block; transform: rotate(-5deg);
+  border: 3px double var(--ok); color: var(--ok); border-radius: 6px; padding: 3px 12px;
+  font-weight: 900; font-variation-settings: "CASL" 1, "MONO" 0; letter-spacing: 0.14em; text-transform: uppercase; font-size: 1.05rem;
+}
+.zaliczone p { margin: 0; flex: 1 1 160px; font-size: 0.9rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .zaliczone.nowe .stempel { animation: przybij .45s cubic-bezier(.2,1.6,.4,1); }
+  @keyframes przybij { from { transform: rotate(-12deg) scale(1.8); opacity: 0; } to { transform: rotate(-5deg) scale(1); opacity: 1; } }
+}
+
+.grupa { display: flex; flex-direction: column; gap: 10px; }
+.grupa h3 {
+  margin: 0; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 750;
+}
+.karta {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--r);
+  display: flex; flex-direction: column; min-width: 0;
+}
+.karta.n { border-color: var(--bad); box-shadow: 0 0 0 1px var(--bad) inset; }
+.karta header { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 12px 0; }
+.karta .opis { font-size: 0.86rem; font-weight: 650; min-width: 0; }
+.chip {
+  display: inline-flex; align-items: center; gap: 5px; flex: none;
+  font-size: 0.74rem; font-weight: 750; border-radius: 999px; padding: 2px 9px 2px 7px;
+}
+.chip.t { background: var(--ok-soft); color: var(--ok); }
+.chip.n { background: var(--bad-soft); color: var(--bad); }
+.chip.c { background: var(--sunk); color: var(--muted); padding-left: 9px; }
+.karta pre {
+  margin: 0; padding: 8px 12px 10px; overflow-x: auto; font-size: 0.84rem; line-height: 1.5; white-space: pre;
+}
+.powod { margin: 0; padding: 8px 12px 10px; border-top: 1px solid var(--line); font-size: 0.83rem; overflow-wrap: anywhere; }
+.karta.t .powod { color: var(--muted); }
+.karta.n .powod { color: var(--ink); background: var(--bad-soft); border-top-color: transparent; border-radius: 0 0 calc(var(--r) - 1px) calc(var(--r) - 1px); }
+.powod + .powod { border-top: 0; padding-top: 0; }
+.wsk { font-weight: 650; }
+.t-key { color: var(--tk-key); }
+.t-str { color: var(--tk-str); }
+.t-num { color: var(--tk-num); }
+.t-atom { color: var(--tk-atom); }
+
+/* Piaskownica */
+.piaskownica { display: flex; flex-direction: column; gap: 10px; flex: 1 1 auto; min-height: 0; }
+.piaskownica .ramka { min-height: 260px; }
+.werdykt-dok { display: flex; flex-direction: column; gap: 8px; }
+.werdykt-glowny {
+  display: flex; align-items: center; gap: 10px; border-radius: var(--r); padding: 12px 14px; font-weight: 750;
+}
+.werdykt-glowny.t { background: var(--ok-soft); color: var(--ok); }
+.werdykt-glowny.n { background: var(--bad-soft); color: var(--bad); }
+.werdykt-glowny.c { background: var(--panel); color: var(--muted); border: 1px solid var(--line); }
+.bledy { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; font-size: 0.88rem; }
+
+/* Edytor — motyw */
+.cm-s-trener.CodeMirror { background: var(--panel); color: var(--ink); font-size: 0.92rem; line-height: 1.6; }
+.cm-s-trener .CodeMirror-gutters { background: var(--sunk); border-right: 1px solid var(--line); }
+.cm-s-trener .CodeMirror-linenumber { color: var(--muted); font-size: 0.8em; padding-right: 8px; }
+.cm-s-trener .CodeMirror-cursor { border-left: 2px solid var(--accent); }
+.cm-s-trener .CodeMirror-selected, .cm-s-trener.CodeMirror-focused .CodeMirror-selected { background: var(--accent-soft); }
+.cm-s-trener .CodeMirror-line::selection, .cm-s-trener .CodeMirror-line > span::selection, .cm-s-trener .CodeMirror-line > span > span::selection { background: var(--accent-soft); }
+.cm-s-trener .cm-string { color: var(--tk-str); }
+.cm-s-trener .cm-string.cm-property { color: var(--tk-key); }
+.cm-s-trener .cm-number { color: var(--tk-num); }
+.cm-s-trener .cm-atom { color: var(--tk-atom); }
+div.cm-s-trener span.CodeMirror-matchingbracket { color: var(--accent); background: var(--accent-soft); outline: 0; }
+div.cm-s-trener span.CodeMirror-nonmatchingbracket { color: var(--bad); }
+.cm-s-trener .linia-bledu { background: var(--bad-soft); }
+.cm-s-trener .znak-bledu { text-decoration: underline wavy var(--bad); text-underline-offset: 3px; }
+.cm-s-trener .linia-uwagi { background: var(--warn-soft); }
+
+.awaria { margin: 16px; padding: 14px 16px; border-radius: var(--r); background: var(--bad-soft); color: var(--ink); }
+
+/* ——— Węższe ekrany ——— */
+@media (max-width: 1100px) {
+  .app { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+  .nav { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: center; border-right: 0; border-bottom: 1px solid var(--line); padding: 12px 16px; gap: 10px 16px; }
+  .lista { flex-direction: row; flex-wrap: wrap; gap: 4px; flex: 1 1 400px; }
+  .lista li { flex: none; }
+  .lista button { grid-template-columns: auto auto auto; padding: 5px 9px; border: 1px solid var(--line); }
+  .lista .zrobione:empty { display: none; }
+  .lista .oddziel { display: none; }
+  .nav-stopka { margin-top: 0; flex-direction: row; align-items: center; flex-wrap: wrap; }
+  .nav-stopka p { display: none; }
+  .srodek { padding: 20px; }
+  .prawa { padding: 20px; }
+}
+@media (max-width: 760px) {
+  html, body { height: auto; }
+  .app { display: block; height: auto; }
+  .srodek, .prawa { overflow: visible; padding: 18px 16px; }
+  .prawa { border-left: 0; border-top: 1px solid var(--line); }
+  .ramka { flex: none; height: 340px; min-height: 0; }
+  .zadanie h1 { font-size: 1.45rem; }
+  .lista { flex-basis: 100%; }
+  .lista .tytul { font-size: 0.82rem; }
+}
+</style>
+
+<div class="app" id="app">
+  <nav class="nav" aria-label="Ćwiczenia">
+    <div class="marka">
+      <div class="marka-znak" aria-hidden="true">{ }</div>
+      <div class="marka-tekst"><strong>Trener JSON Schema</strong><span>Ćwiczenia na danych sklepu</span></div>
+    </div>
+    <ol class="lista" id="lista"></ol>
+    <div class="nav-stopka">
+      <button class="przelacznik" id="duzy" aria-pressed="false" type="button">Duży tekst <span class="stan">wył.</span></button>
+      <p>Twoje schematy i postęp zapisują się w tej przeglądarce.</p>
+      <button class="link-btn" id="wyczysc" type="button">Wyczyść cały postęp</button>
+    </div>
+  </nav>
+
+  <main class="srodek">
+    <section class="zadanie" id="zadanie" aria-live="polite"></section>
+    <section class="edytor">
+      <div class="edytor-pasek">
+        <h2 id="edytor-tytul">Twój schemat</h2>
+        <button class="btn" id="od-nowa" type="button">Zacznij od nowa</button>
+      </div>
+      <div class="ramka" id="ed-schemat"></div>
+      <div class="diagnoza" id="diagnoza" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <aside class="prawa" aria-label="Wyniki sprawdzania">
+    <div id="panel-przyklady"></div>
+    <div id="panel-piaskownica" class="piaskownica" hidden>
+      <div class="edytor-pasek">
+        <h2>Dokument do sprawdzenia</h2>
+        <button class="btn" id="dok-przyklad" type="button">Przywróć przykład</button>
+      </div>
+      <div class="ramka" id="ed-dok"></div>
+      <div class="werdykt-dok" id="werdykt-dok" aria-live="polite"></div>
+    </div>
+  </aside>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ajv-dist@8.17.1/dist/ajv2020.min.js"></script>
+
+<script id="rdzen">
+/* ================= Ćwiczenia ================= */
+const CWICZENIA = [
+  {
+    id: 'typ', tytul: 'Typ wartości', slowa: ['type'],
+    kontekst: 'Każdy produkt w katalogu sklepu ma nazwę. W tym polu zawsze ma być tekst.',
+    zadanie: 'Napisz schemat, który przepuszcza tylko tekst. Na start masz pusty schemat `{}`. Taki schemat przepuszcza wszystko, dlatego przykłady do odrzucenia świecą się teraz na czerwono.',
+    podpowiedz: 'Użyj słowa `type`. Możliwe wartości to `"string"` (tekst), `"number"` (liczba), `"integer"` (liczba całkowita), `"boolean"` (true/false), `"object"`, `"array"` i `"null"`. Zarówno nazwa słowa, jak i wartość piszemy w cudzysłowie.',
+    start: '{\n  \n}',
+    rozwiazanie: { type: 'string' },
+    przyklady: [
+      { ok: true, opis: 'Zwykła nazwa', dane: 'Kubek ceramiczny 330 ml' },
+      { ok: true, opis: 'Polskie znaki to też tekst', dane: 'Ręcznik łazienkowy 50×90' },
+      { ok: true, opis: 'Pusty tekst to nadal tekst', dane: '' },
+      { ok: false, opis: 'Liczba', dane: 330, wsk: 'Liczba to nie tekst. Czy schemat mówi, jakiego typu ma być wartość?' },
+      { ok: false, opis: 'Brak wartości', dane: null },
+      { ok: false, opis: 'Lista z tekstem w środku', dane: ['Kubek ceramiczny'] },
+      { ok: false, opis: 'Wartość logiczna', dane: true }
+    ]
+  },
+  {
+    id: 'liczby', tytul: 'Liczby i zakresy', slowa: ['integer', 'minimum', 'maximum'],
+    kontekst: 'Klient wpisuje w koszyku, ile sztuk produktu kupuje. Sklep przyjmuje od 1 do 99 sztuk jednego produktu.',
+    zadanie: 'Popraw schemat tak, żeby przepuszczał tylko liczby całkowite od 1 do 99.',
+    podpowiedz: '`"type": "integer"` przepuszcza tylko liczby bez części ułamkowej. `minimum` i `maximum` ustawiają granice. Same granice są dozwolone, więc 1 i 99 przejdą.',
+    start: '{\n  "type": "number"\n}',
+    rozwiazanie: { type: 'integer', minimum: 1, maximum: 99 },
+    przyklady: [
+      { ok: true, opis: 'Najmniejsza dozwolona ilość', dane: 1 },
+      { ok: true, opis: 'Typowa ilość', dane: 3 },
+      { ok: true, opis: 'Największa dozwolona ilość', dane: 99 },
+      { ok: false, opis: 'Zero sztuk', dane: 0, wsk: 'Brakuje dolnej granicy.' },
+      { ok: false, opis: 'Za dużo sztuk', dane: 100, wsk: 'Brakuje górnej granicy.' },
+      { ok: false, opis: 'Pół kubka?', dane: 2.5, wsk: '`number` przepuszcza ułamki. Który typ oznacza liczbę całkowitą?' },
+      { ok: false, opis: 'Ilość ujemna', dane: -1 },
+      { ok: false, opis: 'Liczba zapisana jako tekst', dane: '3' }
+    ]
+  },
+  {
+    id: 'wzorce', tytul: 'Wzorce tekstu', slowa: ['pattern'],
+    kontekst: 'W adresie dostawy jest kod pocztowy. Polski kod to dwie cyfry, myślnik i trzy cyfry, np. 00-950.',
+    zadanie: 'Dodaj do schematu wzorzec, który przepuszcza tylko poprawnie zapisane kody pocztowe.',
+    podpowiedz: 'Słowo `pattern` przyjmuje wyrażenie regularne. `[0-9]` oznacza jedną cyfrę, a `{3}` powtórzenie trzy razy. `^` oznacza początek tekstu, a `$` jego koniec. Bez nich wzorzec znajdzie kod nawet w środku dłuższego tekstu.',
+    start: '{\n  "type": "string"\n}',
+    rozwiazanie: { type: 'string', pattern: '^[0-9]{2}-[0-9]{3}$' },
+    przyklady: [
+      { ok: true, opis: 'Warszawa', dane: '00-950' },
+      { ok: true, opis: 'Kraków', dane: '31-042' },
+      { ok: true, opis: 'Gdańsk', dane: '80-180' },
+      { ok: false, opis: 'Bez myślnika', dane: '00950' },
+      { ok: false, opis: 'Za mało cyfr', dane: '0-950' },
+      { ok: false, opis: 'O cyfrę za dużo', dane: '00-9500', wsk: 'Wzorzec znajduje „00-950” na początku tego tekstu i nie sprawdza, co jest dalej. Dodaj `$` na końcu wzorca.' },
+      { ok: false, opis: 'Dodatkowy tekst przed kodem', dane: 'kod: 00-950', wsk: 'Wzorzec znajduje kod w środku tekstu. Dodaj `^` na początku wzorca.' },
+      { ok: false, opis: 'Liczba zamiast tekstu', dane: 31042 }
+    ]
+  },
+  {
+    id: 'obiekty', tytul: 'Obiekty i pola wymagane', slowa: ['properties', 'required', 'minLength'],
+    kontekst: 'Przy rejestracji klient podaje imię i e-mail. Telefon jest opcjonalny.',
+    zadanie: 'Uzupełnij schemat klienta: `imie` i `email` są wymagane, imię nie może być puste, a telefon (jeśli jest) ma być tekstem.',
+    podpowiedz: 'W `properties` opisujesz każde pole osobno. Samo `properties` nie wymusza, żeby pole wystąpiło. Do tego służy `required`, czyli lista nazw pól, np. `["imie", "email"]`. Pusty tekst odrzucisz przez `"minLength": 1`.',
+    start: '{\n  "type": "object",\n  "properties": {\n    "imie": { "type": "string" }\n  }\n}',
+    rozwiazanie: {
+      type: 'object',
+      properties: { imie: { type: 'string', minLength: 1 }, email: { type: 'string' }, telefon: { type: 'string' } },
+      required: ['imie', 'email']
+    },
+    przyklady: [
+      { ok: true, opis: 'Bez telefonu', dane: { imie: 'Anna', email: 'anna.nowak@example.com' } },
+      { ok: true, opis: 'Z telefonem', dane: { imie: 'Piotr', email: 'piotr@example.com', telefon: '+48 600 100 200' } },
+      { ok: false, opis: 'Brak e-maila', dane: { imie: 'Anna' }, wsk: 'Pola, którego nie ma, nikt nie sprawdza. Wpisz pola obowiązkowe do `required`.' },
+      { ok: false, opis: 'Brak imienia', dane: { email: 'jan@example.com' } },
+      { ok: false, opis: 'Puste imię', dane: { imie: '', email: 'ola@example.com' }, wsk: 'Pusty tekst to nadal tekst. Ustaw minimalną długość imienia.' },
+      { ok: false, opis: 'Telefon zapisany jako liczba', dane: { imie: 'Ewa', email: 'ewa@example.com', telefon: 600100200 }, wsk: 'Pole `telefon` nie jest opisane w `properties`, więc może mieć dowolny typ.' }
+    ]
+  },
+  {
+    id: 'nadmiar', tytul: 'Nadmiarowe pola', slowa: ['additionalProperties'],
+    kontekst: 'Adres dostawy trafia do firmy kurierskiej. Kurier przyjmuje tylko pola ulica, miasto, kodPocztowy i opcjonalne uwagi. Każde inne pole jego system odrzuci.',
+    zadanie: 'Schemat jest prawie gotowy, ale przepuszcza pola, których nie zna. Zablokuj je.',
+    podpowiedz: 'Domyślnie JSON Schema pozwala na dowolne dodatkowe pola. `"additionalProperties": false` przepuszcza tylko pola wymienione w `properties`.',
+    start: '{\n  "type": "object",\n  "properties": {\n    "ulica": { "type": "string" },\n    "miasto": { "type": "string" },\n    "kodPocztowy": { "type": "string", "pattern": "^[0-9]{2}-[0-9]{3}$" },\n    "uwagi": { "type": "string" }\n  },\n  "required": ["ulica", "miasto", "kodPocztowy"]\n}',
+    rozwiazanie: {
+      type: 'object',
+      properties: {
+        ulica: { type: 'string' }, miasto: { type: 'string' },
+        kodPocztowy: { type: 'string', pattern: '^[0-9]{2}-[0-9]{3}$' }, uwagi: { type: 'string' }
+      },
+      required: ['ulica', 'miasto', 'kodPocztowy'],
+      additionalProperties: false
+    },
+    przyklady: [
+      { ok: true, opis: 'Bez uwag', dane: { ulica: 'Długa 5', miasto: 'Gdańsk', kodPocztowy: '80-827' } },
+      { ok: true, opis: 'Z uwagami dla kuriera', dane: { ulica: 'Floriańska 12/3', miasto: 'Kraków', kodPocztowy: '31-019', uwagi: 'Domofon 3' } },
+      { ok: false, opis: 'Literówka w nazwie pola', dane: { ulica: 'Długa 5', miasto: 'Gdańsk', kodPocztowy: '80-827', uwgi: 'Domofon 3' }, wsk: 'Pola `uwgi` nie ma w `properties`, więc nikt go nie sprawdza i przechodzi bez słowa. A uwagi nie dotrą do kuriera.' },
+      { ok: false, opis: 'Pole, którego kurier nie zna', dane: { ulica: 'Długa 5', miasto: 'Gdańsk', kodPocztowy: '80-827', kraj: 'PL' } },
+      { ok: false, opis: 'Brak miasta', dane: { ulica: 'Długa 5', kodPocztowy: '80-827' } }
+    ]
+  },
+  {
+    id: 'enum', tytul: 'Dozwolone wartości', slowa: ['enum'],
+    kontekst: 'Każde zamówienie ma status. Dozwolone są tylko: nowe, opłacone, wysłane, dostarczone i anulowane.',
+    zadanie: 'Ogranicz pole do tych pięciu statusów.',
+    podpowiedz: '`enum` przyjmuje listę dozwolonych wartości, np. `["a", "b"]`. Wartość musi być identyczna z jedną z nich, łącznie z wielkością liter i polskimi znakami.',
+    start: '{\n  "type": "string"\n}',
+    rozwiazanie: { type: 'string', enum: ['nowe', 'opłacone', 'wysłane', 'dostarczone', 'anulowane'] },
+    przyklady: [
+      { ok: true, opis: 'Nowe zamówienie', dane: 'nowe' },
+      { ok: true, opis: 'Paczka w drodze', dane: 'wysłane' },
+      { ok: true, opis: 'Klient zrezygnował', dane: 'anulowane' },
+      { ok: false, opis: 'Wielka litera', dane: 'Wysłane', wsk: 'Wielkość liter ma znaczenie. Wypisz dozwolone wartości w `enum`.' },
+      { ok: false, opis: 'Status spoza listy', dane: 'w drodze' },
+      { ok: false, opis: 'Bez polskiej litery', dane: 'wyslane' },
+      { ok: false, opis: 'Brak statusu', dane: null }
+    ]
+  },
+  {
+    id: 'listy', tytul: 'Listy', slowa: ['array', 'items', 'minItems'],
+    kontekst: 'Zamówienie zawiera listę pozycji. Każda pozycja to kod produktu (sku) i liczba sztuk. Zamówienie bez pozycji nie ma sensu.',
+    zadanie: 'Opisz listę pozycji: co najmniej jedna pozycja, a w każdej wymagane pola `sku` (tekst) i `ilosc` (liczba całkowita, co najmniej 1).',
+    podpowiedz: '`items` to schemat, który musi spełnić każdy element listy. W środku opisz obiekt tak jak w ćwiczeniu 4. `minItems` ustala minimalną liczbę elementów.',
+    start: '{\n  "type": "array"\n}',
+    rozwiazanie: {
+      type: 'array', minItems: 1,
+      items: {
+        type: 'object',
+        properties: { sku: { type: 'string' }, ilosc: { type: 'integer', minimum: 1 } },
+        required: ['sku', 'ilosc']
+      }
+    },
+    przyklady: [
+      { ok: true, opis: 'Jedna pozycja', dane: [{ sku: 'KUB-330', ilosc: 2 }] },
+      { ok: true, opis: 'Dwie pozycje', dane: [{ sku: 'KUB-330', ilosc: 1 }, { sku: 'REC-5090', ilosc: 3 }] },
+      { ok: false, opis: 'Pusta lista', dane: [], wsk: 'Ustaw minimalną liczbę elementów.' },
+      { ok: false, opis: 'Pozycja bez ilości', dane: [{ sku: 'KUB-330' }], wsk: 'Opisz w `items`, jak wygląda każda pozycja i które pola są wymagane.' },
+      { ok: false, opis: 'Druga pozycja z zerową ilością', dane: [{ sku: 'KUB-330', ilosc: 2 }, { sku: 'REC-5090', ilosc: 0 }] },
+      { ok: false, opis: 'Pojedyncza pozycja zamiast listy', dane: { sku: 'KUB-330', ilosc: 2 } }
+    ]
+  }
+];
+
+const PIASKOWNICA = {
+  schemat: {
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    title: 'Zamówienie',
+    type: 'object',
+    properties: {
+      numer: { type: 'string', pattern: '^ZAM-[0-9]{6}$' },
+      status: { enum: ['nowe', 'opłacone', 'wysłane', 'dostarczone', 'anulowane'] },
+      klient: { $ref: '#/$defs/klient' },
+      pozycje: { type: 'array', minItems: 1, items: { $ref: '#/$defs/pozycja' } }
+    },
+    required: ['numer', 'status', 'klient', 'pozycje'],
+    additionalProperties: false,
+    $defs: {
+      klient: {
+        type: 'object',
+        properties: { imie: { type: 'string', minLength: 1 }, email: { type: 'string', format: 'email' } },
+        required: ['imie', 'email']
+      },
+      pozycja: {
+        type: 'object',
+        properties: {
+          sku: { type: 'string' },
+          ilosc: { type: 'integer', minimum: 1, maximum: 99 },
+          cena: { type: 'number', exclusiveMinimum: 0 }
+        },
+        required: ['sku', 'ilosc', 'cena']
+      }
+    }
+  },
+  dokument: {
+    numer: 'ZAM-004211',
+    status: 'opłacone',
+    klient: { imie: 'Anna', email: 'anna.nowak@example.com' },
+    pozycje: [
+      { sku: 'KUB-330', ilosc: 2, cena: 34.99 },
+      { sku: 'REC-5090', ilosc: 1, cena: 59 }
+    ]
+  }
+};
+
+/* ================= Pomocnicze ================= */
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function md(s) { return esc(s).replace(/`([^`]+)`/g, '<code>$1</code>'); }
+function odmiana(n, f) {
+  if (n === 1) return f[0];
+  const d = n % 10, s = n % 100;
+  return (d >= 2 && d <= 4 && !(s >= 12 && s <= 14)) ? f[1] : f[2];
+}
+function jeden(v) {
+  if (v === null || typeof v !== 'object') return JSON.stringify(v);
+  if (Array.isArray(v)) return '[' + v.map(jeden).join(', ') + ']';
+  const e = Object.entries(v);
+  return e.length ? '{ ' + e.map(([k, x]) => JSON.stringify(k) + ': ' + jeden(x)).join(', ') + ' }' : '{}';
+}
+function ladnie(v, wc = '') {
+  if (v === null || typeof v !== 'object' || jeden(v).length + wc.length <= 52) return jeden(v);
+  const nw = wc + '  ';
+  if (Array.isArray(v)) return '[\n' + v.map(x => nw + ladnie(x, nw)).join(',\n') + '\n' + wc + ']';
+  return '{\n' + Object.entries(v).map(([k, x]) => nw + JSON.stringify(k) + ': ' + ladnie(x, nw)).join(',\n') + '\n' + wc + '}';
+}
+function krotko(v) { const s = JSON.stringify(v); return s.length > 40 ? s.slice(0, 37) + '…' : s; }
+
+/* ================= Parser JSON z polskimi komunikatami ================= */
+const DRUKARSKIE = '\u201C\u201D\u201E\u201F\u2033';
+function parsujJSON(t, pustyKomunikat) {
+  let i = 0;
+  const n = t.length, klucze = new Map(), duplikaty = [];
+  const linia = p => t.slice(0, p).split('\n').length;
+  const fail = (msg, pos = i) => { const e = new Error(msg); e.pos = Math.max(0, Math.min(pos, n)); throw e; };
+  const ws = () => {
+    for (;;) {
+      const c = t[i];
+      if (c === ' ' || c === '\t' || c === '\n' || c === '\r') i++;
+      else if (c === '\u00A0' || c === '\u202F' || c === '\u2007') fail('Tu jest twarda spacja (często zostaje po kopiowaniu z Worda lub maila). Usuń ją i wpisz zwykłą spację.');
+      else if (c === '/' && (t[i + 1] === '/' || t[i + 1] === '*')) fail('JSON nie pozwala na komentarze. Opis możesz wpisać w polu "description".');
+      else return;
+    }
+  };
+  const tekst = () => {
+    const start = i; i++; let s = '';
+    for (;;) {
+      if (i >= n) fail('Tekst nie ma zamykającego cudzysłowu.', start);
+      const c = t[i];
+      if (c === '"') { i++; return s; }
+      if (c === '\n' || c === '\r') fail('Tekst nie ma zamykającego cudzysłowu przed końcem linii.', start);
+      if (c === '\\') {
+        const d = t[i + 1];
+        const mapa = { '"': '"', '\\': '\\', '/': '/', b: '\b', f: '\f', n: '\n', r: '\r', t: '\t' };
+        if (d !== undefined && Object.prototype.hasOwnProperty.call(mapa, d)) { s += mapa[d]; i += 2; continue; }
+        if (d === 'u' && /^[0-9a-fA-F]{4}$/.test(t.substr(i + 2, 4))) { s += String.fromCharCode(parseInt(t.substr(i + 2, 4), 16)); i += 6; continue; }
+        fail('Odwrotny ukośnik \\' + (d || '') + ' nie jest dozwolony w tekście JSON. Ukośnik trzeba podwoić: \\\\' + (d || '') + '.');
+      }
+      if (c < ' ') fail('Tekst zawiera niedozwolony znak sterujący, np. tabulator. Usuń go.');
+      s += c; i++;
+    }
+  };
+  const RE_LICZBA = /-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/y;
+  const liczba = () => {
+    RE_LICZBA.lastIndex = i;
+    const m = RE_LICZBA.exec(t);
+    if (!m) fail('Po minusie powinna być liczba.');
+    const po = t[i + m[0].length];
+    if (m[1] === '0' && !m[2] && !m[3] && po >= '0' && po <= '9') fail('Liczba nie może zaczynać się od zera. Jeśli to kod (np. pocztowy), zapisz go jako tekst w cudzysłowie.');
+    if (po === '.') fail('Po kropce dziesiętnej musi być cyfra.', i + m[0].length);
+    i += m[0].length;
+    return Number(m[0]);
+  };
+  const ustaw = (o, k, v) => Object.defineProperty(o, k, { value: v, enumerable: true, writable: true, configurable: true });
+  const obiekt = p => {
+    const start = i; i++;
+    const o = {}; let przecinek = -1;
+    ws();
+    if (t[i] === '}') { i++; return o; }
+    for (;;) {
+      ws();
+      const c = t[i];
+      if (i >= n) fail('Brakuje nawiasu „}” zamykającego obiekt otwarty w linii ' + linia(start) + '.');
+      if (c === '}' && przecinek >= 0) fail('Zbędny przecinek przed „}”. Po ostatnim polu nie stawiamy przecinka.', przecinek);
+      if (c === "'") fail('Nazwa pola musi być w podwójnym cudzysłowie "…", nie w apostrofach.');
+      if (DRUKARSKIE.includes(c)) fail('To cudzysłów drukarski. JSON rozumie tylko zwykły cudzysłów " z klawiatury.');
+      if (c >= '0' && c <= '9' && przecinek >= 0) fail('Po przecinku powinna być nazwa pola. Jeśli to liczba dziesiętna, użyj kropki zamiast przecinka, np. 2.5.', przecinek);
+      if (c !== '"') fail('Nazwa pola musi być w cudzysłowie, np. "nazwa".');
+      const kpos = i;
+      const k = tekst();
+      ws();
+      if (t[i] !== ':') fail('Po nazwie pola "' + k + '" brakuje dwukropka.');
+      i++;
+      const kp = p + '/' + k.replace(/~/g, '~0').replace(/\//g, '~1');
+      if (Object.prototype.hasOwnProperty.call(o, k)) duplikaty.push({ k, pos: kpos });
+      klucze.set(kp, kpos);
+      ustaw(o, k, wartosc(kp));
+      const koniec = i;
+      ws();
+      if (t[i] === ',') { przecinek = i; i++; continue; }
+      if (t[i] === '}') { i++; return o; }
+      if (i >= n) fail('Brakuje nawiasu „}” zamykającego obiekt otwarty w linii ' + linia(start) + '.', koniec);
+      if (t[i] === ']') fail('Nawias „]” nie pasuje. Obiekt otwarty nawiasem „{” zamykamy nawiasem „}”.');
+      if (t[i] === '"') fail('Brakuje przecinka po tej wartości. Pola obiektu oddzielamy przecinkami.', koniec);
+      fail('Spodziewano się przecinka albo „}”, a jest „' + t[i] + '”.');
+    }
+  };
+  const lista = p => {
+    const start = i; i++;
+    const a = []; let przecinek = -1;
+    ws();
+    if (t[i] === ']') { i++; return a; }
+    for (;;) {
+      ws();
+      if (t[i] === ']' && przecinek >= 0) fail('Zbędny przecinek przed „]”. Po ostatnim elemencie nie stawiamy przecinka.', przecinek);
+      if (i >= n) fail('Brakuje nawiasu „]” zamykającego listę otwartą w linii ' + linia(start) + '.');
+      a.push(wartosc(p + '/' + a.length));
+      const koniec = i;
+      ws();
+      if (t[i] === ',') { przecinek = i; i++; continue; }
+      if (t[i] === ']') { i++; return a; }
+      if (i >= n) fail('Brakuje nawiasu „]” zamykającego listę otwartą w linii ' + linia(start) + '.', koniec);
+      if (t[i] === '}') fail('Nawias „}” nie pasuje. Listę otwartą nawiasem „[” zamykamy nawiasem „]”.');
+      fail('Brakuje przecinka między elementami listy.', koniec);
+    }
+  };
+  const wartosc = p => {
+    ws();
+    if (i >= n) fail('Tekst kończy się w miejscu, gdzie powinna być wartość. Może brakuje nawiasu zamykającego?');
+    const c = t[i];
+    if (c === '{') return obiekt(p);
+    if (c === '[') return lista(p);
+    if (c === '"') return tekst();
+    if (c === "'") fail('Tekst musi być w podwójnym cudzysłowie "…", nie w apostrofach.');
+    if (DRUKARSKIE.includes(c)) fail('To cudzysłów drukarski. JSON rozumie tylko zwykły cudzysłów " z klawiatury.');
+    if (c === '-' || (c >= '0' && c <= '9')) return liczba();
+    for (const [s, v] of [['true', true], ['false', false], ['null', null]]) {
+      if (t.startsWith(s, i) && !/[\w\u00C0-\u017F]/.test(t[i + s.length] || '')) { i += s.length; return v; }
+    }
+    if (c === '}' || c === ']') fail('W tym miejscu brakuje wartości. Może przed nawiasem jest zbędny przecinek albo po dwukropku nic nie wpisano?');
+    if (c === ',') fail('W tym miejscu brakuje wartości, a jest przecinek.');
+    if (c === ':') fail('Tu jest zbędny dwukropek.');
+    const m = /^[^\s,:{}\[\]"]+/.exec(t.slice(i));
+    const w = m ? m[0] : c;
+    if (/^(true|false|null)$/i.test(w)) fail('Słowa true, false i null piszemy małymi literami.');
+    if (/^(None|undefined|NaN|Infinity|nil)$/.test(w)) fail('„' + w + '” nie istnieje w JSON-ie. Brak wartości zapisz jako null.');
+    fail('„' + w + '” nie jest poprawną wartością. Jeśli to tekst, otocz go cudzysłowem: "' + w + '".');
+  };
+  ws();
+  if (i >= n) fail(pustyKomunikat || 'Pole jest puste.', 0);
+  const value = wartosc('');
+  ws();
+  if (i < n) fail((t[i] === '}' || t[i] === ']') ? 'Na końcu jest o jeden nawias za dużo.' : 'Po zamknięciu całości jest jeszcze tekst. Może brakuje przecinka albo nawiasu?');
+  return { value, klucze, duplikaty };
+}
+
+/* ================= Komunikaty walidacji po polsku ================= */
+const TYP_D = { string: 'tekstu', number: 'liczby', integer: 'liczby całkowitej', boolean: 'wartości logicznej (true/false)', object: 'obiektu { }', array: 'listy [ ]', null: 'wartości null' };
+function rodzaj(v) {
+  if (v === null) return 'null';
+  if (Array.isArray(v)) return 'lista';
+  if (typeof v === 'string') return 'tekst';
+  if (typeof v === 'boolean') return 'wartość logiczna';
+  if (typeof v === 'number') return Number.isInteger(v) ? 'liczba całkowita' : 'liczba z częścią ułamkową';
+  if (typeof v === 'object') return 'obiekt';
+  return typeof v;
+}
+function segmenty(ptr) { return ptr ? ptr.split('/').slice(1).map(s => s.replace(/~1/g, '/').replace(/~0/g, '~')) : []; }
+function wskaz(dane, ptr) { let v = dane; for (const s of segmenty(ptr)) { if (v == null) return undefined; v = v[s]; } return v; }
+const jestIndeksem = (s, rodzic) => Array.isArray(rodzic) && /^\d+$/.test(s);
+function podmiot(dane, ptr) {
+  const seg = segmenty(ptr);
+  if (!seg.length) return '';
+  const rodzic = j => { let v = dane; for (let x = 0; x < j; x++) { if (v == null) return undefined; v = v[seg[x]]; } return v; };
+  const opis = j => jestIndeksem(seg[j], rodzic(j))
+    ? ['Element nr ' + (+seg[j] + 1), 'elemencie nr ' + (+seg[j] + 1)]
+    : ['Pole „' + seg[j] + '”', 'polu „' + seg[j] + '”'];
+  const ost = opis(seg.length - 1)[0];
+  return seg.length > 1 ? ost + ' w ' + opis(seg.length - 2)[1] : ost;
+}
+function orzeczenie(e, v) {
+  const p = e.params || {};
+  switch (e.keyword) {
+    case 'type': return 'oczekiwano ' + String(p.type).split(',').map(t => TYP_D[t] || t).join(' lub ') + ', a jest ' + rodzaj(v) + '.';
+    case 'required': return 'brakuje wymaganego pola „' + p.missingProperty + '”.';
+    case 'additionalProperties': return 'pole „' + p.additionalProperty + '” nie jest przewidziane w schemacie.';
+    case 'unevaluatedProperties': return 'pole „' + p.unevaluatedProperty + '” nie jest przewidziane w schemacie.';
+    case 'dependentRequired': return 'skoro jest pole „' + p.property + '”, wymagane jest też pole „' + p.missingProperty + '”.';
+    case 'minimum': return krotko(v) + ' to mniej niż dozwolone minimum ' + p.limit + '.';
+    case 'maximum': return krotko(v) + ' to więcej niż dozwolone maksimum ' + p.limit + '.';
+    case 'exclusiveMinimum': return 'wartość musi być większa niż ' + p.limit + ', a jest ' + krotko(v) + '.';
+    case 'exclusiveMaximum': return 'wartość musi być mniejsza niż ' + p.limit + ', a jest ' + krotko(v) + '.';
+    case 'multipleOf': return krotko(v) + ' nie jest wielokrotnością ' + p.multipleOf + '.';
+    case 'minLength': { const d = [...String(v)].length; return 'tekst ma ' + d + ' ' + odmiana(d, ['znak', 'znaki', 'znaków']) + ', a minimum to ' + p.limit + '.'; }
+    case 'maxLength': { const d = [...String(v)].length; return 'tekst ma ' + d + ' ' + odmiana(d, ['znak', 'znaki', 'znaków']) + ', a maksimum to ' + p.limit + '.'; }
+    case 'pattern': return 'tekst ' + krotko(v) + ' nie pasuje do wzorca ' + p.pattern + '.';
+    case 'format': return 'tekst nie ma formatu „' + p.format + '”.';
+    case 'enum': {
+      const lista = p.allowedValues || [];
+      return krotko(v) + ' nie jest na liście dozwolonych wartości' + (lista.length <= 6 ? ' (' + lista.map(krotko).join(', ') + ').' : '.');
+    }
+    case 'const': return 'wartość musi być dokładnie ' + krotko(p.allowedValue) + '.';
+    case 'minItems': { const d = (v || []).length; return 'lista ma ' + d + ' ' + odmiana(d, ['element', 'elementy', 'elementów']) + ', a minimum to ' + p.limit + '.'; }
+    case 'maxItems': { const d = (v || []).length; return 'lista ma ' + d + ' ' + odmiana(d, ['element', 'elementy', 'elementów']) + ', a maksimum to ' + p.limit + '.'; }
+    case 'uniqueItems': return 'elementy nr ' + (p.j + 1) + ' i ' + (p.i + 1) + ' są takie same.';
+    case 'minProperties': return 'obiekt ma za mało pól (minimum ' + p.limit + ').';
+    case 'maxProperties': return 'obiekt ma za dużo pól (maksimum ' + p.limit + ').';
+    case 'contains': return 'na liście brakuje elementu pasującego do „contains”.';
+    case 'propertyNames': return 'nazwa pola „' + p.propertyName + '” jest niedozwolona.';
+    case 'anyOf': return 'nie pasuje do żadnej z opcji w „anyOf”.';
+    case 'oneOf': return p.passingSchemas ? 'pasuje do kilku opcji w „oneOf”, a powinien do dokładnie jednej.' : 'nie pasuje do żadnej z opcji w „oneOf”.';
+    case 'not': return 'pasuje do schematu w „not”, a nie powinien.';
+    case 'if': return 'nie spełnia warunków z „' + p.failingKeyword + '”.';
+    case 'false schema': return 'w tym miejscu żadna wartość nie jest dozwolona.';
+    default: return e.message + '.';
+  }
+}
+function komunikat(e, dane) {
+  const v = wskaz(dane, e.instancePath);
+  const o = orzeczenie(e, v);
+  const pd = podmiot(dane, e.instancePath);
+  if (pd) return pd + ': ' + o;
+  return /^[a-ząćęłńóśźż]/.test(o) ? o.charAt(0).toUpperCase() + o.slice(1) : 'Wartość ' + o;
+}
+function komunikaty(bledy, dane, limit) {
+  const wszystkie = [...new Set(bledy.map(e => komunikat(e, dane)))];
+  return limit ? wszystkie.slice(0, limit) : wszystkie;
+}
+
+/* ================= Analiza schematu ================= */
+const ZNANE = new Set(('$schema $id $ref $anchor $dynamicRef $dynamicAnchor $vocabulary $comment $defs definitions ' +
+  'type enum const multipleOf maximum exclusiveMaximum minimum exclusiveMinimum maxLength minLength pattern ' +
+  'maxItems minItems uniqueItems maxContains minContains maxProperties minProperties required dependentRequired ' +
+  'allOf anyOf oneOf not if then else dependentSchemas dependencies prefixItems items additionalItems contains ' +
+  'properties patternProperties additionalProperties propertyNames unevaluatedItems unevaluatedProperties ' +
+  'format contentEncoding contentMediaType contentSchema title description default deprecated readOnly writeOnly examples').split(' '));
+const PODSCHEMAT = ['items', 'not', 'if', 'then', 'else', 'additionalProperties', 'additionalItems', 'contains', 'propertyNames', 'unevaluatedItems', 'unevaluatedProperties', 'contentSchema'];
+const MAPA = ['properties', 'patternProperties', '$defs', 'definitions', 'dependentSchemas'];
+const LISTA = ['allOf', 'anyOf', 'oneOf', 'prefixItems'];
+const TYPY = ['string', 'number', 'integer', 'boolean', 'object', 'array', 'null'];
+function lev(a, b) {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+function najblizsze(k) {
+  let best = null, bd = 99;
+  for (const z of ZNANE) { const d = lev(k.toLowerCase(), z.toLowerCase()); if (d < bd) { bd = d; best = z; } }
+  return bd <= (k.length <= 5 ? 1 : 2) ? best : null;
+}
+const sciezka = ptr => segmenty(ptr).join(' → ');
+function znajdzUwagi(s, klucze) {
+  const out = []; let formatPokazany = false;
+  const enc = k => k.replace(/~/g, '~0').replace(/\//g, '~1');
+  (function idz(s, p) {
+    if (!s || typeof s !== 'object' || Array.isArray(s)) return;
+    for (const k of Object.keys(s)) {
+      const v = s[k], kp = p + '/' + enc(k);
+      if (!ZNANE.has(k)) {
+        const pod = najblizsze(k);
+        let tekst = '„' + k + '” nie jest słowem kluczowym JSON Schema, więc walidator je pomija.';
+        if (pod) tekst += ' Czy chodziło o „' + pod + '”?';
+        else if (v && typeof v === 'object' && !Array.isArray(v)) tekst += ' Jeśli to nazwa pola, przenieś je do „properties”.';
+        out.push({ poziom: 'ostrz', tekst, pos: klucze.get(kp) });
+        continue;
+      }
+      if (k === 'format' && !formatPokazany) {
+        formatPokazany = true;
+        out.push({ poziom: 'info', tekst: '„format” to tu tylko opis. Domyślnie walidator go nie sprawdza, więc np. "abc" przejdzie jako e-mail.', pos: klucze.get(kp) });
+      }
+      if (k === 'required' && Array.isArray(v) && s.properties && typeof s.properties === 'object') {
+        for (const r of v) if (typeof r === 'string' && !(r in s.properties))
+          out.push({ poziom: 'ostrz', tekst: 'Pole „' + r + '” jest w „required”, ale nie ma go w „properties”. To może być literówka.', pos: klucze.get(kp) });
+      }
+      if (PODSCHEMAT.includes(k)) { if (Array.isArray(v)) v.forEach((x, j) => idz(x, kp + '/' + j)); else idz(v, kp); }
+      else if (MAPA.includes(k) && v && typeof v === 'object') for (const nm of Object.keys(v)) idz(v[nm], kp + '/' + enc(nm));
+      else if (LISTA.includes(k) && Array.isArray(v)) v.forEach((x, j) => idz(x, kp + '/' + j));
+    }
+  })(s, '');
+  return out;
+}
+
+const Ajv = window.ajv2020 && (window.ajv2020.default || window.ajv2020);
+const noweAjv = () => new Ajv({ allErrors: true, strict: false, validateFormats: false });
+let ajv = Ajv ? noweAjv() : null;
+
+function bladMeta(bledy, schemat, klucze) {
+  const typBlad = bledy.find(e => e.keyword === 'enum' && /\/type$/.test(e.instancePath));
+  if (typBlad) {
+    const v = wskaz(schemat, typBlad.instancePath);
+    return { tekst: '„type” ma nieznaną wartość ' + krotko(v) + '. Dozwolone: ' + TYPY.map(t => '"' + t + '"').join(', ') + '.', pos: klucze.get(typBlad.instancePath) };
+  }
+  const e = bledy.find(x => !['anyOf', 'oneOf', 'if'].includes(x.keyword)) || bledy[0];
+  const v = wskaz(schemat, e.instancePath);
+  const seg = segmenty(e.instancePath);
+  if (typeof v === 'string' && TYPY.includes(v) && seg.length >= 2 && MAPA.concat(PODSCHEMAT).includes(seg[seg.length - 2]))
+    return { tekst: 'W „' + sciezka(e.instancePath) + '” zamiast schematu jest samo "' + v + '". Napisz { "type": "' + v + '" }.', pos: klucze.get(e.instancePath) };
+  const gdzie = e.instancePath ? 'W „' + sciezka(e.instancePath) + '”: ' : '';
+  const o = orzeczenie(e, v);
+  return { tekst: gdzie + (gdzie ? o : o.charAt(0).toUpperCase() + o.slice(1)), pos: klucze.get(e.instancePath) };
+}
+function wyjatek(e) {
+  const m = String(e && e.message || e);
+  if (/regular expression|RegExp/i.test(m)) return 'Wzorzec w „pattern” nie jest poprawnym wyrażeniem regularnym (' + m + ').';
+  const r = /can't resolve reference (\S+)/.exec(m);
+  if (r) return 'Odwołanie ' + r[1] + ' nie prowadzi do żadnej definicji. Sprawdź nazwę w „$defs”.';
+  return 'Walidator nie może użyć tego schematu: ' + m;
+}
+function sprawdzSchemat(tekstSchematu) {
+  let parsed;
+  try { parsed = parsujJSON(tekstSchematu, 'Schemat jest pusty. Zacznij od nawiasów { }.'); }
+  catch (e) { return { blad: { rodzaj: 'Błąd składni JSON', tekst: e.message, pos: e.pos }, uwagi: [] }; }
+  const { value, klucze, duplikaty } = parsed;
+  const uwagi = duplikaty.map(d => ({ poziom: 'ostrz', tekst: 'Pole „' + d.k + '” występuje dwa razy w tym samym obiekcie. Liczy się tylko ostatnie wystąpienie.', pos: d.pos }));
+  if (typeof value !== 'boolean' && (value === null || typeof value !== 'object' || Array.isArray(value)))
+    return { blad: { rodzaj: 'Błąd w schemacie', tekst: 'Schemat musi być obiektem w nawiasach klamrowych { }.', pos: 0 }, uwagi };
+  uwagi.push(...znajdzUwagi(value, klucze));
+  let schemat = value;
+  if (value && typeof value.$schema === 'string' && !/2020-12/.test(value.$schema)) {
+    schemat = Object.assign({}, value); delete schemat.$schema;
+    uwagi.push({ poziom: 'info', tekst: 'Trener sprawdza według wersji 2020-12. Podstawowe słowa kluczowe działają w niej tak samo jak w starszych wersjach.', pos: klucze.get('/$schema') });
+  }
+  if (!ajv.validateSchema(schemat)) return { blad: Object.assign({ rodzaj: 'Błąd w schemacie' }, bladMeta(ajv.errors, schemat, klucze)), uwagi };
+  try {
+    const fn = ajv.compile(schemat);
+    try { ajv.removeSchema(schemat); } catch (_) {}
+    return { walidator: fn, uwagi };
+  } catch (e) {
+    ajv = noweAjv();
+    return { blad: { rodzaj: 'Błąd w schemacie', tekst: wyjatek(e) }, uwagi };
+  }
+}
+</script>
+
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  if (!window.CodeMirror || !Ajv) {
+    document.getElementById('app').insertAdjacentHTML('afterbegin', '<p class="awaria" style="grid-column:1/-1">Nie udało się wczytać edytora albo walidatora. Sprawdź połączenie z internetem i odśwież stronę.</p>');
+    return;
+  }
+  const IKONA_T = '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.2 6.3l2.4 2.4 5.2-5.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const IKONA_N = '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  const CW = Object.fromEntries(CWICZENIA.map((c, i) => [c.id, Object.assign({ nr: i + 1 }, c)]));
+  const KLUCZ = 'trener-json-schema-v1';
+
+  let stan = { aktywne: 'typ', schematy: {}, zaliczone: {}, duze: false, dokument: null };
+  try { const z = JSON.parse(localStorage.getItem(KLUCZ) || 'null'); if (z && typeof z === 'object') stan = Object.assign(stan, z); } catch (_) {}
+  if (stan.aktywne !== 'piaskownica' && !CW[stan.aktywne]) stan.aktywne = 'typ';
+  let zapisTimer;
+  const zapisz = () => { clearTimeout(zapisTimer); zapisTimer = setTimeout(() => { try { localStorage.setItem(KLUCZ, JSON.stringify(stan)); } catch (_) {} }, 300); };
+
+  const startowy = id => id === 'piaskownica' ? ladnie(PIASKOWNICA.schemat) : CW[id].start;
+  const OPCJE = {
+    theme: 'trener', mode: { name: 'javascript', json: true }, lineNumbers: true, tabSize: 2, indentUnit: 2,
+    matchBrackets: true, autoCloseBrackets: true, lineWrapping: false,
+    extraKeys: { Tab: cm => cm.somethingSelected() ? cm.indentSelection('add') : cm.replaceSelection('  ', 'end'), 'Shift-Tab': cm => cm.indentSelection('subtract') }
+  };
+  const cm = CodeMirror($('#ed-schemat'), Object.assign({}, OPCJE, { value: '' }));
+  const cmDok = CodeMirror($('#ed-dok'), Object.assign({}, OPCJE, { value: stan.dokument ?? ladnie(PIASKOWNICA.dokument) }));
+  cm.getWrapperElement().setAttribute('aria-label', 'Edytor schematu');
+  cmDok.getWrapperElement().setAttribute('aria-label', 'Edytor dokumentu');
+  const docs = {};
+  const docDla = id => docs[id] || (docs[id] = CodeMirror.Doc(stan.schematy[id] ?? startowy(id), { name: 'javascript', json: true }));
+
+  /* ——— Lista ——— */
+  function renderLista() {
+    const pozycja = (id, nr, tytul) => '<li><button type="button" data-id="' + id + '" aria-current="' + (stan.aktywne === id) + '">' +
+      '<span class="nr">' + nr + '</span><span class="tytul">' + esc(tytul) + '</span><span class="zrobione">' + (stan.zaliczone[id] ? IKONA_T : '') + '</span></button></li>';
+    $('#lista').innerHTML = CWICZENIA.map((c, i) => pozycja(c.id, i + 1, c.tytul)).join('') +
+      '<li class="oddziel" aria-hidden="true"></li>' + pozycja('piaskownica', '{ }', 'Piaskownica');
+  }
+  $('#lista').addEventListener('click', e => { const b = e.target.closest('button[data-id]'); if (b) wybierz(b.dataset.id); });
+
+  /* ——— Zadanie ——— */
+  function renderZadanie() {
+    const z = $('#zadanie');
+    if (stan.aktywne === 'piaskownica') {
+      z.innerHTML = '<p class="eyebrow">Wolne pole</p><h1>Piaskownica</h1>' +
+        '<p class="kontekst">Tu nie ma zadania. Po lewej masz schemat zamówienia ze sklepu, po prawej przykładowe zamówienie. Zmieniaj jedno albo drugie i obserwuj wynik. Przydaje się do pokazów na żywo i do sprawdzania pomysłów.</p>' +
+        '<p class="polecenie"><strong>Spróbuj:</strong> ustaw ilość na 0, usuń e-mail klienta albo dopisz do zamówienia pole, którego schemat nie zna.</p>';
+      $('#edytor-tytul').textContent = 'Schemat zamówienia';
+      return;
+    }
+    const c = CW[stan.aktywne];
+    z.innerHTML = '<p class="eyebrow">Ćwiczenie ' + c.nr + ' z ' + CWICZENIA.length + '</p><h1>' + esc(c.tytul) + '</h1>' +
+      '<p class="kontekst">' + md(c.kontekst) + '</p>' +
+      '<p class="polecenie"><strong>Zadanie:</strong> ' + md(c.zadanie) + '</p>' +
+      '<div class="slowa">Nowe słowa kluczowe: ' + c.slowa.map(s => '<code>' + esc(s) + '</code>').join(' ') + '</div>' +
+      '<div class="pomoc"><button class="btn" type="button" id="b-podp" aria-expanded="false" aria-controls="t-podp">Podpowiedź</button>' +
+      '<button class="btn" type="button" id="b-roz" aria-expanded="false" aria-controls="t-roz">Rozwiązanie</button></div>' +
+      '<div class="pomoc-tresc" id="t-podp" hidden><p>' + md(c.podpowiedz) + '</p></div>' +
+      '<div class="pomoc-tresc" id="t-roz" hidden><pre>' + koloruj(ladnie(c.rozwiazanie)) + '</pre>' +
+      '<div class="pomoc-akcje"><button class="btn btn-main" type="button" id="b-wstaw">Wstaw do edytora</button><small>Ctrl+Z (⌘Z) przywraca Twoją wersję.</small></div></div>';
+    $('#edytor-tytul').textContent = 'Twój schemat';
+    const przelacz = (b, t) => { const o = b.getAttribute('aria-expanded') !== 'true'; b.setAttribute('aria-expanded', o); t.hidden = !o; };
+    $('#b-podp').onclick = () => przelacz($('#b-podp'), $('#t-podp'));
+    $('#b-roz').onclick = () => przelacz($('#b-roz'), $('#t-roz'));
+    $('#b-wstaw').onclick = () => { zastap(cm, ladnie(c.rozwiazanie)); cm.focus(); };
+  }
+  function zastap(ed, tekst) { ed.replaceRange(tekst, { line: 0, ch: 0 }, { line: ed.lastLine(), ch: ed.getLine(ed.lastLine()).length }); }
+
+  function koloruj(json) {
+    const re = /("(?:\\.|[^"\\])*")(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/g;
+    let out = '', last = 0, m;
+    while ((m = re.exec(json))) {
+      out += esc(json.slice(last, m.index));
+      if (m[1]) out += m[2] ? '<span class="t-key">' + esc(m[1]) + '</span>' + esc(m[2]) : '<span class="t-str">' + esc(m[1]) + '</span>';
+      else out += '<span class="' + (m[3] ? 't-atom' : 't-num') + '">' + m[0] + '</span>';
+      last = re.lastIndex;
+    }
+    return out + esc(json.slice(last));
+  }
+
+  /* ——— Znaczniki błędów w edytorze ——— */
+  const znaczniki = new Map();
+  function wyczysc(ed) {
+    const z = znaczniki.get(ed) || [];
+    z.forEach(f => f());
+    znaczniki.set(ed, []);
+  }
+  function zaznacz(ed, pos, klasa) {
+    if (pos == null) return null;
+    const p = ed.posFromIndex(pos);
+    const h = ed.addLineClass(p.line, 'background', klasa === 'blad' ? 'linia-bledu' : 'linia-uwagi');
+    const lista = znaczniki.get(ed) || [];
+    lista.push(() => ed.removeLineClass(h, 'background'));
+    if (klasa === 'blad') {
+      const tekst = ed.getLine(p.line);
+      const od = p.ch < tekst.length ? p : { line: p.line, ch: Math.max(0, tekst.length - 1) };
+      const mk = ed.markText(od, { line: od.line, ch: od.ch + 1 }, { className: 'znak-bledu' });
+      lista.push(() => mk.clear());
+    }
+    znaczniki.set(ed, lista);
+    return p.line + 1;
+  }
+  function wierszDiag(klasa, znak, etykieta, tekst, linia, ed) {
+    const przycisk = linia ? '<button type="button" class="do-linii" data-linia="' + linia + '" data-ed="' + ed + '">linia ' + linia + '</button>' : '<span></span>';
+    return '<div class="diag ' + klasa + '"><span class="znak" aria-hidden="true">' + znak + '</span><p>' +
+      (etykieta ? '<span class="etykieta">' + etykieta + '.</span> ' : '') + esc(tekst) + '</p>' + przycisk + '</div>';
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('.do-linii'); if (!b) return;
+    const ed = b.dataset.ed === 'dok' ? cmDok : cm; const l = +b.dataset.linia - 1;
+    ed.focus(); ed.setCursor({ line: l, ch: ed.getLine(l).length }); ed.scrollIntoView(null, 80);
+  });
+
+  /* ——— Sprawdzanie ——— */
+  let ostatnioZaliczone = null;
+  function sprawdz() {
+    wyczysc(cm);
+    const w = sprawdzSchemat(cm.getValue());
+    let html = '';
+    if (w.blad) {
+      const l = zaznacz(cm, w.blad.pos, 'blad');
+      html += wierszDiag('blad', '!', w.blad.rodzaj, w.blad.tekst, l, 's');
+    }
+    for (const u of w.uwagi) {
+      const l = u.poziom === 'ostrz' ? zaznacz(cm, u.pos, 'uwaga') : (u.pos != null ? cm.posFromIndex(u.pos).line + 1 : null);
+      html += wierszDiag(u.poziom, u.poziom === 'info' ? 'i' : '?', u.poziom === 'info' ? 'Dobrze wiedzieć' : 'Uwaga', u.tekst, l, 's');
+    }
+    if (!w.blad && !w.uwagi.length) html = wierszDiag('dobrze', IKONA_T, '', 'Schemat jest poprawny.', null);
+    $('#diagnoza').innerHTML = html;
+    if (stan.aktywne === 'piaskownica') sprawdzDokument(w); else renderPrzyklady(CW[stan.aktywne], w);
+  }
+
+  function renderPrzyklady(c, w) {
+    const wyniki = c.przyklady.map(pr => {
+      if (!w.walidator) return { st: 'c' };
+      const przeszedl = w.walidator(pr.dane);
+      const bledy = przeszedl ? [] : komunikaty(w.walidator.errors || [], pr.dane, 3);
+      return { st: przeszedl === pr.ok ? 't' : 'n', przeszedl, bledy };
+    });
+    const zgodne = wyniki.filter(x => x.st === 't').length, wszystkie = wyniki.length;
+    const komplet = zgodne === wszystkie;
+    let html = '<div class="podsum"><div class="podsum-wiersz"><h2>Przykłady</h2><span class="licznik">' +
+      (w.walidator ? '<strong>' + zgodne + ' z ' + wszystkie + '</strong> zgadza się z oczekiwaniem' : 'Popraw schemat, żeby sprawdzić przykłady') +
+      '</span></div><div class="pasek" aria-hidden="true">' + wyniki.map(x => '<span class="' + x.st + '"></span>').join('') + '</div></div>';
+    if (komplet) {
+      const nowe = ostatnioZaliczone !== c.id;
+      const nast = CWICZENIA[c.nr] ? CWICZENIA[c.nr] : null;
+      html += '<div class="zaliczone' + (nowe ? ' nowe' : '') + '"><span class="stempel">Zaliczone</span><p>Wszystkie przykłady zachowują się tak, jak trzeba.</p>' +
+        '<button class="btn btn-main" type="button" data-id="' + (nast ? nast.id : 'piaskownica') + '" id="b-dalej">' + (nast ? 'Następne ćwiczenie →' : 'Do piaskownicy →') + '</button></div>';
+      ostatnioZaliczone = c.id;
+      if (!stan.zaliczone[c.id]) { stan.zaliczone[c.id] = true; zapisz(); renderLista(); }
+    } else if (ostatnioZaliczone === c.id) ostatnioZaliczone = null;
+
+    const karta = (pr, r) => {
+      let chip, powod = '';
+      if (r.st === 'c') chip = '<span class="chip c">czeka</span>';
+      else {
+        chip = '<span class="chip ' + r.st + '">' + (r.st === 't' ? IKONA_T : IKONA_N) + (r.przeszedl ? 'Przechodzi' : 'Odrzucony') + '</span>';
+        if (pr.ok && !r.przeszedl) powod = '<p class="powod">Ten dokument powinien przejść, ale schemat zgłasza: ' + r.bledy.map(esc).join(' ') + '</p>';
+        else if (!pr.ok && r.przeszedl) powod = '<p class="powod">Ten dokument powinien zostać odrzucony, ale schemat go przepuszcza.</p>' +
+          (pr.wsk ? '<p class="powod"><span class="wsk">Wskazówka:</span> ' + md(pr.wsk) + '</p>' : '');
+        else if (!pr.ok) powod = '<p class="powod">Powód: ' + esc(r.bledy[0] || '') + '</p>';
+      }
+      return '<article class="karta ' + r.st + '"><header><span class="opis">' + esc(pr.opis) + '</span>' + chip + '</header><pre>' + koloruj(ladnie(pr.dane)) + '</pre>' + powod + '</article>';
+    };
+    const grupa = (tytul, ok) => '<section class="grupa"><h3>' + tytul + '</h3>' +
+      c.przyklady.map((pr, i) => pr.ok === ok ? karta(pr, wyniki[i]) : '').join('') + '</section>';
+    html += grupa('Muszą przejść', true) + grupa('Muszą zostać odrzucone', false);
+    $('#panel-przyklady').innerHTML = html;
+    const d = $('#b-dalej'); if (d) d.onclick = () => wybierz(d.dataset.id);
+  }
+
+  function sprawdzDokument(w) {
+    wyczysc(cmDok);
+    const out = $('#werdykt-dok');
+    let dok;
+    try { dok = parsujJSON(cmDok.getValue(), 'Dokument jest pusty.').value; }
+    catch (e) {
+      const l = zaznacz(cmDok, e.pos, 'blad');
+      out.innerHTML = wierszDiag('blad', '!', 'Błąd składni JSON w dokumencie', e.message, l, 'dok');
+      return;
+    }
+    if (!w.walidator) { out.innerHTML = '<div class="werdykt-glowny c">Popraw schemat, żeby sprawdzić dokument.</div>'; return; }
+    if (w.walidator(dok)) { out.innerHTML = '<div class="werdykt-glowny t">' + IKONA_T + 'Dokument jest zgodny ze schematem.</div>'; return; }
+    const lista = komunikaty(w.walidator.errors || [], dok);
+    out.innerHTML = '<div class="werdykt-glowny n">' + IKONA_N + 'Dokument nie jest zgodny ze schematem · ' + lista.length + ' ' + odmiana(lista.length, ['problem', 'problemy', 'problemów']) + '</div>' +
+      '<ol class="bledy">' + lista.map(t => '<li>' + esc(t) + '</li>').join('') + '</ol>';
+  }
+
+  let timer;
+  const pozniej = () => { clearTimeout(timer); timer = setTimeout(sprawdz, 180); };
+  cm.on('change', () => { stan.schematy[stan.aktywne] = cm.getValue(); zapisz(); pozniej(); });
+  cmDok.on('change', () => { stan.dokument = cmDok.getValue(); zapisz(); pozniej(); });
+
+  function wybierz(id) {
+    stan.aktywne = id; zapisz();
+    renderLista(); renderZadanie();
+    cm.swapDoc(docDla(id));
+    const p = id === 'piaskownica';
+    $('#panel-przyklady').hidden = p; $('#panel-piaskownica').hidden = !p;
+    if (p) cmDok.refresh();
+    $('.srodek').scrollTop = 0; $('.prawa').scrollTop = 0;
+    sprawdz();
+  }
+
+  $('#od-nowa').onclick = () => { zastap(cm, startowy(stan.aktywne)); cm.focus(); };
+  $('#dok-przyklad').onclick = () => { zastap(cmDok, ladnie(PIASKOWNICA.dokument)); cmDok.focus(); };
+
+  const ustawDuze = () => {
+    document.documentElement.classList.toggle('duze', !!stan.duze);
+    $('#duzy').setAttribute('aria-pressed', !!stan.duze);
+    $('#duzy .stan').textContent = stan.duze ? 'wł.' : 'wył.';
+    cm.refresh(); cmDok.refresh();
+  };
+  $('#duzy').onclick = () => { stan.duze = !stan.duze; zapisz(); ustawDuze(); };
+
+  let potwierdz = null;
+  $('#wyczysc').onclick = () => {
+    const b = $('#wyczysc');
+    if (!potwierdz) {
+      b.textContent = 'Na pewno? Kliknij jeszcze raz'; b.classList.add('uwaga');
+      potwierdz = setTimeout(() => { potwierdz = null; b.textContent = 'Wyczyść cały postęp'; b.classList.remove('uwaga'); }, 4000);
+      return;
+    }
+    clearTimeout(potwierdz); potwierdz = null;
+    b.textContent = 'Wyczyść cały postęp'; b.classList.remove('uwaga');
+    stan.schematy = {}; stan.zaliczone = {}; stan.dokument = null;
+    for (const k of Object.keys(docs)) delete docs[k];
+    cmDok.setValue(ladnie(PIASKOWNICA.dokument));
+    ostatnioZaliczone = null;
+    zapisz();
+    wybierz('typ');
+  };
+
+  ustawDuze();
+  wybierz(stan.aktywne);
+})();
+</script>
