@@ -18,6 +18,10 @@
       "katalog": "03-walidacja-wartosci"
     },
     {
+      "nr": 4,
+      "katalog": "04-obiekty-i-listy"
+    },
+    {
       "nr": 7,
       "katalog": "07-schematy-z-wielu-czesci"
     }

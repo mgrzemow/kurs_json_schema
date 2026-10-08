@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "numer": {
+      "type": "string"
+    },
+    "klient": {
+      "type": "string"
+    },
+    "pozycje": {
+      "type": "array"
+    },
+    "uwagi": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "numer",
+    "klient",
+    "pozycje"
+  ]
+}

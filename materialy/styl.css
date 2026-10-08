@@ -51,3 +51,6 @@ section.cwiczenie { margin: 1rem 0 1.5rem; padding-bottom: 0.5rem; border-bottom
 .diagram-skladni { width: 100%; max-width: 32rem; height: auto; display: block; margin: 0.5rem 0; color: var(--tekst); overflow: visible; }
 .diagram-skladni .terminal rect { fill: #fff; stroke: var(--akcent); stroke-width: 1.5; }
 .diagram-skladni .terminal text { fill: var(--tekst); }
+.drzewo { width: 100%; max-width: 36rem; height: auto; display: block; margin: 0.5rem 0; color: var(--tekst); }
+.drzewo .wezel rect { fill: #fff; stroke: var(--akcent); stroke-width: 1.5; }
+.drzewo .wezel text { fill: var(--tekst); }

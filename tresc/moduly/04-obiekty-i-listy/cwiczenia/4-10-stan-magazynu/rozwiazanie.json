@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "additionalProperties": {
+    "type": "integer",
+    "minimum": 0
+  },
+  "propertyNames": {
+    "pattern": "^[0-9]{13}$"
+  },
+  "minProperties": 1
+}

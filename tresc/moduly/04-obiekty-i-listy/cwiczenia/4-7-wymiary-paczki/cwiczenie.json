@@ -1,0 +1,86 @@
+{
+  "id": "4-7-wymiary-paczki",
+  "rodzaj": 1,
+  "tytul": "Wymiary paczki",
+  "poziom": 1,
+  "czasMin": 4,
+  "kolejnosc": 10,
+  "kontekst": "Kurier wymaga wymiarów paczki jako listy dokładnie trzech liczb: długość, szerokość, wysokość w centymetrach, każda dodatnia.",
+  "polecenie": "Opisz listę wymiarów: dokładnie trzy dodatnie liczby, nic więcej.",
+  "slowa": [
+    "prefixItems",
+    "items",
+    "minItems"
+  ],
+  "podpowiedz": "`prefixItems` opisuje kolejne pozycje listy, `items: false` zabrania dalszych, `minItems: 3` wymusza komplet. Rozwiązanie z samym `items` i `minItems`/`maxItems` równymi 3 też działa.",
+  "przyklady": [
+    {
+      "opis": "Trzy wymiary",
+      "dane": [
+        60,
+        40,
+        30
+      ],
+      "ok": true
+    },
+    {
+      "opis": "Ułamki",
+      "dane": [
+        60.5,
+        40,
+        30.25
+      ],
+      "ok": true
+    },
+    {
+      "opis": "Dwa wymiary",
+      "dane": [
+        60,
+        40
+      ],
+      "ok": false,
+      "wskazowka": "Brakuje wymuszenia liczby elementów."
+    },
+    {
+      "opis": "Cztery wymiary",
+      "dane": [
+        60,
+        40,
+        30,
+        5
+      ],
+      "ok": false,
+      "wskazowka": "Czwarty element trzeba zabronić."
+    },
+    {
+      "opis": "Tekst zamiast liczby",
+      "dane": [
+        "60",
+        40,
+        30
+      ],
+      "ok": false
+    },
+    {
+      "opis": "Wymiar ujemny",
+      "dane": [
+        60,
+        -40,
+        30
+      ],
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "bez-limitu",
+      "dlaczego": "Samo `items` liczbowe przepuszcza listę o dowolnej długości, w tym dwuelementową i czteroelementową."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "prefixItems opisuje elementy po pozycjach; items: false zabrania elementów poza prefiksem.",
+      "zrodlo": "core §10.3.1.1, §10.3.1.2"
+    }
+  ]
+}

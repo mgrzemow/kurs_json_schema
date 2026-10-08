@@ -1,0 +1,25 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "typ": {
+        "type": "string",
+        "enum": [
+          "produkt",
+          "usluga"
+        ]
+      }
+    },
+    "required": [
+      "typ"
+    ]
+  },
+  "contains": {
+    "properties": {
+      "typ": {
+        "const": "produkt"
+      }
+    }
+  }
+}

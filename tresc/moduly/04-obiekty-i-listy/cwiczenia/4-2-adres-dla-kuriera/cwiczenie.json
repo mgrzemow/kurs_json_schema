@@ -1,0 +1,76 @@
+{
+  "id": "4-2-adres-dla-kuriera",
+  "rodzaj": 1,
+  "tytul": "Adres dla kuriera",
+  "poziom": 2,
+  "czasMin": 6,
+  "kolejnosc": 3,
+  "kontekst": "Adres dostawy trafia do systemu firmy kurierskiej, który przyjmuje tylko pola `ulica`, `miasto`, `kodPocztowy` i opcjonalne `uwagi`. Każde inne pole odrzuca, ale dopiero u kuriera, godzinę po wysyłce.",
+  "polecenie": "Schemat jest prawie gotowy, ale przepuszcza pola, których kurier nie zna, w tym literówki. Zablokuj je.",
+  "slowa": [
+    "additionalProperties"
+  ],
+  "podpowiedz": "Domyślnie obiekt przyjmuje dowolne dodatkowe pola. `\"additionalProperties\": false` przepuszcza tylko te z `properties`.",
+  "przyklady": [
+    {
+      "opis": "Bez uwag",
+      "dane": {
+        "ulica": "Długa 5",
+        "miasto": "Gdańsk",
+        "kodPocztowy": "80-827"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Z uwagami",
+      "dane": {
+        "ulica": "Długa 5",
+        "miasto": "Gdańsk",
+        "kodPocztowy": "80-827",
+        "uwagi": "Domofon 3"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Literówka w nazwie pola",
+      "dane": {
+        "ulica": "Długa 5",
+        "miasto": "Gdańsk",
+        "kodPocztowy": "80-827",
+        "uwgi": "Domofon 3"
+      },
+      "ok": false,
+      "wskazowka": "Pola `uwgi` nie ma w `properties`, więc nikt go nie sprawdza. Zamknij obiekt."
+    },
+    {
+      "opis": "Pole, którego kurier nie zna",
+      "dane": {
+        "ulica": "Długa 5",
+        "miasto": "Gdańsk",
+        "kodPocztowy": "80-827",
+        "kraj": "PL"
+      },
+      "ok": false
+    },
+    {
+      "opis": "Brak miasta",
+      "dane": {
+        "ulica": "Długa 5",
+        "kodPocztowy": "80-827"
+      },
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "samo-required",
+      "dlaczego": "Samo `required` pilnuje obecności trzech pól, ale nie zabrania czwartego: literówka `uwgi` przechodzi."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "Bez additionalProperties obiekt przyjmuje dowolne dodatkowe pola; false je zabrania.",
+      "zrodlo": "core §10.3.2.3"
+    }
+  ]
+}

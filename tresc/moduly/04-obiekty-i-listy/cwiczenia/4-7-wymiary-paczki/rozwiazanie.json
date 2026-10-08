@@ -1,0 +1,19 @@
+{
+  "type": "array",
+  "prefixItems": [
+    {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    {
+      "type": "number",
+      "exclusiveMinimum": 0
+    }
+  ],
+  "items": false,
+  "minItems": 3
+}

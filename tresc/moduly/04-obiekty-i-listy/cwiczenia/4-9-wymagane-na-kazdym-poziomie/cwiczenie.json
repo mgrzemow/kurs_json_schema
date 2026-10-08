@@ -1,0 +1,103 @@
+{
+  "id": "4-9-wymagane-na-kazdym-poziomie",
+  "rodzaj": 1,
+  "tytul": "Wymagane na każdym poziomie",
+  "poziom": 3,
+  "czasMin": 6,
+  "kolejnosc": 2,
+  "kontekst": "Zamówienie ma klienta, a klient ma adres. Wymagane są: na górze `numer` i `klient`; w kliencie `nazwa` i `adres` (e-mail opcjonalny); w adresie `miasto` i `kodPocztowy` (ulica opcjonalna). Schemat ma `required` tylko na górze i przepuszcza klienta bez adresu.",
+  "polecenie": "Dopisz `required` tam, gdzie go brakuje, tak żeby każdy poziom pilnował swoich pól.",
+  "slowa": [
+    "required"
+  ],
+  "podpowiedz": "`required` działa tylko na swoim poziomie. Każdy obiekt w schemacie (zamówienie, klient, adres) potrzebuje własnej listy. Ścieżki w rodzaju `klient.adres.miasto` nie istnieją.",
+  "przyklady": [
+    {
+      "opis": "Kompletne zamówienie",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "klient": {
+          "nazwa": "Jan Nowak",
+          "email": "jan@example.com",
+          "adres": {
+            "ulica": "Długa 5",
+            "miasto": "Gdańsk",
+            "kodPocztowy": "80-827"
+          }
+        }
+      },
+      "ok": true
+    },
+    {
+      "opis": "Klient bez e-maila, adres bez ulicy",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "klient": {
+          "nazwa": "Jan Nowak",
+          "adres": {
+            "miasto": "Gdańsk",
+            "kodPocztowy": "80-827"
+          }
+        }
+      },
+      "ok": true
+    },
+    {
+      "opis": "Klient bez adresu",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "klient": {
+          "nazwa": "Jan Nowak"
+        }
+      },
+      "ok": false,
+      "wskazowka": "`required` na górze nie sięga do wnętrza klienta."
+    },
+    {
+      "opis": "Adres bez miasta",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "klient": {
+          "nazwa": "Jan Nowak",
+          "adres": {
+            "kodPocztowy": "80-827"
+          }
+        }
+      },
+      "ok": false,
+      "wskazowka": "Adres to trzeci poziom; potrzebuje własnego `required`."
+    },
+    {
+      "opis": "Klient bez nazwy",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "klient": {
+          "adres": {
+            "miasto": "Gdańsk",
+            "kodPocztowy": "80-827"
+          }
+        }
+      },
+      "ok": false
+    },
+    {
+      "opis": "Bez klienta",
+      "dane": {
+        "numer": "ZAM-2026-000123"
+      },
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "sciezki-kropkowe",
+      "dlaczego": "`required` z `klient.adres.miasto` wymaga pola o takiej dosłownej nazwie na górze zamówienia, więc odrzuca także poprawne zamówienia, a klienta bez adresu nadal przepuszcza."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "required wymaga obecności wymienionych pól na swoim poziomie obiektu.",
+      "zrodlo": "validation §6.5.3"
+    }
+  ]
+}

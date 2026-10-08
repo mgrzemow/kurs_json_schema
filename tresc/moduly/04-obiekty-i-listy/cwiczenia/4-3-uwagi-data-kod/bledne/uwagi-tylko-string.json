@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "uwagi": {
+      "type": "string"
+    },
+    "dataDostawy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kodRabatowy": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "uwagi"
+  ]
+}

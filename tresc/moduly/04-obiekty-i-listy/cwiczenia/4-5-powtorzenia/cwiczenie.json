@@ -1,0 +1,110 @@
+{
+  "id": "4-5-powtorzenia",
+  "rodzaj": 3,
+  "tytul": "Powtórzenia na liście",
+  "poziom": 2,
+  "czasMin": 5,
+  "kolejnosc": 8,
+  "kontekst": "Schemat zamówienia obok ma `uniqueItems: true` na pozycjach i na liście kodów rabatowych. Programista uznał, że to załatwia sprawę duplikatów.",
+  "polecenie": "Dla każdego zamówienia obstaw, czy schemat je przepuści. Potem sprawdź i przeczytaj, jak walidator rozumie „takie same”.",
+  "slowa": [
+    "uniqueItems"
+  ],
+  "podpowiedz": "`uniqueItems` porównuje całe wartości elementów. Dwa obiekty są równe, gdy mają te same pola z tymi samymi wartościami. Teksty porównywane są litera po literze.",
+  "odpowiedzi": [
+    {
+      "opis": "Dwie identyczne pozycje",
+      "dane": {
+        "pozycje": [
+          {
+            "ean": "5901234123457",
+            "ilosc": 2
+          },
+          {
+            "ean": "5901234123457",
+            "ilosc": 2
+          }
+        ],
+        "kodyRabatowe": []
+      },
+      "ok": false,
+      "wyjasnienie": "Obiekty są identyczne pole po polu, więc `uniqueItems` je odrzuca."
+    },
+    {
+      "opis": "Ten sam EAN, inna ilość",
+      "dane": {
+        "pozycje": [
+          {
+            "ean": "5901234123457",
+            "ilosc": 2
+          },
+          {
+            "ean": "5901234123457",
+            "ilosc": 3
+          }
+        ],
+        "kodyRabatowe": []
+      },
+      "ok": true,
+      "wyjasnienie": "Obiekty różnią się ilością, więc nie są równe. `uniqueItems` nie zna pojęcia „ten sam produkt”."
+    },
+    {
+      "opis": "Ten sam kod rabatowy dwa razy",
+      "dane": {
+        "pozycje": [
+          {
+            "ean": "5901234123457",
+            "ilosc": 2
+          }
+        ],
+        "kodyRabatowe": [
+          "WIOSNA10",
+          "WIOSNA10"
+        ]
+      },
+      "ok": false,
+      "wyjasnienie": "Dwa identyczne teksty na liście z `uniqueItems`."
+    },
+    {
+      "opis": "Kod wielkimi i małymi literami",
+      "dane": {
+        "pozycje": [
+          {
+            "ean": "5901234123457",
+            "ilosc": 2
+          }
+        ],
+        "kodyRabatowe": [
+          "WIOSNA10",
+          "wiosna10"
+        ]
+      },
+      "ok": true,
+      "wyjasnienie": "Porównanie jest dokładne: różna wielkość liter to różne teksty."
+    },
+    {
+      "opis": "Pozycje w innej kolejności pól",
+      "dane": {
+        "pozycje": [
+          {
+            "ean": "5901234123457",
+            "ilosc": 2
+          },
+          {
+            "ilosc": 2,
+            "ean": "5901234123457"
+          }
+        ],
+        "kodyRabatowe": []
+      },
+      "ok": false,
+      "wyjasnienie": "Kolejność pól w obiekcie nie ma znaczenia dla równości: to te same obiekty."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "uniqueItems odrzuca listę z dwoma równymi elementami; równość obiektów nie zależy od kolejności pól.",
+      "zrodlo": "validation §6.4.3; core §4.2.2"
+    }
+  ]
+}

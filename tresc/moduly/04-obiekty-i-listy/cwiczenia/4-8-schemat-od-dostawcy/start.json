@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "ulica": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "miasto": {
+    "type": "string"
+  },
+  "kodPocztowy": {
+    "type": "string"
+  },
+  "required": [
+    "kod_pocztowy"
+  ]
+}

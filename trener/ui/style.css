@@ -258,3 +258,8 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .diagram-skladni { width: 100%; max-width: 36rem; height: auto; display: block; margin: 0.6rem 0 0.4rem; color: var(--tekst); overflow: visible; }
 .diagram-skladni .terminal rect { fill: var(--tlo-karta); stroke: var(--akcent); stroke-width: 1.5; }
 .diagram-skladni .terminal text { fill: var(--tekst); }
+
+/* Drzewo dokumentu (moduł 4) */
+.drzewo { width: 100%; max-width: 40rem; height: auto; display: block; margin: 0.6rem 0; color: var(--tekst); }
+.drzewo .wezel rect { fill: var(--tlo-karta); stroke: var(--akcent); stroke-width: 1.5; }
+.drzewo .wezel text { fill: var(--tekst); }

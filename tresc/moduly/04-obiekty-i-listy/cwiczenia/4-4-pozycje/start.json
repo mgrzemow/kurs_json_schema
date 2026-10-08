@@ -1,0 +1,20 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "ean": {
+        "type": "string",
+        "pattern": "^[0-9]{13}$"
+      },
+      "ilosc": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "cena": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      }
+    }
+  }
+}

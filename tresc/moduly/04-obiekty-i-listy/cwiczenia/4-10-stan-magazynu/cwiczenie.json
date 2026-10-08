@@ -1,0 +1,73 @@
+{
+  "id": "4-10-stan-magazynu",
+  "rodzaj": 1,
+  "tytul": "Stan magazynu jako słownik",
+  "poziom": 2,
+  "czasMin": 5,
+  "kolejnosc": 7,
+  "kontekst": "Magazyn publikuje stan jako słownik: klucz to EAN (13 cyfr), wartość to liczba sztuk. Lista kluczy zmienia się codziennie, więc nie da się ich wypisać w `properties`. Schemat obok wypisał dwa konkretne EAN-y i nic poza tym nie sprawdza.",
+  "polecenie": "Opisz słownik: każdy klucz to 13 cyfr, każda wartość to liczba całkowita nieujemna, co najmniej jedna pozycja.",
+  "slowa": [
+    "additionalProperties",
+    "propertyNames",
+    "minProperties"
+  ],
+  "podpowiedz": "Wartości nieznanych kluczy opisuje `additionalProperties` ze schematem. Klucze sprawdza `propertyNames` (klucz jest tekstem, więc `pattern`). `minProperties: 1` zabrania pustego słownika.",
+  "przyklady": [
+    {
+      "opis": "Dwa znane EAN-y",
+      "dane": {
+        "5901234123457": 12,
+        "5901234123464": 0
+      },
+      "ok": true
+    },
+    {
+      "opis": "Nowy EAN",
+      "dane": {
+        "5901234123501": 7
+      },
+      "ok": true
+    },
+    {
+      "opis": "Nowy EAN z tekstem",
+      "dane": {
+        "5901234123501": "siedem"
+      },
+      "ok": false,
+      "wskazowka": "Pola spoza `properties` nie są sprawdzane, dopóki nie opiszesz ich przez `additionalProperties`."
+    },
+    {
+      "opis": "Klucz, który nie jest EAN-em",
+      "dane": {
+        "SZP.36": 12
+      },
+      "ok": false,
+      "wskazowka": "Klucze sprawdza `propertyNames`."
+    },
+    {
+      "opis": "Ujemny stan",
+      "dane": {
+        "5901234123457": -1
+      },
+      "ok": false
+    },
+    {
+      "opis": "Pusty słownik",
+      "dane": {},
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "konkretne-klucze",
+      "dlaczego": "`properties` z dwoma konkretnymi EAN-ami nie opisuje nowych kluczy: nowy EAN z dowolną wartością przechodzi."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "additionalProperties ze schematem sprawdza wartości pól spoza properties; propertyNames sprawdza nazwy pól; minProperties liczbę pól.",
+      "zrodlo": "core §10.3.2.3, §10.3.2.4; validation §6.5.2"
+    }
+  ]
+}

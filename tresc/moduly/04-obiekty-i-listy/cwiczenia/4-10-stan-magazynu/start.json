@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "5901234123457": {
+      "type": "integer"
+    },
+    "5901234123464": {
+      "type": "integer"
+    }
+  }
+}

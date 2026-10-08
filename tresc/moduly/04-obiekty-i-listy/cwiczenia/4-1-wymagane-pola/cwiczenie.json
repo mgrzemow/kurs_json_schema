@@ -1,0 +1,83 @@
+{
+  "id": "4-1-wymagane-pola",
+  "rodzaj": 1,
+  "tytul": "Wymagane pola zamówienia",
+  "poziom": 1,
+  "czasMin": 5,
+  "kolejnosc": 1,
+  "kontekst": "Schemat opisuje cztery pola zamówienia, ale niczego nie wymaga. Magazyn dostaje zamówienia bez pozycji i puste obiekty, które przechodzą.",
+  "polecenie": "Numer, klient i pozycje są obowiązkowe. Uwagi nie. Popraw schemat tak, żeby zamówienie bez któregoś z obowiązkowych pól było odrzucane.",
+  "slowa": [
+    "required"
+  ],
+  "podpowiedz": "`properties` tylko opisuje pola. Obecność wymusza `required`: lista nazw obok `properties`, na tym samym poziomie.",
+  "przyklady": [
+    {
+      "opis": "Kompletne zamówienie",
+      "dane": {
+        "numer": "ZAM-2026-000123",
+        "klient": "Jan Nowak",
+        "pozycje": [
+          {
+            "ean": "5901234123457",
+            "ilosc": 2
+          }
+        ],
+        "uwagi": "domofon 3"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Bez uwag",
+      "dane": {
+        "numer": "ZAM-2026-000124",
+        "klient": "Jan Nowak",
+        "pozycje": [
+          {
+            "ean": "5901234123457",
+            "ilosc": 2
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "opis": "Bez pozycji",
+      "dane": {
+        "numer": "ZAM-2026-000125",
+        "klient": "Jan Nowak"
+      },
+      "ok": false,
+      "wskazowka": "Samo `properties` niczego nie wymaga. Dodaj `required`."
+    },
+    {
+      "opis": "Bez numeru i klienta",
+      "dane": {
+        "pozycje": [
+          {
+            "ean": "5901234123457",
+            "ilosc": 2
+          }
+        ]
+      },
+      "ok": false
+    },
+    {
+      "opis": "Pusty obiekt",
+      "dane": {},
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "literowka",
+      "dlaczego": "`required` z `pozycja` zamiast `pozycje` wymaga pola, którego nikt nie wysyła, i nie wymaga pozycji; trener ostrzega, że nazwy nie ma w `properties`."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "required wymaga obecności wymienionych pól na swoim poziomie obiektu.",
+      "zrodlo": "validation §6.5.3"
+    }
+  ]
+}

@@ -1,0 +1,361 @@
+{
+  "id": "4-4-pozycje",
+  "rodzaj": 1,
+  "tytul": "Pozycje zamówienia",
+  "poziom": 2,
+  "czasMin": 6,
+  "kolejnosc": 6,
+  "kontekst": "Pozycje zamówienia to lista. Magazyn wymaga co najmniej jednej pozycji i przyjmuje najwyżej 50 w jednej przesyłce. Każda pozycja ma EAN (13 cyfr), ilość (całkowita, co najmniej 1) i cenę (większa od zera); wszystkie trzy są obowiązkowe.",
+  "polecenie": "Uzupełnij schemat listy pozycji: liczba elementów i obowiązkowe pola każdej pozycji.",
+  "slowa": [
+    "items",
+    "minItems",
+    "maxItems",
+    "required"
+  ],
+  "podpowiedz": "`items` to schemat każdego elementu; w środku opisz obiekt z `required`. `minItems` i `maxItems` ustalają liczbę elementów. Pusta lista jest poprawną listą, dopóki nie ma `minItems`.",
+  "przyklady": [
+    {
+      "opis": "Jedna pozycja",
+      "dane": [
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        }
+      ],
+      "ok": true
+    },
+    {
+      "opis": "Dwie pozycje",
+      "dane": [
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123464",
+          "ilosc": 36,
+          "cena": 1.2
+        }
+      ],
+      "ok": true
+    },
+    {
+      "opis": "Pusta lista",
+      "dane": [],
+      "ok": false,
+      "wskazowka": "Pusta lista spełnia `items` (nie ma czego sprawdzać). Ustaw minimalną liczbę elementów."
+    },
+    {
+      "opis": "Pozycja bez ceny",
+      "dane": [
+        {
+          "ean": "5901234123457",
+          "ilosc": 2
+        }
+      ],
+      "ok": false,
+      "wskazowka": "Pola pozycji są opisane, ale nie wymagane. `required` wewnątrz `items`."
+    },
+    {
+      "opis": "51 pozycji",
+      "dane": [
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        }
+      ],
+      "ok": false
+    },
+    {
+      "opis": "Pojedynczy obiekt zamiast listy",
+      "dane": {
+        "ean": "5901234123457",
+        "ilosc": 2,
+        "cena": 12.5
+      },
+      "ok": false
+    },
+    {
+      "opis": "Druga pozycja z zerową ilością",
+      "dane": [
+        {
+          "ean": "5901234123457",
+          "ilosc": 2,
+          "cena": 12.5
+        },
+        {
+          "ean": "5901234123464",
+          "ilosc": 0,
+          "cena": 1.2
+        }
+      ],
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "bez-minitems",
+      "dlaczego": "Pozycje są kompletnie opisane, ale bez `minItems` pusta lista przechodzi."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "items stosuje schemat do każdego elementu; minItems i maxItems ograniczają liczbę elementów.",
+      "zrodlo": "core §10.3.1.2; validation §6.4.1, §6.4.2"
+    }
+  ]
+}

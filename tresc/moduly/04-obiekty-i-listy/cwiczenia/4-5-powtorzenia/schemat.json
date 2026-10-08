@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "pozycje": {
+      "type": "array",
+      "uniqueItems": true
+    },
+    "kodyRabatowe": {
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "pozycje",
+    "kodyRabatowe"
+  ]
+}

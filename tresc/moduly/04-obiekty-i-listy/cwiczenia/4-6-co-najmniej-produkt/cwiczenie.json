@@ -1,0 +1,81 @@
+{
+  "id": "4-6-co-najmniej-produkt",
+  "rodzaj": 1,
+  "tytul": "Co najmniej jeden produkt",
+  "poziom": 3,
+  "czasMin": 6,
+  "kolejnosc": 9,
+  "kontekst": "Pozycja ma `typ`: `produkt` albo `usluga` (np. montaż). Zamówienie dla magazynu musi mieć co najmniej jedną pozycję typu `produkt`; sama usługa nie jest zamówieniem dla magazynu, ale usługi obok produktów są dozwolone.",
+  "polecenie": "Dodaj regułę, która wymaga co najmniej jednego produktu wśród pozycji, nie zabraniając usług.",
+  "slowa": [
+    "contains"
+  ],
+  "podpowiedz": "`items` opisuje każdy element, więc nie nadaje się do reguły „co najmniej jeden”. Do tego jest `contains` ze schematem, do którego musi pasować przynajmniej jeden element.",
+  "przyklady": [
+    {
+      "opis": "Sam produkt",
+      "dane": [
+        {
+          "typ": "produkt",
+          "ean": "5901234123457"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "opis": "Produkt i usługa",
+      "dane": [
+        {
+          "typ": "usluga",
+          "nazwa": "montaż"
+        },
+        {
+          "typ": "produkt",
+          "ean": "5901234123457"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "opis": "Same usługi",
+      "dane": [
+        {
+          "typ": "usluga",
+          "nazwa": "montaż"
+        },
+        {
+          "typ": "usluga",
+          "nazwa": "regulacja"
+        }
+      ],
+      "ok": false,
+      "wskazowka": "Każdy element jest poprawną pozycją, ale żaden nie jest produktem. Potrzebna reguła „co najmniej jeden pasuje”."
+    },
+    {
+      "opis": "Pusta lista",
+      "dane": [],
+      "ok": false
+    },
+    {
+      "opis": "Nieznany typ",
+      "dane": [
+        {
+          "typ": "zwrot"
+        }
+      ],
+      "ok": false
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "const-w-items",
+      "dlaczego": "`const: \"produkt\"` w `items` wymaga, żeby każda pozycja była produktem, więc odrzuca dozwolone usługi obok produktów."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "contains wymaga co najmniej jednego elementu pasującego do schematu.",
+      "zrodlo": "core §10.3.1.3"
+    }
+  ]
+}

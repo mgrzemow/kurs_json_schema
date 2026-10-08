@@ -1,0 +1,111 @@
+{
+  "id": "4-3-uwagi-data-kod",
+  "rodzaj": 1,
+  "tytul": "Uwagi, data dostawy, kod rabatowy",
+  "poziom": 3,
+  "czasMin": 7,
+  "kolejnosc": 4,
+  "kontekst": "Trzy pola, trzy zachowania. `uwagi` zawsze są w zamówieniu, ale mogą być puste (`null`), bo sklep wysyła je nawet, gdy klient nic nie wpisał. `dataDostawy` jest opcjonalna, a jeśli jest, to niepusty tekst. `kodRabatowy` jest opcjonalny, niepusty i nigdy nie jest `null`.",
+  "polecenie": "Popraw schemat tak, żeby każde z trzech pól zachowywało się zgodnie z opisem. Przykłady pokrywają wszystkie kombinacje.",
+  "slowa": [
+    "required",
+    "type",
+    "minLength"
+  ],
+  "podpowiedz": "O obecności pola decyduje `required`. `null` przepuszcza tylko `\"null\"` na liście typów: `[\"string\", \"null\"]`. Pusty tekst odrzuca `minLength: 1`. Każde pole dostaje własną kombinację tych trzech.",
+  "przyklady": [
+    {
+      "opis": "Uwagi null, bez daty i kodu",
+      "dane": {
+        "uwagi": null
+      },
+      "ok": true
+    },
+    {
+      "opis": "Uwagi tekstem, data i kod podane",
+      "dane": {
+        "uwagi": "domofon",
+        "dataDostawy": "2026-10-10",
+        "kodRabatowy": "WIOSNA10"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Uwagi puste (pusty tekst to tekst)",
+      "dane": {
+        "uwagi": ""
+      },
+      "ok": true
+    },
+    {
+      "opis": "Brak uwag",
+      "dane": {
+        "dataDostawy": "2026-10-10"
+      },
+      "ok": false,
+      "wskazowka": "`uwagi` mają być zawsze obecne. Które słowo wymusza obecność?"
+    },
+    {
+      "opis": "Data pusta",
+      "dane": {
+        "uwagi": null,
+        "dataDostawy": ""
+      },
+      "ok": false,
+      "wskazowka": "Jeśli data jest, nie może być pustym tekstem."
+    },
+    {
+      "opis": "Data null",
+      "dane": {
+        "uwagi": null,
+        "dataDostawy": null
+      },
+      "ok": false
+    },
+    {
+      "opis": "Kod rabatowy null",
+      "dane": {
+        "uwagi": null,
+        "kodRabatowy": null
+      },
+      "ok": false,
+      "wskazowka": "Kod rabatowy nigdy nie jest `null`. Czy jego lista typów nie jest za szeroka?"
+    },
+    {
+      "opis": "Kod rabatowy pusty",
+      "dane": {
+        "uwagi": null,
+        "kodRabatowy": ""
+      },
+      "ok": false
+    },
+    {
+      "opis": "Kod rabatowy podany",
+      "dane": {
+        "uwagi": "x",
+        "kodRabatowy": "LATO5"
+      },
+      "ok": true
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "uwagi-tylko-string",
+      "dlaczego": "`uwagi` jako samo `string` odrzuca `null`, a sklep wysyła `null`, gdy klient nic nie wpisał."
+    },
+    {
+      "plik": "data-wymagana",
+      "dlaczego": "`dataDostawy` w `required` odrzuca zamówienia bez daty, a data jest opcjonalna."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "type jako lista dopuszcza każdy z wymienionych typów, w tym null.",
+      "zrodlo": "validation §6.1.1"
+    },
+    {
+      "twierdzenie": "minLength odrzuca pusty tekst; required decyduje o obecności pola.",
+      "zrodlo": "validation §6.3.2, §6.5.3"
+    }
+  ]
+}

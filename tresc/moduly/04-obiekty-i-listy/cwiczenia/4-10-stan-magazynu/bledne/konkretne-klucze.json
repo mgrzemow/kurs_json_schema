@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "5901234123457": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "5901234123464": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "minProperties": 1
+}

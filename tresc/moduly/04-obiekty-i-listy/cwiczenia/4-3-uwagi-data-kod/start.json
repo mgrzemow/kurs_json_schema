@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "uwagi": {
+      "type": "string"
+    },
+    "dataDostawy": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "kodRabatowy": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

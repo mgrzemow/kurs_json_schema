@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "properties": {
+    "numer": {
+      "type": "string"
+    },
+    "klient": {
+      "type": "object",
+      "properties": {
+        "nazwa": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "adres": {
+          "type": "object",
+          "properties": {
+            "ulica": {
+              "type": "string"
+            },
+            "miasto": {
+              "type": "string"
+            },
+            "kodPocztowy": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "numer",
+    "klient"
+  ]
+}

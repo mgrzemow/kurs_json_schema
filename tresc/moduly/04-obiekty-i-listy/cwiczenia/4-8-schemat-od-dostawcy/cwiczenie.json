@@ -1,0 +1,77 @@
+{
+  "id": "4-8-schemat-od-dostawcy",
+  "rodzaj": 1,
+  "tytul": "Schemat od dostawcy",
+  "poziom": 2,
+  "czasMin": 6,
+  "kolejnosc": 5,
+  "kontekst": "Dostawca systemu kurierskiego przysłał schemat adresu. Twierdzi, że wymaga ulicy, miasta i kodu pocztowego. Trener pokazuje błąd i dwa ostrzeżenia, a zamówienia bez miasta przechodzą.",
+  "polecenie": "Popraw schemat tak, żeby naprawdę sprawdzał to, co dostawca obiecał: trzy pola tekstowe, wszystkie wymagane. Zadaj mu trzy pytania z wykładu: które pola są wymagane, co przyjmuje każde pole, czy obce pole przejdzie.",
+  "slowa": [
+    "properties",
+    "required"
+  ],
+  "podpowiedz": "Trzy błędy strukturalne z wykładu: pola obok `type` zamiast w `properties`, `required: true` wewnątrz pola, literówka w `required`. Każdy ma swój komunikat trenera.",
+  "przyklady": [
+    {
+      "opis": "Kompletny adres",
+      "dane": {
+        "ulica": "Długa 5",
+        "miasto": "Gdańsk",
+        "kodPocztowy": "80-827"
+      },
+      "ok": true
+    },
+    {
+      "opis": "Bez miasta",
+      "dane": {
+        "ulica": "Długa 5",
+        "kodPocztowy": "80-827"
+      },
+      "ok": false,
+      "wskazowka": "Pole `miasto` jest opisane poza `properties`, więc walidator o nim nie wie."
+    },
+    {
+      "opis": "Bez ulicy",
+      "dane": {
+        "miasto": "Gdańsk",
+        "kodPocztowy": "80-827"
+      },
+      "ok": false
+    },
+    {
+      "opis": "Kod pocztowy jako liczba",
+      "dane": {
+        "ulica": "Długa 5",
+        "miasto": "Gdańsk",
+        "kodPocztowy": 80827
+      },
+      "ok": false
+    },
+    {
+      "opis": "Bez kodu pocztowego",
+      "dane": {
+        "ulica": "Długa 5",
+        "miasto": "Gdańsk"
+      },
+      "ok": false,
+      "wskazowka": "W `required` jest `kod_pocztowy`, a pole nazywa się `kodPocztowy`."
+    }
+  ],
+  "bledne": [
+    {
+      "plik": "zostala-literowka",
+      "dlaczego": "Pola przeniesione do `properties`, ale `required` nadal wymaga `kod_pocztowy`, więc adres bez kodu pocztowego przechodzi, a każdy adres bez pola `kod_pocztowy` byłby odrzucany, gdyby ktoś je kiedyś dodał."
+    }
+  ],
+  "zrodla": [
+    {
+      "twierdzenie": "Nieznane słowa (tu: nazwy pól obok type) są ignorowane.",
+      "zrodlo": "core §4.3.1"
+    },
+    {
+      "twierdzenie": "required to lista nazw przy obiekcie; properties mapuje nazwy na schematy.",
+      "zrodlo": "validation §6.5.3; core §10.3.2.1"
+    }
+  ]
+}
