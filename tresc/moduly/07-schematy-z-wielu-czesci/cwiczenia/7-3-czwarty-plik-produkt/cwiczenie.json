@@ -11,7 +11,7 @@
     "$id",
     "$ref"
   ],
-  "podpowiedz": "Plik bez `$id` nie ma nazwy, pod którą walidator mógłby go znaleźć. Nadaj mu `$id` w tej samej przestrzeni, co pozostałe pliki: `https://kurs.example/schematy/produkt`.",
+  "podpowiedz": "W trenerze plik bez `$id` nie jest zarejestrowany pod żadną nazwą, więc odwołanie `produkt` nie ma celu. (Specyfikacja pozwala walidatorom rejestrować schematy pod dowolnym adresem, ale `$id` to jedyny sposób niezależny od narzędzia.) Nadaj plikowi `$id` w tej samej przestrzeni, co pozostałe pliki: `https://kurs.example/schematy/produkt`.",
   "glowny": "zamowienie",
   "przyklady": [
     {
@@ -72,7 +72,7 @@
     },
     {
       "twierdzenie": "Słowa obok $ref działają razem z definicją (w draft-07 były ignorowane).",
-      "zrodlo": "core §8.2.3.1, §7.5.1"
+      "zrodlo": "core §8.2.3.1; spec/tests/draft2020-12/ref.json (ref applies alongside sibling keywords)"
     }
   ]
 }

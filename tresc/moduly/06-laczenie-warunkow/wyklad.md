@@ -1,6 +1,6 @@
 ## Reguły między polami
 
-Dotąd każda reguła patrzyła na jedno pole. Biznes mówi inaczej: „jeśli faktura, to NIP”, „płatność kartą wymaga tokenu”, „e-mail albo telefon, co najmniej jeden”, „kraj inny niż Polska wymaga numeru EORI”. Do tego służą słowa, które łączą całe schematy: logiczne (`allOf`, `anyOf`, `oneOf`, `not`), warunkowe (`if`/`then`/`else`) i zależności między polami (`dependentRequired`). Każde z nich bierze podschematy i składa z ich werdyktów jeden werdykt. <!-- twierdzenie --> <!-- zrodlo: core §10.2 -->
+Dotąd każda reguła patrzyła na jedno pole. Biznes mówi inaczej: „jeśli faktura, to NIP”, „płatność kartą wymaga tokenu”, „e-mail albo telefon, co najmniej jeden”, „kraj inny niż Polska wymaga numeru EORI”. Do tego służą słowa, które łączą całe schematy: logiczne (`allOf`, `anyOf`, `oneOf`, `not`), warunkowe (`if`/`then`/`else`) i zależności między polami (`dependentRequired`). Słowa logiczne i warunkowe biorą całe podschematy i składają z ich werdyktów jeden werdykt; `dependentRequired` jest prostsze: to zwykła asercja z listą nazw pól. <!-- twierdzenie --> <!-- zrodlo: core §10.2; validation §6.5.4 -->
 
 Przy braku czasu z tego modułu zostaje sekcja o `if`/`then`/`else`; reszta jest w materiałach.
 
@@ -25,7 +25,7 @@ Wartość musi spełniać **wszystkie** podschematy. Adres dostawy to zwykły ad
 
 ### Pułapka: `additionalProperties: false` w gałęzi `allOf`
 
-Kusi, żeby drugą gałąź zamknąć, bo literówki w instrukcjach dla kuriera są kosztowne. Ale każda gałąź widzi **tylko swoje** `properties`. Dla gałęzi z instrukcjami pole `miasto` jest „dodatkowe”, więc zamknięta gałąź odrzuca każdy adres z miastem, czyli każdy adres. <!-- twierdzenie --> <!-- zrodlo: core §10.3.2.3; spec/tests/draft2020-12/unevaluatedProperties.json -->
+Kusi, żeby drugą gałąź zamknąć, bo literówki w instrukcjach dla kuriera są kosztowne. Ale każda gałąź widzi **tylko swoje** `properties`. Dla gałęzi z instrukcjami pole `miasto` jest „dodatkowe”, więc zamknięta gałąź odrzuca każdy adres z miastem, czyli każdy adres. <!-- twierdzenie --> <!-- zrodlo: core §10.2, §10.3.2.3; spec/tests/draft2020-12/additionalProperties.json (additionalProperties does not look in applicators) -->
 
 ```json schemat=adres-zamknieta-galaz
 {
@@ -40,7 +40,7 @@ Kusi, żeby drugą gałąź zamknąć, bo literówki w instrukcjach dla kuriera 
 { "miasto": "Gdańsk", "instrukcjeDlaKuriera": "domofon 3" }
 ```
 
-Lekarstwo w 2020-12 to `unevaluatedProperties`: działa jak `additionalProperties`, ale „widzi” pola opisane we wszystkich gałęziach `allOf`, w `if`/`then` i za `$ref`. Stawia się je na poziomie `allOf`, nie w gałęzi. <!-- twierdzenie --> <!-- zrodlo: core §11.3 -->
+Lekarstwo w 2020-12 to `unevaluatedProperties`: działa jak `additionalProperties`, ale „widzi” pola, które zostały pomyślnie sprawdzone w gałęziach `allOf`, w `if`/`then` i za `$ref`. Stawia się je na poziomie `allOf`, nie w gałęzi. <!-- twierdzenie --> <!-- zrodlo: core §11.3 -->
 
 ```json schemat=adres-unevaluated
 {
@@ -168,7 +168,7 @@ Wartość **nie może** spełniać podschematu. Zamówienie do magazynu nie moż
 
 ### Pułapka: `if` bez `required`
 
-`if` z samym `properties` jest spełnione także wtedy, gdy pola **nie ma**, bo `properties` nie wymaga obecności (moduł 4). Zamówienie bez pola `faktura` trafia wtedy do `then` i wymaga NIP-u, czego nikt nie chciał. Lekarstwo widać wyżej: `required: ["faktura"]` wewnątrz `if`. <!-- twierdzenie --> <!-- zrodlo: core §10.2.2.1; spec/tests/draft2020-12/if-then-else.json -->
+`if` z samym `properties` jest spełnione także wtedy, gdy pola **nie ma**, bo `properties` nie wymaga obecności (moduł 4). Zamówienie bez pola `faktura` trafia wtedy do `then` i wymaga NIP-u, czego nikt nie chciał. Lekarstwo widać wyżej: `required: ["faktura"]` wewnątrz `if`. <!-- twierdzenie --> <!-- zrodlo: core §10.2.2.1, §10.3.2.1; spec/tests/draft2020-12/properties.json (no property present is valid) -->
 
 ```json schemat=faktura-nip-bez-required
 {

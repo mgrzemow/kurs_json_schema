@@ -143,7 +143,7 @@ Każdy klocek z przykładem z zamówienia:
 
 ### Przenośność
 
-Specyfikacja zaleca autorom schematów ograniczyć się do małego podzbioru składni: pojedyncze znaki, klasy `[abc]` i `[a-z]` z dopełnieniem `[^...]`, powtórzenia `+ * ? {x} {x,y} {x,}`, kotwice `^ $`, grupy `( )` i alternatywa `|`. Powód: walidatory w różnych językach różnie wspierają resztę. Na przykład `\d` w Pythonie pasuje także do cyfr spoza alfabetu łacińskiego (arabsko-indyjskich, dewanagari), a w JavaScripcie tylko do `0-9`; `[0-9]` działa wszędzie tak samo. W tym kursie używamy wyłącznie zalecanego podzbioru. <!-- twierdzenie --> <!-- zrodlo: core §6.4 -->
+Specyfikacja zaleca autorom schematów ograniczyć się do małego podzbioru składni: pojedyncze znaki, klasy `[abc]` i `[a-z]` z dopełnieniem `[^...]`, powtórzenia `+ * ? {x} {x,y} {x,}`, kotwice `^ $`, grupy `( )` i alternatywa `|`. Powód: walidatory w różnych językach różnie wspierają resztę. Na przykład `\d` w Pythonie pasuje także do cyfr spoza alfabetu łacińskiego (arabsko-indyjskich, dewanagari), a w JavaScripcie tylko do `0-9`; `[0-9]` działa wszędzie tak samo. W tym kursie trzymamy się tego podzbioru, plus ucieczki znaków specjalnych, takiej jak `\.` dla dosłownej kropki. <!-- twierdzenie --> <!-- zrodlo: core §6.4; spec/tests/draft2020-12/optional/ecmascript-regex.json -->
 
 (Zachowanie `\d` w Pythonie: dokumentacja modułu `re`, poza repozytorium.)
 
@@ -200,7 +200,7 @@ Szprychy sprzedajemy w opakowaniach po 36 sztuk. `multipleOf` przyjmuje liczbę 
 
 ### Pułapka: `multipleOf` z ułamkiem dziesiętnym
 
-Kusi, żeby cenę z dwoma miejscami po przecinku opisać przez `multipleOf: 0.01`. W arytmetyce zmiennoprzecinkowej, której używa większość walidatorów, `19.99 / 0.01` nie daje dokładnie `1999`, tylko liczbę „prawie całkowitą”, i walidator odrzuca cenę 19,99 zł. Specyfikacja ostrzega, że walidatory mogą się różnić w traktowaniu liczb; w praktyce `multipleOf` z ułamkiem jest loterią. Dla pieniędzy bezpieczniej trzymać grosze jako liczbę całkowitą (`1999`) albo zapisać wymaganie w dokumentacji i sprawdzać je w kodzie. <!-- twierdzenie --> <!-- zrodlo: validation §4.2, §6.2.1 -->
+Kusi, żeby cenę z dwoma miejscami po przecinku opisać przez `multipleOf: 0.01`. W arytmetyce zmiennoprzecinkowej, której używa większość walidatorów, `19.99 / 0.01` nie daje dokładnie `1999`, tylko liczbę „prawie całkowitą”, i walidator odrzuca cenę 19,99 zł. Specyfikacja nie ogranicza precyzji liczb i oficjalny zestaw testów oczekuje poprawnej obsługi ułamkowego `multipleOf`, ale walidator liczący w arytmetyce zmiennoprzecinkowej może dać wynik niezgodny z oczekiwaniem; w praktyce `multipleOf` z ułamkiem jest loterią zależną od biblioteki. Dla pieniędzy bezpieczniej trzymać grosze jako liczbę całkowitą (`1999`) albo zapisać wymaganie w dokumentacji i sprawdzać je w kodzie. <!-- twierdzenie --> <!-- zrodlo: validation §4.2, §6.2.1; spec/tests/draft2020-12/multipleOf.json -->
 
 ```json schemat=cena-grosze
 { "type": "number", "exclusiveMinimum": 0, "multipleOf": 0.01 }
@@ -228,4 +228,4 @@ Słowa `minimum`, `maximum`, `multipleOf` sprawdzają wyłącznie liczby. Tekst 
 "36"
 ```
 
-> **W draft-07:** `exclusiveMinimum` i `exclusiveMaximum` były wartościami logicznymi dopisywanymi obok `minimum` i `maximum` (`"minimum": 0, "exclusiveMinimum": true`). Od draft-06 są osobnymi liczbami: `"exclusiveMinimum": 0`. W 2020-12 `"exclusiveMinimum": true` nie jest poprawnym schematem, bo specyfikacja wymaga liczby. Część walidatorów odrzuci taki schemat (trener tak robi), inne po cichu zignorują słowo, a wtedy granica przestanie być wyłączona. <!-- twierdzenie --> <!-- zrodlo: validation §6.2.5; spec/tests/draft2020-12/exclusiveMinimum.json -->
+> **W draft-07:** `exclusiveMinimum` i `exclusiveMaximum` były wartościami logicznymi dopisywanymi obok `minimum` i `maximum` (`"minimum": 0, "exclusiveMinimum": true`). Od draft-06 są osobnymi liczbami: `"exclusiveMinimum": 0`. W 2020-12 `"exclusiveMinimum": true` nie jest poprawnym schematem, bo specyfikacja wymaga liczby. Część walidatorów odrzuci taki schemat (trener tak robi), inne po cichu zignorują słowo, a wtedy granica przestanie być wyłączona. <!-- twierdzenie --> <!-- zrodlo: validation §6.2.5; spec/metaschematy/meta/validation.json -->

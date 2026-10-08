@@ -2,7 +2,7 @@ Zamówienie ma datę, adres e-mail klienta i link do faktury. Wzorcem da się op
 
 ## Zdefiniowane formaty
 
-`format` nazywa znany rodzaj tekstu. Specyfikacja definiuje listę nazw, każdą z odesłaniem do normy, która mówi, jak taki tekst wygląda. Te, które przydają się w zamówieniu: <!-- twierdzenie --> <!-- zrodlo: validation §7.3.1, §7.3.2, §7.3.3, §7.3.4, §7.3.5, §7.3.8 -->
+`format` nazywa znany rodzaj tekstu. Specyfikacja definiuje listę nazw, każdą z odesłaniem do normy, która mówi, jak taki tekst wygląda. Te, które przydają się w zamówieniu: <!-- twierdzenie --> <!-- zrodlo: validation §7.3.1, §7.3.2, §7.3.3, §7.3.4, §7.3.5, §7.3.7, §7.3.8 -->
 
 | Format | Przykład z zamówienia | Co znaczy |
 |---|---|---|
@@ -48,7 +48,7 @@ Zasada dla autora schematu: jeśli format ma być regułą, dopisz `pattern` tam
 
 ### Nieznany format
 
-Format spoza listy, np. `"format": "telefon"`, jest ignorowany nawet przy włączonym sprawdzaniu, bo walidator nie wie, jak go sprawdzić. Dla telefonu, NIP-u i kodu pocztowego służy `pattern` z modułu 3. Trener ostrzega o nieznanym formacie; walidator w magazynie nie. <!-- twierdzenie --> <!-- zrodlo: validation §7.2.3 -->
+Format spoza listy, np. `"format": "telefon"`, jest zbierany jak każda adnotacja i nie wpływa na werdykt. Tak jest także wtedy, gdy sprawdzanie formatów włącza się opcją walidatora (jak przełącznik w trenerze). Dopiero schemat, który jawnie korzysta ze słownika „format-assertion”, musi przy nieznanym formacie zgłosić błąd; w praktyce spotyka się to rzadko. Dla telefonu, NIP-u i kodu pocztowego służy `pattern` z modułu 3. Trener ostrzega o nieznanym formacie; walidator w magazynie nie. <!-- twierdzenie --> <!-- zrodlo: validation §7.2.3 -->
 
 **Przejdzie czy nie?** Schemat `data` z włączoną walidacją `format` i dokument `"2026-02-30"` (30 lutego). Odpowiedź: zależy od biblioteki; walidator trenera w trybie pełnym odrzuca, bo sprawdza kalendarz. To kolejny powód, żeby nie polegać na `format` w kontrakcie między systemami.
 

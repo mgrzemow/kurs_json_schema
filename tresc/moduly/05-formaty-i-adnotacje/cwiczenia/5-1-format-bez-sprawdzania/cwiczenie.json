@@ -10,7 +10,7 @@
   "slowa": [
     "format"
   ],
-  "podpowiedz": "Z wyłączoną walidacją `format` jest tylko adnotacją: sprawdzany jest wyłącznie `type`. Z włączoną walidator porównuje tekst z definicją formatu (RFC 3339 dla dat, RFC 5322 dla e-maila).",
+  "podpowiedz": "Z wyłączoną walidacją `format` jest tylko adnotacją: sprawdzany jest wyłącznie `type`. Z włączoną walidator porównuje tekst z definicją formatu (RFC 3339 dla dat, RFC 5321 dla e-maila).",
   "odpowiedzi": [
     {
       "opis": "E-mail poprawny",

@@ -84,7 +84,7 @@
     },
     {
       "twierdzenie": "Walidator nie pobiera schematów z sieci; $id to identyfikator.",
-      "zrodlo": "core §9.1.1 (Initial Base URI), §9.1.2 (Loading a referenced schema)"
+      "zrodlo": "core §8.2.1, §8.2.3, §9.1.2"
     }
   ]
 }

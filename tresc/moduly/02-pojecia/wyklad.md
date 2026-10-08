@@ -26,7 +26,7 @@ Powyżej dokument JSON Schema (górny) i instancja (dolny). Oba są dokumentami 
 
 ### Słowa kluczowe: asercje i adnotacje
 
-Słowo kluczowe (keyword) to nazwa pola w schemacie, która coś znaczy dla walidatora: `type`, `required`, `minimum`. Są dwa rodzaje. **Asercja** daje werdykt: `type: "string"` odrzuca liczbę. **Adnotacja** tylko opisuje: `title`, `description` niczego nie sprawdzają. Do adnotacji należy też, co zaskakuje, `format`; o tym w module 5. <!-- twierdzenie --> <!-- zrodlo: core §7.6, §7.7 -->
+Słowo kluczowe (keyword) to nazwa pola w schemacie, która coś znaczy dla walidatora: `type`, `required`, `minimum`. Specyfikacja dzieli słowa na kilka kategorii (są też identyfikatory i aplikatory, do których dojdziemy), a jedno słowo może należeć do kilku. Na razie interesują nas dwie. **Asercja** daje werdykt: `type: "string"` odrzuca liczbę. **Adnotacja** tylko opisuje: `title`, `description` niczego nie sprawdzają. Do adnotacji należy też, co zaskakuje, `format`; o tym w module 5. <!-- twierdzenie --> <!-- zrodlo: core §4.3.1, §7.6, §7.7; validation §7.2.1 -->
 
 ### Pułapka 1: nieznane słowa są po cichu ignorowane
 
@@ -72,7 +72,7 @@ false
 
 ## Metaschematy i `$schema`
 
-Skoro schemat jest dokumentem JSON, można napisać schemat, który sprawdza schematy. Taki schemat nazywa się **metaschematem**. Mówi on, że `type` przyjmuje jedną z siedmiu nazw, że `required` to lista tekstów, że `minimum` to liczba. Oficjalny metaschemat 2020-12 leży pod adresem `https://json-schema.org/draft/2020-12/schema` i składa się z kilku mniejszych części, zwanych słownikami (vocabulary): osobno słowa rdzenia, osobno aplikatory (`properties`, `items`), osobno walidacja (`minimum`, `pattern`), osobno adnotacje. <!-- twierdzenie --> <!-- zrodlo: core §4.3.4, §4.3.3, §8.1 -->
+Skoro schemat jest dokumentem JSON, można napisać schemat, który sprawdza schematy. Taki schemat nazywa się **metaschematem**. Mówi on, że `type` przyjmuje jedną z siedmiu nazw, że `required` to lista tekstów, że `minimum` to liczba. Oficjalny metaschemat 2020-12 leży pod adresem `https://json-schema.org/draft/2020-12/schema` i składa się z kilku mniejszych metaschematów, po jednym dla każdego słownika (vocabulary). Słownik to zestaw słów kluczowych razem z ich znaczeniem: osobno słowa rdzenia, osobno aplikatory (`properties`, `items`), osobno walidacja (`minimum`, `pattern`), osobno adnotacje i kilka innych. <!-- twierdzenie --> <!-- zrodlo: core §4.3.4, §4.3.3, §8.1 -->
 
 Fragment słownika walidacji, tylko do przeczytania (definicja `type` z pliku `meta/validation`):
 
@@ -137,4 +137,4 @@ Jedno zdanie o OpenAPI, bo tam najczęściej spotyka się schematy: OpenAPI 3.0 
 
 Odpowiedź: trzeci. Stare mają `http`, myślnik po `draft` i `#` na końcu.
 
-> **W draft-07:** nagłówek to `http://json-schema.org/draft-07/schema#` (z `http` i `#`). W 2020-12: `https://json-schema.org/draft/2020-12/schema`, bez `#`. Oba wpisujemy dosłownie; walidator porównuje je jak tekst.
+> **W draft-07:** nagłówek to `http://json-schema.org/draft-07/schema#` (z `http` i `#`). W 2020-12: `https://json-schema.org/draft/2020-12/schema`, bez `#`. Oba wpisujemy dosłownie, znak po znaku; wiele walidatorów nie rozpozna wersji zapisanej inaczej.

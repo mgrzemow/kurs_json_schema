@@ -80,7 +80,7 @@
   ],
   "zrodla": [
     {
-      "twierdzenie": "Nieznany format jest ignorowany (implementacja powinna traktować go jak adnotację).",
+      "twierdzenie": "Nieznany format jest zbierany jako adnotacja i nie wpływa na werdykt (poza słownikiem format-assertion, który go odrzuca).",
       "zrodlo": "validation §7.2.3"
     },
     {

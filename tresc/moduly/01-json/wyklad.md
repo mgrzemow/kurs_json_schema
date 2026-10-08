@@ -191,7 +191,7 @@ Tekst stoi w podwójnych cudzysłowach. Apostrofy `'tak'` nie są cudzysłowem. 
   </g>
 </svg>
 
-Liczba to opcjonalny minus, cyfry, opcjonalna część ułamkowa po kropce i opcjonalny wykładnik: `2`, `-3`, `12.5`, `1.2e3`. Trzy pułapki: zer wiodących nie ma (`007` to błąd, a kod pocztowy `00950` zapisujemy jako tekst), separator dziesiętny to zawsze kropka (Excel po polsku daje przecinek), a `NaN` i `Infinity` nie istnieją. Na poziomie składni nie ma różnicy między liczbą całkowitą a ułamkiem: `12.50` i `12.5` to ta sama liczba, a `36.0` to po prostu trzydzieści sześć. JSON Schema dokłada do tego rozróżnienie `integer`/`number`, o którym w module 3. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §6 -->
+Liczba to opcjonalny minus, cyfry, opcjonalna część ułamkowa po kropce i opcjonalny wykładnik: `2`, `-3`, `12.5`, `1.2e3`. Trzy pułapki: zer wiodących nie ma (`007` to błąd, a kod pocztowy `00950` zapisujemy jako tekst), separator dziesiętny to zawsze kropka (Excel po polsku daje przecinek), a `NaN` i `Infinity` nie istnieją. Na poziomie składni nie ma różnicy między liczbą całkowitą a ułamkiem: `12.50` i `12.5` to ta sama liczba, a `36.0` to po prostu trzydzieści sześć. JSON Schema dokłada do tego rozróżnienie `integer`/`number`, o którym w module 3. <!-- twierdzenie --> <!-- zrodlo: RFC 8259 §6; core §4.2.1, §4.2.2 -->
 
 ### whitespace
 

@@ -75,7 +75,7 @@ genson -i 2 zamowienie-1.json zamowienie-2.json zamowienie-3.json
 | brak wzorców numeru, kodu pocztowego, NIP-u, EAN-u | `pattern` | 3 |
 | `ilosc` i `cena` bez zakresów | `exclusiveMinimum`, `maximum` | 3 |
 | `pozycje` bez `minItems` | `minItems: 1` | 4 |
-| `wymiaryPaczki` jako lista dowolnej liczby liczb całkowitych | krotka trzech liczb: `prefixItems` | 4 |
+| `wymiaryPaczki` jako lista dowolnej liczby liczb całkowitych | krotka trzech liczb: `prefixItems`, `items: false`, `minItems: 3` | 4 |
 | daty i e-mail jako `string` | `format` ze świadomością, że to adnotacja | 5 |
 | brak `additionalProperties` gdziekolwiek | decyzja per obiekt | 4 |
 | brak `title` i `description` | opisy dla ludzi | 5 |
@@ -163,7 +163,7 @@ Dziesięć punktów do odhaczenia przy każdym wygenerowanym schemacie, niezale�
 2. `required` według wymagań, nie według przykładów: co naprawdę musi być?
 3. `enum` i `const` dla pól o zamkniętej liście wartości.
 4. `pattern` dla identyfikatorów i kodów; `minLength` dla tekstów, które nie mogą być puste.
-5. Zakresy liczb: `minimum`, `exclusiveMinimum`, `maximum`; `multipleOf` tylko dla liczb całkowitych.
+5. Zakresy liczb: `minimum`, `exclusiveMinimum`, `maximum`; `multipleOf` z ułamkiem tylko po sprawdzeniu w docelowej bibliotece (moduł 3).
 6. Listy: `minItems`, `uniqueItems`, krotki jako `prefixItems`.
 7. `null` kontra brak pola kontra pusty tekst, świadomie dla każdego pola.
 8. `format` tam, gdzie ma sens, ze świadomością, że to adnotacja.

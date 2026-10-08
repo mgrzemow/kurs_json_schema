@@ -108,8 +108,8 @@
       "zrodlo": "validation §6.1.1, §6.2.2, §6.2.5"
     },
     {
-      "twierdzenie": "Walidatory mogą się różnić w arytmetyce liczb; multipleOf z ułamkiem bywa zawodne.",
-      "zrodlo": "validation §4.2, §6.2.1"
+      "twierdzenie": "Specyfikacja nie ogranicza precyzji liczb; walidator liczący zmiennoprzecinkowo może się pomylić przy ułamkowym multipleOf.",
+      "zrodlo": "validation §4.2, §6.2.1; spec/tests/draft2020-12/multipleOf.json"
     }
   ]
 }

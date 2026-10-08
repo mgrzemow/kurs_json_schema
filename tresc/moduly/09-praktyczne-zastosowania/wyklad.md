@@ -22,7 +22,7 @@ components:
         numer: { type: string, pattern: "^ZAM-[0-9]{4}-[0-9]{6}$" }
 ```
 
-Specyfika: **OpenAPI 3.0** używa własnego dialektu bliskiego draft-04: `nullable: true` zamiast `["string", "null"]`, brak `$defs`, brak `if`/`then`, własne `discriminator` zamiast pola rozróżniającego z `const`. **OpenAPI 3.1** to pełne 2020-12: schemat z kursu da się wkleić bez zmian. Przy pracy z 3.0 schemat trzeba „cofnąć” o kilka słów (ramki „W draft-07” z kursu pokazują które); przy 3.1 nie trzeba nic. `readOnly` i `writeOnly` z modułu 5 mają w OpenAPI praktyczne znaczenie: pole `readOnly` nie jest wymagane w żądaniu, a `writeOnly` nie pojawia się w odpowiedzi. (Źródła: specyfikacje OpenAPI 3.0.3 i 3.1.0, rozdziały o Schema Object, poza repozytorium.)
+Specyfika: **OpenAPI 3.0** używa własnego dialektu bliskiego draft-04: `nullable: true` zamiast `["string", "null"]`, brak `$defs`, brak `if`/`then`, własne `discriminator` zamiast pola rozróżniającego z `const`. **OpenAPI 3.1** to pełne 2020-12: schemat z kursu da się wkleić bez zmian. Przy pracy z 3.0 schemat trzeba „cofnąć” o kilka słów (ramki „W draft-07” z kursu pokazują które); przy 3.1 nie trzeba nic. `readOnly` i `writeOnly` z modułu 5 mają w OpenAPI praktyczne znaczenie: OpenAPI ustala, że pole `readOnly` nie jest wymagane w żądaniu, a `writeOnly` nie pojawia się w odpowiedzi. To reguła OpenAPI, nie JSON Schema: walidator JSON Schema traktuje oba słowa jako adnotacje i nie zmienia przez nie działania `required`. (Źródła: specyfikacje OpenAPI 3.0.3 i 3.1.0, rozdziały o Schema Object, poza repozytorium.)
 
 Zdanie z domeny: ten sam schemat zamówienia opisuje żądanie sklepu i odpowiedź magazynu, a dokumentacja Swagger UI powstaje z niego automatycznie.
 

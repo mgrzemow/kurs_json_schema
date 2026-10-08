@@ -78,7 +78,7 @@
   ],
   "zrodla": [
     {
-      "twierdzenie": "date i date-time są według RFC 3339; email według RFC 5322.",
+      "twierdzenie": "date i date-time są według RFC 3339; email według RFC 5321 (reguła „Mailbox”).",
       "zrodlo": "validation §7.3.1, §7.3.2"
     }
   ]

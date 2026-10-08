@@ -66,7 +66,7 @@
   "zrodla": [
     {
       "twierdzenie": "then stosuje się, gdy if jest spełnione; properties nie wymaga obecności pola, więc if bez required jest spełnione przy braku pola.",
-      "zrodlo": "core §10.2.2.1, §10.3.2.1; spec/tests/draft2020-12/if-then-else.json"
+      "zrodlo": "core §10.2.2.1, §10.3.2.1; spec/tests/draft2020-12/properties.json"
     }
   ]
 }

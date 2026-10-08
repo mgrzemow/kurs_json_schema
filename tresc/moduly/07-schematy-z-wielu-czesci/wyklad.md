@@ -29,13 +29,13 @@ Skopiowany schemat adresu rozjeżdża się po pierwszej poprawce: w adresie dost
 
 Odwołanie może prowadzić też do samego schematu, co daje rekurencję (kategoria z podkategoriami). W tym kursie tego nie ćwiczymy.
 
-> **W draft-07:** `definitions` zamiast `$defs`. W 2020-12 stara nazwa nadal działa jako zwykłe miejsce na schematy (walidator rozwiąże `#/definitions/adres`, bo to po prostu ścieżka w pliku), ale nie jest słowem kluczowym; `$defs` jest.
+> **W draft-07:** `definitions` zamiast `$defs`. W metaschemacie 2020-12 `definitions` jest oznaczone jako przestarzałe. Odwołanie `#/definitions/adres` zadziała w większości walidatorów, bo to po prostu ścieżka w pliku, ale specyfikacja tego nie gwarantuje; w nowych schematach używaj `$defs`.
 
 ## Identyfikatory fragmentów: JSON Pointer i `$anchor`
 
 Część odwołania po `#` to **identyfikator fragmentu**. Są dwa rodzaje. <!-- twierdzenie --> <!-- zrodlo: core §5 -->
 
-**JSON Pointer**: ścieżka po kluczach od korzenia pliku, rozdzielona `/`: `#/$defs/adres`, `#/properties/klient/properties/adres`, `#/prefixItems/0` (elementy list po numerze od zera). Jeśli nazwa klucza zawiera `~` albo `/`, zapisuje się je jako `~0` i `~1`. Wskaźnik prowadzi do dowolnego miejsca w pliku, nie tylko do `$defs`, ale odwołania w głąb `properties` są kruche: zmiana struktury je psuje. <!-- twierdzenie --> <!-- zrodlo: core §9.2.1; RFC 6901 §3, §4 -->
+**JSON Pointer**: ścieżka po kluczach od korzenia pliku, rozdzielona `/`: `#/$defs/adres`, `#/properties/klient/properties/adres`, `#/prefixItems/0` (elementy list po numerze od zera). Jeśli nazwa klucza zawiera `~` albo `/`, zapisuje się je jako `~0` i `~1`. Wskaźnik prowadzi do dowolnego miejsca w pliku, nie tylko do `$defs`, ale odwołania w głąb `properties` są kruche: zmiana struktury je psuje. <!-- twierdzenie --> <!-- zrodlo: core §8.2.2, §9.2.1; RFC 6901 §3, §4 -->
 
 ```json schemat=wskaznik-w-glab
 {
@@ -51,7 +51,7 @@ Część odwołania po `#` to **identyfikator fragmentu**. Są dwa rodzaje. <!--
 { "kodPocztowyPaczkomatu": "80827" }
 ```
 
-**`$anchor`**: nazwa nadana schematowi (`"$anchor": "adres"`), do której odwołujemy się przez `#adres`, niezależnie od miejsca w pliku. Nazwa musi zaczynać się od litery. <!-- twierdzenie --> <!-- zrodlo: core §8.2.2 -->
+**`$anchor`**: nazwa nadana schematowi (`"$anchor": "adres"`), do której odwołujemy się przez `#adres`, niezależnie od miejsca w pliku. Nazwa musi zaczynać się od litery albo podkreślnika. <!-- twierdzenie --> <!-- zrodlo: core §8.2.2 -->
 
 ```json schemat=kotwica
 {
@@ -67,7 +67,7 @@ Część odwołania po `#` to **identyfikator fragmentu**. Są dwa rodzaje. <!--
 
 Kiedy co: wskaźnik do `$defs` w małych schematach; `$anchor`, gdy schemat jest duży albo struktura się zmienia.
 
-**Przejdzie czy nie?** `"$ref": "#/defs/adres"` (bez dolara). Odpowiedź: to nie jest werdykt dla dokumentu, tylko błąd kompilacji całego schematu, bo odwołanie nie prowadzi nigdzie. Trener pokazuje „odwołanie nie prowadzi do żadnej definicji”, a walidator w magazynie odmówi uruchomienia.
+**Przejdzie czy nie?** `"$ref": "#/defs/adres"` (bez dolara). Odpowiedź: to nie jest werdykt dla dokumentu, tylko błąd kompilacji całego schematu, bo odwołanie nie prowadzi nigdzie. Trener pokazuje „odwołanie nie prowadzi do żadnej definicji”, a walidator w magazynie najpewniej odmówi uruchomienia. (Specyfikacja nie rozstrzyga, co robić z odwołaniem bez celu; tak zachowują się Ajv i większość popularnych walidatorów.)
 
 > **W draft-07:** zamiast `$anchor` używało się `$id` z samym fragmentem (`"$id": "#adres"`). W 2020-12 to niedozwolone; `$id` nie może mieć fragmentu.
 
@@ -95,7 +95,7 @@ W 2020-12 słowa obok `$ref` działają. `{"$ref": "#/$defs/adres", "description
 
 Produkt jest wspólny dla zamówienia i katalogu, więc dostaje osobny plik. Każdy plik ma `$id`, czyli identyfikator w postaci URI: `https://kurs.example/schematy/produkt`. <!-- twierdzenie --> <!-- zrodlo: core §8.2.1 -->
 
-`$ref` między plikami wskazuje `$id` celu: w całości albo względnie. W pliku o `$id` `https://kurs.example/schematy/zamowienie` odwołanie `"$ref": "produkt"` rozwiązuje się względem adresu bazowego do `https://kurs.example/schematy/produkt`, dokładnie tak, jak link względny na stronie WWW. <!-- twierdzenie --> <!-- zrodlo: core §8.2.1, §9.1.1 -->
+`$ref` między plikami wskazuje `$id` celu: w całości albo względnie. W pliku o `$id` `https://kurs.example/schematy/zamowienie` odwołanie `"$ref": "produkt"` rozwiązuje się względem adresu bazowego do `https://kurs.example/schematy/produkt`, dokładnie tak, jak link względny na stronie WWW. <!-- twierdzenie --> <!-- zrodlo: core §8.2.1, §9.2 -->
 
 ```json
 {
@@ -123,8 +123,8 @@ Co walidator robi po kolei: <!-- twierdzenie --> <!-- zrodlo: core §9.1, §9.2 
 3. Bierze schemat główny i w czasie kompilacji rozwiązuje każde `$ref`: adres bazowy plus odwołanie dają identyfikator, a identyfikator prowadzi do zarejestrowanego schematu albo do fragmentu w nim.
 4. Dopiero potem sprawdza dokumenty.
 
-Zepsute odwołanie to błąd w kroku 3, czyli błąd kompilacji całego schematu, a nie werdykt dla dokumentu. Dlatego w trenerze przy zepsutym odwołaniu przykłady nie dostają werdyktów („czeka”), tylko diagnoza mówi, w którym pliku jest zepsute odwołanie.
+Zepsute odwołanie to błąd w kroku 3, czyli w trenerze i w Ajv błąd kompilacji całego schematu, a nie werdykt dla dokumentu (specyfikacja dopuszcza też walidatory, które rozwiązują odwołania leniwie). Dlatego w trenerze przy zepsutym odwołaniu przykłady nie dostają werdyktów („czeka”), tylko diagnoza mówi, w którym pliku jest zepsute odwołanie.
 
 Pakowanie (bundling) jednym zdaniem: wiele plików da się scalić w jeden, wstawiając je do `$defs` z zachowaniem ich `$id`; narzędzia robią to automatycznie, w kursie nie ćwiczymy. <!-- twierdzenie --> <!-- zrodlo: core §9.3.1 -->
 
-**Przejdzie czy nie?** Plik `adres` ma `$id` `https://kurs.example/schematy/adres.json`, a zamówienie odwołuje się do `adres`. Odpowiedź: zepsute, bo `https://kurs.example/schematy/adres` i `https://kurs.example/schematy/adres.json` to różne identyfikatory. Walidator porównuje je jak teksty, co do znaku.
+**Przejdzie czy nie?** Plik `adres` ma `$id` `https://kurs.example/schematy/adres.json`, a zamówienie odwołuje się do `adres`. Odpowiedź: zepsute, bo `https://kurs.example/schematy/adres` i `https://kurs.example/schematy/adres.json` to różne identyfikatory. Identyfikatory porównuje się po normalizacji (np. wielkość liter w nazwie hosta nie ma znaczenia), ale końcówka `.json` to zawsze inny identyfikator.
