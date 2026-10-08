@@ -98,7 +98,8 @@ function zgadnij(cw, wejscie, formaty) {
   const przyklady = cw.odpowiedzi.map((o, i) => {
     const w = fn.sprawdz(o.dane);
     const odpowiedz = typeof odp[i] === 'boolean' ? odp[i] : null;
-    return { opis: o.opis, dane: o.dane, ok: o.ok, przeszedl: w.ok, odpowiedz, zgodny: w.ok !== null && odpowiedz === w.ok, wyjasnienie: o.wyjasnienie, powod: w.ok ? [] : w.ok === null ? [w.blad] : komunikaty(w.bledy, o.dane, 2) };
+    const wyjasnienie = formaty && o.wyjasnienieZFormatami ? o.wyjasnienieZFormatami : o.wyjasnienie;
+    return { opis: o.opis, dane: o.dane, ok: o.ok, przeszedl: w.ok, odpowiedz, zgodny: w.ok !== null && odpowiedz === w.ok, wyjasnienie, powod: w.ok ? [] : w.ok === null ? [w.blad] : komunikaty(w.bledy, o.dane, 2) };
   });
   const kompletne = przyklady.every(p => p.odpowiedz !== null);
   return { diagnoza: [], przyklady, kompletne, zaliczone: kompletne && przyklady.every(p => p.zgodny) };
@@ -159,13 +160,18 @@ export function sprawdzPiaskownice(tekstSchematu, tekstDokumentu, { formaty = fa
   return { diagnozaSchematu: diagS, diagnozaDokumentu, werdykt: w.ok, komunikaty: w.ok ? [] : komunikaty(w.bledy, dokumentWartosc) };
 }
 
+// Ćwiczenie może wymusić tryb walidacji `format` (pole `formaty` w cwiczenie.json); inaczej decyduje przełącznik.
 export function sprawdzCwiczenie(cw, wejscie, { formaty = false } = {}) {
+  const tryb = typeof cw.formaty === 'boolean' ? cw.formaty : formaty;
+  let w;
   switch (cw.rodzaj) {
     case 1:
-    case 5: return schematPojedynczy(cw, wejscie, formaty);
-    case 2: return dokument(cw, wejscie, formaty);
-    case 3: return zgadnij(cw, wejscie, formaty);
-    case 4: return projekt(cw, wejscie, formaty);
+    case 5: w = schematPojedynczy(cw, wejscie, tryb); break;
+    case 2: w = dokument(cw, wejscie, tryb); break;
+    case 3: w = zgadnij(cw, wejscie, tryb); break;
+    case 4: w = projekt(cw, wejscie, tryb); break;
     default: throw new Error('Nieznany rodzaj ćwiczenia: ' + cw.rodzaj);
   }
+  w.formaty = tryb;
+  return w;
 }

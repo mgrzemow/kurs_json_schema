@@ -233,3 +233,23 @@ html.motyw-ciemny .t-key { color: #f0a86b; } html.motyw-ciemny .t-str { color: #
 }
 
 button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Lustro: dokument i schemat obok siebie, kolory poziomów zagnieżdżenia */
+.lustro { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 1rem 0; }
+.lustro figure { margin: 0; }
+.lustro figcaption { font-size: 0.85rem; color: var(--tekst-slaby); margin-bottom: 0.3rem; }
+.lustro pre { margin: 0; }
+.lustro .poziom-0 { display: inline-block; width: 100%; }
+.lustro .poziom-1 { display: inline-block; width: 100%; background: rgba(36, 87, 166, 0.10); }
+.lustro .poziom-2 { display: inline-block; width: 100%; background: rgba(29, 122, 62, 0.12); }
+.lustro .poziom-3 { display: inline-block; width: 100%; background: rgba(154, 103, 0, 0.14); }
+.lustro .poziom-4 { display: inline-block; width: 100%; background: rgba(179, 38, 30, 0.12); }
+.lustro .poziom-5, .lustro .poziom-6 { display: inline-block; width: 100%; background: rgba(120, 60, 160, 0.12); }
+@media (max-width: 1000px) { .lustro { grid-template-columns: 1fr; } }
+
+/* Lista kontrolna (rodzaj 5) */
+.lista-kontrolna { padding: 0.6rem 0.8rem; border: 1px solid var(--ramka); border-radius: 6px; background: var(--tlo-karta); margin-bottom: 0.8rem; }
+.lista-kontrolna h2 { font-size: 1rem; margin: 0 0 0.4rem; display: flex; justify-content: space-between; }
+.lista-kontrolna ol { margin: 0; padding-left: 1.2rem; }
+.lista-kontrolna label { cursor: pointer; }
+.tryb-formatow { padding: 0.3rem 0.6rem; background: var(--ostrz-tlo); border-radius: 4px; }

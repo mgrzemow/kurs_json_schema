@@ -18,6 +18,18 @@ function htmlRozwiazania(cw) {
   return '';
 }
 
+// Rodzaj 5: lista kontrolna poprawek do odhaczania (stan w stan.odpowiedzi[cw.id].lista).
+function renderujListeKontrolna(kontener, cw, stan, ustaw) {
+  const zapis = () => (stan.odpowiedzi[cw.id] && stan.odpowiedzi[cw.id].lista) || [];
+  const render = () => {
+    const odh = zapis();
+    const ile = odh.filter(Boolean).length;
+    kontener.innerHTML = `<div class="lista-kontrolna"><h2>Lista kontrolna <span class="licznik">${ile} z ${cw.listaKontrolna.length}</span></h2><ol>${cw.listaKontrolna.map((p, i) => `<li><label><input type="checkbox" data-i="${i}" ${odh[i] ? 'checked' : ''}> ${md(p)}</label></li>`).join('')}</ol></div>`;
+    kontener.querySelectorAll('input').forEach(c => { c.onchange = () => { ustaw(s => { const z = s.odpowiedzi[cw.id] = s.odpowiedzi[cw.id] || {}; z.lista = z.lista || []; z.lista[+c.dataset.i] = c.checked; }); render(); }; });
+  };
+  render();
+}
+
 export function renderujCwiczenie(kontener, { modul, cw, stan, ustaw }) {
   const nr = modul.meta.nr;
   const idx = modul.cwiczenia.findIndex(c => c.id === cw.id);
@@ -30,6 +42,7 @@ export function renderujCwiczenie(kontener, { modul, cw, stan, ustaw }) {
       <p class="kontekst">${md(cw.kontekst)}</p>
       <p class="polecenie"><strong>Zadanie:</strong> ${md(cw.polecenie)}</p>
       ${cw.slowa.length ? `<p class="slowa">Nowe słowa kluczowe: ${cw.slowa.map(s => `<code>${esc(s)}</code>`).join(' ')}</p>` : ''}
+      ${typeof cw.formaty === 'boolean' ? `<p class="meta tryb-formatow">To ćwiczenie ma walidację <code>format</code> ${cw.formaty ? 'włączoną' : 'wyłączoną'} niezależnie od przełącznika w pasku.</p>` : ''}
       <div class="pomoc">
         <button type="button" id="b-podp" aria-expanded="false">Podpowiedź</button>
         <button type="button" id="b-roz" aria-expanded="false">Rozwiązanie</button>
@@ -42,10 +55,11 @@ export function renderujCwiczenie(kontener, { modul, cw, stan, ustaw }) {
       <p class="meta"><a href="${hashTrasy({ widok: 'modul', nr, zakladka: 'cwiczenia' })}">← Lista ćwiczeń</a></p>
     </aside>
     <div class="kolumna srodek" id="cw-srodek"></div>
-    <div class="kolumna prawa"><div id="cw-zaliczone"></div><div id="cw-prawa"></div></div>
+    <div class="kolumna prawa"><div id="cw-zaliczone"></div><div id="cw-lista"></div><div id="cw-prawa"></div></div>
   </section>`;
 
   const $ = s => kontener.querySelector(s);
+  if (Array.isArray(cw.listaKontrolna) && cw.listaKontrolna.length) renderujListeKontrolna($('#cw-lista'), cw, stan, ustaw);
   const przelacz = (b, t) => { const o = b.getAttribute('aria-expanded') !== 'true'; b.setAttribute('aria-expanded', String(o)); t.hidden = !o; };
   $('#b-podp').onclick = () => przelacz($('#b-podp'), $('#t-podp'));
   $('#b-roz').onclick = () => przelacz($('#b-roz'), $('#t-roz'));

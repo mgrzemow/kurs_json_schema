@@ -31,7 +31,7 @@ else wejscie = { schemat: stdin };
 const w = sprawdzCwiczenie(cw, wejscie, { formaty });
 const ETYK = { blad: 'Błąd', ostrz: 'Uwaga', info: 'Dobrze wiedzieć' };
 
-console.log(`Ćwiczenie ${cw.id}: ${cw.tytul} (rodzaj ${cw.rodzaj}, walidacja format: ${formaty ? 'tak' : 'nie'})`);
+console.log(`Ćwiczenie ${cw.id}: ${cw.tytul} (rodzaj ${cw.rodzaj}, walidacja format: ${w.formaty ? 'tak' : 'nie'})`);
 console.log('\nDiagnoza:');
 if (!w.diagnoza.length) console.log('  (brak uwag)');
 for (const d of w.diagnoza) {

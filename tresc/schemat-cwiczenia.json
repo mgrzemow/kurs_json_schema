@@ -55,13 +55,16 @@
           "opis": { "type": "string" },
           "dane": {},
           "ok": { "type": "boolean" },
-          "wyjasnienie": { "type": "string" }
+          "wyjasnienie": { "type": "string" },
+          "wyjasnienieZFormatami": { "type": "string" }
         },
         "required": ["opis", "dane", "ok", "wyjasnienie"],
         "additionalProperties": false
       }
     },
-    "glowny": { "type": "string" }
+    "glowny": { "type": "string" },
+    "formaty": { "type": "boolean", "description": "Wymusza tryb walidacji format dla tego ćwiczenia niezależnie od przełącznika." },
+    "listaKontrolna": { "type": "array", "items": { "type": "string" }, "description": "Rodzaj 5: punkty do odhaczenia w prawej kolumnie." }
   },
   "required": ["id", "rodzaj", "tytul", "poziom", "czasMin", "kolejnosc", "kontekst", "polecenie", "slowa", "podpowiedz", "zrodla"],
   "additionalProperties": false,

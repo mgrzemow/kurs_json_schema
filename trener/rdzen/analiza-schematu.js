@@ -13,6 +13,13 @@ export const ZNANE_SLOWA = new Set((
 
 export const TYPY = ['string', 'number', 'integer', 'boolean', 'object', 'array', 'null'];
 
+// Formaty zdefiniowane w specyfikacji 2020-12 (validation §7.3) plus formaty liczbowe ajv-formats.
+export const ZNANE_FORMATY = new Set([
+  'date-time', 'date', 'time', 'duration', 'email', 'idn-email', 'hostname', 'idn-hostname', 'ipv4', 'ipv6',
+  'uri', 'uri-reference', 'iri', 'iri-reference', 'uuid', 'uri-template', 'json-pointer', 'relative-json-pointer', 'regex',
+  'int32', 'int64', 'float', 'double', 'byte', 'binary', 'password',
+]);
+
 // Słowa, których wartość jest schematem (albo listą schematów).
 const PODSCHEMAT = ['items', 'not', 'if', 'then', 'else', 'additionalProperties', 'additionalItems', 'contains', 'propertyNames', 'unevaluatedItems', 'unevaluatedProperties', 'contentSchema'];
 // Słowa, których wartość to mapa nazwa → schemat.
@@ -58,6 +65,9 @@ export function analizujSchemat(s, klucze = new Map(), { formaty = false } = {})
         else if (v && typeof v === 'object' && !Array.isArray(v)) tekst += ' Jeśli to nazwa pola, przenieś je do „properties”.';
         out.push({ poziom: 'ostrz', tekst, pos: klucze.get(kp) });
         continue;
+      }
+      if (k === 'format' && typeof v === 'string' && !ZNANE_FORMATY.has(v)) {
+        out.push({ poziom: 'ostrz', tekst: 'Format „' + v + '” nie jest zdefiniowany w specyfikacji, więc walidator go pomija nawet przy włączonej walidacji „format”. Do własnych formatów (telefon, NIP, kod pocztowy) służy „pattern”.', pos: klucze.get(kp) });
       }
       if (k === 'format' && !formatPokazany) {
         formatPokazany = true;

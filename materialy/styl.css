@@ -44,3 +44,7 @@ section.cwiczenie { margin: 1rem 0 1.5rem; padding-bottom: 0.5rem; border-bottom
   pre, table, figure { break-inside: avoid; }
   a { color: inherit; text-decoration: none; }
 }
+.lustro { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin: 0.8rem 0; }
+.lustro figure { margin: 0; }
+.lustro .poziom-1 { background: #e6eefb; } .lustro .poziom-2 { background: #e3f3e8; } .lustro .poziom-3 { background: #fff3d6; } .lustro .poziom-4 { background: #fbe7e5; }
+.lustro span { display: inline-block; width: 100%; }

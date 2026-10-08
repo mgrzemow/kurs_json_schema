@@ -63,6 +63,10 @@ export function parsujWyklad(md, { walidator = walidatorDomyslny } = {}) {
       },
       code({ text, lang }) {
         const info = parsujInfo(lang);
+        if (info.jezyk === 'json' && info.lustro) {
+          try { parsujJSON(text); } catch (e) { throw new Error(`Blok „${lang}”: niepoprawny JSON: ${e.message}`); }
+          return `<figure class="lustro-czesc" data-lustro="${esc(info.lustro)}" data-strona="${esc(info.strona || 'dokument')}"><figcaption>${info.strona === 'schemat' ? 'Schemat' : 'Dokument'}</figcaption><pre><code class="jezyk-json">${kolorujPoziomy(text)}</code></pre></figure>\n`;
+        }
         if (info.jezyk !== 'json' || !(info.schemat || info.dokument || info.pytanie)) {
           return `<pre><code class="jezyk-${esc(info.jezyk || 'tekst')}">${esc(text)}</code></pre>\n`;
         }
@@ -92,6 +96,21 @@ export function parsujWyklad(md, { walidator = walidatorDomyslny } = {}) {
     },
   });
 
-  const html = marked.parse(mdCzysty);
+  let html = marked.parse(mdCzysty);
+  // Dwie sąsiednie części lustra o tej samej nazwie trafiają do wspólnego kontenera.
+  html = html.replace(/(<figure class="lustro-czesc" data-lustro="([^"]+)"[^]*?<\/figure>\n)\s*(<figure class="lustro-czesc" data-lustro="\2"[^]*?<\/figure>\n)/g, '<div class="lustro">$1$3</div>\n');
   return { html, sekcje, przyklady, twierdzenia };
+}
+
+// Każda linia JSON-a dostaje klasę poziomu zagnieżdżenia (liczoną z bilansu nawiasów przed linią).
+function kolorujPoziomy(tekst) {
+  let poziom = 0;
+  return tekst.split('\n').map(linia => {
+    const otwierajace = (linia.match(/[{[]/g) || []).length;
+    const zamykajace = (linia.match(/[}\]]/g) || []).length;
+    const poczatkoweZamkniecia = (linia.match(/^\s*[}\]]/) ? 1 : 0);
+    const biezacy = Math.max(0, poziom - poczatkoweZamkniecia);
+    poziom = Math.max(0, poziom + otwierajace - zamykajace);
+    return `<span class="poziom-${biezacy}">${esc(linia)}</span>`;
+  }).join('\n');
 }
