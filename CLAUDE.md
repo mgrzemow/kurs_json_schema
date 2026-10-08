@@ -101,7 +101,10 @@ Do tej weryfikacji potrzebny jest skrypt `scripts/sprawdz-rozwiazanie`, który p
 
 ## Decyzje merytoryczne
 
-- **Wersja: tylko JSON Schema 2020-12.** Inne wersje wyłącznie w teorii: krótka historia (draft-00…03 prehistoria, draft-04, draft-06, draft-07 jako najczęściej spotykany w praktyce, 2019-09 przejściowy, 2020-12 aktualny, v1 w przygotowaniu) i jak rozpoznać stary schemat (`definitions`, `exclusiveMinimum: true`, `id` bez dolara, tablica w `items`).
+- **Wersja: cały kurs na JSON Schema 2020-12, z solidną wiedzą o różnicach względem draft-07.** Decyzja z 2026-10-08. Uzasadnienie: w publicznych korpusach draft-07 nadal dominuje (SchemaStore ok. 91% draft-07, 8% 2020-12; APIs.guru 59% OpenAPI 3.0, 1,4% OpenAPI 3.1), więc uczestnik po kursie najczęściej spotka draft-07, ale uczymy wersji aktualnej. Konsekwencje:
+  - ćwiczenia i wszystkie przykłady wyłącznie w 2020-12;
+  - różnice do draft-07 omawiane solidnie: przy każdym słowie kluczowym, które się różni, krótka ramka „w draft-07” (`definitions` kontra `$defs`, tablica w `items` kontra `prefixItems`, `exclusiveMinimum` jako boolean kontra liczba, `dependencies` kontra `dependentRequired`, słowa obok `$ref` ignorowane kontra działające), oraz kolumna „w draft-07” w ściągawce słów kluczowych;
+  - **inne wersje opisane tylko w jednym miejscu** (moduł 2, „wersje w pigułce”): krótka historia (draft-00…03 prehistoria, draft-04, draft-06, draft-07 jako najczęściej spotykany w praktyce, 2019-09 przejściowy, 2020-12 aktualny, stabilna wersja w przygotowaniu — wg IETF nie wcześniej niż 2027) i jak rozpoznać stary schemat (`definitions`, `exclusiveMinimum: true`, `id` bez dolara, tablica w `items`). Poza modułem 2 nie wspominamy o draft-04, draft-06 ani 2019-09.
 - **Metaschematy — tylko opisowo.**
 - **OpenAPI — tylko opisowo**: `components/schemas`, `$ref`, OpenAPI 3.0 (dialekt oparty na draft-04, `nullable`) kontra 3.1 (pełne 2020-12).
 - **Nacisk ćwiczeniowy na poziom średni (★★).**
