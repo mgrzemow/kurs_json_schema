@@ -231,7 +231,9 @@ tests/                 testy ćwiczeń, wykładu, parsera i komunikatów
 
 ## Stan implementacji
 
-Prototyp trenera z całą infrastrukturą techniczną jest zbudowany (2026-10-08) i opublikowany: https://mgrzemow.github.io/kurs_json_schema/. Projekt: `docs/superpowers/specs/2026-10-08-prototyp-trenera-design.md`, plan: `docs/superpowers/plans/2026-10-08-prototyp-trenera.md`. Treść modułu 3 w `tresc/` jest **próbna** (pole `"probna": true` w `modul.json`) i zostanie zastąpiona przy pisaniu prawdziwego modułu 3.
+Prototyp trenera z całą infrastrukturą techniczną jest zbudowany (2026-10-08) i opublikowany: https://mgrzemow.github.io/kurs_json_schema/. Projekt: `docs/superpowers/specs/2026-10-08-prototyp-trenera-design.md`, plan: `docs/superpowers/plans/2026-10-08-prototyp-trenera.md`.
+
+**Treść wszystkich dziesięciu modułów (0–9) jest wygenerowana** (2026-10-08) według zaakceptowanych konspektów w `docs/konspekty/` i czeka na poprawki prowadzącego: 46 ćwiczeń, wykłady z policzonymi werdyktami, ćwiczenie końcowe na prawdziwym wyniku genson (`tests/genson.test.mjs` pilnuje zgodności). Pomocnicze dokumenty: `docs/slowniczek.md`, `docs/tematy-x-moduly.md` (tematy występujące raz do decyzji prowadzącego), raporty agentów w `docs/raporty-uczestnikow/`. Plan wykonania: `docs/superpowers/plans/2026-10-08-tresc-kursu.md`. Moduł opisowy bez przykładów z werdyktami ma w `modul.json` pole `"opisowy": true`.
 
 Polecenia: `npm run dev` (podgląd lokalny), `npm test` (wszystkie testy, ok. 6 s), `npm run build` (treść + trener do `dist/`), `npm run materialy` (HTML + PDF do `materialy/wynik/`), `node scripts/sprawdz-interakcje.mjs` (klikanie po zbudowanej stronie w Chromium; wymaga `npm run preview` w tle), `node scripts/sprawdz-rozwiazanie.mjs <id> < plik` (werdykty jak w trenerze).
 

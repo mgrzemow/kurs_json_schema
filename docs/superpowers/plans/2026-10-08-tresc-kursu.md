@@ -25,11 +25,11 @@
 - [x] B7. Moduł 7 (40 min, 7 ćw., w tym 3 rodzaju 4)
 - [x] B8. Moduł 8 (35 min, 1 ćw. rodzaju 5 z listą kontrolną; genson)
 - [x] B9. Moduł 9 (15 min, 0 ćw.)
-- [ ] B10. `tresc/kurs.json` z dziesięcioma modułami; start trenera pokazuje przerwy.
+- [x] B10. `tresc/kurs.json` z dziesięcioma modułami; start trenera pokazuje przerwy.
 
 ## C. Weryfikacja
 
-- [ ] C1. Build, `sprawdz-interakcje` (zaktualizować identyfikatory ćwiczeń), zrzuty wybranych ekranów.
+- [x] C1. Build, `sprawdz-interakcje` (zaktualizować identyfikatory ćwiczeń), zrzuty wybranych ekranów.
 - [ ] C2. Agent `weryfikator-specyfikacji` na każdym module; rozbieżności do prowadzącego, oczywiste błędy poprawione.
 - [ ] C3. Agent `uczestnik` dla profilu A i B; raporty w `docs/raporty-uczestnikow/`; podsumowanie dla prowadzącego.
 - [ ] C4. Materiały (workflow), CLAUDE.md i README zaktualizowane, push, Pages.
