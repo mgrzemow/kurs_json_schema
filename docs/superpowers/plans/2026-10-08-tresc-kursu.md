@@ -11,12 +11,12 @@
 - [x] A5. Renderer wykładu: blok „lustro” (dwa bloki json obok siebie z tłem w kolorze poziomu zagnieżdżenia): fence ```` ```json lustro=nazwa strona=dokument|schemat ````; para renderowana jako `<div class="lustro">` gdy sąsiadują.
 - [ ] A6. Kolejność ćwiczeń po `kolejnosc`, a numer wyświetlany = pozycja; identyfikatory wg konspektów (np. 4-10).
 - [ ] A7. Ćwiczenie końcowe: `start.json` = wynik genson; test porównuje z `python -m genson` (pomijany, gdy genson niedostępny); workflowy instalują genson.
-- [ ] A8. Słowniczek `docs/slowniczek.md` (założenie, uzupełniany przy pisaniu) i tabela `docs/tematy-x-moduly.md`.
+- [x] A8 (słowniczek). Słowniczek `docs/slowniczek.md` (założenie, uzupełniany przy pisaniu) i tabela `docs/tematy-x-moduly.md`.
 
 ## B. Treść (każdy moduł: modul.json, wyklad.md, cwiczenia/; `npm test` zielone; commit)
 
-- [ ] B0. Moduł 0 (10 min, 1 ćw.)
-- [ ] B1. Moduł 1 (25 min, 3 ćw. rodzaju 2; diagramy składni SVG; RFC 8259 jako źródło)
+- [x] B0. Moduł 0 (10 min, 1 ćw.)
+- [x] B1. Moduł 1 (25 min, 3 ćw. rodzaju 2; diagramy składni SVG; RFC 8259 jako źródło)
 - [ ] B2. Moduł 2 (15 min, 2 ćw.; wersje bez liczb)
 - [ ] B3. Moduł 3 (40 min, 9 ćw.; zastępuje treść próbną)
 - [ ] B4. Moduł 4 (45 min, 10 ćw.; lustro, drzewo SVG)
