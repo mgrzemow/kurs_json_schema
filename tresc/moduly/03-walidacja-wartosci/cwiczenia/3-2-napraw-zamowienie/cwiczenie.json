@@ -1,0 +1,16 @@
+{
+  "id": "3-2-napraw-zamowienie",
+  "rodzaj": 2,
+  "tytul": "Napraw zamówienie wklejone z maila",
+  "poziom": 1,
+  "czasMin": 5,
+  "kolejnosc": 2,
+  "kontekst": "Klient przysłał zamówienie mailem, a ktoś przepisał je do JSON-a ręcznie. System magazynu odrzuca plik jako niepoprawny JSON, zanim w ogóle dojdzie do sprawdzania schematu.",
+  "polecenie": "Popraw dokument tak, żeby był poprawnym JSON-em. Trener pokazuje po jednym błędzie naraz, z numerem linii. Gdy składnia będzie w porządku, dokument zostanie jeszcze sprawdzony schematem zamówienia.",
+  "slowa": [],
+  "podpowiedz": "W JSON-ie wartości logiczne piszemy małymi literami, ułamki dziesiętne z kropką, a po ostatnim elemencie listy nie stawiamy przecinka.",
+  "bledy": ["małymi literami", "kropki zamiast przecinka", "Zbędny przecinek"],
+  "zrodla": [
+    { "twierdzenie": "Literały true, false i null są pisane małymi literami; liczby używają kropki dziesiętnej.", "zrodlo": "RFC 8259 §3, §6 (poza repozytorium); spec/tekst/json-schema-core.txt §4.2.1 odsyła do RFC 8259" }
+  ]
+}

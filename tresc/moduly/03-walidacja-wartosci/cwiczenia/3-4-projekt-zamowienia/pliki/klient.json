@@ -1,0 +1,10 @@
+{
+  "$id": "https://kurs.example/schematy/klient",
+  "title": "Klient",
+  "type": "object",
+  "properties": {
+    "nazwa": { "type": "string", "minLength": 1 },
+    "email": { "type": "string", "format": "email" }
+  },
+  "required": ["nazwa", "email"]
+}

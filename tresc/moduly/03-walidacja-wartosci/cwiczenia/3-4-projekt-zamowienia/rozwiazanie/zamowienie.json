@@ -1,0 +1,11 @@
+{
+  "$id": "https://kurs.example/schematy/zamowienie",
+  "title": "Zamówienie",
+  "type": "object",
+  "properties": {
+    "numer": { "type": "string", "pattern": "^ZAM-[0-9]{4}-[0-9]{6}$" },
+    "klient": { "$ref": "klient" },
+    "adresDostawy": { "$ref": "adres" }
+  },
+  "required": ["numer", "klient", "adresDostawy"]
+}

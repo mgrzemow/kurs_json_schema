@@ -1,0 +1,28 @@
+{
+  "id": "3-1-kod-pocztowy",
+  "rodzaj": 1,
+  "tytul": "Kod pocztowy w adresie dostawy",
+  "poziom": 1,
+  "czasMin": 5,
+  "kolejnosc": 1,
+  "kontekst": "Magazyn drukuje etykiety kurierskie z adresu dostawy. Kurier przyjmuje tylko polskie kody pocztowe: dwie cyfry, myślnik, trzy cyfry, np. `00-950`.",
+  "polecenie": "Schemat już sprawdza wzorzec kodu, ale przepuszcza teksty, w których kod jest tylko fragmentem. Popraw go tak, żeby przechodził wyłącznie sam kod pocztowy.",
+  "slowa": ["pattern"],
+  "podpowiedz": "Wzorzec bez `^` na początku i `$` na końcu pasuje do dowolnego fragmentu tekstu. Dodaj kotwice, żeby wzorzec obejmował cały tekst.",
+  "przyklady": [
+    { "opis": "Warszawa", "dane": { "kodPocztowy": "00-950" }, "ok": true },
+    { "opis": "Gdańsk", "dane": { "kodPocztowy": "80-180" }, "ok": true },
+    { "opis": "Bez myślnika", "dane": { "kodPocztowy": "00950" }, "ok": false },
+    { "opis": "Dopisek przed kodem", "dane": { "kodPocztowy": "kod: 00-950" }, "ok": false, "wskazowka": "Wzorzec znajduje kod w środku tekstu. Co oznacza `^` na początku wzorca?" },
+    { "opis": "O cyfrę za dużo", "dane": { "kodPocztowy": "00-9500" }, "ok": false, "wskazowka": "Wzorzec pasuje do pierwszych sześciu znaków i nie sprawdza reszty. Co oznacza `$` na końcu wzorca?" },
+    { "opis": "Liczba zamiast tekstu", "dane": { "kodPocztowy": 31042 }, "ok": false },
+    { "opis": "Brak kodu", "dane": { "ulica": "Długa 5" }, "ok": false }
+  ],
+  "bledne": [
+    { "plik": "bez-kotwic", "dlaczego": "Bez kotwic `^` i `$` wzorzec dopasowuje fragment tekstu, więc `kod: 00-950` i `00-9500` przechodzą." },
+    { "plik": "tylko-poczatek", "dlaczego": "Kotwica `^` pilnuje początku, ale bez `$` tekst może mieć dowolny ogon, więc `00-9500` przechodzi." }
+  ],
+  "zrodla": [
+    { "twierdzenie": "Wzorzec w pattern nie jest domyślnie zakotwiczony.", "zrodlo": "validation §6.3.3" }
+  ]
+}

@@ -1,0 +1,50 @@
+// Testy wykładu: przykłady mają werdykty zgodne z walidatorem, twierdzenia mają źródła.
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { parsujWyklad } from '../scripts/wyklad-md.mjs';
+import { wczytajKurs } from '../scripts/zbuduj-tresc.mjs';
+
+test('parsujWyklad: dokument ze zgodnym werdyktem przechodzi, niezgodny rzuca', () => {
+  const md = '## Tytuł\n\n```json schemat=s\n{"type": "string"}\n```\n\n```json dokument=d schemat=s oczekiwane=przechodzi\n"a"\n```\n';
+  const w = parsujWyklad(md);
+  assert.equal(w.przyklady.d.werdykt, 'przechodzi');
+  assert.match(w.html, /Otwórz w edytorze/);
+  const zle = md.replace('oczekiwane=przechodzi', 'oczekiwane=odrzucony');
+  assert.throws(() => parsujWyklad(zle), /werdykt/);
+});
+
+test('parsujWyklad: twierdzenie bez źródła jest zgłaszane', () => {
+  const w = parsujWyklad('## A\n\nTo jest fakt. <!-- twierdzenie -->\n\nInny fakt. <!-- twierdzenie --> <!-- zrodlo: validation §6.1.1 -->\n');
+  assert.equal(w.twierdzenia.length, 2);
+  assert.equal(w.twierdzenia[0].zrodlo, null);
+  assert.equal(w.twierdzenia[1].zrodlo, 'validation §6.1.1');
+  assert.doesNotMatch(w.html, /twierdzenie|zrodlo/);
+});
+
+test('parsujWyklad: nagłówki dostają kotwice, ramka draft-07 klasę', () => {
+  const w = parsujWyklad('## Wyrażenia regularne\n\n> **W draft-07:** inaczej.\n');
+  assert.deepEqual(w.sekcje, [{ id: 'wyrazenia-regularne', tytul: 'Wyrażenia regularne' }]);
+  assert.match(w.html, /id="wyrazenia-regularne"/);
+  assert.match(w.html, /class="draft07"/);
+});
+
+test('parsujWyklad: pytanie do sali renderuje się jako zwijany blok', () => {
+  const md = '```json schemat=s\n{"minimum": 1}\n```\n\n```json pytanie=p schemat=s oczekiwane=odrzucony\n0\n```\n';
+  const w = parsujWyklad(md);
+  assert.match(w.html, /<details class="pytanie"/);
+  assert.equal(w.przyklady.p.werdykt, 'odrzucony');
+});
+
+const { moduly } = wczytajKurs();
+for (const m of moduly) {
+  test(`moduł ${m.meta.nr}: każde twierdzenie w wykładzie ma źródło`, () => {
+    const bez = m.wyklad.twierdzenia.filter(t => !t.zrodlo);
+    assert.deepEqual(bez.map(t => t.tekst), []);
+    assert.ok(m.wyklad.twierdzenia.length >= 1, 'wykład ma oznaczone twierdzenia');
+  });
+  test(`moduł ${m.meta.nr}: wykład ma przykłady z policzonymi werdyktami`, () => {
+    const dok = Object.values(m.wyklad.przyklady).filter(p => p.dokument !== undefined);
+    assert.ok(dok.length >= 2);
+    for (const p of dok) assert.ok(['przechodzi', 'odrzucony'].includes(p.werdykt));
+  });
+}

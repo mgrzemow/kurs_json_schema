@@ -1,0 +1,12 @@
+{
+  "nr": 3,
+  "tytul": "Walidacja wartości",
+  "minuty": 40,
+  "probna": true,
+  "zakres": [
+    "Walidacja instancji dowolnego typu",
+    "Walidacja instancji tekstowych",
+    "Wyrażenia regularne",
+    "Walidacja instancji numerycznych"
+  ]
+}

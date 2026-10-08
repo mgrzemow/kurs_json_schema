@@ -1,0 +1,6 @@
+{
+  "type": "integer",
+  "minimum": 36,
+  "maximum": 360,
+  "multipleOf": 36
+}
